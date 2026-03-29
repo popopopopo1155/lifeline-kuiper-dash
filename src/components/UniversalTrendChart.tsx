@@ -53,6 +53,25 @@ export const UniversalTrendChart: React.FC<UniversalTrendChartProps> = ({ genres
   };
 
   return (
+  // 感度スコアの計算
+  const getSensitivityScore = (history: number[]) => {
+    const min = Math.min(...history);
+    const max = Math.max(...history);
+    const volatility = (max - min) / min;
+    const current = history[history.length - 1];
+    const prev = history[history.length - 2] || current;
+    const recentTrend = Math.abs(current - prev) / prev;
+    
+    // 0 to 100 score
+    const score = Math.min(100, Math.round((volatility * 200) + (recentTrend * 1000)));
+    return score;
+  };
+
+  const sensitivityScore = getSensitivityScore(data);
+  const sensitivityLabel = sensitivityScore > 70 ? '上昇感度 高' : (sensitivityScore > 30 ? '上昇感度 中' : '上昇感度 低');
+  const sensitivityColor = sensitivityScore > 70 ? '#ef4444' : (sensitivityScore > 30 ? '#f59e0b' : '#3b82f6');
+
+  return (
     <div className="sidebar-box universal-chart-outer" style={{ 
       marginTop: '40px', 
       padding: '24px 16px', 
@@ -150,10 +169,10 @@ export const UniversalTrendChart: React.FC<UniversalTrendChartProps> = ({ genres
           </div>
           <div style={{ marginTop: '16px', paddingTop: '16px', borderTop: '1px solid #e2e8f0' }}>
             <div style={{ width: '100%', height: '4px', background: '#e2e8f0', borderRadius: '10px', overflow: 'hidden' }}>
-              <div style={{ width: '75%', height: '100%', background: '#3b82f6', borderRadius: '10px' }}></div>
+              <div style={{ width: `${sensitivityScore}%`, height: '100%', background: sensitivityColor, borderRadius: '10px', transition: 'width 0.5s ease' }}></div>
             </div>
-            <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: '6px', fontSize: '10px', fontWeight: '800', color: '#94a3b8' }}>
-              <span>上昇感度 高</span>
+            <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: '6px', fontSize: '10px', fontWeight: '800', color: sensitivityColor }}>
+              <span>{sensitivityLabel}</span>
             </div>
           </div>
         </div>

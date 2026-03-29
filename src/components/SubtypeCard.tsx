@@ -40,7 +40,7 @@ export const SubtypeCard: React.FC<SubtypeCardProps> = ({ subtype }) => {
       borderRadius: '20px',
       border: analysis.sentiment === 'warning' 
         ? '2px solid #ef4444' 
-        : (analysis.sentiment === 'success' ? '2px solid #10b981' : '1px solid #e2e8f0') // Light gray for regular
+        : (analysis.sentiment === 'success' ? '2px solid #10b981' : '2px solid #cbd5e1') // Strengthened gray for regular
     }}>
       <div className="product-name" style={{ borderBottom: '1px solid #eee', paddingBottom: '8px', marginBottom: '8px', fontSize: 'clamp(14px, 4vw, 18px)', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>

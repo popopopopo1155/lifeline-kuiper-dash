@@ -8,6 +8,7 @@ import { PriceTrendChart } from './PriceTrendChart';
 import { useInventory } from '../hooks/useInventory';
 import { AIAdvisor } from './AIAdvisor';
 import { UniversalTrendChart } from './UniversalTrendChart';
+import { QuickNav } from './QuickNav';
 
 export const Dashboard: React.FC = () => {
   const [selectedGenreId, setSelectedGenreId] = useState<string | null>(null);
@@ -40,6 +41,8 @@ export const Dashboard: React.FC = () => {
           </select>
         </div>
       </header>
+      
+      <QuickNav />
 
       {loading && (
         <div style={{ position: 'fixed', top: '70px', left: '0', width: '100%', height: '3px', background: '#eee', zIndex: 1000 }}>
@@ -50,7 +53,7 @@ export const Dashboard: React.FC = () => {
       <div className="dashboard-grid">
         <main className="main-content">
           {!selectedGenreId ? (
-            <section>
+            <section id="products-section">
               <h2 className="section-title">生活必需品一覧</h2>
               <div className="heatmap-grid">
                 {genres.map((genre) => {
@@ -99,16 +102,18 @@ export const Dashboard: React.FC = () => {
 
           {/* 万能トレンドチャートの追加（常に下部に表示、またはホーム時のみ） */}
           {!selectedGenreId && (
-            <UniversalTrendChart 
-              genres={genres} 
-              activeGenreId={selectedGenreId} 
-            />
+            <div id="trend-section">
+              <UniversalTrendChart 
+                genres={genres} 
+                activeGenreId={selectedGenreId} 
+              />
+            </div>
           )}
         </main>
 
           <aside className="sidebar">
-            <AIAdvisor />
-            <InventoryControl />
+            <div id="ai-section"><AIAdvisor /></div>
+            <div id="inventory-section"><InventoryControl /></div>
             <Sidebar />
           </aside>
       </div>

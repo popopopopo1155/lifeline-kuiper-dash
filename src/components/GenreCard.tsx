@@ -12,6 +12,7 @@ interface GenreCardProps {
 
 export const GenreCard: React.FC<GenreCardProps> = ({ genre, daysLeft, onClick, heroImage }) => {
   const [isHovered, setIsHovered] = useState(false);
+  const allPrices: number[] = [];
   let minUnitPrice = Infinity;
   let unitLabel = '';
   let forecastData: number[] = [];
@@ -20,6 +21,7 @@ export const GenreCard: React.FC<GenreCardProps> = ({ genre, daysLeft, onClick, 
   genre.subtypes.forEach(subtype => {
     subtype.products.forEach(product => {
       const up = calculateUnitPrice(product);
+      allPrices.push(up);
       if (up < minUnitPrice) {
         minUnitPrice = up;
         unitLabel = product.baseUnit;
@@ -29,7 +31,14 @@ export const GenreCard: React.FC<GenreCardProps> = ({ genre, daysLeft, onClick, 
     });
   });
 
-  const analysis = analyzePriceTrend(genre.id, minUnitPrice, forecastData, regionalAverage);
+  const analysis = analyzePriceTrend(
+    genre.id, 
+    minUnitPrice, 
+    forecastData, 
+    regionalAverage,
+    allPrices,
+    allPrices.length
+  );
   const status = minUnitPrice < regionalAverage * 0.95 ? 'buy' : (minUnitPrice > regionalAverage * 1.05 ? 'wait' : 'regular');
 
   const getStatusLabel = (s: string) => {

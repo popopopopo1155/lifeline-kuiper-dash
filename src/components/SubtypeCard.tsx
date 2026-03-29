@@ -24,11 +24,15 @@ export const SubtypeCard: React.FC<SubtypeCardProps> = ({ subtype }) => {
   const bestProduct = top3Cheapest[0];
   const minPrice = bestProduct ? calculateUnitPrice(bestProduct) : 0;
   
+  const allPrices = subtype.products.map(p => calculateUnitPrice(p));
+
   const analysis = analyzePriceTrend(
     subtype.id, 
     minPrice, 
     bestProduct?.forecastData || [], 
-    subtype.regionalAverage
+    subtype.regionalAverage,
+    allPrices,
+    subtype.products.length
   );
 
   return (

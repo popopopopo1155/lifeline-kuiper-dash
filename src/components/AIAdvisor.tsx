@@ -22,7 +22,7 @@ export const AIAdvisor: React.FC = () => {
         body: JSON.stringify({ householdSize, items: itemsSummary })
       });
       const data = await response.json();
-      setAdvice(data.advice || 'データ不足のためアドバイスを生成できませんでした。');
+      setAdvice(data.advice || 'まずは下の「在庫シミュレーター」でご家族の人数や備蓄量を選択してください。あなたに最適化されたアドバイスを生成します。');
     } catch (err) {
       setAdvice('AIアドバイザーへの接続に失敗しました。Keyの設定を確認してください。');
     } finally {

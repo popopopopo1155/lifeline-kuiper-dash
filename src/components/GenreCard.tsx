@@ -57,7 +57,11 @@ export const GenreCard: React.FC<GenreCardProps> = ({ genre, daysLeft, onClick, 
         cursor: 'pointer',
         height: '100%',
         background: isHovered ? '#f8fafc' : 'white',
-        border: status === 'buy' ? '2px solid #10b981' : (isHighPriority ? '2px solid #ff0000' : (isHovered ? '1px solid #2563eb' : '1px solid #e2e8f0')),
+        border: status === 'buy' 
+          ? '2px solid #10b981' 
+          : (status === 'wait' 
+              ? '2px solid #ef4444' 
+              : (isHighPriority ? '2px solid #ff0000' : (isHovered ? '2px solid #bbc1cc' : '1px solid #e2e8f0'))),
         borderRadius: '20px',
         boxShadow: status === 'buy' 
           ? '0 20px 40px -10px rgba(16, 185, 129, 0.2)' 

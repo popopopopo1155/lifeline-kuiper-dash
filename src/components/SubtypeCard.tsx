@@ -37,10 +37,18 @@ export const SubtypeCard: React.FC<SubtypeCardProps> = ({ subtype }) => {
       display: 'flex', 
       flexDirection: 'column',
       padding: 'clamp(12px, 3vw, 20px)',
-      borderRadius: '20px'
+      borderRadius: '20px',
+      border: analysis.sentiment === 'warning' 
+        ? '2px solid #ef4444' 
+        : (analysis.sentiment === 'success' ? '2px solid #10b981' : '1px solid #e2e8f0') // Light gray for regular
     }}>
       <div className="product-name" style={{ borderBottom: '1px solid #eee', paddingBottom: '8px', marginBottom: '8px', fontSize: 'clamp(14px, 4vw, 18px)', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-        {subtype.name}
+        <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+             {subtype.name}
+             <div className={`status-chip status-${analysis.sentiment === 'warning' ? 'wait' : (analysis.sentiment === 'success' ? 'buy' : 'regular')}`} style={{ fontSize: '9px', padding: '2px 8px' }}>
+                {analysis.sentiment === 'warning' ? '割高' : (analysis.sentiment === 'success' ? '底値圏' : '通常')}
+             </div>
+        </div>
         <span style={{ fontSize: '9px', background: '#f1f5f9', padding: '2px 6px', borderRadius: '8px', color: '#64748b' }}>
           {subtype.products.length}件
         </span>
@@ -48,9 +56,15 @@ export const SubtypeCard: React.FC<SubtypeCardProps> = ({ subtype }) => {
       
       {bestProduct && (
         <>
-          <div className="unit-price-box" style={{ margin: '10px 0', padding: '12px', background: '#f8fafc', borderRadius: '8px', borderLeft: '3px solid #0055aa' }}>
-            <span className="unit-price-label" style={{ color: '#0055aa', fontSize: '10px' }}>最安単価</span>
-            <div className="unit-price-value" style={{ fontSize: 'clamp(20px, 6vw, 28px)', color: '#0055aa', fontWeight: '900' }}>
+          <div className="unit-price-box" style={{ 
+            margin: '10px 0', 
+            padding: '12px', 
+            background: '#f8fafc', 
+            borderRadius: '8px', 
+            borderLeft: analysis.sentiment === 'warning' ? '3px solid #ef4444' : (analysis.sentiment === 'success' ? '3px solid #10b981' : '3px solid #94a3af') 
+          }}>
+            <span className="unit-price-label" style={{ color: analysis.sentiment === 'warning' ? '#ef4444' : (analysis.sentiment === 'success' ? '#10b981' : '#64748b'), fontSize: '10px' }}>最安単価</span>
+            <div className="unit-price-value" style={{ fontSize: 'clamp(20px, 6vw, 28px)', color: analysis.sentiment === 'warning' ? '#ef4444' : (analysis.sentiment === 'success' ? '#10b981' : '#334155'), fontWeight: '900' }}>
               ¥{minPrice}<span className="unit-price-unit" style={{ fontSize: '12px', color: '#64748b' }}>/{bestProduct.baseUnit}</span>
             </div>
           </div>

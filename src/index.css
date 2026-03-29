@@ -10,7 +10,7 @@
   --text-sub: #666666;
   --price-blue: #0055aa;
   --signal-green: #10b981;
-  --signal-yellow: #f59e0b;
+  --signal-gray: #94a3af; /* Light but readable with white text */
   --signal-red: #ef4444;
 }
 
@@ -165,9 +165,9 @@ html, body {
   display: inline-block;
 }
 
-.status-buy { background-color: var(--signal-green) !important; }
-.status-regular { background-color: var(--signal-yellow) !important; }
-.status-wait { background-color: var(--signal-red) !important; }
+.status-buy { background-color: var(--signal-green) !important; color: white !important; }
+.status-regular { background-color: var(--signal-gray) !important; color: white !important; }
+.status-wait { background-color: var(--signal-red) !important; color: white !important; }
 
 .store-list {
   margin-top: 15px;

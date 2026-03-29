@@ -51,7 +51,31 @@ app.get('/api/rakuten', async (req, res) => {
       }
     });
 
-    res.json(response.data);
+    const rawItems = response.data.Items || [];
+    const formattedItems = rawItems.map(itemContainer => {
+      const p = itemContainer.Item;
+      let finalAffiliateUrl = p.affiliateUrl;
+
+      // APIがaffiliateUrlを返さない、または生URLのままの場合、手動でパッケージング
+      if (affiliateId && (!finalAffiliateUrl || finalAffiliateUrl === p.itemUrl)) {
+        const encodedItemUrl = encodeURIComponent(p.itemUrl);
+        finalAffiliateUrl = `https://hb.afl.rakuten.co.jp/hgc/${affiliateId}/?pc=${encodedItemUrl}`;
+      }
+
+      return {
+        ...itemContainer,
+        Item: {
+          ...p,
+          affiliateUrl: finalAffiliateUrl
+        }
+      };
+    });
+
+    res.json({
+      ...response.data,
+      Items: formattedItems,
+      amazonTag: process.env.AMAZON_AFFILIATE_TAG || ''
+    });
   } catch (error) {
     console.error('Rakuten API proxy error:', error.response?.data || error.message);
     res.status(500).json({ error: 'Failed to fetch from Rakuten API' });

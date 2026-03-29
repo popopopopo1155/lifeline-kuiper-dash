@@ -118,7 +118,9 @@ export const Dashboard: React.FC = () => {
                 {selectedGenre?.subtypes.map((subtype) => (
                   <SubtypeCard key={subtype.id} subtype={subtype} />
                 ))}
-              </div>
+        </div>
+      </footer>
+    </div>
 
               {/* 価格インテリジェンス・推移チャートの追加 */}
               <PriceTrendChart 

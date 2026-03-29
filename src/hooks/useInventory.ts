@@ -64,6 +64,7 @@ export const useInventory = () => {
   }, []);
 
   const setHouseholdSize = (size: number) => {
+    setHouseholdSizeLocal(size); // Direct state update
     localStorage.setItem(STORAGE_KEY_SETTINGS, size.toString());
     window.dispatchEvent(new Event(INVENTORY_UPDATE_EVENT));
   };

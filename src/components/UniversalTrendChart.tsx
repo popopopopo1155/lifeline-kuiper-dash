@@ -33,12 +33,23 @@ export const UniversalTrendChart: React.FC<UniversalTrendChartProps> = ({ genres
 
   const pathD = `M ${points.map(p => `${p.x},${p.y}`).join(' L ')}`;
 
-  // 市場診断メッセージの生成
-  const getMarketDiagnosis = (id: string) => {
-    if (id === 'rice') return '「買い控え」推奨。米価は現在上昇トレンドにあり、2週間後に新米の流通量増加に伴い10%程度の価格調整が入る予測です。';
-    if (id === 'tp' || id === 'tissue') return '「最安値圏」です。紙パルプ価格が安定しており、現在は過去1年で最も安い水準です。ストックに余裕がなければ今が買い時です。';
-    if (id === 'oil') return '「至急確保」を推奨。原材料高騰により来月より一斉値上げの予報が出ています。未開封で1年保存可能なため、1本予備を推奨。';
-    return '「安定」しています。大きな変動は予測されておらず、必要な分を都度購入するスタイルで問題ありません。';
+  // 市場診断メッセージの動的生成
+  const getMarketDiagnosis = (history: number[]) => {
+    const current = history[history.length - 1];
+    const prev = history[history.length - 2] || current;
+    const avg = history.reduce((a, b) => a + b, 0) / history.length;
+    const trend = (current - prev) / prev;
+    
+    if (trend > 0.05) {
+      return `【急上昇】${currentGenre.name}価格が急騰中。ボラティリティが高まっており、追加の値上げリスクがあります。備蓄が少なければ早めの確保を。`;
+    }
+    if (current < avg * 0.95) {
+      return `【底値圏】過去90日の平均を5%以上下回っています。コストパフォーマンスが非常に高く、まとめ買いに最適なタイミングです。`;
+    }
+    if (trend < -0.03) {
+      return `【軟調】価格調整局面に入っています。下落傾向にあるため、数日待つことでより安値で入手できる可能性があります。`;
+    }
+    return `【安定】需給バランスが取れた適正価格を維持しています。大きな変動予測はなく、日常的な買い足しで問題ないフェーズです。`;
   };
 
   return (
@@ -135,7 +146,7 @@ export const UniversalTrendChart: React.FC<UniversalTrendChartProps> = ({ genres
             市場トレンド展望
           </div>
           <div style={{ fontSize: '12px', lineHeight: '1.6', color: '#334155', fontWeight: '600' }}>
-            {getMarketDiagnosis(selectedId)}
+            {getMarketDiagnosis(data)}
           </div>
           <div style={{ marginTop: '16px', paddingTop: '16px', borderTop: '1px solid #e2e8f0' }}>
             <div style={{ width: '100%', height: '4px', background: '#e2e8f0', borderRadius: '10px', overflow: 'hidden' }}>

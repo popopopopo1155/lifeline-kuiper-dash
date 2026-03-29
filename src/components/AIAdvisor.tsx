@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useInventory, ALL_INVENTORY_ITEMS } from '../hooks/useInventory';
 
 export const AIAdvisor: React.FC = () => {
-  const { householdSize, getDaysLeft, getCurrentAmount } = useInventory();
+  const { householdSize, getDaysLeft, getCurrentAmount, inventory } = useInventory();
   const [advice, setAdvice] = useState<string>('');
   const [loading, setLoading] = useState(false);
 
@@ -32,7 +32,7 @@ export const AIAdvisor: React.FC = () => {
 
   useEffect(() => {
     fetchAdvice();
-  }, [householdSize]); // 人数が変わったら再計算
+  }, [householdSize, inventory]); // 人数や在庫が変わったら常に再計算
 
   return (
     <div className="sidebar-box" style={{ 

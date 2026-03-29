@@ -84,6 +84,20 @@ export const SubtypeCard: React.FC<SubtypeCardProps> = ({ subtype }) => {
             <span className="unit-price-label" style={{ color: analysis.sentiment === 'warning' ? '#ef4444' : (analysis.sentiment === 'success' ? '#10b981' : '#64748b'), fontSize: '10px' }}>最安単価</span>
             <div className="unit-price-value" style={{ fontSize: 'clamp(20px, 6vw, 28px)', color: analysis.sentiment === 'warning' ? '#ef4444' : (analysis.sentiment === 'success' ? '#10b981' : '#334155'), fontWeight: '900' }}>
               ¥{minPrice}<span className="unit-price-unit" style={{ fontSize: '12px', color: '#64748b' }}>/{bestProduct.baseUnit}</span>
+              {subtype.regionalAverage > 0 && (
+                <span style={{ 
+                  marginLeft: '10px', 
+                  fontSize: '10px', 
+                  verticalAlign: 'middle', 
+                  padding: '2px 6px', 
+                  borderRadius: '4px',
+                  background: minPrice < subtype.regionalAverage ? '#dcfce7' : '#fee2e2',
+                  color: minPrice < subtype.regionalAverage ? '#166534' : '#991b1b',
+                  fontWeight: 'bold'
+                }}>
+                  平均比: {minPrice < subtype.regionalAverage ? '-' : '+'}{Math.abs(Math.round(((minPrice - subtype.regionalAverage) / subtype.regionalAverage) * 100))}%
+                </span>
+              )}
             </div>
           </div>
 

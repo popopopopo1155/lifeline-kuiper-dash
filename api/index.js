@@ -21,28 +21,40 @@ app.get('/api/rakuten', async (req, res) => {
   const { keyword } = req.query;
   const appId = process.env.RAKUTEN_APP_ID?.trim();
   const accessKey = process.env.RAKUTEN_ACCESS_KEY?.trim();
+  const affiliateId = process.env.RAKUTEN_AFFILIATE_ID?.trim();
 
   if (!appId || !accessKey) {
     return res.status(500).json({ error: 'Rakuten API credentials missing (AppId or AccessKey)' });
   }
 
   try {
+    const params = new URLSearchParams({
+      applicationId: appId,
+      accessKey: accessKey, // 2026 standard
+      keyword: keyword,
+      format: 'json',
+      hits: 30,
+      imageFlag: 1,
+      availability: 1,
+      sort: '-itemPrice'
+    });
+
+    if (affiliateId) {
+      params.append('affiliateId', affiliateId);
+    }
+
     const response = await axios.get('https://openapi.rakuten.co.jp/ichibams/api/IchibaItem/Search/20220601', {
-      params: {
-        applicationId: appId,
-        accessKey: accessKey,
-        keyword,
-        format: 'json'
-      },
+      params: params,
       headers: {
-        'Referer': 'https://www.hitsujuhin.com',
-        'Origin': 'https://www.hitsujuhin.com'
+        'Referer': 'https://hitsujuhin.com',
+        'Origin': 'https://hitsujuhin.com'
       }
     });
+
     res.json(response.data);
   } catch (error) {
-    console.error('Rakuten OpenAPI Error:', error.response?.data || error.message);
-    res.status(500).json({ error: 'Rakuten OpenAPI failed', details: error.response?.data });
+    console.error('Rakuten API proxy error:', error.response?.data || error.message);
+    res.status(500).json({ error: 'Failed to fetch from Rakuten API' });
   }
 });
 
@@ -51,48 +63,65 @@ app.get('/api/rakuten', async (req, res) => {
  */
 app.get('/api/keepa', async (req, res) => {
   const { asin } = req.query;
-  const apiKey = process.env.KEEPA_API_KEY;
+  const key = process.env.KEEPA_API_KEY;
+  const amazonTag = process.env.AMAZON_AFFILIATE_TAG;
 
-  if (!apiKey) return res.status(500).json({ error: 'KEEPA_API_KEY missing' });
+  if (!key) {
+    return res.status(500).json({ error: 'KEEPA_API_KEY is not set' });
+  }
 
   try {
-    const response = await axios.get('https://api.keepa.com/product', {
+    const response = await axios.get(`https://api.keepa.com/product`, {
       params: {
-        key: apiKey,
-        domain: 1,
-        asin,
+        key: key,
+        domain: 1, 
+        asin: asin,
         stats: 1
       }
     });
+
+    if (response.data.products && response.data.products.length > 0) {
+      response.data.products = response.data.products.map(p => {
+        // Build a robust product URL
+        const encodedAsin = encodeURIComponent(p.asin);
+        const url = `https://www.amazon.co.jp/dp/${encodedAsin}`;
+        return {
+          ...p,
+          affiliateUrl: amazonTag ? `${url}/?tag=${amazonTag}` : url
+        };
+      });
+    }
+
     res.json(response.data);
   } catch (error) {
-    res.status(500).json({ error: 'Keepa API failed' });
+    console.error('Keepa API proxy error:', error.response?.data || error.message);
+    res.status(500).json({ error: 'Failed to fetch from Keepa API' });
   }
 });
 
 /**
- * Gemini AI Advice
+ * AI Advisor Endpoint
+ * Uses Google Gemini to generate lifestyle advice based on inventory
  */
 app.post('/api/ai/advice', async (req, res) => {
   const { householdSize, items } = req.body;
-  const apiKey = process.env.GEMINI_API_KEY;
-
-  if (!apiKey) return res.status(500).json({ error: 'GEMINI_API_KEY missing' });
+  const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
 
   try {
-    const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" }); // Use a stable model for production
-    
     const prompt = `
       あなたは親密で頼りになる「生活のコンシェルジュ」です。
       世帯人数: ${householdSize}人
-      在庫データ: ${JSON.stringify(items)}
-      家計を助けるためのアドバイスを2つ、自然な日本語（各25文字以内、絵文字なし）で生成してください。
+      現在の在庫詳細: ${JSON.stringify(items)}
+      
+      家計の節約と備蓄の最適化のために、最短かつ具体的なアドバイスを2つ（それぞれ18文字以内）生成してください。
+      語り口はプロフェッショナルかつ温かみのある日本語とし、ロボット的な「AI」という単語や、絵文字、感嘆符、箇条書き記号は一切含めないでください。
     `;
-
     const result = await model.generateContent(prompt);
-    const text = result.response.text();
+    const response = await result.response;
+    const text = response.text();
     res.json({ advice: text });
   } catch (error) {
+    console.error('AI Advice Error:', error);
     res.status(500).json({ error: 'AI Advice failed' });
   }
 });

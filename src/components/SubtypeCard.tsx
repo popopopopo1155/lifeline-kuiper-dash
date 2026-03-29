@@ -32,7 +32,9 @@ export const SubtypeCard: React.FC<SubtypeCardProps> = ({ subtype }) => {
     bestProduct?.forecastData || [], 
     subtype.regionalAverage,
     allPrices,
-    subtype.products.length
+    subtype.products.length,
+    subtype.volatility,
+    subtype.scarcity
   );
 
   return (
@@ -46,12 +48,24 @@ export const SubtypeCard: React.FC<SubtypeCardProps> = ({ subtype }) => {
         ? '2px solid #ef4444' 
         : (analysis.sentiment === 'success' ? '2px solid #10b981' : '2px solid #cbd5e1') // Strengthened gray for regular
     }}>
-      <div className="product-name" style={{ borderBottom: '1px solid #eee', paddingBottom: '8px', marginBottom: '8px', fontSize: 'clamp(14px, 4vw, 18px)', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+      <div className="product-name" style={{ borderBottom: '1px solid #eee', paddingBottom: '8px', marginBottom: '8px', fontSize: 'clamp(14px, 4vw, 18px)', display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '10px' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '8px', flexWrap: 'wrap' }}>
              {subtype.name}
              <div className={`status-chip status-${analysis.sentiment === 'warning' ? 'wait' : (analysis.sentiment === 'success' ? 'buy' : 'regular')}`} style={{ fontSize: '9px', padding: '2px 8px' }}>
                 {analysis.sentiment === 'warning' ? '割高' : (analysis.sentiment === 'success' ? '底値圏' : '通常')}
              </div>
+             
+             {/* Intelligence Badges (Moved here for visibility) */}
+             {subtype.scarcity !== undefined && subtype.scarcity > 0.5 && (
+                <div style={{ fontSize: '9px', padding: '1px 6px', borderRadius: '4px', background: '#fee2e2', color: '#991b1b', border: '1px solid #fecaca', fontWeight: 'bold' }}>
+                  需給リスク: {Math.round(subtype.scarcity * 100)}%
+                </div>
+             )}
+             {subtype.volatility !== undefined && subtype.volatility > 0.1 && (
+                <div style={{ fontSize: '9px', padding: '1px 6px', borderRadius: '4px', background: '#f0f9ff', color: '#0369a1', border: '1px solid #bae6fd', fontWeight: 'bold' }}>
+                  変動: {subtype.volatility > 0.2 ? '大' : '中'}
+                </div>
+             )}
         </div>
         <span style={{ fontSize: '9px', background: '#f1f5f9', padding: '2px 6px', borderRadius: '8px', color: '#64748b' }}>
           {subtype.products.length}件
@@ -61,7 +75,7 @@ export const SubtypeCard: React.FC<SubtypeCardProps> = ({ subtype }) => {
       {bestProduct && (
         <>
           <div className="unit-price-box" style={{ 
-            margin: '10px 0', 
+            margin: '0 0 10px 0', 
             padding: '12px', 
             background: '#f8fafc', 
             borderRadius: '8px', 
@@ -157,6 +171,11 @@ export const SubtypeCard: React.FC<SubtypeCardProps> = ({ subtype }) => {
               <div style={{ display: 'flex', flexDirection: 'column', flex: 1 }}>
                 <span className="product-link-text" style={{ fontSize: '13px', color: '#0055aa', fontWeight: '700' }}>
                   {p.name.substring(0, 30)}{p.name.length > 30 ? '...' : ''}
+                  {idx === 0 && (
+                    <span style={{ marginLeft: '8px', fontSize: '9px', background: '#0055aa', color: '#fff', padding: '1px 6px', borderRadius: '4px', verticalAlign: 'middle' }}>
+                      オススメ
+                    </span>
+                  )}
                 </span>
                 <div style={{ display: 'flex', gap: '8px', alignItems: 'center', marginTop: '2px' }}>
                   <span style={{ fontSize: '10px', background: p.store === 'amazon' ? '#232f3e' : '#bf0000', color: '#fff', padding: '1px 4px', borderRadius: '3px', fontWeight: 'bold' }}>

@@ -1,22 +1,23 @@
 /**
  * Keepa API を用いた Amazon 価格推移データの取得サービス
+ * セキュリティのため、Vercel プロキシ経由で取得します。
  */
 
-const KEEPA_BASE_URL = 'https://api.keepa.com/product';
+const SERVER_URL = ''; // Relative path for the proxy
 
 export const fetchKeepaHistory = async (asin: string) => {
-  const apiKey = import.meta.env.VITE_KEEPA_API_KEY;
-  if (!apiKey) {
-    console.warn('Keepa API Key is missing. Falling back to internal historical simulation.');
-    return null;
-  }
+  if (!asin) return null;
 
   try {
-    const response = await fetch(`${KEEPA_BASE_URL}?key=${apiKey}&domain=1&asin=${asin}&stats=1`);
+    const response = await fetch(`${SERVER_URL}/api/keepa?asin=${asin}`);
+    if (!response.ok) {
+      console.warn('Keepa proxy responded with error. Falling back to mock.');
+      return null;
+    }
     const data = await response.json();
-    return data.products?.[0];
+    return data.products?.[0]; // Keepa returns an array of products
   } catch (error) {
-    console.error('Keepa API failed:', error);
+    console.error('Keepa fetch failed:', error);
     return null;
   }
 };

@@ -12,8 +12,17 @@ import { QuickNav } from './QuickNav';
 
 export const Dashboard: React.FC = () => {
   const [selectedGenreId, setSelectedGenreId] = useState<string | null>(null);
+  const [searchQuery, setSearchQuery] = useState('');
   const { data: genres, loading } = usePriceData(selectedGenreId);
   const { getDaysLeft } = useInventory();
+
+  const filteredGenres = genres.filter(genre => {
+    const searchLower = searchQuery.toLowerCase();
+    const genreMatch = genre.name.toLowerCase().includes(searchLower);
+    const subtypeMatch = genre.subtypes.some(s => s.name.toLowerCase().includes(searchLower));
+    const productMatch = genre.subtypes.some(s => s.products.some(p => p.name.toLowerCase().includes(searchLower)));
+    return genreMatch || subtypeMatch || productMatch;
+  });
 
   const selectedGenre = genres.find(g => g.id === selectedGenreId);
 
@@ -54,10 +63,30 @@ export const Dashboard: React.FC = () => {
         <main className="main-content">
           {!selectedGenreId ? (
             <section id="products-section">
-              <h2 className="section-title">生活必需品一覧</h2>
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px', flexWrap: 'wrap', gap: '15px' }}>
+                <h2 className="section-title" style={{ margin: 0 }}>生活必需品一覧</h2>
+                <div style={{ position: 'relative', flex: '1', maxWidth: '400px' }}>
+                  <input 
+                    type="text" 
+                    placeholder="商品名や種類を検索 (例: あきたこまち, 5kg)..." 
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                    style={{ 
+                      width: '100%', 
+                      padding: '12px 16px 12px 40px', 
+                      borderRadius: '12px', 
+                      border: '1px solid #e2e8f0',
+                      background: '#fff',
+                      fontSize: '14px',
+                      boxShadow: '0 2px 4px rgba(0,0,0,0.02)'
+                    }}
+                  />
+                  <span style={{ position: 'absolute', left: '12px', top: '50%', transform: 'translateY(-50%)', opacity: 0.4 }}>🔍</span>
+                </div>
+              </div>
               <div className="heatmap-grid">
-                {genres.map((genre) => {
+                {filteredGenres.map((genre) => {
                   let heroImage = undefined;
+                  // (Image mapping logic...)
                   if (genre.id === 'rice') heroImage = '/assets/rice_user.jpg';
                   if (genre.id === 'tp') heroImage = '/assets/tp_premium_icon.png';
                   if (genre.id === 'tissue') heroImage = '/assets/tissue_user_v2.png';
@@ -67,7 +96,6 @@ export const Dashboard: React.FC = () => {
                   if (genre.id === 'milk') heroImage = '/assets/milk_user.png';
                   if (genre.id === 'bread') heroImage = '/assets/bread_user.png';
                   if (genre.id === 'oil') heroImage = '/assets/oil_user.png';
-                  if (genre.id === 'seasoning') heroImage = '/assets/seasoning_premium.png';
                   
                   return (
                     <GenreCard 
@@ -100,7 +128,6 @@ export const Dashboard: React.FC = () => {
             </section>
           )}
 
-          {/* 万能トレンドチャートの追加（常に下部に表示、またはホーム時のみ） */}
           {!selectedGenreId && (
             <div id="trend-section">
               <UniversalTrendChart 
@@ -111,11 +138,11 @@ export const Dashboard: React.FC = () => {
           )}
         </main>
 
-          <aside className="sidebar">
-            <div id="ai-section"><AIAdvisor /></div>
-            <div id="inventory-section"><InventoryControl /></div>
-            <Sidebar />
-          </aside>
+        <aside className="sidebar">
+          <div id="ai-section"><AIAdvisor /></div>
+          <div id="inventory-section"><InventoryControl /></div>
+          <Sidebar />
+        </aside>
       </div>
       
       <style>{`

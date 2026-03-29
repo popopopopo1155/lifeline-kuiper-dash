@@ -32,14 +32,16 @@ export const analyzePriceTrend = (
   historicalData?: number[],
   regionalAverage?: number,
   allPrices?: number[],
-  storeCount: number = 0
+  storeCount: number = 0,
+  keepaVolatility?: number,
+  keepaScarcity?: number
 ): PriceAnalysis => {
   const currentMonth = new Date().getMonth();
   const seasonalFactor = SEASONALITY_MAP[genreId]?.[currentMonth] || 1.0;
   
-  // 1. Calculate Volatility (Price Dispersion)
-  let volatility = 0;
-  if (allPrices && allPrices.length > 2) {
+  // 1. Calculate Internal Volatility if Keepa is missing
+  let volatility = keepaVolatility || 0;
+  if (!volatility && allPrices && allPrices.length > 2) {
     const mean = allPrices.reduce((a, b) => a + b, 0) / allPrices.length;
     const squareDiffs = allPrices.map(p => Math.pow(p - mean, 2));
     volatility = Math.sqrt(squareDiffs.reduce((a, b) => a + b, 0) / allPrices.length) / mean;
@@ -61,26 +63,26 @@ export const analyzePriceTrend = (
   let confidence = 70;
   let trend: 'up' | 'down' | 'stable' = 'stable';
 
-  // SCARCITY ALERT: Significant store count drop
-  const isScarce = storeCount > 0 && storeCount < 5;
+  // SCARCITY / SUPPLY SHOCK LOGIC (Boosted by Keepa)
+  const scarcityIndex = keepaScarcity || (storeCount > 0 && storeCount < 5 ? 0.7 : 0.3);
 
-  if (isScarce && statsDelta > -0.05) {
-    reasoning = `市場の取り扱い店舗が${storeCount}件まで減少。品薄による急激な値上がりのリスクが極めて高い状態です。`;
+  if (scarcityIndex > 0.75) {
+    reasoning = `極端な品薄状態（需給逼迫）を検知。Amazon等の在庫枯渇が楽天価格を押し上げる「負の連鎖」の兆候があります。`;
     sentiment = 'warning';
     trend = 'up';
-    confidence = 95;
-  } 
-  else if (volatility > 0.3 && statsDelta < -0.1) {
-    reasoning = '市場の価格差が拡大中。一部店舗で突出した安値を検知しました。売り切れる前に確保を推奨します。';
+    confidence = 98;
+  }
+  else if (volatility > 0.25 && statsDelta < -0.1) {
+    reasoning = '市場価格の乱高下が発生中。一時的な「投げ売り」価格が発生しており、在庫があるうちに確保を。';
     sentiment = 'success';
     trend = 'down';
-    confidence = 88;
+    confidence = 92;
   }
-  else if (trendIndicator > 0.05) {
-    reasoning = `過去の推移、および物価統計に基づき、近日中の値上げが濃厚です（上昇率: ${(trendIndicator * 100).toFixed(1)}%）。`;
+  else if (trendIndicator > 0.05 || (volatility > 0.15 && scarcityIndex > 0.6)) {
+    reasoning = `各市場の先行指標が「値上げ」を示唆。供給不安定（${(scarcityIndex*100).toFixed(0)}%）による上振れリスクが高まっています。`;
     sentiment = 'warning';
     trend = 'up';
-    confidence = 90;
+    confidence = 85;
   }
   else if (seasonalFactor > 1.2 && statsDelta > 0) {
     reasoning = '現在は品目特有の需要期（高値シーズン）にあたります。備蓄に余裕があれば、次月の落ち着きを待つのも手です。';

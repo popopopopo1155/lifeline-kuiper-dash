@@ -18,6 +18,9 @@ export type Subtype = {
   name: string;
   products: Product[];
   regionalAverage: number;
+  representativeAsin?: string;
+  volatility?: number; // 0.0 - 1.0
+  scarcity?: number;   // 0.0 - 1.0 (based on sales rank)
 };
 
 export type Genre = {
@@ -50,6 +53,7 @@ export const mockGenres: Genre[] = [
         id: 'rice-5kg',
         name: '米5kg',
         regionalAverage: 510,
+        representativeAsin: 'B0GFHVZYH7', // by Amazon 国産ブレンド米 5kg
         products: [
           { id: 'r5-1', name: '栃木県産 コシヒカリ 5kg', price: 2480, shipping: 0, points: 24, volume: 5, unit: 'kg', baseUnit: '1kg', store: 'amazon', affiliateUrl: 'https://www.amazon.co.jp/', popularity: 95, forecastData: [2480, 2480, 2550, 2600, 2600, 2700, 2800] },
           { id: 'r5-2', name: '秋田県産 あきたこまち 5kg', price: 2380, shipping: 0, points: 23, volume: 5, unit: 'kg', baseUnit: '1kg', store: 'rakuten', affiliateUrl: 'https://www.rakuten.co.jp/', popularity: 80, forecastData: [2380, 2380, 2380, 2400, 2400, 2450, 2500] },
@@ -90,6 +94,7 @@ export const mockGenres: Genre[] = [
         id: 'tp-8r',
         name: '8ロール(1.5倍巻)',
         regionalAverage: 110,
+        representativeAsin: 'B07WCSL63X', // by Amazon 2倍巻
         products: [
           { id: 'tp-1', name: 'エリエール 1.5倍巻 8R', price: 898, shipping: 0, points: 8, volume: 8, unit: 'ロール', baseUnit: '1ロール', store: 'amazon', affiliateUrl: 'https://www.amazon.co.jp/', popularity: 99, forecastData: [898, 920, 950, 980, 1050, 1100, 1150] },
         ]
@@ -135,6 +140,7 @@ export const mockGenres: Genre[] = [
         id: 'water-2l',
         name: '2L ペットボトル',
         regionalAverage: 90,
+        representativeAsin: 'B08TV9VDR7', // い・ろ・は・す ラベルレス
         products: [
           { id: 'wa-1', name: '天然水 2L x 6本', price: 588, shipping: 0, points: 5, volume: 6, unit: '本', baseUnit: '1本', store: 'supermarket', affiliateUrl: 'https://www.google.com/', popularity: 99, forecastData: [588, 588, 580, 570, 560, 550, 540] },
         ]

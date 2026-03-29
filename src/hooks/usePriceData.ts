@@ -155,10 +155,9 @@ export const usePriceData = (selectedGenreId: string | null) => {
               }
             } else if (products.length > 0) {
               // Smart Fallback: Generate an Amazon affiliate link for the top product name
-              const topP = products[0];
-              const amazonTag = 'YOUR_AMAZON_TAG_HERE'; // Placeholder, ideally from env via server
-              const baseUrl = `https://www.amazon.co.jp/s?k=${encodeURIComponent(topP.name)}`;
-              const finalUrl = baseUrl; // Tagging for search is complex, but we can provide the link
+                const amazonTag = result.amazonTag || '';
+                const baseUrl = `https://www.amazon.co.jp/s?k=${encodeURIComponent(topP.name)}`;
+                const finalUrl = amazonTag ? `${baseUrl}&tag=${amazonTag}` : baseUrl;
               
               const amazonSuggestion = {
                 id: `amazon-fallback-${topP.id}`,

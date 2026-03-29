@@ -75,9 +75,11 @@ export const usePriceData = (selectedGenreId: string | null) => {
             let products = subtype.products;
             let volatility = 0.05; 
             let scarcity = 0.3; 
+            let amazonTagFromRakuten = '';
 
             if (rakutenRes.ok) {
               const result = await rakutenRes.json();
+              amazonTagFromRakuten = result.amazonTag || '';
               if (result.Items && result.Items.length > 0) {
                 const rakutenItems = result.Items.map((item: any) => item.Item);
                 
@@ -155,9 +157,9 @@ export const usePriceData = (selectedGenreId: string | null) => {
               }
             } else if (products.length > 0) {
               // Smart Fallback: Generate an Amazon affiliate link for the top product name
-                const amazonTag = result.amazonTag || '';
-                const baseUrl = `https://www.amazon.co.jp/s?k=${encodeURIComponent(topP.name)}`;
-                const finalUrl = amazonTag ? `${baseUrl}&tag=${amazonTag}` : baseUrl;
+              const topP = products[0];
+              const baseUrl = `https://www.amazon.co.jp/s?k=${encodeURIComponent(topP.name)}`;
+              const finalUrl = amazonTagFromRakuten ? `${baseUrl}&tag=${amazonTagFromRakuten}` : baseUrl;
               
               const amazonSuggestion = {
                 id: `amazon-fallback-${topP.id}`,

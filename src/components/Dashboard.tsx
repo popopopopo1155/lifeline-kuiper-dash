@@ -118,9 +118,7 @@ export const Dashboard: React.FC = () => {
                 {selectedGenre?.subtypes.map((subtype) => (
                   <SubtypeCard key={subtype.id} subtype={subtype} />
                 ))}
-        </div>
-      </footer>
-    </div>
+              </div>
 
               {/* 価格インテリジェンス・推移チャートの追加 */}
               <PriceTrendChart 
@@ -146,6 +144,16 @@ export const Dashboard: React.FC = () => {
           <Sidebar />
         </aside>
       </div>
+
+      <footer className="site-footer" style={{ marginTop: '60px', padding: '40px 20px', borderTop: '1px solid #e2e8f0', textAlign: 'center' }}>
+        <p style={{ fontSize: '12px', color: '#94a3b8', maxWidth: '600px', margin: '0 auto', lineHeight: '1.6', fontWeight: 'bold' }}>
+          本サイトはAmazon.co.jpおよび楽天の各アフィリエイトプログラムに参加しており、紹介商品から収益を得る場合があります。
+          2026年最新の市場データに基づき、あなたに最適な購入タイミングを中立的な立場から診断しています。
+        </p>
+        <div style={{ marginTop: '20px', fontSize: '11px', color: '#cbd5e1' }}>
+          © 2026 生活必需品.com - Intelligent Supply Chain Insight
+        </div>
+      </footer>
       
       <style>{`
         @keyframes loading-bar {

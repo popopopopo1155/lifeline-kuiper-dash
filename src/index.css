@@ -25,13 +25,15 @@
   background-image: none !important;
 }
 
-html, body, #root, .app-container {
+html, body {
   background: #ffffff !important;
   color: var(--text-main);
   font-family: "Helvetica Neue", Arial, "Hiragino Kaku Gothic ProN", "Hiragino Sans", Meiryo, sans-serif;
   line-height: 1.4;
   -webkit-font-smoothing: antialiased;
   min-height: 100vh;
+  overflow-x: hidden; /* Global safety for mobile */
+  width: 100%;
 }
 
 .app-wrapper {
@@ -39,6 +41,13 @@ html, body, #root, .app-container {
   margin: 0 auto;
   padding: 0 15px;
   background: #ffffff !important;
+  overflow-x: hidden; /* Prevent horizontal scroll */
+}
+
+@media (max-width: 768px) {
+  .app-wrapper {
+    padding: 0 10px;
+  }
 }
 
 /* Header - Sticky for mobile battle mode */
@@ -62,12 +71,7 @@ html, body, #root, .app-container {
   text-decoration: none;
 }
 
-.region-selector {
-  padding: 8px 10px;
-  border: 1px solid var(--border-gray);
-  font-size: 13px;
-  border-radius: 4px;
-}
+/* Region selector managed below */
 
 /* Layout Grid */
 .dashboard-grid {
@@ -77,10 +81,12 @@ html, body, #root, .app-container {
 
 .main-content {
   flex: 1;
+  min-width: 0; /* Important: allow content to shrink on mobile */
 }
 
 .sidebar {
   width: 300px;
+  min-width: 0;
 }
 
 .heatmap-grid {
@@ -103,6 +109,17 @@ html, body, #root, .app-container {
 .price-card:hover {
   background-color: #f0f0f0;
   border-color: var(--price-blue);
+}
+
+.region-selector {
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  background-color: #f1f5f9;
+  border: 1px solid var(--border-gray);
+  padding: 8px 10px;
+  font-size: 13px;
+  border-radius: 4px;
 }
 
 .product-name {
@@ -276,15 +293,22 @@ body {
   }
   
   .heatmap-grid {
-    grid-template-columns: 1fr; /* Single column for max focus */
+    grid-template-columns: repeat(2, 1fr); /* 2 columns for density */
+    gap: 12px; /* Tighter gaps */
+    margin-bottom: 20px;
   }
   
   .site-title {
-    font-size: 16px;
+    font-size: 14px; /* Smaller title on mobile */
+  }
+
+  .region-selector {
+    padding: 6px 8px;
+    font-size: 11px;
   }
   
   .unit-price-value {
-    font-size: 40px; /* Bigger on mobile for easier reading while walking */
+    font-size: 32px; /* Adjusted from 40px for 2-column fit */
   }
   
   /* Touch target enlargement */
@@ -298,6 +322,15 @@ body {
   
   .site-header {
     padding: 10px 0;
+    flex-wrap: wrap; /* Allow wrapping on very small screens */
+    gap: 8px;
+  }
+  
+  .site-title {
+    flex-shrink: 1;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 }
 /* Skeleton Animation */
@@ -336,4 +369,86 @@ body {
 .buy-card-pulse {
   animation: heartbeat-glow 2.5s infinite ease-in-out !important;
   z-index: 5;
+}
+
+/* Universal Chart Responsive Grid */
+.chart-main-layout {
+  display: grid;
+  grid-template-columns: 1fr 300px;
+  gap: 40px;
+}
+
+@media (max-width: 900px) {
+  .chart-main-layout {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+  .chart-insight-box {
+    padding: 16px;
+    background: #f8fafc;
+    border-radius: 16px;
+    border: 1px solid #e2e8f0;
+  }
+}
+@media (min-width: 901px) {
+  .chart-insight-box {
+     background: #f8fafc; 
+     border-radius: 20px; 
+     padding: 24px;
+     border: 1px solid #e2e8f0;
+  }
+}
+/* Chart Header & Tabs */
+.chart-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 20px;
+}
+
+.chart-title {
+  font-size: 18px;
+  font-weight: 900;
+  color: #0f172a;
+  margin-bottom: 4px;
+}
+
+.chart-subtitle {
+  font-size: 12px;
+  color: #64748b;
+  font-weight: 500;
+}
+
+.chart-tabs {
+  display: flex;
+  gap: 6px;
+  margin-bottom: 20px;
+  overflow-x: auto;
+  padding-bottom: 10px;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+  -webkit-overflow-scrolling: touch;
+}
+
+.chart-tabs::-webkit-scrollbar {
+  display: none;
+}
+
+.chart-tab {
+  padding: 6px 12px;
+  border-radius: 10px;
+  font-size: 12px;
+  font-weight: 800;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  background: #f1f5f9;
+  color: #64748b;
+  border: none;
+}
+
+.chart-tab.active {
+  background: #3b82f6;
+  color: white;
+  box-shadow: 0 4px 12px rgba(59, 130, 246, 0.2);
 }

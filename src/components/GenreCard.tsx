@@ -52,13 +52,13 @@ export const GenreCard: React.FC<GenreCardProps> = ({ genre, daysLeft, onClick, 
       style={{
         display: 'flex',
         flexDirection: 'column',
-        padding: '24px',
+        padding: 'clamp(12px, 4vw, 24px)',
         transition: 'all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275)',
         cursor: 'pointer',
         height: '100%',
         background: isHovered ? '#f8fafc' : 'white',
         border: status === 'buy' ? '2px solid #10b981' : (isHighPriority ? '2px solid #ff0000' : (isHovered ? '1px solid #2563eb' : '1px solid #e2e8f0')),
-        borderRadius: '28px',
+        borderRadius: '20px',
         boxShadow: status === 'buy' 
           ? '0 20px 40px -10px rgba(16, 185, 129, 0.2)' 
           : (isHovered ? '0 25px 50px -12px rgba(0, 0, 0, 0.15)' : '0 4px 6px -1px rgba(0, 0, 0, 0.05)'),
@@ -69,15 +69,15 @@ export const GenreCard: React.FC<GenreCardProps> = ({ genre, daysLeft, onClick, 
       }}
     >
       {/* 1. Header & Image */}
-      <h3 style={{ fontSize: '22px', fontWeight: '900', textAlign: 'center', margin: '0 0 16px 0', color: '#0f172a' }}>
+      <h3 style={{ fontSize: 'clamp(14px, 4vw, 22px)', fontWeight: '900', textAlign: 'center', margin: '0 0 12px 0', color: '#0f172a' }}>
         {genre.name}
       </h3>
 
       <div style={{ 
         width: '100%', 
-        height: '120px', 
-        marginBottom: '20px', 
-        borderRadius: '20px', 
+        height: 'clamp(60px, 15vw, 120px)', 
+        marginBottom: '12px', 
+        borderRadius: '16px', 
         overflow: 'hidden',
         background: '#f1f5f9',
         display: 'flex',
@@ -93,19 +93,19 @@ export const GenreCard: React.FC<GenreCardProps> = ({ genre, daysLeft, onClick, 
       </div>
 
       {/* 2. Status & Large Price */}
-      <div style={{ textAlign: 'center', marginBottom: '24px' }}>
-        <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '8px' }}>
-          <div className={`status-chip status-${status}`} style={{ fontWeight: '800', fontSize: '11px', padding: '4px 14px' }}>
+      <div style={{ textAlign: 'center', marginBottom: '16px' }}>
+        <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '6px' }}>
+          <div className={`status-chip status-${status}`} style={{ fontWeight: '800', fontSize: '10px', padding: '3px 10px' }}>
             {getStatusLabel(status)}
           </div>
         </div>
-        <div style={{ fontSize: '11px', color: '#64748b', fontWeight: '900', textTransform: 'uppercase', marginBottom: '4px' }}>
+        <div style={{ fontSize: '10px', color: '#64748b', fontWeight: '900', textTransform: 'uppercase', marginBottom: '2px' }}>
           最安単価
         </div>
-        <div style={{ color: '#0f172a', fontSize: '42px', fontWeight: '900', lineHeight: 1, letterSpacing: '-0.02em' }}>
-          <span style={{ fontSize: '20px', opacity: 0.4, marginRight: '2px' }}>¥</span>
+        <div style={{ color: '#0f172a', fontSize: 'clamp(24px, 8vw, 42px)', fontWeight: '900', lineHeight: 1, letterSpacing: '-0.02em' }}>
+          <span style={{ fontSize: 'clamp(12px, 4vw, 20px)', opacity: 0.4, marginRight: '2px' }}>¥</span>
           {minUnitPrice === Infinity ? '---' : minUnitPrice}
-          <span style={{ fontSize: '16px', opacity: 0.4 }}>/{unitLabel}</span>
+          <span style={{ fontSize: 'clamp(10px, 3vw, 16px)', opacity: 0.4 }}>/{unitLabel}</span>
         </div>
       </div>
 
@@ -143,18 +143,18 @@ export const GenreCard: React.FC<GenreCardProps> = ({ genre, daysLeft, onClick, 
           borderLeft: analysis.sentiment === 'warning'
             ? '4px solid #ff0000'
             : (analysis.sentiment === 'success' ? '4px solid #10b981' : '4px solid #f59e0b'),
-          borderRadius: '16px',
-          padding: '12px 18px',
+          borderRadius: '12px',
+          padding: '8px 12px',
           width: '100%',
           maxWidth: '220px', 
           margin: '0 auto',
           textAlign: 'center',
-          fontSize: '14px', 
+          fontSize: 'clamp(10px, 3vw, 13px)', 
           fontWeight: '900', 
           color: analysis.sentiment === 'warning'
             ? '#b91c1c'
             : (analysis.sentiment === 'success' ? '#166534' : '#92400e'),
-          lineHeight: '1.5',
+          lineHeight: '1.4',
           boxShadow: '0 2px 4px rgba(0,0,0,0.02)'
         }}>
           {analysis.reasoning}

@@ -42,77 +42,50 @@ export const UniversalTrendChart: React.FC<UniversalTrendChartProps> = ({ genres
   };
 
   return (
-    <div className="sidebar-box" style={{ 
+    <div className="sidebar-box universal-chart-outer" style={{ 
       marginTop: '40px', 
-      padding: '30px', 
+      padding: '24px 16px', 
       background: 'white',
       borderRadius: '24px',
       border: '1px solid #e2e8f0',
       boxShadow: '0 10px 15px -3px rgba(0, 0, 0, 0.05)',
-      width: '100%'
+      width: '100%',
+      boxSizing: 'border-box'
     }}>
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '30px' }}>
+      <div className="chart-header">
         <div>
-          <h2 style={{ fontSize: '20px', fontWeight: '900', color: '#0f172a', marginBottom: '8px', display: 'flex', alignItems: 'center', gap: '10px' }}>
+          <h2 className="chart-title">
             価格トレンド解析センター
           </h2>
-          <p style={{ fontSize: '13px', color: '#64748b', fontWeight: '500' }}>
-            全カテゴリーの市場動向を俯瞰し、AIが最適な購入タイミングを診断します
+          <p className="chart-subtitle">
+            AIが最適な購入タイミングを診断します
           </p>
         </div>
       </div>
 
       {/* カテゴリー切り替えタブ */}
-      <div style={{ 
-        display: 'flex', 
-        gap: '8px', 
-        marginBottom: '30px', 
-        overflowX: 'auto', 
-        paddingBottom: '10px',
-        msOverflowStyle: 'none',
-        scrollbarWidth: 'none'
-      }}>
+      <div className="chart-tabs">
         {genres.map(genre => (
           <button
             key={genre.id}
             onClick={() => setSelectedId(genre.id)}
-            style={{
-              padding: '8px 16px',
-              borderRadius: '12px',
-              fontSize: '13px',
-              fontWeight: '800',
-              whiteSpace: 'nowrap',
-              cursor: 'pointer',
-              transition: 'all 0.2s ease',
-              background: selectedId === genre.id ? '#3b82f6' : '#f1f5f9',
-              color: selectedId === genre.id ? 'white' : '#64748b',
-              border: 'none',
-              boxShadow: selectedId === genre.id ? '0 4px 12px rgba(59, 130, 246, 0.2)' : 'none'
-            }}
+            className={`chart-tab ${selectedId === genre.id ? 'active' : ''}`}
           >
             {genre.name}
           </button>
         ))}
       </div>
 
-      <div style={{ display: 'grid', gridTemplateColumns: '1fr 300px', gap: '40px' }}>
+      <div className="chart-main-layout">
         {/* チャートエリア */}
-        <div style={{ position: 'relative', height: '340px' }}>
+        <div style={{ position: 'relative', minHeight: '260px' }}>
           <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '15px' }}>
-            <div style={{ fontSize: '14px', fontWeight: '900', color: '#1e293b' }}>
-              {currentGenre.name} の価格推移 (90日間)
-            </div>
-            <div style={{ display: 'flex', gap: '12px' }}>
-              <div style={{ fontSize: '11px', display: 'flex', alignItems: 'center', gap: '4px', color: '#64748b', fontWeight: '700' }}>
-                <span style={{ width: '8px', height: '8px', background: '#3b82f6', borderRadius: '50%' }}></span> 市場価格
-              </div>
-              <div style={{ fontSize: '11px', display: 'flex', alignItems: 'center', gap: '4px', color: '#ef4444', fontWeight: '700' }}>
-                <span style={{ width: '8px', height: '8px', background: '#ef4444', borderRadius: '50%', opacity: 0.5 }}></span> 地域底値
-              </div>
+            <div style={{ fontSize: '13px', fontWeight: '900', color: '#1e293b' }}>
+              {currentGenre.name} の推移 (90日間)
             </div>
           </div>
 
-          <svg width="100%" height="280" viewBox={`0 0 ${width} ${height}`} preserveAspectRatio="none">
+          <svg width="100%" height="220" viewBox={`0 0 ${width} ${height}`} preserveAspectRatio="none">
             {/* Grid lines */}
             {[0, 1, 2, 3, 4].map(i => (
               <line 
@@ -147,47 +120,28 @@ export const UniversalTrendChart: React.FC<UniversalTrendChartProps> = ({ genres
               strokeLinecap="round"
               strokeLinejoin="round"
             />
-
-            {/* Target Price Line (Subtle) */}
-            <line 
-              x1="0" y1={height * 0.85} 
-              x2={width} y2={height * 0.85} 
-              stroke="#ef4444" 
-              strokeWidth="1.5" 
-              strokeDasharray="8,8" 
-              opacity="0.4"
-            />
           </svg>
 
-          <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: '12px', color: '#94a3b8', fontSize: '11px', fontWeight: '700' }}>
+          <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: '12px', color: '#94a3b8', fontSize: '10px', fontWeight: '700' }}>
             <span>90日前</span>
-            <span>60日前</span>
-            <span>30日前</span>
             <span>現在</span>
-            <span style={{ color: '#3b82f6' }}>予測 (7日間)</span>
+            <span style={{ color: '#3b82f6' }}>予測</span>
           </div>
         </div>
 
         {/* AI Insight Sidebar */}
-        <div style={{ 
-          background: '#f8fafc', 
-          borderRadius: '20px', 
-          padding: '24px',
-          border: '1px solid #e2e8f0'
-        }}>
-          <div style={{ fontSize: '13px', fontWeight: '900', color: '#0f172a', marginBottom: '16px', display: 'flex', alignItems: 'center', gap: '6px' }}>
+        <div className="chart-insight-box">
+          <div style={{ fontSize: '12px', fontWeight: '900', color: '#0f172a', marginBottom: '12px' }}>
             市場トレンド展望
           </div>
-          <div style={{ fontSize: '12.5px', lineHeight: '1.8', color: '#334155', fontWeight: '600' }}>
+          <div style={{ fontSize: '12px', lineHeight: '1.6', color: '#334155', fontWeight: '600' }}>
             {getMarketDiagnosis(selectedId)}
           </div>
-          <div style={{ marginTop: '20px', paddingTop: '20px', borderTop: '1px solid #e2e8f0' }}>
-            <div style={{ fontSize: '11px', fontWeight: '900', color: '#64748b', marginBottom: '8px' }}>将来の変動確率</div>
-            <div style={{ width: '100%', height: '6px', background: '#e2e8f0', borderRadius: '10px', overflow: 'hidden' }}>
+          <div style={{ marginTop: '16px', paddingTop: '16px', borderTop: '1px solid #e2e8f0' }}>
+            <div style={{ width: '100%', height: '4px', background: '#e2e8f0', borderRadius: '10px', overflow: 'hidden' }}>
               <div style={{ width: '75%', height: '100%', background: '#3b82f6', borderRadius: '10px' }}></div>
             </div>
             <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: '6px', fontSize: '10px', fontWeight: '800', color: '#94a3b8' }}>
-              <span>下落</span>
               <span>上昇感度 高</span>
             </div>
           </div>

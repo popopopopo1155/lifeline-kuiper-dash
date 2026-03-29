@@ -52,7 +52,6 @@ export const UniversalTrendChart: React.FC<UniversalTrendChartProps> = ({ genres
     return `【安定】需給バランスが取れた適正価格を維持しています。大きな変動予測はなく、日常的な買い足しで問題ないフェーズです。`;
   };
 
-  return (
   // 感度スコアの計算
   const getSensitivityScore = (history: number[]) => {
     const min = Math.min(...history);

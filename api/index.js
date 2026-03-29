@@ -15,27 +15,34 @@ app.use(cors());
 app.use(express.json());
 
 /**
- * Rakuten API Proxy
+ * Rakuten API Proxy (Upgraded to OpenAPI 2026 Standard)
  */
 app.get('/api/rakuten', async (req, res) => {
   const { keyword } = req.query;
   const appId = process.env.RAKUTEN_APP_ID?.trim();
+  const accessKey = process.env.RAKUTEN_ACCESS_KEY?.trim();
 
-  if (!appId) {
-    return res.status(500).json({ error: 'RAKUTEN_APP_ID missing' });
+  if (!appId || !accessKey) {
+    return res.status(500).json({ error: 'Rakuten API credentials missing (AppId or AccessKey)' });
   }
 
   try {
-    const response = await axios.get('https://app.rakuten.co.jp/services/api/IchibaItem/Search/20170706', {
+    const response = await axios.get('https://openapi.rakuten.co.jp/ichibams/api/IchibaItem/Search/20220601', {
       params: {
         applicationId: appId,
+        accessKey: accessKey,
         keyword,
         format: 'json'
+      },
+      headers: {
+        'Referer': 'https://www.hitsujuhin.com',
+        'Origin': 'https://www.hitsujuhin.com'
       }
     });
     res.json(response.data);
   } catch (error) {
-    res.status(500).json({ error: 'Rakuten API failed' });
+    console.error('Rakuten OpenAPI Error:', error.response?.data || error.message);
+    res.status(500).json({ error: 'Rakuten OpenAPI failed', details: error.response?.data });
   }
 });
 

@@ -12,16 +12,18 @@
   },
   "dependencies": {
     "@google/generative-ai": "^0.24.1",
+    "@types/xml2js": "^0.4.14",
     "axios": "^1.13.6",
     "cors": "^2.8.6",
     "dotenv": "^17.3.1",
-    "express": "^5.2.1",
+    "express": "^4.21.0",
     "express-rate-limit": "^8.3.1",
     "helmet": "^8.1.0",
     "lucide-react": "0.477.0",
     "react": "19.2.4",
     "react-dom": "19.2.4",
-    "recharts": "2.15.1"
+    "recharts": "2.15.1",
+    "xml2js": "^0.6.2"
   },
   "devDependencies": {
     "@eslint/js": "9.39.4",

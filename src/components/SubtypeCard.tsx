@@ -1,41 +1,75 @@
 import React, { useState } from 'react';
-import type { Subtype } from '../data/mockData';
-import { calculateUnitPrice } from '../data/mockData';
+import type { Subtype, GenreGroup, Product } from '../types';
 import { analyzePriceTrend } from '../api/priceAnalysis';
 
 interface SubtypeCardProps {
   subtype: Subtype;
+  group: GenreGroup;
+  unitType: string;
 }
 
-export const SubtypeCard: React.FC<SubtypeCardProps> = ({ subtype }) => {
+export const SubtypeCard: React.FC<SubtypeCardProps> = ({ subtype, group, unitType }) => {
   const [isExpanded, setIsExpanded] = useState(false);
+  const [editingProduct, setEditingProduct] = useState<Product | null>(null);
+  const [isSaving, setIsSaving] = useState(false);
 
-  // 1. 実質単価が安い順に上位3商品
-  const sortedByPrice = [...subtype.products].sort((a, b) => a.price - b.price);
-  const top3Cheapest = sortedByPrice.slice(0, 3);
-  
-  // 2. よく売れている順（人気度順）に上位7商品（最安3件以外から選択）
-  const remaining = subtype.products.filter(p => !top3Cheapest.find(c => c.id === p.id));
-  const top7Popular = remaining.sort((a, b) => b.popularity - a.popularity).slice(0, 7);
-  
-  // 3. 合計最大10商品を表示
-  const displayProducts = [...top3Cheapest, ...top7Popular].slice(0, 10);
+  const handleSaveVerified = async () => {
+    if (!editingProduct) return;
+    setIsSaving(true);
+    try {
+      const res = await fetch('/api/manual/verify', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ item: editingProduct })
+      });
+      if (res.ok) {
+        alert('検証データを保存しました。次回の同期から優先表示されます。');
+        setEditingProduct(null);
+      }
+    } catch (err) {
+      console.error('Save failed');
+    } finally {
+      setIsSaving(false);
+    }
+  };
 
-  const bestProduct = top3Cheapest[0];
-  const minPrice = bestProduct ? calculateUnitPrice(bestProduct) : 0;
+  // --- 単一ソートロジック (全件を安い順、かつ検証済みを優先) ---
+  const displayProducts = [...subtype.products]
+    .sort((a, b) => {
+      // 1. まず検証済みを一番上に持ってくる
+      if (a.isVerified && !b.isVerified) return -1;
+      if (!a.isVerified && b.isVerified) return 1;
+      
+      // 2. 次に実質単価の安い順
+      const aUnitPrice = (a.price + a.shipping - a.points) / Math.max(0.1, a.volume);
+      const bUnitPrice = (b.price + b.shipping - b.points) / Math.max(0.1, b.volume);
+      return aUnitPrice - bUnitPrice;
+    })
+    .slice(0, 10);
+
+  const bestProduct = displayProducts[0];
   
-  const allPrices = subtype.products.map(p => calculateUnitPrice(p));
+  // 最安単価の算出
+  const minPrice = bestProduct 
+    ? Math.round((bestProduct.price + bestProduct.shipping - bestProduct.points) / Math.max(0.1, bestProduct.volume)) 
+    : 0;
+  
+  const allUnitPrices = subtype.products.map((p: Product) => 
+    Math.round((p.price + p.shipping - p.points) / Math.max(0.1, p.volume))
+  );
 
   const analysis = analyzePriceTrend(
     subtype.id, 
     minPrice, 
     bestProduct?.forecastData || [], 
     subtype.regionalAverage,
-    allPrices,
+    allUnitPrices,
     subtype.products.length,
     subtype.volatility,
     subtype.scarcity
   );
+
+  const isDaily = group === 'daily';
 
   return (
     <div className="price-card subtype-card-outer" style={{ 
@@ -43,184 +77,255 @@ export const SubtypeCard: React.FC<SubtypeCardProps> = ({ subtype }) => {
       display: 'flex', 
       flexDirection: 'column',
       padding: 'clamp(12px, 3vw, 20px)',
-      borderRadius: '20px',
+      borderRadius: '24px',
+      background: 'white',
+      boxShadow: '0 4px 6px -1px rgba(0,0,0,0.05)',
       border: analysis.sentiment === 'warning' 
         ? '2px solid #ef4444' 
-        : (analysis.sentiment === 'success' ? '2px solid #10b981' : '2px solid #cbd5e1') // Strengthened gray for regular
+        : (analysis.sentiment === 'success' ? '2px solid #10b981' : '1px solid #e2e8f0')
     }}>
-      <div className="product-name" style={{ borderBottom: '1px solid #eee', paddingBottom: '8px', marginBottom: '8px', fontSize: 'clamp(14px, 4vw, 18px)', display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '10px' }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: '8px', flexWrap: 'wrap' }}>
+      <div className="product-name" style={{ borderBottom: '1px solid #f1f5f9', paddingBottom: '12px', marginBottom: '12px', fontSize: '18px', fontWeight: '900', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
              {subtype.name}
-             <div className={`status-chip status-${analysis.sentiment === 'warning' ? 'wait' : (analysis.sentiment === 'success' ? 'buy' : 'regular')}`} style={{ fontSize: '9px', padding: '2px 8px' }}>
-                {analysis.sentiment === 'warning' ? '割高' : (analysis.sentiment === 'success' ? '底値圏' : '通常')}
+             <div className={`status-chip status-${analysis.sentiment === 'warning' ? 'wait' : (analysis.sentiment === 'success' ? 'buy' : 'regular')}`} style={{ fontSize: '10px' }}>
+                {analysis.sentiment === 'warning' ? '要警戒' : (analysis.sentiment === 'success' ? '底値更新' : '安定')}
              </div>
-             
-             {/* Intelligence Badges (Moved here for visibility) */}
-             {subtype.scarcity !== undefined && subtype.scarcity > 0.5 && (
-                <div style={{ fontSize: '9px', padding: '1px 6px', borderRadius: '4px', background: '#fee2e2', color: '#991b1b', border: '1px solid #fecaca', fontWeight: 'bold' }}>
-                  需給リスク: {Math.round(subtype.scarcity * 100)}%
-                </div>
-             )}
-             {subtype.volatility !== undefined && subtype.volatility > 0.1 && (
-                <div style={{ fontSize: '9px', padding: '1px 6px', borderRadius: '4px', background: '#f0f9ff', color: '#0369a1', border: '1px solid #bae6fd', fontWeight: 'bold' }}>
-                  変動: {subtype.volatility > 0.2 ? '大' : '中'}
-                </div>
-             )}
         </div>
-        <span style={{ fontSize: '9px', background: '#f1f5f9', padding: '2px 6px', borderRadius: '8px', color: '#64748b' }}>
-          {subtype.products.length}件
-        </span>
+        <div style={{ 
+          fontSize: '11px', 
+          color: subtype.products.length > 0 ? '#3b82f6' : '#94a3b8', 
+          background: subtype.products.length > 0 ? '#eff6ff' : '#f8fafc', 
+          padding: '4px 10px', 
+          borderRadius: '12px',
+          fontWeight: '900',
+          border: `1px solid ${subtype.products.length > 0 ? '#dbeafe' : '#f1f5f9'}`
+        }}>
+           {isDaily ? '🏠 地場価格優先' : `📊 市場データ: ${subtype.products.length}件`}
+        </div>
       </div>
       
-      {bestProduct && (
-        <>
-          <div className="unit-price-box" style={{ 
-            margin: '0 0 10px 0', 
-            padding: '12px', 
-            background: '#f8fafc', 
-            borderRadius: '8px', 
-            borderLeft: analysis.sentiment === 'warning' ? '3px solid #ef4444' : (analysis.sentiment === 'success' ? '3px solid #10b981' : '3px solid #94a3af') 
+      {/* --- PRICE DASHBOARD --- */}
+      <div className="unit-price-box" style={{ 
+        marginBottom: '16px',
+        padding: '16px', 
+        background: '#f8fafc', 
+        borderRadius: '16px', 
+        textAlign: 'center',
+        border: '1px solid #f1f5f9'
+      }}>
+        <div style={{ fontSize: '12px', color: '#64748b', fontWeight: 'bold', marginBottom: '4px' }}>
+          {isDaily ? '近隣スーパー目安価格' : '現在市場・最安実質単価'}
+        </div>
+        <div style={{ fontSize: '32px', color: '#0f172a', fontWeight: '900', letterSpacing: '-0.02em' }}>
+          ¥{isDaily ? subtype.regionalAverage : minPrice}
+          <span style={{ fontSize: '14px', color: '#94a3b8', fontWeight: '700' }}>/{unitType}</span>
+        </div>
+        
+        {/* Market Comparison Badge */}
+        {!isDaily && subtype.regionalAverage > 0 && minPrice > 0 && (
+          <div style={{ 
+            marginTop: '8px', 
+            fontSize: '11px', 
+            display: 'inline-block',
+            padding: '3px 10px', 
+            borderRadius: '20px',
+            background: minPrice < subtype.regionalAverage ? '#dcfce7' : '#fee2e2',
+            color: minPrice < subtype.regionalAverage ? '#166534' : '#991b1b',
+            fontWeight: '900'
           }}>
-            <span className="unit-price-label" style={{ color: analysis.sentiment === 'warning' ? '#ef4444' : (analysis.sentiment === 'success' ? '#10b981' : '#64748b'), fontSize: '10px' }}>最安単価</span>
-            <div className="unit-price-value" style={{ fontSize: 'clamp(20px, 6vw, 28px)', color: analysis.sentiment === 'warning' ? '#ef4444' : (analysis.sentiment === 'success' ? '#10b981' : '#334155'), fontWeight: '900' }}>
-              ¥{minPrice}<span className="unit-price-unit" style={{ fontSize: '12px', color: '#64748b' }}>/{bestProduct.baseUnit}</span>
-              {subtype.regionalAverage > 0 && (
-                <span style={{ 
-                  marginLeft: '10px', 
-                  fontSize: '10px', 
-                  verticalAlign: 'middle', 
-                  padding: '2px 6px', 
-                  borderRadius: '4px',
-                  background: minPrice < subtype.regionalAverage ? '#dcfce7' : '#fee2e2',
-                  color: minPrice < subtype.regionalAverage ? '#166534' : '#991b1b',
-                  fontWeight: 'bold'
-                }}>
-                  平均比: {minPrice < subtype.regionalAverage ? '-' : '+'}{Math.abs(Math.round(((minPrice - subtype.regionalAverage) / subtype.regionalAverage) * 100))}%
-                </span>
+            {minPrice < subtype.regionalAverage ? '📉 スーパーよりお得' : '🛑 スーパー推奨'}
+          </div>
+        )}
+      </div>
+
+      {/* AI Intelligence Reasoning */}
+      <div style={{ 
+        marginBottom: '16px',
+        background: analysis.sentiment === 'warning' ? '#fef2f2' : (analysis.sentiment === 'success' ? '#f0fdf4' : '#fffbeb'),
+        borderRadius: '12px',
+        padding: '12px',
+        fontSize: '13px',
+        color: analysis.sentiment === 'warning' ? '#991b1b' : (analysis.sentiment === 'success' ? '#166534' : '#92400e'),
+        fontWeight: 'bold',
+        lineHeight: '1.5',
+        border: `1px solid ${analysis.sentiment === 'warning' ? '#fee2e2' : (analysis.sentiment === 'success' ? '#dcfce7' : '#fef3c7')}`
+      }}>
+        {analysis.reasoning}
+      </div>
+
+      {/* --- CONDITIONAL ACTION AREA --- */}
+      {isDaily ? (
+        <div style={{ 
+          padding: '12px', 
+          background: '#f8fafc', 
+          borderRadius: '12px', 
+          border: '1px dashed #cbd5e1',
+          fontSize: '11px',
+          color: '#64748b',
+          textAlign: 'center',
+          lineHeight: '1.6'
+        }}>
+          💡 卵やパンなどの生鮮品はネット購入より、<br />
+          地元のスーパー店頭での購入を強く推奨します。<br />
+          <strong>目安単価 ¥{subtype.regionalAverage}</strong> 以下なら「買い」です。
+        </div>
+      ) : (
+        <>
+          <div style={{ marginBottom: '12px', textAlign: 'center' }}>
+              <span style={{ fontSize: '0.8rem', opacity: 0.8 }}>
+                実効最安値: ¥{minPrice.toLocaleString()}/{unitType}
+              </span>
+              {subtype.lastUpdated && (
+                <div style={{ fontSize: '0.7rem', opacity: 0.6, marginTop: '2px' }}>
+                  🕒 {new Date(subtype.lastUpdated).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })} 更新
+                </div>
               )}
             </div>
-          </div>
+          <button 
+            onClick={() => setIsExpanded(!isExpanded)}
+            style={{
+              width: '100%',
+              padding: '12px',
+              background: '#0f172a',
+              color: 'white',
+              border: 'none',
+              borderRadius: '12px',
+              fontSize: '14px',
+              fontWeight: '900',
+              cursor: 'pointer',
+              display: 'flex',
+              justifyContent: 'center',
+              alignItems: 'center',
+              gap: '8px',
+              transition: 'transform 0.2s'
+            }}
+            onMouseEnter={(e) => e.currentTarget.style.transform = 'scale(1.02)'}
+            onMouseLeave={(e) => e.currentTarget.style.transform = 'scale(1)'}
+          >
+            {isExpanded ? '項目を閉じる ▲' : `最安値リストを表示 ➔`}
+          </button>
 
-          {/* AI Advice Panel */}
-          <div style={{ 
-            marginBottom: '12px',
-            background: analysis.sentiment === 'warning' 
-              ? 'linear-gradient(135deg, #fff5f5 0%, #fff 100%)' 
-              : (analysis.sentiment === 'success' ? 'linear-gradient(135deg, #f0fdf4 0%, #fff 100%)' : 'linear-gradient(135deg, #fffbeb 0%, #fff 100%)'),
-            border: analysis.sentiment === 'warning'
-              ? '1px solid #fee2e2'
-              : (analysis.sentiment === 'success' ? '1px solid #dcfce7' : '1px solid #fef3c7'),
-            borderLeft: analysis.sentiment === 'warning'
-              ? '3px solid #ff0000'
-              : (analysis.sentiment === 'success' ? '3px solid #10b981' : '3px solid #f59e0b'),
-            borderRadius: '10px',
-            padding: '8px 10px',
-            fontSize: 'clamp(10px, 3vw, 13px)', 
-            fontWeight: '800', 
-            color: analysis.sentiment === 'warning'
-              ? '#b91c1c'
-              : (analysis.sentiment === 'success' ? '#166534' : '#92400e'),
-            lineHeight: '1.4',
-            textAlign: 'center'
-          }}>
-            {analysis.reasoning}
-          </div>
+          {isExpanded && (
+            <div style={{ marginTop: '16px', display: 'flex', flexDirection: 'column', gap: '8px' }}>
+              {displayProducts.map((p) => (
+                <div 
+                  key={p.id}
+                  style={{ 
+                    padding: '12px', 
+                    background: p.isVerified ? '#f0f9ff' : 'white', 
+                    border: p.isVerified ? '2px solid #0ea5e9' : '1px solid #e2e8f0', 
+                    borderRadius: '12px',
+                    display: 'flex',
+                    justifyContent: 'space-between',
+                    alignItems: 'center',
+                    cursor: 'default',
+                    transition: 'border-color 0.2s',
+                    position: 'relative'
+                  }}
+                >
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: '4px', flex: 1 }}>
+                    <div style={{ fontSize: '13px', fontWeight: 'bold', color: '#1e293b', display: 'flex', alignItems: 'center', gap: '6px', flexWrap: 'wrap' }}>
+                      {p.name.length > 35 ? p.name.substring(0, 35) + '...' : p.name}
+                      {p.id === bestProduct?.id && !p.isVerified && (
+                        <span style={{ fontSize: '10px', background: '#fbbf24', color: '#78350f', padding: '1px 6px', borderRadius: '4px', fontWeight: '900' }}>⭐ 最安</span>
+                      )}
+                      {p.isVerified && (
+                        <span style={{ fontSize: '10px', background: '#0ea5e9', color: 'white', padding: '1px 8px', borderRadius: '4px', fontWeight: '900' }}>✅ 検証済</span>
+                      )}
+                    </div>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+                      <span style={{ fontSize: '9px', padding: '2px 4px', background: p.store === 'amazon' ? '#232f3e' : '#bf0000', color: 'white', borderRadius: '4px', fontWeight: '900', letterSpacing: '0.05em' }}>
+                        {p.store.toUpperCase()}
+                      </span>
+                      <span style={{ fontSize: '11px', color: '#64748b', fontWeight: 'bold' }}>
+                        ¥{Math.round((p.price + p.shipping - p.points) / Math.max(0.1, p.volume))}/{unitType}
+                        <span style={{ marginLeft: '6px', opacity: 0.7 }}>({p.volume}{p.unit})</span>
+                      </span>
+                    </div>
+                  </div>
+                  <div style={{ textAlign: 'right', display: 'flex', alignItems: 'center', gap: '12px' }}>
+                    <div>
+                      <div style={{ fontSize: '16px', fontWeight: '900', color: '#0f172a' }}>¥{p.price.toLocaleString()}</div>
+                      <div 
+                        onClick={() => p.affiliateUrl && window.open(p.affiliateUrl, '_blank')}
+                        style={{ fontSize: '10px', color: '#3b82f6', fontWeight: 'bold', cursor: 'pointer' }}
+                      >
+                        購入 ➔
+                      </div>
+                    </div>
+                    <button 
+                      onClick={(e) => { e.stopPropagation(); setEditingProduct(p); }}
+                      style={{ border: 'none', padding: '8px', cursor: 'pointer', borderRadius: '50%', background: '#f1f5f9' }}
+                    >
+                      ✏️
+                    </button>
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
         </>
       )}
-
-      <button 
-        onClick={(e) => {
-          e.stopPropagation();
-          setIsExpanded(!isExpanded);
-        }}
-        style={{
-          width: '100%',
-          padding: '10px',
-          background: isExpanded ? '#f1f5f9' : '#0055aa',
-          color: isExpanded ? '#0055aa' : '#fff',
-          border: 'none',
-          borderRadius: '4px',
-          cursor: 'pointer',
-          fontWeight: 'bold',
-          fontSize: '13px',
-          display: 'flex',
-          justifyContent: 'center',
-          alignItems: 'center',
-          gap: '8px',
-          transition: 'all 0.2s'
-        }}
-      >
-        {isExpanded ? '▲ リストを閉じる' : `▼ 価格リンクを表示 (${displayProducts.length}件)`}
-      </button>
-
-      {isExpanded && (
-        <div className="store-list" style={{ borderTop: 'none', marginTop: '15px', flex: 1 }}>
-          <div style={{ fontSize: '11px', color: '#999', marginBottom: '8px', fontWeight: 'bold' }}>TOPピックアップ（3件最安 + 7件人気）</div>
-          {displayProducts.map((p, idx) => (
-            <div 
-              key={p.id} 
-              className="store-row subtype-product-row" 
-              style={{ 
-                padding: '12px', 
-                marginBottom: '8px',
-                border: '1px solid #e2e8f0', 
-                cursor: 'pointer',
-                display: 'flex',
-                alignItems: 'center',
-                borderRadius: '8px',
-                background: '#fff',
-                transition: 'all 0.2s cubic-bezier(0.4, 0, 0.2, 1)',
-                boxShadow: '0 1px 2px rgba(0,0,0,0.05)'
-              }}
-              onClick={(e) => {
-                e.stopPropagation();
-                if (p.affiliateUrl && p.affiliateUrl !== '#') {
-                  window.open(p.affiliateUrl, '_blank');
-                }
-              }}
-            >
-              <div style={{ marginRight: '12px', fontSize: '14px', color: idx < 3 ? '#ef4444' : '#999', fontWeight: 'bold' }}>
-                #{idx + 1}
+      {/* --- EDIT MODAL --- */}
+      {editingProduct && (
+        <div style={{
+          position: 'fixed', top: 0, left: 0, width: '100%', height: '100%',
+          background: 'rgba(0,0,0,0.5)', display: 'flex', justifyContent: 'center', alignItems: 'center',
+          zIndex: 1000, padding: '20px'
+        }}>
+          <div style={{ background: 'white', borderRadius: '24px', padding: '24px', width: '100%', maxWidth: '400px' }}>
+            <h3 style={{ fontSize: '18px', fontWeight: '900', marginBottom: '16px' }}>商品の修正・検証</h3>
+            
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+              <div>
+                <label style={{ fontSize: '12px', fontWeight: 'bold', color: '#64748b' }}>表示名</label>
+                <input 
+                  type="text" 
+                  value={editingProduct.name}
+                  onChange={(e) => setEditingProduct({ ...editingProduct, name: e.target.value })}
+                  style={{ width: '100%', padding: '10px', border: '1px solid #e2e8f0', borderRadius: '8px', marginTop: '4px' }}
+                />
               </div>
-              <div style={{ display: 'flex', flexDirection: 'column', flex: 1 }}>
-                <span className="product-link-text" style={{ fontSize: '13px', color: '#0055aa', fontWeight: '700' }}>
-                  {p.name.substring(0, 30)}{p.name.length > 30 ? '...' : ''}
-                  {idx === 0 && (
-                    <span style={{ marginLeft: '8px', fontSize: '9px', background: '#0055aa', color: '#fff', padding: '1px 6px', borderRadius: '4px', verticalAlign: 'middle' }}>
-                      オススメ
-                    </span>
-                  )}
-                </span>
-                <div style={{ display: 'flex', gap: '8px', alignItems: 'center', marginTop: '2px' }}>
-                  <span style={{ fontSize: '10px', background: p.store === 'amazon' ? '#232f3e' : '#bf0000', color: '#fff', padding: '1px 4px', borderRadius: '3px', fontWeight: 'bold' }}>
-                    {p.store.toUpperCase()}
-                  </span>
-                  <span style={{ fontSize: '11px', color: '#64748b' }}>¥{calculateUnitPrice(p)}/{p.baseUnit}</span>
+              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' }}>
+                <div>
+                  <label style={{ fontSize: '12px', fontWeight: 'bold', color: '#64748b' }}>価格 (¥)</label>
+                  <input 
+                    type="number" 
+                    value={editingProduct.price}
+                    onChange={(e) => setEditingProduct({ ...editingProduct, price: Number(e.target.value) })}
+                    style={{ width: '100%', padding: '10px', border: '1px solid #e2e8f0', borderRadius: '8px', marginTop: '4px' }}
+                  />
+                </div>
+                <div>
+                  <label style={{ fontSize: '12px', fontWeight: 'bold', color: '#64748b' }}>重量/容量 ({unitType})</label>
+                  <input 
+                    type="number" 
+                    value={editingProduct.volume}
+                    onChange={(e) => setEditingProduct({ ...editingProduct, volume: Number(e.target.value) })}
+                    style={{ width: '100%', padding: '10px', border: '1px solid #e2e8f0', borderRadius: '8px', marginTop: '4px' }}
+                  />
                 </div>
               </div>
-              <div style={{ textAlign: 'right', marginLeft: '10px' }}>
-                <div style={{ fontSize: '16px', fontWeight: '800', color: '#0055aa' }}>¥{p.price.toLocaleString()}</div>
-                <div style={{ fontSize: '10px', color: '#0055aa', textDecoration: 'underline', fontWeight: 'bold' }}>詳細 ➔</div>
-              </div>
             </div>
-          ))}
+
+            <div style={{ display: 'flex', gap: '12px', marginTop: '24px' }}>
+              <button 
+                onClick={() => setEditingProduct(null)}
+                style={{ flex: 1, padding: '12px', border: '1px solid #e2e8f0', borderRadius: '12px', background: 'white', fontWeight: 'bold' }}
+              >
+                キャンセル
+              </button>
+              <button 
+                onClick={handleSaveVerified}
+                disabled={isSaving}
+                style={{ flex: 1, padding: '12px', background: '#0ea5e9', color: 'white', border: 'none', borderRadius: '12px', fontWeight: '900' }}
+              >
+                {isSaving ? '保存中...' : '検証済みとして保存'}
+              </button>
+            </div>
+          </div>
         </div>
       )}
-
-      <style>{`
-        .subtype-product-row:hover {
-          background: #fff !important;
-          border-color: #0055aa !important;
-          box-shadow: 0 4px 12px rgba(0, 85, 170, 0.15) !important;
-          transform: translateY(-2px);
-        }
-        .subtype-product-row:hover .product-link-text {
-          text-decoration: underline !important;
-        }
-        .subtype-product-row:active {
-          transform: translateY(0);
-        }
-      `}</style>
     </div>
   );
 };

@@ -9,19 +9,19 @@ import { useInventory } from '../hooks/useInventory';
 import { AIAdvisor } from './AIAdvisor';
 import { UniversalTrendChart } from './UniversalTrendChart';
 import { QuickNav } from './QuickNav';
+import RiskAlertBanner from './RiskAlertBanner';
 
 export const Dashboard: React.FC = () => {
   const [selectedGenreId, setSelectedGenreId] = useState<string | null>(null);
   const [searchQuery, setSearchQuery] = useState('');
-  const { data: genres, loading } = usePriceData(selectedGenreId);
+  const { data: genres, loading, tokensLeft, newsRisks, isPaused, refreshData } = usePriceData();
   const { getDaysLeft } = useInventory();
 
   const filteredGenres = genres.filter(genre => {
     const searchLower = searchQuery.toLowerCase();
     const genreMatch = genre.name.toLowerCase().includes(searchLower);
     const subtypeMatch = genre.subtypes.some(s => s.name.toLowerCase().includes(searchLower));
-    const productMatch = genre.subtypes.some(s => s.products.some(p => p.name.toLowerCase().includes(searchLower)));
-    return genreMatch || subtypeMatch || productMatch;
+    return genreMatch || subtypeMatch;
   });
 
   const selectedGenre = genres.find(g => g.id === selectedGenreId);
@@ -30,10 +30,75 @@ export const Dashboard: React.FC = () => {
     setSelectedGenreId(null);
   };
 
+  const handleResume = () => {
+    if (selectedGenreId) {
+      refreshData(selectedGenreId);
+    } else {
+      // 全体検索中に止まった場合はデフォルトで米などを再開対象にするか、
+      // 最後に止まったIDをフックに持たせておくと親切
+      refreshData('rice');
+    }
+  };
+
+  const stockGenres = filteredGenres.filter(g => g.group === 'stock');
+  const dailyGenres = filteredGenres.filter(g => g.group === 'daily');
+
+  const getHeroImage = (id: string) => {
+    if (id === 'rice') return '/assets/rice_user.jpg';
+    if (id === 'tp') return '/assets/tp_premium_icon.png';
+    if (id === 'tissue') return '/assets/tissue_user_v2.png';
+    if (id === 'detergent') return '/assets/detergent_user.png';
+    if (id === 'water') return '/assets/water_user.png';
+    if (id === 'egg') return '/assets/eggs_user.jpg';
+    if (id === 'milk') return '/assets/milk_user.png';
+    if (id === 'bread') return '/assets/bread_user.png';
+    if (id === 'oil') return '/assets/oil_user.png';
+    return undefined;
+  };
+
   return (
     <div className="app-wrapper">
-      <header className="site-header">
-        <a href="#" className="site-title" onClick={() => { setSelectedGenreId(null); }}>生活必需品.com</a>
+      <header className="site-header" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '10px 20px' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '20px' }}>
+          <a href="#" className="site-title" onClick={() => { setSelectedGenreId(null); }} style={{ textDecoration: 'none', color: 'inherit', fontSize: '24px', fontWeight: '900' }}>生活必需品.com</a>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+            <div style={{ 
+              display: 'flex', 
+              alignItems: 'center', 
+              gap: '8px', 
+              padding: '4px 12px', 
+              background: tokensLeft > 10 ? '#f0fdf4' : '#fee2e2', 
+              borderRadius: '20px', 
+              fontSize: '11px', 
+              fontWeight: 'bold', 
+              color: tokensLeft > 10 ? '#166534' : '#991b1b',
+              border: `1px solid ${tokensLeft > 10 ? '#dcfce7' : '#fecaca'}`
+            }}>
+              <span style={{ fontSize: '14px' }}>📡</span>
+              Keepa同期: {tokensLeft}枚 {tokensLeft <= 0 && '(中断中)'}
+            </div>
+
+            {isPaused && (
+              <button 
+                onClick={handleResume}
+                style={{
+                  padding: '4px 12px',
+                  background: '#ef4444',
+                  color: 'white',
+                  border: 'none',
+                  borderRadius: '20px',
+                  fontSize: '11px',
+                  fontWeight: 'bold',
+                  cursor: 'pointer',
+                  animation: 'pulse-subtle 2s infinite'
+                }}
+              >
+                ⚠️ 0枚につき中断: 再開する
+              </button>
+            )}
+          </div>
+        </div>
+        
         <div className="flex items-center gap-2">
           {selectedGenreId && (
             <button 
@@ -61,79 +126,92 @@ export const Dashboard: React.FC = () => {
 
       <div className="dashboard-grid">
         <main className="main-content">
+          {/* リスクアラートバナーの設置 */}
+          <RiskAlertBanner risks={newsRisks} />
+
           {!selectedGenreId ? (
             <section id="products-section">
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px', flexWrap: 'wrap', gap: '15px' }}>
-                <h2 className="section-title" style={{ margin: 0 }}>生活必需品一覧</h2>
+                <h2 className="section-title" style={{ margin: 0 }}>生活必需品インテリジェンス</h2>
                 <div style={{ position: 'relative', flex: '1', maxWidth: '400px' }}>
                   <input 
                     type="text" 
-                    placeholder="商品名や種類を検索 (例: あきたこまち, 5kg)..." 
+                    placeholder="商品名や種類を検索..." 
                     onChange={(e) => setSearchQuery(e.target.value)}
-                    style={{ 
-                      width: '100%', 
-                      padding: '12px 16px 12px 40px', 
-                      borderRadius: '12px', 
-                      border: '1px solid #e2e8f0',
-                      background: '#fff',
-                      fontSize: '14px',
-                      boxShadow: '0 2px 4px rgba(0,0,0,0.02)'
-                    }}
+                    style={{ width: '100%', padding: '12px 16px 12px 40px', borderRadius: '12px', border: '1px solid #e2e8f0', background: '#fff', fontSize: '14px' }}
                   />
                   <span style={{ position: 'absolute', left: '12px', top: '50%', transform: 'translateY(-50%)', opacity: 0.4 }}>🔍</span>
                 </div>
               </div>
+
+              <h3 style={{ fontSize: '14px', color: '#64748b', marginBottom: '15px', display: 'flex', alignItems: 'center', gap: '8px' }}>
+                📦 【ストック品】 ネットまとめ買い推奨
+              </h3>
+              <div className="heatmap-grid" style={{ marginBottom: '40px' }}>
+                {stockGenres.map((genre) => (
+                  <GenreCard key={genre.id} genre={genre} daysLeft={getDaysLeft(genre.id)} onClick={setSelectedGenreId} heroImage={getHeroImage(genre.id)} />
+                ))}
+              </div>
+
+              <h3 style={{ fontSize: '14px', color: '#64748b', marginBottom: '15px', display: 'flex', alignItems: 'center', gap: '8px' }}>
+                🥚 【デイリー品】 スーパー底値比較・鮮度重視
+              </h3>
               <div className="heatmap-grid">
-                {filteredGenres.map((genre) => {
-                  let heroImage = undefined;
-                  // (Image mapping logic...)
-                  if (genre.id === 'rice') heroImage = '/assets/rice_user.jpg';
-                  if (genre.id === 'tp') heroImage = '/assets/tp_premium_icon.png';
-                  if (genre.id === 'tissue') heroImage = '/assets/tissue_user_v2.png';
-                  if (genre.id === 'detergent') heroImage = '/assets/detergent_user.png';
-                  if (genre.id === 'water') heroImage = '/assets/water_user.png';
-                  if (genre.id === 'egg') heroImage = '/assets/eggs_user.jpg';
-                  if (genre.id === 'milk') heroImage = '/assets/milk_user.png';
-                  if (genre.id === 'bread') heroImage = '/assets/bread_user.png';
-                  if (genre.id === 'oil') heroImage = '/assets/oil_user.png';
-                  
-                  return (
-                    <GenreCard 
-                      key={genre.id} 
-                      genre={genre} 
-                      daysLeft={getDaysLeft(genre.id)} 
-                      onClick={setSelectedGenreId}
-                      heroImage={heroImage}
-                    />
-                  );
-                })}
+                {dailyGenres.map((genre) => (
+                  <GenreCard key={genre.id} genre={genre} daysLeft={getDaysLeft(genre.id)} onClick={setSelectedGenreId} heroImage={getHeroImage(genre.id)} />
+                ))}
               </div>
             </section>
           ) : (
             <section>
-              <h2 className="section-title">
-                {selectedGenre?.name} <span style={{ fontSize: '14px', color: '#666', fontWeight: 'normal' }}>の商品一覧</span>
-              </h2>
-              <div className="heatmap-grid">
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px', flexWrap: 'wrap', gap: '10px' }}>
+                <h2 className="section-title" style={{ margin: 0 }}>
+                  {selectedGenre?.name} <span style={{ fontSize: '14px', color: '#666', fontWeight: 'normal' }}>の市場データ</span>
+                </h2>
+                <button 
+                  onClick={() => selectedGenreId && refreshData(selectedGenreId)}
+                  disabled={loading || tokensLeft <= 0}
+                  style={{
+                    padding: '10px 20px',
+                    background: tokensLeft > 0 ? 'linear-gradient(135deg, #0f172a 0%, #334155 100%)' : '#cbd5e1',
+                    color: 'white',
+                    border: 'none',
+                    borderRadius: '12px',
+                    fontSize: '14px',
+                    fontWeight: '900',
+                    cursor: loading || tokensLeft <= 0 ? 'not-allowed' : 'pointer',
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '8px',
+                    boxShadow: '0 4px 12px rgba(15, 23, 42, 0.15)',
+                    transition: 'all 0.3s'
+                  }}
+                >
+                  {loading ? '🔄 同期中...' : '✨ インテリジェンス同期'}
+                </button>
+              </div>
+
+              <div className="heatmap-grid" style={{ marginBottom: '30px' }}>
                 {selectedGenre?.subtypes.map((subtype) => (
-                  <SubtypeCard key={subtype.id} subtype={subtype} />
+                  <SubtypeCard 
+                    key={subtype.id} 
+                    subtype={subtype} 
+                    group={selectedGenre.group} 
+                    unitType={selectedGenre.unitType} 
+                  />
                 ))}
               </div>
 
-              {/* 価格インテリジェンス・推移チャートの追加 */}
               <PriceTrendChart 
                 genreName={selectedGenre?.name || ''} 
-                data={[2800, 2750, 2900, 2850, 2600, 2550, 2480, 2400, 2350, 2420, 2380]} 
+                data={selectedGenre?.historyData || []} 
               />
             </section>
           )}
 
           {!selectedGenreId && (
-            <div id="trend-section">
-              <UniversalTrendChart 
-                genres={genres} 
-                activeGenreId={selectedGenreId} 
-              />
+            <div id="trend-section" style={{ marginTop: '40px' }}>
+              <UniversalTrendChart genres={genres} activeGenreId={selectedGenreId} />
             </div>
           )}
         </main>
@@ -141,7 +219,7 @@ export const Dashboard: React.FC = () => {
         <aside className="sidebar">
           <div id="ai-section"><AIAdvisor /></div>
           <div id="inventory-section"><InventoryControl /></div>
-          <Sidebar />
+          <Sidebar genres={genres} />
         </aside>
       </div>
 
@@ -160,11 +238,15 @@ export const Dashboard: React.FC = () => {
           0% { transform: translateX(-100%); }
           100% { transform: translateX(400%); }
         }
+        @keyframes pulse-subtle {
+          0%, 100% { opacity: 1; }
+          50% { opacity: 0.85; }
+        }
+        .animate-pulse-subtle {
+          animation: pulse-subtle 4s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+        }
         @media (max-width: 768px) {
           .mobile-hide { display: none; }
-        }
-        .product-row:hover {
-          background: #f0f7ff !important;
         }
       `}</style>
     </div>

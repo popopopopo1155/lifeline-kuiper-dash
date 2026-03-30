@@ -3,24 +3,44 @@ export interface PricePoint {
   price: number;
 }
 
-export type Product = {
+export interface Product {
   id: string;
   name: string;
-  category: 'rice' | 'paper' | 'detergent' | 'food';
+  price: number;
+  shipping: number;
+  points: number;
+  volume: number;
   unit: string;
-  baseUnit: string; // e.g., "1kg", "1 roll", "100ml"
-  currentPrice: number;
-  lastPrice: number;
-  historicalLowest: number;
-  history: PricePoint[];
-  forecast: 'up' | 'down' | 'stable';
-  forecastRate?: number;
-  image?: string;
-  quantity: number; // For unit calculations
-  historicalAverageUnitPrice: number;
-  storePrices: {
-    amazon?: number;
-    rakuten?: number;
-    supermarket?: number;
-  };
+  baseUnit: string;
+  store: 'amazon' | 'rakuten' | 'supermarket';
+  popularity: number;
+  asin?: string;
+  rakutenCode?: string;
+  affiliateUrl?: string;
+  source?: string;
+  isVerified?: boolean;
+  lastVerified?: string;
+  forecastData: number[]; // Future 7 days price points
+}
+
+export interface Subtype {
+  id: string;
+  name: string;
+  products: Product[];
+  regionalAverage: number;
+  representativeAsin?: string;
+  volatility?: number;
+  scarcity?: number;
+  lastUpdated?: number;
+}
+
+export type GenreGroup = 'stock' | 'daily';
+
+export interface Genre {
+  id: string;
+  name: string;
+  group: GenreGroup;
+  unitType: string;
+  subtypes: Subtype[];
+  historyData: number[];
 }

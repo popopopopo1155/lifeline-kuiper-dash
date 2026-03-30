@@ -1,205 +1,237 @@
-import { useState, useEffect } from 'react';
-import { mockGenres, type Genre, type Subtype } from '../data/mockData';
-import { fetchRegionalAveragePrice, ESTAT_ITEM_MAP } from '../api/estat';
+import { useState, useEffect, useCallback } from 'react';
+import { mockGenres } from '../data/mockData';
+import type { Genre, Subtype, Product } from '../types';
+import { getNormalizedVolume } from '../api/dataUtils';
 
 /**
- * 構成案に基づく高度なデータ取得フック
- * 各サブタイプ（5kg、10kg等）ごとに個別の検索を行い、
- * 「最安3件 + 人気7件」のロジックを支える豊富な元データを収集します。
+ * 構成案に基づく高度なデータ取得フック (Day 2 精緻化)
+ * 1. 1時間限定のKeepaトークンを使い切る「攻め」の同期
+ * 2. ニュースに基づいた予測加味ロジックの統合
  */
-export const usePriceData = (selectedGenreId: string | null) => {
+export const usePriceData = () => {
   const [data, setData] = useState(mockGenres);
   const [loading, setLoading] = useState(false);
+  const [tokensLeft, setTokensLeft] = useState<number>(60);
+  const [newsRisks, setNewsRisks] = useState<any>(null);
+  const [manualItems, setManualItems] = useState<Product[]>([]);
+  const [isPaused, setIsPaused] = useState(false);
+  const [lastTargetId, setLastTargetId] = useState<string | null>(null);
 
-  const SERVER_URL = ''; // Relative path for production deployment
+  // トークンの表示用クランプ（マイナスを見せない）
+  const displayTokens = Math.max(0, tokensLeft);
 
-  // 1. Initial Mount: Fetch all e-Stat regional averages
-  useEffect(() => {
-    const fetchAllAverages = async () => {
-      const genreIds = Object.keys(ESTAT_ITEM_MAP);
-      try {
-        const averages = await Promise.all(
-          genreIds.map(async (id) => ({
-            id,
-            avg: await fetchRegionalAveragePrice(id)
-          }))
-        );
+  const SERVER_URL = ''; 
 
+  // 1. ニュースリスクの取得
+  const fetchNewsRisks = useCallback(async () => {
+    try {
+      const res = await fetch(`${SERVER_URL}/api/news/risks`);
+      if (res.ok) {
+        const risks = await res.json();
+        setNewsRisks(risks);
+        
+        // ニュースリスクに基づいて現在のデータを更新
         setData((prev: Genre[]) => prev.map((genre: Genre) => {
-          const match = averages.find(a => a.id === genre.id);
-          if (match && match.avg) {
-            // Update all subtypes in this genre with the real statistical average
-            return {
-              ...genre,
-              subtypes: genre.subtypes.map((s: Subtype) => ({ ...s, regionalAverage: match.avg as number }))
-            };
-          }
-          return genre;
-        }));
-        console.log('Successfully updated all genres with real-time e-Stat averages.');
-      } catch (err) {
-        console.warn('e-Stat batch fetch failed. Falling back to mock averages.', err);
-      }
-    };
+          const catId = genre.id; 
+          // マッピング用の簡易変換
+          const mapId = catId === 'rice' ? 'rice' : 
+                        catId === 'water' ? 'water' :
+                        catId === 'tp' ? 'tp' :
+                        catId === 'detergent' ? 'detergent' :
+                        catId === 'oil' ? 'oil' : 
+                        catId === 'tissue' ? 'tissue' :
+                        catId === 'egg' ? 'egg' :
+                        catId === 'milk' ? 'milk' :
+                        catId === 'bread' ? 'bread' : '';
 
-    fetchAllAverages();
+          const modifier = risks.categoryModifiers[mapId];
+          const multiplier = modifier ? modifier.multiplier : 1.0;
+
+          return {
+            ...genre,
+            subtypes: genre.subtypes.map((s: Subtype) => ({
+              ...s,
+              products: s.products.map((p: Product) => ({
+                ...p,
+                // 予測データをニュース倍率で補正
+                forecastData: p.forecastData.map(val => Math.round(val * multiplier))
+              }))
+            }))
+          };
+        }));
+      }
+    } catch (err) {
+      console.warn('News risks fetch failed.', err);
+    }
   }, []);
 
-  // 2. Secondary Sync: Fetch Rakuten live data AND Keepa history for selected genre
+  // 3. マニュアルデータの取得
+  const fetchManualItems = useCallback(async () => {
+    try {
+      const res = await fetch(`${SERVER_URL}/api/manual/items`);
+      if (res.ok) {
+        const items = await res.json();
+        setManualItems(items);
+      }
+    } catch (err) {
+      console.warn('Manual items fetch failed.');
+    }
+  }, []);
+
+  // 4. Initial Mount: Batch fetch everything
   useEffect(() => {
-    const syncAllSubtypes = async () => {
-      if (!selectedGenreId) return;
+    const init = async () => {
+      await Promise.all([fetchNewsRisks(), fetchManualItems()]);
+    };
+    init();
+  }, [fetchNewsRisks, fetchManualItems]);
 
-      const genre = data.find(g => g.id === selectedGenreId);
-      if (!genre) return;
+  // 3. Intelligence Sync (Token Safe & Incremental)
+  const refreshData = async (targetGenreId: string) => {
+    if (tokensLeft <= 0) {
+      setIsPaused(true);
+      setLastTargetId(targetGenreId);
+      console.warn('Halted: 0 tokens left.');
+      return;
+    }
 
-      setLoading(true);
-      try {
-        const updatedSubtypes = await Promise.all(
-          genre.subtypes.map(async (subtype) => {
-            const query = `${genre.name} ${subtype.name}`;
-            
-            // Parallel fetch: Rakuten (Current) + Keepa (History/Stats)
-            const [rakutenRes, keepaData] = await Promise.all([
-              fetch(`${SERVER_URL}/api/rakuten?keyword=${encodeURIComponent(query)}`),
-              subtype.representativeAsin ? (async () => {
-                const res = await fetch(`${SERVER_URL}/api/keepa?asin=${subtype.representativeAsin}`);
-                if (res.ok) {
-                  const json = await res.json();
-                  return json.products?.[0];
-                }
-                return null;
-              })() : Promise.resolve(null)
-            ]);
+    setIsPaused(false);
+    const genreIndex = data.findIndex(g => g.id === targetGenreId);
+    if (genreIndex === -1) return;
+    const genre = data[genreIndex];
 
-            let products = subtype.products;
-            let volatility = 0.05; 
-            let scarcity = 0.3; 
-            let amazonTagFromRakuten = '';
+    setLoading(true);
+    try {
+      const updatedSubtypes: any[] = [];
+      
+      for (const subtype of genre.subtypes) {
+        // トークンチェック (逐次): 検索には大量に消費するため、最低40枚以上あれば開始可能
+        if (tokensLeft < 40) {
+          setIsPaused(true);
+          setLastTargetId(targetGenreId);
+          console.warn('📡 Token Safety Guard: Insufficient tokens for deep search (Balance:', tokensLeft, '). Waiting for 40+ or refill.');
+          break; 
+        }
 
-            if (rakutenRes.ok) {
-              const result = await rakutenRes.json();
-              amazonTagFromRakuten = result.amazonTag || '';
-              if (result.Items && result.Items.length > 0) {
-                const rakutenItems = result.Items.map((item: any) => item.Item);
-                
-                // Fallback Intelligence: Derive volatility from Rakuten price spread
-                const prices = rakutenItems.map((p: any) => p.itemPrice);
-                const maxP = Math.max(...prices);
-                const minP = Math.min(...prices);
-                const spread = (maxP - minP) / minP;
-                volatility = Math.min(0.2, Math.max(0.03, spread * 0.5)); // Use spread as volatility proxy
-                
-                // Fallback Scarcity: Derive from result count (Hits)
-                // If hits are low (e.g. < 10), scarcity is high
-                scarcity = Math.max(0.2, Math.min(0.8, 1 - (result.count / 100)));
+        if (genre.group === 'daily') {
+          updatedSubtypes.push({ ...subtype, products: [], scarcity: 0.1, volatility: 0.05 });
+          continue;
+        }
 
-                products = rakutenItems.map((p: any, index: number) => {
-                  return {
-                    id: `rakuten-${p.itemCode}-${index}`,
-                    name: p.itemName,
-                    price: p.itemPrice,
-                    shipping: p.postageFlag === 0 ? 0 : 500,
-                    points: Math.floor(p.itemPrice / 100),
-                    volume: subtype.name.includes('5kg') ? 5 : (subtype.name.includes('10kg') ? 10 : 1),
-                    store: 'rakuten' as const,
-                    unit: 'pkg',
-                    baseUnit: subtype.name.includes('kg') ? '1kg' : 'pkg',
-                    popularity: 1000 - index,
-                    affiliateUrl: p.affiliateUrl || p.itemUrl,
-                    source: 'Rakuten (Intelligence Active)',
-                    forecastData: Array(7).fill(0).map((_, i) => {
-                       // Generate a non-flat forecast based on derived volatility
-                       const direction = result.count < 30 ? 1 : (index % 2 === 0 ? 1 : -1);
-                       const trend = 1 + (volatility * scarcity * direction * (i + 1) * 0.4);
-                       return Math.round(p.itemPrice * trend);
-                    })
-                  };
-                });
-              }
-            }
+        let query = `${genre.name} ${subtype.name} 送料無料`;
+        
+        // お米 10kg の場合は、ユーザー指定の最強クエリに差し替え
+        if (genre.id === 'rice' && subtype.id === 'rice-10kg') {
+          query = '米 10kg -ふるさと納税 -定期便 -業務用';
+        }
+        
+        let mergedProducts: Product[] = [];
+        
+        const [rakutenRes, keepaRes] = await Promise.all([
+          fetch(`${SERVER_URL}/api/rakuten?keyword=${encodeURIComponent(query)}`),
+          fetch(`${SERVER_URL}/api/keepa?search=${encodeURIComponent(query)}`)
+        ]);
 
-            // High-Precision Keepa Data (if available) OR Smart Amazon Fallback
-            if (keepaData) {
-              const stats = keepaData.stats;
-              if (stats && stats.current && stats.avg90) {
-                volatility = Math.abs(stats.current[0] - stats.avg90[0]) / stats.avg90[0] || 0.05;
-                const rank = stats.current[3] || 50000;
-                scarcity = Math.max(0.1, Math.min(0.9, 1 - rank / 100000));
-              }
-
-              // Overwrite with High-Precision Forecast
-              products = products.map(p => ({
-                ...p,
-                forecastData: p.forecastData.map((price, i) => {
-                  const trend = 1 + (volatility * scarcity * (i + 1) * 0.5); 
-                  return Math.round(price * trend);
-                })
-              }));
-
-              if (keepaData.affiliateUrl) {
-                const amazonPick = {
-                  id: `amazon-intel-${keepaData.asin}`,
-                  name: `【AI推奨】Amazon売れ筋No.1同等品`,
-                  price: keepaData.stats?.current?.[0] || 0,
-                  shipping: 0,
-                  points: 0,
-                  volume: subtype.name.includes('5kg') ? 5 : 1,
-                  store: 'amazon' as const,
-                  unit: 'pkg',
-                  baseUnit: subtype.name.includes('kg') ? '1kg' : 'pkg',
-                  popularity: 9999,
-                  affiliateUrl: keepaData.affiliateUrl,
-                  source: 'Amazon (Keepa Intelligence)',
-                  forecastData: Array(7).fill(keepaData.stats?.current?.[0] || 0)
-                };
-                products = [amazonPick, ...products];
-              }
-            } else if (products.length > 0) {
-              // Smart Fallback: Generate an Amazon affiliate link for the top product name
-              const topP = products[0];
-              const baseUrl = `https://www.amazon.co.jp/s?k=${encodeURIComponent(topP.name)}`;
-              const finalUrl = amazonTagFromRakuten ? `${baseUrl}&tag=${amazonTagFromRakuten}` : baseUrl;
-              
-              const amazonSuggestion = {
-                id: `amazon-fallback-${topP.id}`,
-                name: `【参考】Amazonで同一品をチェック`,
-                price: topP.price, // Estimated
-                shipping: 0,
-                points: 0,
-                volume: topP.volume,
-                store: 'amazon' as const,
-                unit: topP.unit,
-                baseUnit: topP.baseUnit,
-                popularity: 950,
-                affiliateUrl: finalUrl,
-                source: 'Amazon Optimization (Fallback)',
-                forecastData: topP.forecastData
+        if (rakutenRes.ok) {
+          const result = await rakutenRes.json();
+          if (result.Items) {
+            const rakutenItems = result.Items.map((item: any, index: number) => {
+              const p = item.Item;
+              return {
+                id: `rakuten-${p.itemCode}`,
+                name: p.itemName,
+                price: p.itemPrice,
+                shipping: 0, 
+                points: Math.floor(p.itemPrice * (p.pointRate || 1) / 100),
+                volume: getNormalizedVolume(p.itemName, genre.unitType),
+                store: 'rakuten' as const,
+                unit: genre.unitType,
+                baseUnit: genre.unitType,
+                popularity: 1000 - index,
+                affiliateUrl: p.affiliateUrl,
+                source: 'Rakuten Live',
+                forecastData: Array(7).fill(p.itemPrice)
               };
-              products = [amazonSuggestion, ...products];
-            }
+            });
+            mergedProducts = [...mergedProducts, ...rakutenItems];
+          }
+        }
 
-            return { ...subtype, products, volatility, scarcity };
-          })
+        // --- マニュアル検証データの合成 ---
+        const relevantManual = manualItems.filter(mi => 
+          (mi.id.includes(subtype.id)) || (mi.name.includes(subtype.name))
         );
 
-        setData((prev: Genre[]) => prev.map((g: Genre) => {
-          if (g.id === selectedGenreId) {
-            return { ...g, subtypes: updatedSubtypes };
+        // マニュアルデータを最優先でマージ（IDが一致すれば上書き、なければ先頭に追加）
+        relevantManual.forEach(mi => {
+          const idx = mergedProducts.findIndex(p => p.id === mi.id || p.affiliateUrl === mi.affiliateUrl);
+          if (idx !== -1) {
+            mergedProducts[idx] = { ...mergedProducts[idx], ...mi, isVerified: true };
+          } else {
+            mergedProducts.unshift({ ...mi, isVerified: true });
           }
-          return g;
-        }));
+        });
+
+        if (keepaRes.ok) {
+          const kData = await keepaRes.json();
+          if (kData.tokensLeft !== undefined) setTokensLeft(kData.tokensLeft);
+          if (kData.products) {
+            const amazonItems = kData.products
+              .filter((p: any) => p.currentPrice > 0) // 有効な価格があるものに限定
+              .map((kp: any) => ({
+                id: `amazon-${kp.asin}`,
+                name: kp.title,
+                price: kp.currentPrice,
+                shipping: 0,
+                points: 0,
+                volume: getNormalizedVolume(kp.title, genre.unitType),
+                store: 'amazon' as const,
+                unit: genre.unitType,
+                baseUnit: genre.unitType,
+                popularity: 5000 - (kp.stats?.salesRank || 100000) / 100,
+                affiliateUrl: kp.affiliateUrl,
+                source: 'Amazon Pro',
+                forecastData: Array(7).fill(kp.currentPrice)
+              }));
+            mergedProducts = [...mergedProducts, ...amazonItems];
+          }
+        }
+
+        // 3件最安 + 7件人気のロジック
+        mergedProducts.sort((a, b) => {
+          const aU = (a.price + a.shipping - a.points) / Math.max(0.1, a.volume);
+          const bU = (b.price + b.shipping - b.points) / Math.max(0.1, b.volume);
+          return aU - bU;
+        });
+        const cheapest = mergedProducts.slice(0, 3);
+        const productsExcludingCheapest = mergedProducts.slice(3);
+        const others = productsExcludingCheapest.sort((a, b) => b.popularity - a.popularity).slice(0, 7);
         
-        console.log(`Successfully synced ${genre.name} with Rakuten & Keepa intelligence.`);
-      } catch (err) {
-        console.warn('Backend connection failed. Displaying intelligent mock data.', err);
-      } finally {
-        setLoading(false);
+        updatedSubtypes.push({ 
+          ...subtype, 
+          products: [...cheapest, ...others], 
+          lastUpdated: Date.now() 
+        });
       }
-    };
 
-    syncAllSubtypes();
-  }, [selectedGenreId]);
+      setData((prev: Genre[]) => prev.map((g: Genre) => {
+        if (g.id === targetGenreId) {
+          // IDベースのマッピングで、一部の更新漏れがあっても他を更新するように修正
+          const newSubtypes = g.subtypes.map(oldS => {
+            const upS = updatedSubtypes.find(u => u.id === oldS.id);
+            return upS ? upS : oldS;
+          });
+          return { ...g, subtypes: newSubtypes };
+        }
+        return g;
+      }));
 
-  return { data, loading };
+    } catch (err) {
+      console.error('Refresh Error:', err);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  return { data, loading, tokensLeft: displayTokens, newsRisks, isPaused, lastTargetId, refreshData };
 };

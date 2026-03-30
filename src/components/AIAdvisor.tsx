@@ -1,15 +1,16 @@
 import React, { useState, useEffect } from 'react';
 import { useInventory, ALL_INVENTORY_ITEMS } from '../hooks/useInventory';
+import { Newspaper, ChevronRight } from 'lucide-react';
 
 export const AIAdvisor: React.FC = () => {
   const { householdSize, getDaysLeft, getCurrentAmount, inventory } = useInventory();
   const [advice, setAdvice] = useState<string>('');
+  const [riskData, setRiskData] = useState<any>(null);
   const [loading, setLoading] = useState(false);
 
   const fetchAdvice = async () => {
     setLoading(true);
     try {
-      // 在庫サマリーの作成
       const itemsSummary = ALL_INVENTORY_ITEMS.map(item => ({
         name: item.name,
         daysLeft: getDaysLeft(item.id),
@@ -22,9 +23,10 @@ export const AIAdvisor: React.FC = () => {
         body: JSON.stringify({ householdSize, items: itemsSummary })
       });
       const data = await response.json();
-      setAdvice(data.advice || 'まずは下の「在庫シミュレーター」でご家族の人数や備蓄量を選択してください。あなたに最適化されたアドバイスを生成します。');
+      setAdvice(data.advice || '在庫データから最適なアドバイスを生成します。');
+      setRiskData(data.risks);
     } catch (err) {
-      setAdvice('AIアドバイザーへの接続に失敗しました。Keyの設定を確認してください。');
+      setAdvice('AIアドバイザーへの接続に失敗しました。');
     } finally {
       setLoading(false);
     }
@@ -32,7 +34,7 @@ export const AIAdvisor: React.FC = () => {
 
   useEffect(() => {
     fetchAdvice();
-  }, [householdSize, inventory]); // 人数や在庫が変わったら常に再計算
+  }, [householdSize, inventory]);
 
   return (
     <div className="sidebar-box" style={{ 
@@ -48,7 +50,6 @@ export const AIAdvisor: React.FC = () => {
       position: 'relative',
       overflow: 'hidden'
     }}>
-      {/* Status Indicator */}
       <div style={{ position: 'absolute', top: '10px', right: '10px', display: 'flex', gap: '4px' }}>
         <div style={{ width: '6px', height: '6px', background: loading ? '#3b82f6' : '#10b981', borderRadius: '50%', animation: loading ? 'pulse 1.5s infinite' : 'none' }}></div>
       </div>
@@ -60,16 +61,7 @@ export const AIAdvisor: React.FC = () => {
         <button 
           onClick={fetchAdvice} 
           disabled={loading}
-          style={{ 
-            background: 'transparent', 
-            border: 'none', 
-            fontSize: '11px', 
-            padding: '4px', 
-            cursor: 'pointer',
-            color: '#2563eb',
-            fontWeight: '900',
-            textDecoration: 'underline'
-          }}
+          style={{ background: 'transparent', border: 'none', fontSize: '11px', padding: '4px', cursor: 'pointer', color: '#2563eb', fontWeight: '900', textDecoration: 'underline' }}
         >
           {loading ? '分析中...' : '再読み込み'}
         </button>
@@ -93,8 +85,29 @@ export const AIAdvisor: React.FC = () => {
             <div className="skeleton" style={{ height: '14px', width: '70%', background: '#3b82f6', opacity: 0.1, borderRadius: '4px' }}></div>
           </div>
         ) : (
-          <div style={{ whiteSpace: 'pre-wrap', fontWeight: '800', letterSpacing: '0.02em', color: '#1e293b' }}>
-            {advice}
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+            <div style={{ whiteSpace: 'pre-wrap', fontWeight: '800', letterSpacing: '0.02em', color: '#1e293b' }}>
+              {advice}
+            </div>
+            
+            {riskData && riskData.activeRisks && riskData.activeRisks.length > 0 && (
+              <div style={{ marginTop: '8px', paddingTop: '12px', borderTop: '1px solid #e2e8f0' }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '6px', fontSize: '10px', fontBold: '900', color: '#2563eb', marginBottom: '8px', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
+                  <Newspaper style={{ width: '12px', height: '12px' }} />
+                  検出された物価変動要因
+                </div>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
+                  {riskData.activeRisks.slice(0, 2).map((risk: any, i: number) => (
+                    <div key={i} style={{ display: 'flex', alignItems: 'start', gap: '4px', fontSize: '11px', lineHeight: '1.4', color: '#475569', fontWeight: 'bold' }}>
+                      <ChevronRight style={{ width: '12px', height: '12px', marginTop: '2px', flexShrink: 0, color: '#3b82f6' }} />
+                      <a href={risk.link} target="_blank" rel="noopener noreferrer" style={{ color: 'inherit', textDecoration: 'none', borderBottom: '1px solid transparent' }} onMouseOver={(e) => e.currentTarget.style.color = '#1d4ed8'} onMouseOut={(e) => e.currentTarget.style.color = '#475569'}>
+                        {risk.title.length > 35 ? risk.title.substring(0, 35) + '...' : risk.title}
+                      </a>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
           </div>
         )}
       </div>

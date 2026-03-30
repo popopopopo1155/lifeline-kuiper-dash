@@ -83,10 +83,10 @@ app.get('/api/rakuten', async (req, res) => {
 });
 
 /**
- * Keepa API Proxy
+ * Keepa API Proxy (Upgraded with Search & Token Awareness)
  */
 app.get('/api/keepa', async (req, res) => {
-  const { asin } = req.query;
+  const { asin, search } = req.query;
   const key = process.env.KEEPA_API_KEY;
   const amazonTag = process.env.AMAZON_AFFILIATE_TAG;
 
@@ -95,28 +95,39 @@ app.get('/api/keepa', async (req, res) => {
   }
 
   try {
-    const response = await axios.get(`https://api.keepa.com/product`, {
-      params: {
-        key: key,
-        domain: 1, 
-        asin: asin,
-        stats: 1
-      }
-    });
+    let url = 'https://api.keepa.com/product';
+    let params = { key, domain: 1, stats: 1 };
 
-    if (response.data.products && response.data.products.length > 0) {
-      response.data.products = response.data.products.map(p => {
-        // Build a robust product URL
+    if (search) {
+      // Perform a keyword search to find the best current deals
+      url = 'https://api.keepa.com/search';
+      params.type = 'product';
+      params.term = search;
+    } else {
+      params.asin = asin;
+    }
+
+    const response = await axios.get(url, { params });
+    const data = response.data;
+
+    // Standardize the response and inject affiliate tracking
+    if (data.products && data.products.length > 0) {
+      data.products = data.products.map(p => {
         const encodedAsin = encodeURIComponent(p.asin);
-        const url = `https://www.amazon.co.jp/dp/${encodedAsin}`;
+        const baseUrl = `https://www.amazon.co.jp/dp/${encodedAsin}`;
         return {
           ...p,
-          affiliateUrl: amazonTag ? `${url}/?tag=${amazonTag}` : url
+          affiliateUrl: amazonTag ? `${baseUrl}/?tag=${amazonTag}` : baseUrl
         };
       });
     }
 
-    res.json(response.data);
+    // Pass through token metadata for client-side greedy management
+    res.json({
+      ...data,
+      tokensLeft: data.tokensLeft,
+      refillRate: data.refillRate
+    });
   } catch (error) {
     console.error('Keepa API proxy error:', error.response?.data || error.message);
     res.status(500).json({ error: 'Failed to fetch from Keepa API' });

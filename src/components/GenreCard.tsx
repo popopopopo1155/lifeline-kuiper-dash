@@ -14,9 +14,14 @@ export const GenreCard: React.FC<GenreCardProps> = ({ genre, daysLeft, onClick, 
   const [isHovered, setIsHovered] = useState(false);
   const allPrices: number[] = [];
   let minUnitPrice = Infinity;
-  let unitLabel = '';
+  let unitLabel = genre.unitType; // Fallback to genre's unitType
   let forecastData: number[] = [];
   let regionalAverage = 0;
+
+  // 最初に見つかったsubtypeのregionalAverageをデフォルトとして持っておく
+  if (genre.subtypes.length > 0) {
+    regionalAverage = genre.subtypes[0].regionalAverage;
+  }
 
   genre.subtypes.forEach(subtype => {
     subtype.products.forEach(product => {
@@ -24,7 +29,7 @@ export const GenreCard: React.FC<GenreCardProps> = ({ genre, daysLeft, onClick, 
       allPrices.push(up);
       if (up < minUnitPrice) {
         minUnitPrice = up;
-        unitLabel = product.baseUnit;
+        unitLabel = product.baseUnit as typeof genre.unitType;
         forecastData = product.forecastData;
         regionalAverage = subtype.regionalAverage;
       }
@@ -112,13 +117,17 @@ export const GenreCard: React.FC<GenreCardProps> = ({ genre, daysLeft, onClick, 
             {getStatusLabel(status)}
           </div>
         </div>
-        <div style={{ fontSize: '10px', color: '#64748b', fontWeight: '900', textTransform: 'uppercase', marginBottom: '2px' }}>
-          最安単価
-        </div>
         <div style={{ color: '#0f172a', fontSize: 'clamp(24px, 8vw, 42px)', fontWeight: '900', lineHeight: 1, letterSpacing: '-0.02em' }}>
           <span style={{ fontSize: 'clamp(12px, 4vw, 20px)', opacity: 0.4, marginRight: '2px' }}>¥</span>
-          {minUnitPrice === Infinity ? '---' : minUnitPrice}
+          {minUnitPrice === Infinity ? (
+             <span style={{ opacity: 0.7 }}>{regionalAverage || '---'}</span>
+          ) : (
+             minUnitPrice
+          )}
           <span style={{ fontSize: 'clamp(10px, 3vw, 16px)', opacity: 0.4 }}>/{unitLabel}</span>
+          {minUnitPrice === Infinity && (
+            <div style={{ fontSize: '10px', color: '#94a3b8', marginTop: '4px' }}>統計目安</div>
+          )}
         </div>
       </div>
 

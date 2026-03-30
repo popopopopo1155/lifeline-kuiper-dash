@@ -1,25 +1,58 @@
 /**
- * Keepa CSV形式のデータを価格配列に変換するユーティリティ
+ * 商品名から容量（g, ml, kg, L）や入数（本, ヶ, 枚）を抽出するユーティリティ
  */
-export const parseKeepaCsv = (csv: number[] | undefined, typeIndex: number = 0) => {
-  if (!csv) return [];
-  
-  // KeepaのCSVは [時間, 価格, 時間, 価格, ...] という形式
-  const prices: number[] = [];
-  for (let i = 1; i < csv.length; i += 2) {
-    if (csv[i] < 0) continue; // -1などは「在庫なし」
-    prices.push(csv[i] / 100); // セント・円単位を整数化
+
+export const extractVolume = (name: string): { value: number; unit: string } | null => {
+  // 1. kg / L の抽出 (1.5kg, 2L等)
+  const kgMatch = name.match(/(\d+\.?\d*)\s*(kg|L|k|ℓ)/i);
+  if (kgMatch) {
+    return { value: parseFloat(kgMatch[1]), unit: kgMatch[2].toLowerCase() };
   }
 
-  // 最新の7つ（または必要数）を抽出してスパークラインに使用
-  return prices.slice(-7);
+  // 2. g / ml の抽出 (500ml, 380g等)
+  const gMatch = name.match(/(\d+)\s*(g|ml|mℓ)/i);
+  if (gMatch) {
+    return { value: parseInt(gMatch[1], 10), unit: gMatch[2].toLowerCase() };
+  }
+
+  return null;
 };
 
-export const calculateTrend = (prices: number[]) => {
-  if (prices.length < 2) return 'stable';
-  const first = prices[0];
-  const last = prices[prices.length - 1];
-  if (last > first * 1.02) return 'rising';
-  if (last < first * 0.98) return 'falling';
-  return 'stable';
+export const extractQuantity = (name: string): number => {
+  // 入数 (24本, 6個, 5枚等)
+  const qMatch = name.match(/(\d+)\s*(本|ヶ|個|枚|袋|ロール|R|箱|P|パック)/i);
+  if (qMatch) {
+    return parseInt(qMatch[1], 10);
+  }
+  return 1;
+};
+
+/**
+ * ジャンルに応じた「標準単位」に変換したボリュームを算出して返す
+ * 例: 米(1kg単位), 水(1本単位), 洗剤(100g単位)
+ */
+export const getNormalizedVolume = (name: string, unitType: string): number => {
+  const vol = extractVolume(name);
+  const qty = extractQuantity(name);
+
+  let totalValue = (vol ? vol.value : 1) * qty;
+  const unit = vol ? vol.unit : '';
+
+  switch (unitType) {
+    case '1kg':
+      if (unit === 'g') return totalValue / 1000;
+      return totalValue; // すでにkg前提
+    case '100g':
+    case '100ml':
+      if (unit === 'kg' || unit === 'l') return totalValue * 10; // 1kg -> 100g x 10
+      return totalValue / 100; // 500g -> 5.0 (units of 100g)
+    case '1bottle':
+    case '1roll':
+    case '1pack':
+    case '1bag':
+    case '100sheets':
+      return qty; // 個数ベース
+    default:
+      return totalValue;
+  }
 };

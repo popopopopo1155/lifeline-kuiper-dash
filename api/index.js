@@ -19,66 +19,64 @@ app.use(express.json());
  */
 app.get('/api/rakuten', async (req, res) => {
   const { keyword } = req.query;
-  const appId = process.env.RAKUTEN_APP_ID?.trim();
-  const accessKey = process.env.RAKUTEN_ACCESS_KEY?.trim();
-  const affiliateId = process.env.RAKUTEN_AFFILIATE_ID?.trim();
+  const appId = process.env.RAKUTEN_APP_ID;
+  const accessKey = process.env.RAKUTEN_ACCESS_KEY;
+  const affiliateId = process.env.RAKUTEN_AFFILIATE_ID;
 
-  if (!appId || !accessKey) {
-    return res.status(500).json({ error: 'Rakuten API credentials missing (AppId or AccessKey)' });
+  if (!appId) {
+    return res.status(500).json({ error: 'Rakuten API credentials missing' });
   }
 
   try {
-    const params = new URLSearchParams({
-      applicationId: appId,
-      accessKey: accessKey, // 2026 standard
-      keyword: keyword,
-      format: 'json',
-      hits: 30,
-      imageFlag: 1,
-      availability: 1,
-      sort: '-itemPrice'
-    });
-
-    if (affiliateId) {
-      params.append('affiliateId', affiliateId);
-    }
-
-    const response = await axios.get('https://openapi.rakuten.co.jp/ichibams/api/IchibaItem/Search/20220601', {
-      params: params,
+    // 楽天 API v3 (20220601版) を使用し、pk_... 形式のアクセキーを正常に処理
+    const url = 'https://openapi.rakuten.co.jp/ichibams/api/IchibaItem/Search/20220601';
+    const params = { 
+      applicationId: appId, 
+      accessKey: accessKey, 
+      affiliateId: affiliateId, 
+      keyword: keyword, 
+      format: 'json', 
+      hits: 30 
+    };
+    
+    const response = await axios.get(url, { 
+      params, 
       headers: {
-        'Referer': 'https://hitsujuhin.com',
-        'Origin': 'https://hitsujuhin.com'
+        'Referer': 'https://www.hitsujuhin.com/',
+        'Origin': 'https://www.hitsujuhin.com/',
+        'User-Agent': 'Mozilla/5.0'
       }
     });
 
-    const rawItems = response.data.Items || [];
-    const formattedItems = rawItems.map(itemContainer => {
-      const p = itemContainer.Item;
-      let finalAffiliateUrl = p.affiliateUrl;
+    // v3 API のレスポンス構造に柔軟に対応
+    let items = response.data.items || response.data.Items || [];
 
-      // APIがaffiliateUrlを返さない、または生URLのままの場合、手動でパッケージング
-      if (affiliateId && (!finalAffiliateUrl || finalAffiliateUrl === p.itemUrl)) {
-        const encodedItemUrl = encodeURIComponent(p.itemUrl);
-        finalAffiliateUrl = `https://hb.afl.rakuten.co.jp/hgc/${affiliateId}/?pc=${encodedItemUrl}`;
-      }
+    // お米（5kg/10kg）向けの強力な足切りフィルタ
+    if (keyword && keyword.includes('米')) {
+      items = items.filter(i => {
+        const itemObj = i.item || i.Item || i;
+        const rawPrice = itemObj.itemPrice || itemObj.price;
+        const price = Number(rawPrice);
+        if (isNaN(price)) return false;
 
-      return {
-        ...itemContainer,
-        Item: {
-          ...p,
-          affiliateUrl: finalAffiliateUrl
+        if (keyword.includes('10kg')) {
+          return price >= 5400; 
         }
-      };
-    });
+        if (keyword.includes('5kg')) {
+          return price >= 2940; 
+        }
+        return true;
+      });
+    }
 
     res.json({
       ...response.data,
-      Items: formattedItems,
+      Items: items,
       amazonTag: process.env.AMAZON_AFFILIATE_TAG || ''
     });
   } catch (error) {
-    console.error('Rakuten API proxy error:', error.response?.data || error.message);
-    res.status(500).json({ error: 'Failed to fetch from Rakuten API' });
+    console.error('Rakuten API error:', error.message);
+    res.status(500).json({ error: 'Rakuten API failed', details: error.message });
   }
 });
 

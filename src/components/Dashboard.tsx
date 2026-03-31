@@ -59,7 +59,7 @@ export const Dashboard: React.FC = () => {
 
   return (
     <div className="app-wrapper">
-      <Header />
+      <Header onBack={handleBack} showBack={!!selectedGenreId} />
       
       
       <QuickNav />

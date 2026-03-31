@@ -205,5 +205,133 @@ export const mockGenres: (Genre & { subtypes: (any & SubtypeMetadata)[] })[] = [
         ]
       }
     ]
+  },
+  {
+    id: 'water',
+    name: '水',
+    group: 'stock',
+    unitType: '1bottle',
+    historyData: [600, 595, 590, 588, 580, 570, 560, 550, 540, 550, 560, 570, 580, 588, 590],
+    subtypes: [
+      {
+        id: 'water-500ml',
+        name: '500ml',
+        regionalAverage: 80,
+        representativeAsin: 'B0BLXFYWHD',
+        searchOverride: '水 500ml 24本 送料無料 -ふるさと納税 -定期便',
+        requiredKeywords: ['500ml', '24'],
+        excludeKeywords: ['定期便', 'ふるさと納税'],
+        products: []
+      }
+    ]
+  },
+  {
+    id: 'tp',
+    name: 'トイレットペーパー',
+    group: 'stock',
+    unitType: '1roll',
+    historyData: [900, 880, 890, 898, 920, 950, 930, 920, 910, 898, 880, 898, 920, 940, 950],
+    subtypes: [
+      {
+        id: 'tp-12r',
+        name: '12ロール',
+        regionalAverage: 110,
+        representativeAsin: 'B0CX9913JP',
+        searchOverride: 'トイレットペーパー 12ロール 送料無料 -定期便 -ふるさと納税',
+        requiredKeywords: ['12', 'ロール'],
+        excludeKeywords: ['定期便', 'ふるさと納税'],
+        products: []
+      }
+    ]
+  },
+  {
+    id: 'egg',
+    name: '卵',
+    group: 'daily',
+    unitType: '1pack',
+    historyData: [220, 230, 240, 250, 258, 260, 270, 280, 290, 300, 310, 300, 290, 280, 270],
+    subtypes: [
+      {
+        id: 'egg-10p',
+        name: '10個パック',
+        regionalAverage: 240,
+        products: []
+      }
+    ]
+  },
+  {
+    id: 'milk',
+    name: '牛乳',
+    group: 'daily',
+    unitType: '1bottle',
+    historyData: [240, 245, 250, 258, 260, 265, 270, 275, 280, 285, 290, 280, 270, 260, 258],
+    subtypes: [
+      {
+        id: 'milk-1l',
+        name: '1Lパック',
+        regionalAverage: 210,
+        products: []
+      }
+    ]
+  },
+  {
+    id: 'bread',
+    name: '食パン',
+    group: 'daily',
+    unitType: '1bag',
+    historyData: [160, 165, 170, 178, 180, 185, 190, 195, 190, 185, 180, 178, 175, 170, 168],
+    subtypes: [
+      {
+        id: 'bread-6',
+        name: '6枚切',
+        regionalAverage: 160,
+        products: []
+      }
+    ]
+  },
+  {
+    id: 'tissue',
+    name: 'ティッシュ',
+    group: 'daily',
+    unitType: '1box',
+    historyData: [350, 345, 340, 338, 330, 320, 310, 305, 300, 310, 320, 330, 338, 345, 350],
+    subtypes: [
+      {
+        id: 'tissue-5p',
+        name: '5個パック',
+        regionalAverage: 350,
+        products: []
+      }
+    ]
+  },
+  {
+    id: 'detergent',
+    name: '洗濯洗剤',
+    group: 'daily',
+    unitType: '1kg',
+    historyData: [450, 445, 440, 438, 430, 420, 410, 405, 400, 410, 420, 430, 438, 445, 450],
+    subtypes: [
+      {
+        id: 'detergent-refill',
+        name: '詰め替え用',
+        regionalAverage: 450,
+        products: []
+      }
+    ]
+  },
+  {
+    id: 'oil',
+    name: '食用油',
+    group: 'daily',
+    unitType: '1bottle',
+    historyData: [380, 375, 370, 368, 360, 350, 340, 335, 330, 340, 350, 360, 368, 375, 380],
+    subtypes: [
+      {
+        id: 'oil-1l',
+        name: '1Lボトル',
+        regionalAverage: 380,
+        products: []
+      }
+    ]
   }
 ];

@@ -2,7 +2,12 @@ import React, { useState } from 'react';
 import { LayoutDashboard, TrendingUp, Compass, Settings } from 'lucide-react';
 import { useAdmin } from '../contexts/AdminContext';
 
-const Header = () => {
+interface HeaderProps {
+  onBack?: () => void;
+  showBack?: boolean;
+}
+
+const Header: React.FC<HeaderProps> = ({ onBack, showBack }) => {
   const { isAdmin, toggleAdmin } = useAdmin();
   const [clickCount, setClickCount] = useState(0);
 
@@ -59,10 +64,15 @@ const Header = () => {
         </div>
 
         <div className="flex items-center gap-6">
-          <div className="hidden sm:flex items-center gap-6">
-            <a href="#" className="text-sm font-bold text-gray-900 border-b-2 border-black pb-1 transition-all duration-300">Overview</a>
-            <a href="#" className="text-sm font-medium text-gray-400 hover:text-gray-900 transition-colors">Analytics</a>
-            <a href="#" className="text-sm font-medium text-gray-400 hover:text-gray-900 transition-colors">Reports</a>
+          <div className="flex items-center gap-3 pr-6">
+            {showBack && onBack && (
+              <button 
+                onClick={onBack}
+                className="px-4 py-1.5 bg-slate-900 text-white rounded-lg text-xs font-black flex items-center gap-2 hover:bg-slate-800 transition-all active:scale-95 shadow-sm"
+              >
+                ➔ 戻る
+              </button>
+            )}
           </div>
           
           <div className="flex items-center gap-3 border-l border-gray-100 pl-6 h-8">

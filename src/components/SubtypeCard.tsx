@@ -365,6 +365,36 @@ export const SubtypeCard: React.FC<SubtypeCardProps> = ({ subtype, group, unitTy
                   />
                 </div>
               </div>
+              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' }}>
+                <div>
+                  <label style={{ fontSize: '12px', fontWeight: 'bold', color: '#64748b' }}>送料 (¥)</label>
+                  <input 
+                    type="number" 
+                    value={editingProduct.shipping}
+                    onChange={(e) => setEditingProduct({ ...editingProduct, shipping: Number(e.target.value) })}
+                    style={{ width: '100%', padding: '10px', border: '1px solid #e2e8f0', borderRadius: '8px', marginTop: '4px' }}
+                  />
+                </div>
+                <div>
+                  <label style={{ fontSize: '12px', fontWeight: 'bold', color: '#64748b' }}>付与ポイント (P)</label>
+                  <input 
+                    type="number" 
+                    value={editingProduct.points}
+                    onChange={(e) => setEditingProduct({ ...editingProduct, points: Number(e.target.value) })}
+                    style={{ width: '100%', padding: '10px', border: '1px solid #e2e8f0', borderRadius: '8px', marginTop: '4px' }}
+                  />
+                </div>
+              </div>
+              <div>
+                <label style={{ fontSize: '12px', fontWeight: 'bold', color: '#e11d48' }}>🚩 商品URL / アフィリエイトリンク</label>
+                <input 
+                  type="text" 
+                  value={editingProduct.affiliateUrl || ''}
+                  placeholder="https://..."
+                  onChange={(e) => setEditingProduct({ ...editingProduct, affiliateUrl: e.target.value })}
+                  style={{ width: '100%', padding: '10px', border: '2px solid #fda4af', borderRadius: '8px', marginTop: '4px', fontSize: '12px' }}
+                />
+              </div>
             </div>
 
             <div style={{ display: 'flex', gap: '12px', marginTop: '24px' }}>

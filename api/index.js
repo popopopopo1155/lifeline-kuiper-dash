@@ -18,7 +18,7 @@ let lastUpdate = 0;
 const CACHE_STALE = 1000 * 60 * 30; // 30 mins
 
 /**
- * ニュース解析ロジック (On-demand with cache)
+ * ニュース解析ロジック (On-demand with cache & Deduplication)
  */
 async function getRisks() {
   const now = Date.now();
@@ -49,15 +49,29 @@ async function getRisks() {
     const result = await parseStringPromise(response.data);
     const items = result.rss.channel[0].item || [];
     const detectedRisks = [];
+    const seenTitles = new Set(); // 重複排除用
 
     items.forEach(item => {
       const title = item.title[0];
       const link = item.link[0];
+      
+      // 1. ポジティブニュースは除外
       if (NEWS_DICTIONARY.POSITIVE.keywords.some(k => title.includes(k))) return;
+
+      // 2. 重複チェック (すでに同じタイトルのニュースを拾っていたらスキップ)
+      // Google ニュースはタイトルの最後に " - Yahoo!ニュース" 等のソース名がつくため、前方一致で判定
+      const cleanTitle = title.split(' - ')[0];
+      if (seenTitles.has(cleanTitle)) return;
+
       Object.keys(NEWS_DICTIONARY.NEGATIVE).forEach(level => {
         const { keywords } = NEWS_DICTIONARY.NEGATIVE[level];
         keywords.forEach(kw => {
-          if (title.includes(kw)) detectedRisks.push({ title, link, level });
+          if (title.includes(kw)) {
+            if (!seenTitles.has(cleanTitle)) {
+              detectedRisks.push({ title, link, level });
+              seenTitles.add(cleanTitle);
+            }
+          }
         });
       });
     });
@@ -107,26 +121,16 @@ app.get('/api/rakuten', async (req, res) => {
   const appId = process.env.RAKUTEN_APP_ID;
   const accessKey = process.env.RAKUTEN_ACCESS_KEY;
   const affiliateId = process.env.RAKUTEN_AFFILIATE_ID;
-
   try {
     const url = 'https://openapi.rakuten.co.jp/ichibams/api/IchibaItem/Search/20220601';
     const params = { applicationId: appId, accessKey, affiliateId, keyword, format: 'json', hits: 100 };
-    const response = await axios.get(url, { 
-      params,
-      headers: { 'Referer': 'https://www.hitsujuhin.com/', 'Origin': 'https://www.hitsujuhin.com/' }
-    });
-
-    // v3 のレスポンスから商品配列を取得 (items または Items)
+    const response = await axios.get(url, { params, headers: { 'Referer': 'https://www.hitsujuhin.com/', 'Origin': 'https://www.hitsujuhin.com/' } });
     let rawItems = response.data.items || response.data.Items || [];
-    
-    // 構造を { Item: ... } に正規化 (フロントエンドの互換性のため)
     let items = rawItems.map(i => {
       if (i.item) return { Item: i.item };
       if (i.Item) return i;
       return { Item: i };
     });
-
-    // お米フィルタ (¥2,940/¥5,400)
     if (keyword && keyword.includes('米')) {
       items = items.filter(i => {
         const price = Number(i.Item.itemPrice || i.Item.price);
@@ -135,11 +139,8 @@ app.get('/api/rakuten', async (req, res) => {
         return true;
       });
     }
-
     res.json({ Items: items });
-  } catch (error) {
-    res.status(500).json({ error: 'Rakuten API failed' });
-  }
+  } catch (error) { res.status(500).json({ error: 'Rakuten API failed' }); }
 });
 
 app.get('/api/keepa', async (req, res) => {
@@ -163,9 +164,7 @@ app.post('/api/ai/advice', async (req, res) => {
     const prompt = `世帯人数: ${householdSize}人。在庫: ${JSON.stringify(items)}。節約と備蓄のアドバイスを最短2つ（各18文字以内）。`;
     const result = await model.generateContent(prompt);
     res.json({ advice: (await result.response).text() });
-  } catch (error) {
-    res.status(500).json({ error: 'AI Advice failed' });
-  }
+  } catch (error) { res.status(500).json({ error: 'AI Advice failed' }); }
 });
 
 app.get('/api/manual/items', (req, res) => res.json([]));

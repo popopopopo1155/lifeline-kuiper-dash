@@ -59,7 +59,7 @@ const Header: React.FC<HeaderProps> = ({ onBack, showBack }) => {
                 </span>
               )}
             </h1>
-            <p className="text-[10px] text-gray-500 font-bold uppercase tracking-[0.2em]">Final Master Stability v6.34 (Pure CSS Optimized)</p>
+            <p className="text-[10px] text-gray-500 font-bold uppercase tracking-[0.2em]">「買い時」がわかる。暮らしが変わる。</p>
           </div>
         </div>
 

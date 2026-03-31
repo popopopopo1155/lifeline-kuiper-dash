@@ -320,5 +320,50 @@ export const mockGenres: (Genre & { subtypes: (any & SubtypeMetadata)[] })[] = [
         products: []
       }
     ]
+  },
+  {
+    id: 'tissue',
+    name: 'ティッシュ',
+    group: 'daily',
+    unitType: '1box',
+    historyData: [350, 345, 340, 338, 330, 320, 310, 305, 300, 310, 320, 330, 338, 345, 350],
+    subtypes: [
+      {
+        id: 'tissue-5p',
+        name: '5個パック',
+        regionalAverage: 350,
+        products: []
+      }
+    ]
+  },
+  {
+    id: 'detergent',
+    name: '洗濯洗剤',
+    group: 'daily',
+    unitType: '1kg',
+    historyData: [450, 445, 440, 438, 430, 420, 410, 405, 400, 410, 420, 430, 438, 445, 450],
+    subtypes: [
+      {
+        id: 'detergent-refill',
+        name: '詰め替え用',
+        regionalAverage: 450,
+        products: []
+      }
+    ]
+  },
+  {
+    id: 'oil',
+    name: '食用油',
+    group: 'daily',
+    unitType: '1bottle',
+    historyData: [380, 375, 370, 368, 360, 350, 340, 335, 330, 340, 350, 360, 368, 375, 380],
+    subtypes: [
+      {
+        id: 'oil-1l',
+        name: '1Lボトル',
+        regionalAverage: 380,
+        products: []
+      }
+    ]
   }
 ];

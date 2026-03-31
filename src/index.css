@@ -1,3 +1,7 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
 /* 
    生活必需品.com - 最終決定版デザイン（憲法準拠・レスポンシブ対応）
    AI独自の装飾、シャドウ、グローを徹底排除

@@ -61,26 +61,6 @@ export const Dashboard: React.FC = () => {
     <div className="app-wrapper">
       <Header />
       
-      {/* サブアクションバー：戻るボタンと地域選択 */}
-      <div className="bg-white border-b border-gray-100 px-8 py-2 flex justify-between items-center">
-        <div className="flex items-center gap-4">
-          {selectedGenreId && (
-            <button 
-              onClick={handleBack}
-              className="px-4 py-1.5 bg-slate-900 text-white rounded-lg text-xs font-black flex items-center gap-2 hover:bg-slate-800 transition-colors shadow-sm"
-            >
-              ➔ 戻る
-            </button>
-          )}
-        </div>
-        <div className="flex items-center gap-3">
-          <span className="text-[10px] font-black text-gray-400 uppercase tracking-widest mobile-hide">Region:</span>
-          <select className="region-selector text-xs font-bold border-none bg-gray-50 rounded-lg px-3 py-1.5 text-gray-600 focus:ring-0">
-            <option>東京都 世田谷区</option>
-            <option>大阪府 大阪市</option>
-          </select>
-        </div>
-      </div>
       
       <QuickNav />
 
@@ -90,8 +70,8 @@ export const Dashboard: React.FC = () => {
         </div>
       )}
 
-      <div className="dashboard-grid">
-        <main className="main-content">
+      <div className="dashboard-grid" style={{ display: 'flex', gap: '24px', alignItems: 'flex-start', marginTop: '20px' }}>
+        <main className="main-content" style={{ flex: 1, minWidth: 0 }}>
           {/* リスクアラートバナーの設置 */}
           <RiskAlertBanner newsRisks={newsRisks} numericalRisks={numericalRisks} />
 
@@ -113,7 +93,7 @@ export const Dashboard: React.FC = () => {
               <h3 style={{ fontSize: '14px', color: '#64748b', marginBottom: '15px', display: 'flex', alignItems: 'center', gap: '8px' }}>
                 📦 【ストック品】 ネットまとめ買い推奨
               </h3>
-              <div className="heatmap-grid" style={{ marginBottom: '40px' }}>
+              <div className="heatmap-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '16px', marginBottom: '40px' }}>
                 {stockGenres.map((genre) => (
                   <GenreCard key={genre.id} genre={genre} daysLeft={getDaysLeft(genre.id)} onClick={setSelectedGenreId} heroImage={getHeroImage(genre.id)} />
                 ))}
@@ -122,7 +102,7 @@ export const Dashboard: React.FC = () => {
               <h3 style={{ fontSize: '14px', color: '#64748b', marginBottom: '15px', display: 'flex', alignItems: 'center', gap: '8px' }}>
                 🥚 【デイリー品】 スーパー底値比較・鮮度重視
               </h3>
-              <div className="heatmap-grid">
+              <div className="heatmap-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '16px' }}>
                 {dailyGenres.map((genre) => (
                   <GenreCard key={genre.id} genre={genre} daysLeft={getDaysLeft(genre.id)} onClick={setSelectedGenreId} heroImage={getHeroImage(genre.id)} />
                 ))}
@@ -182,7 +162,7 @@ export const Dashboard: React.FC = () => {
           )}
         </main>
 
-        <aside className="sidebar">
+        <aside className="sidebar" style={{ width: '320px', flexShrink: 0, display: 'flex', flexDirection: 'column', gap: '24px' }}>
           <div id="ai-section"><AIAdvisor /></div>
           <div id="inventory-section"><InventoryControl /></div>
           <Sidebar genres={genres} />

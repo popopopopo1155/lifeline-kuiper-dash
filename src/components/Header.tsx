@@ -16,15 +16,15 @@ const Header = () => {
       setClickCount(0);
     }
 
-    // 1秒経ったらリセット
+    // 3秒経ったらリセット（余裕を持たせる）
     setTimeout(() => {
       setClickCount(0);
-    }, 1000);
+    }, 3000);
   };
 
   return (
-    <header className="sticky top-0 z-30 bg-white/80 backdrop-blur-md border-b border-gray-100 px-8 py-4">
-      <div className="flex justify-between items-center max-w-7xl mx-auto">
+    <header className="site-header site-header-legacy px-8 py-4">
+      <div className="flex justify-between items-center max-w-[1200px] mx-auto w-full">
         <div 
           className="flex items-center gap-3 cursor-pointer select-none active:scale-95 transition-transform"
           onClick={handleLogoClick}
@@ -54,7 +54,7 @@ const Header = () => {
                 </span>
               )}
             </h1>
-            <p className="text-[10px] text-gray-500 font-bold uppercase tracking-[0.2em]">Master Stability v5.0 (Golden Master)</p>
+            <p className="text-[10px] text-gray-500 font-bold uppercase tracking-[0.2em]">Final Master Stability v6.34 (Pure CSS Optimized)</p>
           </div>
         </div>
 

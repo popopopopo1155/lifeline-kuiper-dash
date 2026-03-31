@@ -18,7 +18,7 @@ let lastUpdate = 0;
 const CACHE_STALE = 1000 * 60 * 30; // 30 mins
 
 /**
- * ニュース解析ロジック (On-demand with cache & Deduplication)
+ * ニュース解析ロジック (On-demand with cache, Deduplication & Recency Check)
  */
 async function getRisks() {
   const now = Date.now();
@@ -49,17 +49,21 @@ async function getRisks() {
     const result = await parseStringPromise(response.data);
     const items = result.rss.channel[0].item || [];
     const detectedRisks = [];
-    const seenTitles = new Set(); // 重複排除用
+    const seenTitles = new Set();
+    const TWO_WEEKS_MS = 1000 * 60 * 60 * 24 * 14; // 14日間
 
     items.forEach(item => {
       const title = item.title[0];
       const link = item.link[0];
-      
-      // 1. ポジティブニュースは除外
+      const pubDate = new Date(item.pubDate[0]).getTime();
+
+      // 1. 鮮度チェック (14日以上前のニュースは除外)
+      if (now - pubDate > TWO_WEEKS_MS) return;
+
+      // 2. ポジティブニュースは除外
       if (NEWS_DICTIONARY.POSITIVE.keywords.some(k => title.includes(k))) return;
 
-      // 2. 重複チェック (すでに同じタイトルのニュースを拾っていたらスキップ)
-      // Google ニュースはタイトルの最後に " - Yahoo!ニュース" 等のソース名がつくため、前方一致で判定
+      // 3. 重複排除
       const cleanTitle = title.split(' - ')[0];
       if (seenTitles.has(cleanTitle)) return;
 

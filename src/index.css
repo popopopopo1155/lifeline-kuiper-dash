@@ -190,3 +190,79 @@ input[type=range].premium-slider::-webkit-slider-thumb {
   box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1) !important;
   transform: translateY(-1px) !important;
 }
+
+/* 価格トレンド解析センター (Grand Finale Rebirth) */
+.universal-chart-outer {
+  margin-top: 60px !important;
+  margin-bottom: 40px !important;
+}
+
+.chart-header {
+  margin-bottom: 24px;
+}
+
+.chart-title {
+  font-size: 1.5rem !important;
+  font-weight: 900 !important;
+  color: #0f172a !important;
+  margin-bottom: 4px !important;
+  letter-spacing: -0.025em !important;
+}
+
+.chart-subtitle {
+  font-size: 0.875rem !important;
+  color: #64748b !important;
+  font-weight: 600 !important;
+}
+
+.chart-tabs {
+  display: flex !important;
+  flex-wrap: wrap !important;
+  gap: 8px !important;
+  margin-bottom: 24px !important;
+  padding-bottom: 16px !important;
+  border-bottom: 1px solid #f1f5f9 !important;
+}
+
+.chart-tab {
+  padding: 6px 14px !important;
+  border-radius: 9999px !important;
+  font-size: 0.75rem !important;
+  font-weight: 800 !important;
+  background: #f1f5f9 !important;
+  color: #64748b !important;
+  border: 1px solid transparent !important;
+  transition: all 0.2s ease !important;
+  cursor: pointer !important;
+}
+
+.chart-tab:hover {
+  background: #e2e8f0 !important;
+  color: #0f172a !important;
+}
+
+.chart-tab.active {
+  background: #0f172a !important;
+  color: white !important;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1) !important;
+}
+
+.chart-main-layout {
+  display: grid !important;
+  grid-template-columns: 1.5fr 1fr !important;
+  gap: 24px !important;
+}
+
+.chart-insight-box {
+  background: #f8fafc !important;
+  padding: 20px !important;
+  border-radius: 16px !important;
+  border: 1px solid #f1f5f9 !important;
+  height: fit-content !important;
+}
+
+@media (max-width: 900px) {
+  .chart-main-layout {
+    grid-template-columns: 1fr !important;
+  }
+}

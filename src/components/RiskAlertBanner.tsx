@@ -20,71 +20,82 @@ const RiskAlertBanner: React.FC<RiskAlertBannerProps> = ({ newsRisks, numericalR
   const highestLevel = combinedRisks.some(r => r.level === 'CRITICAL') ? 'CRITICAL' :
                        combinedRisks.some(r => r.level === 'HIGH') ? 'HIGH' : 'MODERATE';
 
-  const bgColor = highestLevel === 'CRITICAL' ? 'bg-red-500/20 border-red-500/50' :
-                  highestLevel === 'HIGH' ? 'bg-orange-500/20 border-orange-500/50' :
-                  'bg-blue-500/20 border-blue-500/50';
+  // 背景色をより「まとまり」のある、視認性の高いものに変更
+  const boxStyles = highestLevel === 'CRITICAL' 
+    ? { backgroundColor: 'rgba(239, 68, 68, 0.08)', borderColor: 'rgba(239, 68, 68, 0.3)' }
+    : highestLevel === 'HIGH'
+    ? { backgroundColor: 'rgba(245, 158, 11, 0.08)', borderColor: 'rgba(245, 158, 11, 0.3)' }
+    : { backgroundColor: 'rgba(59, 130, 246, 0.08)', borderColor: 'rgba(59, 130, 246, 0.3)' };
 
-  const textColor = highestLevel === 'CRITICAL' ? 'text-red-200' :
-                    highestLevel === 'HIGH' ? 'text-orange-200' :
-                    'text-blue-200';
+  const textColor = highestLevel === 'CRITICAL' ? 'text-red-700' :
+                    highestLevel === 'HIGH' ? 'text-orange-700' :
+                    'text-blue-700';
 
   const Icon = highestLevel === 'CRITICAL' ? ShieldAlert :
                highestLevel === 'HIGH' ? AlertTriangle : Info;
 
   return (
-    <div className={`mb-6 p-4 rounded-xl border ${bgColor} backdrop-blur-md animate-pulse-subtle`}>
-      {/* Header Row: Forced Horizontal */}
+    <div 
+      className="mb-8 p-5 rounded-2xl border backdrop-blur-sm"
+      style={{ ...boxStyles, boxShadow: '0 4px 15px rgba(0,0,0,0.02)' }}
+    >
+      {/* 1. ヘッダー：アイコンとタイトルを一列に固定 */}
       <div 
-        style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '16px' }}
+        style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '18px' }}
       >
         <Icon 
           style={{ flexShrink: 0 }}
-          className={`w-7 h-7 ${highestLevel === 'CRITICAL' ? 'text-red-400' : 'text-orange-400'}`} 
+          className={`w-6 h-6 ${highestLevel === 'CRITICAL' ? 'text-red-500' : 'text-orange-500'}`} 
         />
         <h3 
-          className={`text-lg font-bold ${textColor}`}
-          style={{ margin: 0, padding: 0, lineHeight: '1.2' }}
+          className={`text-lg font-black ${textColor}`}
+          style={{ margin: 0, padding: 0, lineHeight: '1' }}
         >
           {highestLevel === 'CRITICAL' ? '物価急騰リスク検知' : 
            highestLevel === 'HIGH' ? '物価上昇の可能性' : '市場動向の変化'}
         </h3>
       </div>
 
-      {/* Details Area: Strictly Horizontal Rows */}
-      <div className="pl-10 space-y-2">
+      {/* 2. ニュース・データエリア：各行を確実に横一列に固定 */}
+      <div className="space-y-3" style={{ paddingLeft: '4px' }}>
         {combinedRisks.slice(0, 6).map((risk: any, i: number) => (
-          <div key={i} className="flex items-center gap-3 text-sm">
+          <div 
+            key={i} 
+            style={{ display: 'flex', alignItems: 'center', gap: '12px' }}
+          >
+            {/* 絵文字アイコン */}
             {risk.type === 'data' ? (
-              <TrendingUp className="w-5 h-5 text-red-400 flex-shrink-0" />
+              <TrendingUp style={{ flexShrink: 0 }} className="w-5 h-5 text-red-500" />
             ) : (
-              <Newspaper className="w-5 h-5 text-gray-400 flex-shrink-0" />
+              <Newspaper style={{ flexShrink: 0 }} className="w-5 h-5 text-gray-500" />
             )}
             
-            <div className="flex items-center gap-2 overflow-hidden">
+            {/* テキストとリンク (絶対に折返さない) */}
+            <div style={{ display: 'flex', alignItems: 'center', gap: '8px', overflow: 'hidden' }}>
               {risk.type === 'news' ? (
                 <a 
                   href={risk.link} 
                   target="_blank" 
                   rel="noopener noreferrer" 
-                  className="text-gray-300 hover:text-white transition-colors underline decoration-gray-600 underline-offset-4 whitespace-nowrap overflow-hidden text-ellipsis"
+                  className="text-gray-700 hover:text-black transition-colors underline decoration-gray-300 underline-offset-4 whitespace-nowrap overflow-hidden text-ellipsis font-medium"
                 >
                   {risk.title}
                 </a>
               ) : (
-                <span className="text-white font-bold whitespace-nowrap overflow-hidden text-ellipsis">
+                <span className="text-gray-900 font-bold whitespace-nowrap overflow-hidden text-ellipsis">
                   {risk.title}
                 </span>
               )}
 
-              {/* 数値で裏取りされたニュースには小さなバッジを表示 */}
+              {/* Verified Badge */}
               {risk.type === 'news' && hasNumerical && numericalRisks.some(n => risk.title.includes(n.title.split(':')[1]?.trim().split('(')[0] || '')) && (
-                <CheckCircle2 className="w-4 h-4 text-green-400 flex-shrink-0" title="データ裏取り済" />
+                <CheckCircle2 style={{ flexShrink: 0 }} className="w-4 h-4 text-green-500" />
               )}
             </div>
           </div>
         ))}
 
-        <p className="mt-4 text-[11px] text-gray-500 italic font-bold">
+        <p className="mt-5 text-[11px] text-gray-400 font-bold border-t border-gray-100 pt-4">
           ※ インテリジェンス層：報道と実勢価格の乖離を 14日間 監視し、不確かな情報は自動排除されます
         </p>
       </div>

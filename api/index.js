@@ -151,13 +151,23 @@ app.get('/api/keepa', async (req, res) => {
   const { asin } = req.query;
   const key = process.env.KEEPA_API_KEY;
   const tag = process.env.AMAZON_AFFILIATE_TAG;
+  const baseUrl = `https://www.amazon.co.jp/gp/product/${asin}`;
+  const affiliateUrl = tag ? `${baseUrl}/?tag=${tag}` : baseUrl;
+
+  if (!key) {
+    return res.json({ products: [], error: 'KEEPA_API_KEY missing in server env', affiliateUrl });
+  }
+
   try {
-    const response = await axios.get('https://api.keepa.com/product', { params: { key, domain: 5, asin, stats: 1 } });
-    const baseUrl = `https://www.amazon.co.jp/gp/product/${asin}`;
-    res.json({ ...response.data, affiliateUrl: tag ? `${baseUrl}/?tag=${tag}` : baseUrl });
+    const response = await axios.get('https://api.keepa.com/product', { 
+      params: { key, domain: 5, asin, stats: 1 },
+      timeout: 15000 
+    });
+    res.json({ ...response.data, affiliateUrl });
   } catch (error) {
-    const baseUrl = `https://www.amazon.co.jp/gp/product/${asin}`;
-    res.json({ products: [], error: 'Keepa limit reached', affiliateUrl: tag ? `${baseUrl}/?tag=${tag}` : baseUrl });
+    const message = error.response ? `Keepa API Error: ${error.response.status} ${JSON.stringify(error.response.data)}` : error.message;
+    console.error('Keepa Proxy Error:', message);
+    res.json({ products: [], error: message, affiliateUrl });
   }
 });
 

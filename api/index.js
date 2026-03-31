@@ -12,36 +12,44 @@ app.use(helmet({ contentSecurityPolicy: false }));
 app.use(cors());
 app.use(express.json());
 
-const NEWS_DICTIONARY = {
-  POSITIVE: { keywords: ['低下', '安定', '増産', '豊作', '解消'] },
-  NEGATIVE: {
-    CRITICAL: { keywords: ['急騰', '枯渇', '不足', '高騰', '停止'], weight: 1.5 },
-    HIGH: { keywords: ['上昇', '値上げ', '懸念', '品薄'], weight: 1.25 }
+// --- CACHE ---
+let cachedRisks = null;
+let lastUpdate = 0;
+const CACHE_STALE = 1000 * 60 * 30; // 30 mins
+
+/**
+ * ニュース解析ロジック (On-demand with cache)
+ */
+async function getRisks() {
+  const now = Date.now();
+  if (cachedRisks && (now - lastUpdate < CACHE_STALE)) {
+    return cachedRisks;
   }
-};
 
-const CATEGORY_NEWS_MAP = {
-  rice: { keywords: ['米', 'コメ', '稲'], sensitivity: 1.0 },
-  water: { keywords: ['水', '飲料', '断水'], sensitivity: 0.8 },
-  tp: { keywords: ['紙', 'パルプ', 'ティッシュ', 'トイレット'], sensitivity: 0.7 },
-  detergent: { keywords: ['洗剤', '化学', '石油'], sensitivity: 0.4 },
-  oil: { keywords: ['油', '食用油', '大豆'], sensitivity: 0.9 },
-  COMMON: { keywords: ['物流', '運賃', '増税', '円安'] }
-};
+  const NEWS_DICTIONARY = {
+    POSITIVE: { keywords: ['低下', '安定', '増産', '豊作', '解消'] },
+    NEGATIVE: {
+      CRITICAL: { keywords: ['急騰', '枯渇', '不足', '高騰', '停止'], weight: 1.5 },
+      HIGH: { keywords: ['上昇', '値上げ', '懸念', '品薄'], weight: 1.25 }
+    }
+  };
 
-let cachedRisks = {
-  lastUpdated: new Date().toISOString(),
-  activeRisks: [],
-  categoryModifiers: {}
-};
+  const CATEGORY_NEWS_MAP = {
+    rice: { keywords: ['米', 'コメ', '稲'], sensitivity: 1.0 },
+    water: { keywords: ['水', '飲料', '断水'], sensitivity: 0.8 },
+    tp: { keywords: ['紙', 'パルプ', 'ティッシュ', 'トイレット'], sensitivity: 0.7 },
+    detergent: { keywords: ['洗剤', '化学', '石油'], sensitivity: 0.4 },
+    oil: { keywords: ['油', '食用油', '大豆'], sensitivity: 0.9 },
+    COMMON: { keywords: ['物流', '運賃', '増税', '円安'] }
+  };
 
-async function updateNewsRisks() {
   try {
     const rssUrl = 'https://news.google.com/rss/search?q=%E7%89%A9%E4%BE%A1+%E5%80%A4%E4%B8%8A%E3%81%92+%E5%93%81%E8%96%84&hl=ja&gl=JP&ceid=JP:ja';
-    const response = await axios.get(rssUrl);
+    const response = await axios.get(rssUrl, { timeout: 10000 });
     const result = await parseStringPromise(response.data);
     const items = result.rss.channel[0].item || [];
     const detectedRisks = [];
+
     items.forEach(item => {
       const title = item.title[0];
       const link = item.link[0];
@@ -53,6 +61,7 @@ async function updateNewsRisks() {
         });
       });
     });
+
     const modifiers = {};
     Object.keys(CATEGORY_NEWS_MAP).forEach(catId => {
       if (catId === 'COMMON') return;
@@ -69,41 +78,68 @@ async function updateNewsRisks() {
       modifiers[catId] = {
         multiplier: maxWeight,
         riskLevel: maxWeight > 1.3 ? 'CRITICAL' : (maxWeight > 1.1 ? 'HIGH' : 'NORMAL'),
-        relevantNews: relatedNews.slice(0, 2)
+        relevantNews: relatedNews.slice(0, 3)
       };
     });
-    cachedRisks = { lastUpdated: new Date().toISOString(), activeRisks: detectedRisks.slice(0, 5), categoryModifiers: modifiers };
+
+    cachedRisks = {
+      lastUpdated: new Date().toISOString(),
+      activeRisks: detectedRisks.slice(0, 5),
+      categoryModifiers: modifiers
+    };
+    lastUpdate = now;
+    return cachedRisks;
   } catch (error) {
-    console.error('News analysis failed:', error.message);
+    console.error('Scraping or parsing failed:', error.message);
+    return cachedRisks || { lastUpdated: new Date().toISOString(), activeRisks: [], categoryModifiers: {} };
   }
 }
 
-updateNewsRisks();
+// --- ROUTES ---
 
-app.get('/api/news/risks', async (req, res) => res.json(cachedRisks));
+app.get('/api/news/risks', async (req, res) => {
+  const risks = await getRisks();
+  res.json(risks);
+});
 
 app.get('/api/rakuten', async (req, res) => {
   const { keyword } = req.query;
   const appId = process.env.RAKUTEN_APP_ID;
   const accessKey = process.env.RAKUTEN_ACCESS_KEY;
   const affiliateId = process.env.RAKUTEN_AFFILIATE_ID;
+
   try {
     const url = 'https://openapi.rakuten.co.jp/ichibams/api/IchibaItem/Search/20220601';
-    // ヒット数を最大化 (100件) してお米の足切り後でも十分な件数を確保
     const params = { applicationId: appId, accessKey, affiliateId, keyword, format: 'json', hits: 100 };
-    const response = await axios.get(url, { params, headers: { 'Referer': 'https://www.hitsujuhin.com/', 'Origin': 'https://www.hitsujuhin.com/' } });
-    let items = response.data.items || response.data.Items || [];
+    const response = await axios.get(url, { 
+      params,
+      headers: { 'Referer': 'https://www.hitsujuhin.com/', 'Origin': 'https://www.hitsujuhin.com/' }
+    });
+
+    // v3 のレスポンスから商品配列を取得 (items または Items)
+    let rawItems = response.data.items || response.data.Items || [];
+    
+    // 構造を { Item: ... } に正規化 (フロントエンドの互換性のため)
+    let items = rawItems.map(i => {
+      if (i.item) return { Item: i.item };
+      if (i.Item) return i;
+      return { Item: i };
+    });
+
+    // お米フィルタ (¥2,940/¥5,400)
     if (keyword && keyword.includes('米')) {
       items = items.filter(i => {
-        const p = i.item || i.Item || i;
-        const price = Number(p.itemPrice || p.price);
+        const price = Number(i.Item.itemPrice || i.Item.price);
         if (keyword.includes('10kg')) return price >= 5400; 
         if (keyword.includes('5kg')) return price >= 2940; 
         return true;
       });
     }
-    res.json({ ...response.data, Items: items });
-  } catch (error) { res.status(500).json({ error: 'Rakuten API failed' }); }
+
+    res.json({ Items: items });
+  } catch (error) {
+    res.status(500).json({ error: 'Rakuten API failed' });
+  }
 });
 
 app.get('/api/keepa', async (req, res) => {
@@ -114,7 +150,7 @@ app.get('/api/keepa', async (req, res) => {
     const response = await axios.get('https://api.keepa.com/product', { params: { key, domain: 5, asin, stats: 1 } });
     const baseUrl = `https://www.amazon.co.jp/gp/product/${asin}`;
     res.json({ ...response.data, affiliateUrl: tag ? `${baseUrl}/?tag=${tag}` : baseUrl });
-  } catch (error) { 
+  } catch (error) {
     const baseUrl = `https://www.amazon.co.jp/gp/product/${asin}`;
     res.json({ products: [], error: 'Keepa limit reached', affiliateUrl: tag ? `${baseUrl}/?tag=${tag}` : baseUrl });
   }
@@ -124,9 +160,12 @@ app.post('/api/ai/advice', async (req, res) => {
   const { householdSize, items } = req.body;
   const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
   try {
-    const result = await model.generateContent(`世帯人数: ${householdSize}人。在庫: ${JSON.stringify(items)}。節約と備蓄のアドバイスを最短2つ。`);
+    const prompt = `世帯人数: ${householdSize}人。在庫: ${JSON.stringify(items)}。節約と備蓄のアドバイスを最短2つ（各18文字以内）。`;
+    const result = await model.generateContent(prompt);
     res.json({ advice: (await result.response).text() });
-  } catch (error) { res.status(500).json({ error: 'AI Advice failed' }); }
+  } catch (error) {
+    res.status(500).json({ error: 'AI Advice failed' });
+  }
 });
 
 app.get('/api/manual/items', (req, res) => res.json([]));

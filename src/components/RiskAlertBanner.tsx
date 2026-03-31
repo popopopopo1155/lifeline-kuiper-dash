@@ -24,25 +24,25 @@ const RiskAlertBanner: React.FC<RiskAlertBannerProps> = ({ risks }) => {
 
   return (
     <div className={`mb-6 p-4 rounded-xl border ${bgColor} backdrop-blur-md animate-pulse-subtle`}>
-      {/* Header Row: Icon + Title */}
-      <div className="flex flex-row flex-nowrap items-center gap-2 mb-3">
-        <Icon className={`w-6 h-6 flex-shrink-0 ${highestLevel === 'CRITICAL' ? 'text-red-400' : 'text-orange-400'}`} />
-        <h3 className={`font-bold ${textColor} whitespace-nowrap overflow-hidden text-ellipsis`}>
+      {/* Header Row: Icon + Title (Strict Horizontal Fix) */}
+      <div className="flex items-center gap-3 mb-4">
+        <Icon className={`w-7 h-7 flex-shrink-0 ${highestLevel === 'CRITICAL' ? 'text-red-400' : 'text-orange-400'}`} />
+        <h3 className={`text-lg font-bold ${textColor} leading-tight`}>
           {highestLevel === 'CRITICAL' ? '重大警告: 物価急騰リスク検知' : 
            highestLevel === 'HIGH' ? '警戒: 物価上昇の可能性' : '情報: 市場動向の変化'}
         </h3>
       </div>
 
       {/* Details Area */}
-      <div className="pl-8 space-y-2">
+      <div className="pl-10 space-y-3">
         {risks.activeRisks.map((risk: any, i: number) => (
-          <div key={i} className="flex items-center gap-2 text-sm text-gray-300">
-            <Newspaper className="w-4 h-4 text-gray-400" />
+          <div key={i} className="flex items-start gap-3 text-sm text-gray-300">
+            <Newspaper className="w-5 h-5 mt-0.5 text-gray-400 flex-shrink-0" />
             <a 
               href={risk.link} 
               target="_blank" 
               rel="noopener noreferrer" 
-              className="hover:text-white transition-colors underline decoration-gray-600 underline-offset-4"
+              className="hover:text-white transition-colors underline decoration-gray-600 underline-offset-4 leading-normal"
             >
               {risk.title}
             </a>

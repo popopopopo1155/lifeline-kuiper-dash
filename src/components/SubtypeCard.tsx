@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import type { Subtype, GenreGroup, Product } from '../types';
 import { analyzePriceTrend } from '../api/priceAnalysis';
+import { useAdmin } from '../contexts/AdminContext';
+import { ArrowUp, ArrowDown } from 'lucide-react';
 
 interface SubtypeCardProps {
   subtype: Subtype;
@@ -12,6 +14,7 @@ export const SubtypeCard: React.FC<SubtypeCardProps> = ({ subtype, group, unitTy
   const [isExpanded, setIsExpanded] = useState(false);
   const [editingProduct, setEditingProduct] = useState<Product | null>(null);
   const [isSaving, setIsSaving] = useState(false);
+  const { isAdmin, saveOverride, saveOrder } = useAdmin();
 
   const handleSaveVerified = async () => {
     if (!editingProduct) return;
@@ -33,23 +36,24 @@ export const SubtypeCard: React.FC<SubtypeCardProps> = ({ subtype, group, unitTy
     }
   };
 
-  // --- 単一ソートロジック (全件を安い順、かつ検証済みを優先) ---
-  const displayProducts = [...subtype.products]
-    .sort((a, b) => {
-      // 1. まず検証済みを一番上に持ってくる
-      if (a.isVerified && !b.isVerified) return -1;
-      if (!a.isVerified && b.isVerified) return 1;
-      
-      // 2. 次に実質単価の安い順
-      const aUnitPrice = (a.price + a.shipping - a.points) / Math.max(0.1, a.volume);
-      const bUnitPrice = (b.price + b.shipping - b.points) / Math.max(0.1, b.volume);
-      return aUnitPrice - bUnitPrice;
-    })
-    .slice(0, 10);
+  const handleMove = (productId: string, direction: number) => {
+    const currentOrder = subtype.products.map(p => p.id);
+    const index = currentOrder.indexOf(productId);
+    if (index === -1) return;
 
+    const newIndex = index + direction;
+    if (newIndex < 0 || newIndex >= currentOrder.length) return;
+
+    const newOrder = [...currentOrder];
+    [newOrder[index], newOrder[newIndex]] = [newOrder[newIndex], newOrder[index]];
+    
+    saveOrder(subtype.id, newOrder);
+  };
+
+  // usePriceData側で既にソート済みだが、念のためここでも subtype.products をそのまま表示
+  const displayProducts = [...subtype.products].slice(0, 10);
   const bestProduct = displayProducts[0];
   
-  // 最安単価の算出
   const minPrice = bestProduct 
     ? Math.round((bestProduct.price + bestProduct.shipping - bestProduct.points) / Math.max(0.1, bestProduct.volume)) 
     : 0;
@@ -207,7 +211,7 @@ export const SubtypeCard: React.FC<SubtypeCardProps> = ({ subtype, group, unitTy
 
           {isExpanded && (
             <div style={{ marginTop: '16px', display: 'flex', flexDirection: 'column', gap: '8px' }}>
-              {displayProducts.map((p) => (
+              {displayProducts.map((p, idx) => (
                 <div 
                   key={p.id}
                   style={{ 
@@ -226,7 +230,7 @@ export const SubtypeCard: React.FC<SubtypeCardProps> = ({ subtype, group, unitTy
                   <div style={{ display: 'flex', flexDirection: 'column', gap: '4px', flex: 1 }}>
                     <div style={{ fontSize: '13px', fontWeight: 'bold', color: '#1e293b', display: 'flex', alignItems: 'center', gap: '6px', flexWrap: 'wrap' }}>
                       {p.name.length > 35 ? p.name.substring(0, 35) + '...' : p.name}
-                      {p.id === bestProduct?.id && !p.isVerified && (
+                      {idx === 0 && !p.isVerified && (
                         <span style={{ fontSize: '10px', background: '#fbbf24', color: '#78350f', padding: '1px 6px', borderRadius: '4px', fontWeight: '900' }}>⭐ 最安</span>
                       )}
                       {p.isVerified && (
@@ -243,7 +247,28 @@ export const SubtypeCard: React.FC<SubtypeCardProps> = ({ subtype, group, unitTy
                       </span>
                     </div>
                   </div>
-                  <div style={{ textAlign: 'right', display: 'flex', alignItems: 'center', gap: '12px' }}>
+                  <div style={{ textAlign: 'right', display: 'flex', alignItems: 'center', gap: '8px' }}>
+                    
+                    {/* Admin Move Controls */}
+                    {isAdmin && (
+                      <div style={{ display: 'flex', flexDirection: 'column', gap: '2px' }}>
+                        <button 
+                          onClick={() => handleMove(p.id, -1)}
+                          disabled={idx === 0}
+                          style={{ padding: '2px', opacity: idx === 0 ? 0.2 : 1, cursor: idx === 0 ? 'default' : 'pointer', background: '#f1f5f9', border: 'none', borderRadius: '4px' }}
+                        >
+                          <ArrowUp size={12} />
+                        </button>
+                        <button 
+                          onClick={() => handleMove(p.id, 1)}
+                          disabled={idx === displayProducts.length - 1}
+                          style={{ padding: '2px', opacity: idx === displayProducts.length - 1 ? 0.2 : 1, cursor: idx === displayProducts.length - 1 ? 'default' : 'pointer', background: '#f1f5f9', border: 'none', borderRadius: '4px' }}
+                        >
+                          <ArrowDown size={12} />
+                        </button>
+                      </div>
+                    )}
+
                     <div>
                       <div style={{ fontSize: '16px', fontWeight: '900', color: '#0f172a' }}>¥{p.price.toLocaleString()}</div>
                       <div 
@@ -316,11 +341,13 @@ export const SubtypeCard: React.FC<SubtypeCardProps> = ({ subtype, group, unitTy
                 キャンセル
               </button>
               <button 
-                onClick={handleSaveVerified}
-                disabled={isSaving}
+                onClick={() => {
+                   saveOverride(editingProduct.id, editingProduct);
+                   setEditingProduct(null);
+                }}
                 style={{ flex: 1, padding: '12px', background: '#0ea5e9', color: 'white', border: 'none', borderRadius: '12px', fontWeight: '900' }}
               >
-                {isSaving ? '保存中...' : '検証済みとして保存'}
+                保存
               </button>
             </div>
           </div>

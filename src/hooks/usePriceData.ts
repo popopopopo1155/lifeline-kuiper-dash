@@ -5,7 +5,7 @@ import { getNormalizedVolume } from '../api/dataUtils';
 import { useAdmin } from '../contexts/AdminContext';
 
 /**
- * 構成案に基づく高度なデータ取得フック (v4.7+ 管理者オーバーライド対応)
+ * 構成案に基づく高度なデータ取得フック (v5.0 手動ソート対応)
  */
 export const usePriceData = () => {
   const [data, setData] = useState(mockGenres);
@@ -16,27 +16,46 @@ export const usePriceData = () => {
   const [isPaused, setIsPaused] = useState(false);
   const [lastTargetId, setLastTargetId] = useState<string | null>(null);
 
-  const { overrides } = useAdmin();
+  const { overrides, customOrders } = useAdmin();
 
   const displayTokens = Math.max(0, tokensLeft);
   const SERVER_URL = ''; 
 
-  // 手動オーバーライドを適用したデータを返す
+  // 手動オーバーライドとカスタムソートを適用したデータを返す
   const getAppliedData = useCallback((baseData: Genre[]) => {
     return baseData.map(genre => ({
       ...genre,
-      subtypes: genre.subtypes.map(subtype => ({
-        ...subtype,
-        products: subtype.products.map(product => {
+      subtypes: genre.subtypes.map(subtype => {
+        // 1. 各プロダクトにステートレベルのオーバーライドを適用
+        let products = subtype.products.map(product => {
           const override = overrides[product.id];
           if (override) {
             return { ...product, ...override };
           }
           return product;
-        })
-      }))
+        });
+
+        // 2. カスタムオーダー（指定順序）があれば適用
+        const order = customOrders[subtype.id];
+        if (order && order.length > 0) {
+          products = [...products].sort((a, b) => {
+            const indexA = order.indexOf(a.id);
+            const indexB = order.indexOf(b.id);
+            
+            // 両方指定されている場合はその順番
+            if (indexA !== -1 && indexB !== -1) return indexA - indexB;
+            // 片方のみ指定されている場合は指定されている方を上にする
+            if (indexA !== -1) return -1;
+            if (indexB !== -1) return 1;
+            // どちらも指定されていない場合は元の順序（または単価順）
+            return 0;
+          });
+        }
+
+        return { ...subtype, products };
+      })
     }));
-  }, [overrides]);
+  }, [overrides, customOrders]);
 
   // dataステートをオーバーライド込みでラップ
   const augmentedData = getAppliedData(data);

@@ -14,7 +14,7 @@ import RiskAlertBanner from './RiskAlertBanner';
 export const Dashboard: React.FC = () => {
   const [selectedGenreId, setSelectedGenreId] = useState<string | null>(null);
   const [searchQuery, setSearchQuery] = useState('');
-  const { data: genres, loading, tokensLeft, newsRisks, isPaused, refreshData } = usePriceData();
+  const { data: genres, loading, tokensLeft, newsRisks, numericalRisks, isPaused, refreshData } = usePriceData();
   const { getDaysLeft } = useInventory();
 
   const filteredGenres = genres.filter(genre => {
@@ -127,7 +127,7 @@ export const Dashboard: React.FC = () => {
       <div className="dashboard-grid">
         <main className="main-content">
           {/* リスクアラートバナーの設置 */}
-          <RiskAlertBanner risks={newsRisks} />
+          <RiskAlertBanner newsRisks={newsRisks} numericalRisks={numericalRisks} />
 
           {!selectedGenreId ? (
             <section id="products-section">

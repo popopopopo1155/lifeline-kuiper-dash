@@ -1,15 +1,25 @@
 import React from 'react';
-import { AlertTriangle, Info, ShieldAlert, Newspaper } from 'lucide-react';
+import { AlertTriangle, Info, ShieldAlert, Newspaper, TrendingUp, CheckCircle2 } from 'lucide-react';
 
 interface RiskAlertBannerProps {
-  risks: any;
+  newsRisks: any;
+  numericalRisks: any[];
 }
 
-const RiskAlertBanner: React.FC<RiskAlertBannerProps> = ({ risks }) => {
-  if (!risks || !risks.activeRisks || risks.activeRisks.length === 0) return null;
+const RiskAlertBanner: React.FC<RiskAlertBannerProps> = ({ newsRisks, numericalRisks }) => {
+  const hasNews = newsRisks && newsRisks.activeRisks && newsRisks.activeRisks.length > 0;
+  const hasNumerical = numericalRisks && numericalRisks.length > 0;
 
-  const highestLevel = risks.activeRisks.some((r: any) => r.level === 'CRITICAL') ? 'CRITICAL' :
-                       risks.activeRisks.some((r: any) => r.level === 'HIGH') ? 'HIGH' : 'MODERATE';
+  if (!hasNews && !hasNumerical) return null;
+
+  // 全リスクの統合とレベル判定
+  const allNews = hasNews ? newsRisks.activeRisks.map((r: any) => ({ ...r, type: 'news' })) : [];
+  const allNumerical = numericalRisks.map(r => ({ ...r, type: 'data' }));
+  
+  const combinedRisks = [...allNumerical, ...allNews];
+  
+  const highestLevel = combinedRisks.some(r => r.level === 'CRITICAL') ? 'CRITICAL' :
+                       combinedRisks.some(r => r.level === 'HIGH') ? 'HIGH' : 'MODERATE';
 
   const bgColor = highestLevel === 'CRITICAL' ? 'bg-red-500/20 border-red-500/50' :
                   highestLevel === 'HIGH' ? 'bg-orange-500/20 border-orange-500/50' :
@@ -23,8 +33,8 @@ const RiskAlertBanner: React.FC<RiskAlertBannerProps> = ({ risks }) => {
                highestLevel === 'HIGH' ? AlertTriangle : Info;
 
   return (
-    <div className={`mb-6 p-4 rounded-xl border ${bgColor} backdrop-blur-md animate-pulse-subtle`}>
-      {/* Header Row: Forced Horizontal with Inline Styles & Clean Titles */}
+    <div className={`mb-6 p-4 rounded-xl border ${bgColor} backdrop-blur-md animate-pulse-subtle shadow-lg`}>
+      {/* Header Row */}
       <div 
         style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '16px' }}
         className="flex items-center gap-3"
@@ -43,22 +53,51 @@ const RiskAlertBanner: React.FC<RiskAlertBannerProps> = ({ risks }) => {
       </div>
 
       {/* Details Area */}
-      <div className="pl-10 space-y-3">
-        {risks.activeRisks.map((risk: any, i: number) => (
-          <div key={i} className="flex items-start gap-3 text-sm text-gray-300">
-            <Newspaper className="w-5 h-5 mt-0.5 text-gray-400 flex-shrink-0" />
-            <a 
-              href={risk.link} 
-              target="_blank" 
-              rel="noopener noreferrer" 
-              className="hover:text-white transition-colors underline decoration-gray-600 underline-offset-4 leading-normal"
-            >
-              {risk.title}
-            </a>
+      <div className="pl-10 space-y-4">
+        {combinedRisks.slice(0, 6).map((risk: any, i: number) => (
+          <div key={i} className="flex items-start gap-3 text-sm">
+            {risk.type === 'data' ? (
+              <TrendingUp className="w-5 h-5 mt-0.5 text-red-400 flex-shrink-0" />
+            ) : (
+              <Newspaper className="w-5 h-5 mt-0.5 text-gray-400 flex-shrink-0" />
+            )}
+            
+            <div className="flex flex-col gap-1">
+              <div className="flex items-center gap-2">
+                {risk.type === 'news' ? (
+                  <a 
+                    href={risk.link} 
+                    target="_blank" 
+                    rel="noopener noreferrer" 
+                    className="text-gray-300 hover:text-white transition-colors underline decoration-gray-600 underline-offset-4 leading-normal"
+                  >
+                    {risk.title}
+                  </a>
+                ) : (
+                  <span className="text-white font-bold leading-normal">
+                    {risk.title}
+                  </span>
+                )}
+
+                {/* 数値で裏取りされたニュースにはバッジを表示 */}
+                {risk.type === 'news' && hasNumerical && numericalRisks.some(n => risk.title.includes(n.title.split(':')[1]?.trim() || '')) && (
+                  <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-green-500/20 text-green-300 text-[10px] font-bold border border-green-500/30">
+                    <CheckCircle2 className="w-3 h-3" />
+                    データ裏取り済
+                  </span>
+                )}
+              </div>
+              
+              <span className="text-[10px] text-gray-500 font-medium">
+                ソース: {risk.type === 'data' ? 'システム実勢価格解析' : '外部報道機関'} 
+                {risk.type === 'data' && ' • リアルタイム'}
+              </span>
+            </div>
           </div>
         ))}
-        <p className="mt-4 text-[11px] text-gray-500 italic font-bold">
-          ※ ニュース解析に基づき、自動で予測カーブを調整済み
+
+        <p className="mt-4 text-[11px] text-gray-500 italic font-bold border-t border-white/5 pt-3">
+          ※ インテリジェンス層：報道と実勢価格の乖離を 14日間 監視し、不確かな情報は自動排除されます
         </p>
       </div>
     </div>

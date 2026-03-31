@@ -20,24 +20,21 @@ const RiskAlertBanner: React.FC<RiskAlertBannerProps> = ({ newsRisks, numericalR
   const highestLevel = combinedRisks.some(r => r.level === 'CRITICAL') ? 'CRITICAL' :
                        combinedRisks.some(r => r.level === 'HIGH') ? 'HIGH' : 'MODERATE';
 
-  // 背景色をより「まとまり」のある、視認性の高いものに変更
-  const boxStyles = highestLevel === 'CRITICAL' 
-    ? { backgroundColor: 'rgba(239, 68, 68, 0.08)', borderColor: 'rgba(239, 68, 68, 0.3)' }
-    : highestLevel === 'HIGH'
-    ? { backgroundColor: 'rgba(245, 158, 11, 0.08)', borderColor: 'rgba(245, 158, 11, 0.3)' }
-    : { backgroundColor: 'rgba(59, 130, 246, 0.08)', borderColor: 'rgba(59, 130, 246, 0.3)' };
+  // 黒枠と薄いグレーの背景に固定
+  const boxStyles = { 
+    backgroundColor: '#f8fafc', // 清潔感のある極薄グレー
+    border: '1.5px solid #000000', // 重厚感のある黒枠
+  };
 
-  const textColor = highestLevel === 'CRITICAL' ? 'text-red-700' :
-                    highestLevel === 'HIGH' ? 'text-orange-700' :
-                    'text-blue-700';
+  const textColor = 'text-black'; // テキストも黒で統一し視認性を最大化
 
   const Icon = highestLevel === 'CRITICAL' ? ShieldAlert :
                highestLevel === 'HIGH' ? AlertTriangle : Info;
 
   return (
     <div 
-      className="mb-8 p-5 rounded-2xl border backdrop-blur-sm"
-      style={{ ...boxStyles, boxShadow: '0 4px 15px rgba(0,0,0,0.02)' }}
+      className="mb-8 p-5 rounded-lg"
+      style={{ ...boxStyles, boxShadow: '4px 4px 0px rgba(0,0,0,0.05)' }}
     >
       {/* 1. ヘッダー：アイコンとタイトルを一列に固定 */}
       <div 
@@ -45,7 +42,7 @@ const RiskAlertBanner: React.FC<RiskAlertBannerProps> = ({ newsRisks, numericalR
       >
         <Icon 
           style={{ flexShrink: 0 }}
-          className={`w-6 h-6 ${highestLevel === 'CRITICAL' ? 'text-red-500' : 'text-orange-500'}`} 
+          className="w-6 h-6 text-black" 
         />
         <h3 
           className={`text-lg font-black ${textColor}`}
@@ -65,9 +62,9 @@ const RiskAlertBanner: React.FC<RiskAlertBannerProps> = ({ newsRisks, numericalR
           >
             {/* 絵文字アイコン */}
             {risk.type === 'data' ? (
-              <TrendingUp style={{ flexShrink: 0 }} className="w-5 h-5 text-red-500" />
+              <TrendingUp style={{ flexShrink: 0 }} className="w-5 h-5 text-black" />
             ) : (
-              <Newspaper style={{ flexShrink: 0 }} className="w-5 h-5 text-gray-500" />
+              <Newspaper style={{ flexShrink: 0 }} className="w-5 h-5 text-black" />
             )}
             
             {/* テキストとリンク (絶対に折返さない) */}
@@ -77,26 +74,26 @@ const RiskAlertBanner: React.FC<RiskAlertBannerProps> = ({ newsRisks, numericalR
                   href={risk.link} 
                   target="_blank" 
                   rel="noopener noreferrer" 
-                  className="text-gray-700 hover:text-black transition-colors underline decoration-gray-300 underline-offset-4 whitespace-nowrap overflow-hidden text-ellipsis font-medium"
+                  className="text-black hover:text-blue-700 transition-colors underline decoration-black underline-offset-4 whitespace-nowrap overflow-hidden text-ellipsis font-bold"
                 >
                   {risk.title}
                 </a>
               ) : (
-                <span className="text-gray-900 font-bold whitespace-nowrap overflow-hidden text-ellipsis">
+                <span className="text-black font-black whitespace-nowrap overflow-hidden text-ellipsis">
                   {risk.title}
                 </span>
               )}
 
               {/* Verified Badge */}
               {risk.type === 'news' && hasNumerical && numericalRisks.some(n => risk.title.includes(n.title.split(':')[1]?.trim().split('(')[0] || '')) && (
-                <CheckCircle2 style={{ flexShrink: 0 }} className="w-4 h-4 text-green-500" />
+                <CheckCircle2 style={{ flexShrink: 0 }} className="w-4 h-4 text-black" />
               )}
             </div>
           </div>
         ))}
 
-        <p className="mt-5 text-[11px] text-gray-400 font-bold border-t border-gray-100 pt-4">
-          ※ インテリジェンス層：報道と実勢価格の乖離を 14日間 監視し、不確かな情報は自動排除されます
+        <p className="mt-5 text-[11px] text-gray-500 font-bold border-t border-black/10 pt-4">
+          ※ 報道と実勢価格の乖離を 14日間 監視し、不確かな情報は自動排除されます
         </p>
       </div>
     </div>

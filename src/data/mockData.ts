@@ -10,6 +10,19 @@ export interface SubtypeMetadata extends any {
   excludeKeywords?: string[];
 }
 
+const RAKU_AFL_ID = '5025407c.d8994699.5025407d.e9a413e7';
+const AMA_AFL_TAG = 'hitsujuhin-22';
+
+const wrapRaku = (pcUrl: string) => {
+  const encPc = encodeURIComponent(pcUrl);
+  return `https://hb.afl.rakuten.co.jp/hgc/${RAKU_AFL_ID}/?pc=${encPc}&m=${encPc}`;
+};
+
+const wrapAma = (baseUrl: string) => {
+  const connector = baseUrl.includes('?') ? '&' : '?';
+  return `${baseUrl}${connector}tag=${AMA_AFL_TAG}`;
+};
+
 export const mockGenres: (Genre & { subtypes: (any & SubtypeMetadata)[] })[] = [
   // --- STOCK GROUP (Bulk/E-commerce Focus) ---
   {
@@ -40,7 +53,7 @@ export const mockGenres: (Genre & { subtypes: (any & SubtypeMetadata)[] })[] = [
             store: 'rakuten', 
             rakutenCode: 'okaman:10000029-1',
             popularity: 98,
-            affiliateUrl: 'https://item.rakuten.co.jp/okaman/10000029-1/',
+            affiliateUrl: wrapRaku('https://item.rakuten.co.jp/okaman/10000029-1/'),
             forecastData: [2950, 2950, 2950, 2950, 2950, 2950, 2950]
           },
           { 
@@ -55,7 +68,7 @@ export const mockGenres: (Genre & { subtypes: (any & SubtypeMetadata)[] })[] = [
             store: 'rakuten', 
             rakutenCode: 'yamamotoyasuo-saketen:kogomesan5',
             popularity: 95,
-            affiliateUrl: 'https://item.rakuten.co.jp/yamamotoyasuo-saketen/kogomesan5/',
+            affiliateUrl: wrapRaku('https://item.rakuten.co.jp/yamamotoyasuo-saketen/kogomesan5/'),
             forecastData: [2980, 2980, 2980, 2980, 2980, 2980, 2980]
           },
           { 
@@ -70,7 +83,7 @@ export const mockGenres: (Genre & { subtypes: (any & SubtypeMetadata)[] })[] = [
             store: 'amazon', 
             asin: 'B0GQ2FV1NC',
             popularity: 92,
-            affiliateUrl: 'https://www.amazon.co.jp/dp/B0GQ2FV1NC?th=1&psc=1',
+            affiliateUrl: wrapAma('https://www.amazon.co.jp/dp/B0GQ2FV1NC?th=1&psc=1'),
             forecastData: [3132, 3132, 3132, 3132, 3132, 3132, 3132]
           },
           { 
@@ -85,7 +98,7 @@ export const mockGenres: (Genre & { subtypes: (any & SubtypeMetadata)[] })[] = [
             store: 'amazon', 
             asin: 'B08Y5ZW24P',
             popularity: 88,
-            affiliateUrl: 'https://www.amazon.co.jp/dp/B08Y5ZW24P',
+            affiliateUrl: wrapAma('https://www.amazon.co.jp/dp/B08Y5ZW24P'),
             forecastData: [2900, 2900, 2900, 2900, 2900, 2900, 2900]
           },
           { 
@@ -100,7 +113,7 @@ export const mockGenres: (Genre & { subtypes: (any & SubtypeMetadata)[] })[] = [
             store: 'rakuten', 
             rakutenCode: 'rice-smile:sc-s2805',
             popularity: 85,
-            affiliateUrl: 'https://item.rakuten.co.jp/rice-smile/sc-s2805/',
+            affiliateUrl: wrapRaku('https://item.rakuten.co.jp/rice-smile/sc-s2805/'),
             forecastData: [3280, 3280, 3280, 3280, 3280, 3280, 3280]
           }
         ]
@@ -126,7 +139,7 @@ export const mockGenres: (Genre & { subtypes: (any & SubtypeMetadata)[] })[] = [
             store: 'amazon',
             asin: 'B0GQ2FV1NC',
             popularity: 98,
-            affiliateUrl: 'https://www.amazon.co.jp/dp/B0GQ2FV1NC',
+            affiliateUrl: wrapAma('https://www.amazon.co.jp/dp/B0GQ2FV1NC'),
             forecastData: [5382, 5382, 5382, 5382, 5382, 5382, 5382]
           },
           {
@@ -141,7 +154,7 @@ export const mockGenres: (Genre & { subtypes: (any & SubtypeMetadata)[] })[] = [
             store: 'rakuten',
             rakutenCode: 'ricetanaka:r-005',
             popularity: 95,
-            affiliateUrl: 'https://item.rakuten.co.jp/ricetanaka/r-005/',
+            affiliateUrl: wrapRaku('https://item.rakuten.co.jp/ricetanaka/r-005/'),
             forecastData: [5480, 5480, 5480, 5480, 5480, 5480, 5480]
           },
           {
@@ -156,7 +169,7 @@ export const mockGenres: (Genre & { subtypes: (any & SubtypeMetadata)[] })[] = [
             store: 'rakuten',
             rakutenCode: 'okaman:10000029-10',
             popularity: 92,
-            affiliateUrl: 'https://item.rakuten.co.jp/okaman/10000029-1/',
+            affiliateUrl: wrapRaku('https://item.rakuten.co.jp/okaman/10000029-1/'),
             forecastData: [5480, 5480, 5480, 5480, 5480, 5480, 5480]
           },
           {
@@ -171,7 +184,7 @@ export const mockGenres: (Genre & { subtypes: (any & SubtypeMetadata)[] })[] = [
             store: 'rakuten',
             rakutenCode: 'skyfarm:karu',
             popularity: 88,
-            affiliateUrl: 'https://item.rakuten.co.jp/skyfarm/karu/',
+            affiliateUrl: wrapRaku('https://item.rakuten.co.jp/skyfarm/karu/'),
             forecastData: [5580, 5580, 5580, 5580, 5580, 5580, 5580]
           },
           {
@@ -186,7 +199,7 @@ export const mockGenres: (Genre & { subtypes: (any & SubtypeMetadata)[] })[] = [
             store: 'rakuten',
             rakutenCode: 'jcrops:4562129938740-2-wake-05',
             popularity: 80,
-            affiliateUrl: 'https://item.rakuten.co.jp/jcrops/4562129938740-2-wake-05/',
+            affiliateUrl: wrapRaku('https://item.rakuten.co.jp/jcrops/4562129938740-2-wake-05/'),
             forecastData: [6799, 6799, 6799, 6799, 6799, 6799, 6799]
           }
         ]
@@ -221,7 +234,7 @@ export const mockGenres: (Genre & { subtypes: (any & SubtypeMetadata)[] })[] = [
             store: 'amazon', 
             asin: 'B0BLXFYWHD',
             popularity: 95,
-            affiliateUrl: 'https://www.amazon.co.jp/gp/product/B0BLXFYWHD/?tag=hitsujuhin-22',
+            affiliateUrl: wrapAma('https://www.amazon.co.jp/gp/product/B0BLXFYWHD/'),
             forecastData: [1580, 1580, 1580, 1580, 1580, 1580, 1580]
           }
         ]
@@ -256,7 +269,7 @@ export const mockGenres: (Genre & { subtypes: (any & SubtypeMetadata)[] })[] = [
             store: 'rakuten', 
             rakutenCode: 'miraiyuki:10103759',
             popularity: 85,
-            affiliateUrl: 'https://item.rakuten.co.jp/miraiyuki/10103759/',
+            affiliateUrl: wrapRaku('https://item.rakuten.co.jp/miraiyuki/10103759/'),
             forecastData: [380, 380, 380, 380, 380, 380, 380]
           }
         ]

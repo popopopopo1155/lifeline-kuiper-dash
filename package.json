@@ -1,7 +1,7 @@
 {
   "name": "binary-kuiper",
   "private": true,
-  "version": "0.0.0",
+  "version": "5.0.0-gold-master",
   "type": "module",
   "scripts": {
     "dev": "vite",

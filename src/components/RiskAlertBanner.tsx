@@ -24,10 +24,19 @@ const RiskAlertBanner: React.FC<RiskAlertBannerProps> = ({ risks }) => {
 
   return (
     <div className={`mb-6 p-4 rounded-xl border ${bgColor} backdrop-blur-md animate-pulse-subtle`}>
-      {/* Header Row: Icon + Title (Strict Horizontal Fix) */}
-      <div className="flex items-center gap-3 mb-4">
-        <Icon className={`w-7 h-7 flex-shrink-0 ${highestLevel === 'CRITICAL' ? 'text-red-400' : 'text-orange-400'}`} />
-        <h3 className={`text-lg font-bold ${textColor} leading-tight`}>
+      {/* Header Row: Forced Horizontal with Inline Styles */}
+      <div 
+        style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '16px' }}
+        className="flex items-center gap-3"
+      >
+        <Icon 
+          style={{ flexShrink: 0 }}
+          className={`w-7 h-7 ${highestLevel === 'CRITICAL' ? 'text-red-400' : 'text-orange-400'}`} 
+        />
+        <h3 
+          style={{ margin: 0, padding: 0, fontSize: '18px', fontWeight: 'bold', lineHeight: '1.2' }}
+          className={`${textColor}`}
+        >
           {highestLevel === 'CRITICAL' ? '重大警告: 物価急騰リスク検知' : 
            highestLevel === 'HIGH' ? '警戒: 物価上昇の可能性' : '情報: 市場動向の変化'}
         </h3>

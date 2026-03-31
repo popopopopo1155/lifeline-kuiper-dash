@@ -11,7 +11,7 @@ export interface SubtypeMetadata extends any {
 }
 
 const RAKU_AFL_ID = '5025407c.d8994699.5025407d.e9a413e7';
-const AMA_AFL_TAG = 'hitsujuhin-22';
+const AMA_AFL_TAG = 'mangaanimeosu-22';
 
 const wrapRaku = (pcUrl: string) => {
   const encPc = encodeURIComponent(pcUrl);
@@ -217,11 +217,103 @@ export const mockGenres: (Genre & { subtypes: (any & SubtypeMetadata)[] })[] = [
         id: 'water-500ml',
         name: '500ml',
         regionalAverage: 80,
-        representativeAsin: 'B0BLXFYWHD',
-        searchOverride: '水 500ml 24本 送料無料 -ふるさと納税 -定期便',
+        representativeAsin: 'B094N6FW9M',
+        searchOverride: '水 500ml 24本 送料無料 -定期便 -ふるさと納税 -2L',
         requiredKeywords: ['500ml', '24'],
         excludeKeywords: ['定期便', 'ふるさと納税'],
-        products: []
+        products: [
+          { 
+            id: 'water-500-v1', 
+            name: 'ピュアの森 500ml 24本 ラベルレス', 
+            price: 1115, shipping: 0, points: 11, volume: 24, unit: 'bottle', baseUnit: '1bottle',
+            store: 'amazon', asin: 'B094N6FW9M', popularity: 99,
+            affiliateUrl: wrapAma('https://www.amazon.co.jp/dp/B094N6FW9M'),
+            forecastData: [1115, 1115, 1115, 1115, 1115, 1115, 1115]
+          },
+          { 
+            id: 'water-500-v2', 
+            name: '【楽天オリジナル】天然水 ミネラルウォーター 500ml×24本', 
+            price: 1180, shipping: 0, points: 10, volume: 24, unit: 'bottle', baseUnit: '1bottle',
+            store: 'rakuten', rakutenCode: 'rakutenoriginal-daily:ro-b-001', popularity: 95,
+            affiliateUrl: wrapRaku('https://item.rakuten.co.jp/rakutenoriginal-daily/ro-b-001/'),
+            forecastData: [1180, 1180, 1180, 1180, 1180, 1180, 1180]
+          },
+          { 
+            id: 'water-500-v3', 
+            name: '彩水 あやみず 500ml 24本', 
+            price: 1190, shipping: 0, points: 12, volume: 24, unit: 'bottle', baseUnit: '1bottle',
+            store: 'amazon', asin: 'B0CMPV8YL1', popularity: 92,
+            affiliateUrl: wrapAma('https://www.amazon.co.jp/dp/B0CMPV8YL1'),
+            forecastData: [1190, 1190, 1190, 1190, 1190, 1190, 1190]
+          },
+          { 
+            id: 'water-500-v4', 
+            name: '富士山麓 天然水 ラベルレス 500ml×24本', 
+            price: 1210, shipping: 0, points: 12, volume: 24, unit: 'bottle', baseUnit: '1bottle',
+            store: 'amazon', asin: 'B0DDTG871Z', popularity: 90,
+            affiliateUrl: wrapAma('https://www.amazon.co.jp/dp/B0DDTG871Z'),
+            forecastData: [1210, 1210, 1210, 1210, 1210, 1210, 1210]
+          },
+          { 
+            id: 'water-500-v5', 
+            name: 'アイリスオーヤマ 天然水 ラベルレス 500ml ×24本', 
+            price: 1299, shipping: 0, points: 13, volume: 24, unit: 'bottle', baseUnit: '1bottle',
+            store: 'amazon', asin: 'B09LCPT9DQ', popularity: 88,
+            affiliateUrl: wrapAma('https://www.amazon.co.jp/dp/B09LCPT9DQ'),
+            forecastData: [1299, 1299, 1299, 1299, 1299, 1299, 1299]
+          }
+        ]
+      },
+      {
+        id: 'water-2l',
+        name: '2L',
+        regionalAverage: 100,
+        representativeAsin: 'B0C1FS43ZW',
+        searchOverride: '水 2L 9本 送料無料 -定期便 -ふるさと納税 -500ml',
+        requiredKeywords: ['2L', '9'],
+        excludeKeywords: ['定期便', 'ふるさと納税'],
+        products: [
+          { 
+            id: 'water-2l-v1', 
+            name: 'アイリスオーヤマ 天然水 2L ×9本 ラベルレス', 
+            price: 981, shipping: 0, points: 10, volume: 9, unit: 'bottle', baseUnit: '1bottle',
+            store: 'amazon', asin: 'B0C1FS43ZW', popularity: 99,
+            affiliateUrl: wrapAma('https://www.amazon.co.jp/dp/B0C1FS43ZW'),
+            forecastData: [981, 981, 981, 981, 981, 981, 981]
+          },
+          { 
+            id: 'water-2l-v2', 
+            name: 'アイリスオーヤマ 富士山の天然水 2L×9本 ラベルレス', 
+            price: 1080, shipping: 0, points: 10, volume: 9, unit: 'bottle', baseUnit: '1bottle',
+            store: 'rakuten', rakutenCode: 'inskagu:311615', popularity: 95,
+            affiliateUrl: wrapRaku('https://item.rakuten.co.jp/inskagu/311615/'),
+            forecastData: [1080, 1080, 1080, 1080, 1080, 1080, 1080]
+          },
+          { 
+            id: 'water-2l-v3', 
+            name: 'アサヒ おいしい水 天然水 ラベルレス 2L×9本', 
+            price: 1086, shipping: 0, points: 11, volume: 9, unit: 'bottle', baseUnit: '1bottle',
+            store: 'amazon', asin: 'B07RWWZT8J', popularity: 92,
+            affiliateUrl: wrapAma('https://www.amazon.co.jp/dp/B07RWWZT8J'),
+            forecastData: [1086, 1086, 1086, 1086, 1086, 1086, 1086]
+          },
+          { 
+            id: 'water-2l-v4', 
+            name: 'by Amazon 天然水ラベルレス 2L×9本', 
+            price: 1120, shipping: 0, points: 11, volume: 9, unit: 'bottle', baseUnit: '1bottle',
+            store: 'amazon', asin: 'B08GZR18S3', popularity: 90,
+            affiliateUrl: wrapAma('https://www.amazon.co.jp/dp/B08GZR18S3'),
+            forecastData: [1120, 1120, 1120, 1120, 1120, 1120, 1120]
+          },
+          { 
+            id: 'water-2l-v5', 
+            name: 'サントリー 天然水 南アルプス 2L ×9本', 
+            price: 1251, shipping: 0, points: 13, volume: 9, unit: 'bottle', baseUnit: '1bottle',
+            store: 'amazon', asin: 'B09G9YRX1P', popularity: 88,
+            affiliateUrl: wrapAma('https://www.amazon.co.jp/dp/B09G9YRX1P'),
+            forecastData: [1251, 1251, 1251, 1251, 1251, 1251, 1251]
+          }
+        ]
       }
     ]
   },

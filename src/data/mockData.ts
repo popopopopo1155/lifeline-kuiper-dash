@@ -242,8 +242,8 @@ export const mockGenres: (Genre & { subtypes: (any & SubtypeMetadata)[] })[] = [
             id: 'water-500-v3', 
             name: '[500ml×42本] 国産 天然水 水想い - ¥2,078 (1本¥49.5)', 
             price: 2078, shipping: 0, points: 58, volume: 42, unit: 'bottle', baseUnit: '1bottle',
-            store: 'rakuten', rakutenCode: 'suisoukai:water-suisoukai-500-42', popularity: 92,
-            affiliateUrl: wrapRaku('https://item.rakuten.co.jp/suisoukai/311615/'),
+            store: 'rakuten', rakutenCode: 'mizuomoi:4571461293004', popularity: 92,
+            affiliateUrl: wrapRaku('https://item.rakuten.co.jp/mizuomoi/4571461293004/'),
             forecastData: [2078, 2078, 2078, 2078, 2078, 2078, 2078]
           },
           { 
@@ -275,43 +275,43 @@ export const mockGenres: (Genre & { subtypes: (any & SubtypeMetadata)[] })[] = [
         products: [
           { 
             id: 'water-2l-v1', 
+            name: '[2L×9本] by Amazon 天然水ラベルレス - ¥958 (1本¥106.4)', 
+            price: 958, shipping: 0, points: 10, volume: 9, unit: 'bottle', baseUnit: '1bottle',
+            store: 'amazon', asin: 'B08GZR18S3', popularity: 100,
+            affiliateUrl: wrapAma('https://www.amazon.co.jp/dp/B08GZR18S3'),
+            forecastData: [958, 958, 958, 958, 958, 958, 958]
+          },
+          { 
+            id: 'water-2l-v2', 
+            name: '[2L×8本] い･ろ･は･す ラベルレス - ¥890 (1本¥111.2)', 
+            price: 890, shipping: 0, points: 9, volume: 8, unit: 'bottle', baseUnit: '1bottle',
+            store: 'amazon', asin: 'B08TV9VDR7', popularity: 98,
+            affiliateUrl: wrapAma('https://www.amazon.co.jp/dp/B08TV9VDR7'),
+            forecastData: [890, 890, 890, 890, 890, 890, 890]
+          },
+          { 
+            id: 'water-2l-v3', 
+            name: '[2L×8本] 伊藤園 磨かれて、澄みきった日本の水 - ¥958 (1本¥119.7)', 
+            price: 958, shipping: 0, points: 10, volume: 8, unit: 'bottle', baseUnit: '1bottle',
+            store: 'amazon', asin: 'B0CG5X5MT4', popularity: 95,
+            affiliateUrl: wrapAma('https://www.amazon.co.jp/dp/B0CG5X5MT4'),
+            forecastData: [958, 958, 958, 958, 958, 958, 958]
+          },
+          { 
+            id: 'water-2l-v4', 
             name: '[2L×9本] 富士山の天然水 ラベルレス - ¥1,080 (1本¥120.0)', 
             price: 1080, shipping: 0, points: 10, volume: 9, unit: 'bottle', baseUnit: '1bottle',
-            store: 'rakuten', rakutenCode: 'inskagu:311615', popularity: 99,
+            store: 'rakuten', rakutenCode: 'inskagu:311615', popularity: 92,
             affiliateUrl: wrapRaku('https://item.rakuten.co.jp/inskagu/311615/'),
             forecastData: [1080, 1080, 1080, 1080, 1080, 1080, 1080]
           },
           { 
-            id: 'water-2l-v2', 
-            name: '[2L×12本] 安曇野の天然水 - ¥1,635 (1本¥136.3)', 
-            price: 1635, shipping: 0, points: 16, volume: 12, unit: 'bottle', baseUnit: '1bottle',
-            store: 'rakuten', rakutenCode: 'cocodecow:r820gf', popularity: 95,
-            affiliateUrl: wrapRaku('https://item.rakuten.co.jp/cocodecow/r820gf/'),
-            forecastData: [1635, 1635, 1635, 1635, 1635, 1635, 1635]
-          },
-          { 
-            id: 'water-2l-v3', 
-            name: '[2L×12本] 富士山の天然水 ラベルレス - ¥1,680 (1本¥140.0)', 
-            price: 1680, shipping: 0, points: 16, volume: 12, unit: 'bottle', baseUnit: '1bottle',
-            store: 'rakuten', rakutenCode: 'k-home:1908794', popularity: 92,
-            affiliateUrl: wrapRaku('https://item.rakuten.co.jp/k-home/1908794/'),
-            forecastData: [1680, 1680, 1680, 1680, 1680, 1680, 1680]
-          },
-          { 
-            id: 'water-2l-v4', 
-            name: '[2L×12本] 彩水 -ayamizu- - ¥1,780 (1本¥148.3)', 
-            price: 1780, shipping: 0, points: 17, volume: 12, unit: 'bottle', baseUnit: '1bottle',
-            store: 'rakuten', rakutenCode: 'lifedrinkcompany:ayamizu-2000-12', popularity: 90,
-            affiliateUrl: wrapRaku('https://item.rakuten.co.jp/lifedrinkcompany/ayamizu-2000-12/'),
-            forecastData: [1780, 1780, 1780, 1780, 1780, 1780, 1780]
-          },
-          { 
             id: 'water-2l-v5', 
-            name: '[2L×6本] 富士山の天然水 - ¥898 (1本¥149.7)', 
-            price: 898, shipping: 0, points: 8, volume: 6, unit: 'bottle', baseUnit: '1bottle',
-            store: 'rakuten', rakutenCode: 'kurashikenkou:1908794', popularity: 88,
-            affiliateUrl: wrapRaku('https://item.rakuten.co.jp/kurashikenkou/1908794/'),
-            forecastData: [898, 898, 898, 898, 898, 898, 898]
+            name: '[2L×9本] アサヒ おいしい水 天然水 ラベルレス - ¥1,086 (1本¥121.0)', 
+            price: 1086, shipping: 0, points: 11, volume: 9, unit: 'bottle', baseUnit: '1bottle',
+            store: 'amazon', asin: 'B07RWWZT8J', popularity: 90,
+            affiliateUrl: wrapAma('https://www.amazon.co.jp/dp/B07RWWZT8J'),
+            forecastData: [1086, 1086, 1086, 1086, 1086, 1086, 1086]
           }
         ]
       }

@@ -271,19 +271,40 @@ export const SubtypeCard: React.FC<SubtypeCardProps> = ({ subtype, group, unitTy
 
                     <div>
                       <div style={{ fontSize: '16px', fontWeight: '900', color: '#0f172a' }}>¥{p.price.toLocaleString()}</div>
-                      <div 
-                        onClick={() => p.affiliateUrl && window.open(p.affiliateUrl, '_blank')}
-                        style={{ fontSize: '10px', color: '#3b82f6', fontWeight: 'bold', cursor: 'pointer' }}
+                      <a 
+                        href={p.affiliateUrl || '#'} 
+                        target="_blank" 
+                        rel="noopener noreferrer"
+                        onClick={(e) => e.stopPropagation()}
+                        style={{ fontSize: '10px', color: '#3b82f6', fontWeight: 'bold', textDecoration: 'none', display: 'block' }}
                       >
                         購入 ➔
-                      </div>
+                      </a>
                     </div>
-                    <button 
-                      onClick={(e) => { e.stopPropagation(); setEditingProduct(p); }}
-                      style={{ border: 'none', padding: '8px', cursor: 'pointer', borderRadius: '50%', background: '#f1f5f9' }}
-                    >
-                      ✏️
-                    </button>
+                    {isAdmin ? (
+                      <button 
+                        onClick={(e) => { e.stopPropagation(); setEditingProduct(p); }}
+                        style={{ border: 'none', padding: '8px', cursor: 'pointer', borderRadius: '50%', background: '#f1f5f9' }}
+                      >
+                        ✏️
+                      </button>
+                    ) : (
+                      <a 
+                        href={p.affiliateUrl || '#'} 
+                        target="_blank" 
+                        rel="noopener noreferrer"
+                        onClick={(e) => e.stopPropagation()}
+                        style={{ 
+                          display: 'flex', alignItems: 'center', justifyContent: 'center', 
+                          width: '40px', height: '40px', borderRadius: '50%', 
+                          background: '#3b82f6', color: 'white', border: 'none',
+                          cursor: 'pointer', textDecoration: 'none',
+                          boxShadow: '0 4px 6px -1px rgba(59, 130, 246, 0.3)'
+                        }}
+                      >
+                        <span style={{ fontSize: '20px' }}>🛒</span>
+                      </a>
+                    )}
                   </div>
                 </div>
               ))}

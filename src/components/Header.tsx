@@ -34,10 +34,10 @@ const Header = () => {
           </div>
           <div>
             <h1 className="text-xl font-black tracking-tight flex items-center gap-2">
-              LIFELINE KUIPER DASH
+              生活必需品.com
               {isAdmin && <span className="bg-red-500 text-[10px] text-white px-2 py-0.5 rounded-full font-bold animate-pulse uppercase tracking-widest">Admin Mode</span>}
             </h1>
-            <p className="text-[10px] text-gray-500 font-bold uppercase tracking-[0.2em]">Rice Price Intelligence v4.7 (Ironclad)</p>
+            <p className="text-[10px] text-gray-500 font-bold uppercase tracking-[0.2em]">Master Stability v5.0 (Golden Master)</p>
           </div>
         </div>
 

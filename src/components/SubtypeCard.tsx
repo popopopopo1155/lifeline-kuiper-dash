@@ -296,23 +296,26 @@ export const SubtypeCard: React.FC<SubtypeCardProps> = ({ subtype, group, unitTy
                         onClick={(e) => e.stopPropagation()}
                         style={{ 
                           display: 'flex', alignItems: 'center', justifyContent: 'center', 
-                          width: '40px', height: '40px', borderRadius: '50%', 
-                          background: 'white', color: '#3b82f6', 
-                          border: '2px solid #3b82f6',
+                          width: '42px', height: '42px', borderRadius: '50%', 
+                          background: '#ffffff', color: '#2563eb', 
+                          border: '1.5px solid #dbeafe',
                           cursor: 'pointer', textDecoration: 'none',
-                          transition: 'all 0.2s ease',
-                          boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.05)'
+                          transition: 'all 0.2s cubic-bezier(0.4, 0, 0.2, 1)',
+                          boxShadow: '0 2px 4px rgba(0, 0, 0, 0.05)',
+                          fontSize: '22px'
                         }}
                         onMouseEnter={(e) => {
-                          e.currentTarget.style.background = '#eff6ff';
+                          e.currentTarget.style.borderColor = '#2563eb';
                           e.currentTarget.style.transform = 'scale(1.1)';
+                          e.currentTarget.style.boxShadow = '0 10px 15px -3px rgba(37, 99, 235, 0.1)';
                         }}
                         onMouseLeave={(e) => {
-                          e.currentTarget.style.background = 'white';
+                          e.currentTarget.style.borderColor = '#dbeafe';
                           e.currentTarget.style.transform = 'scale(1)';
+                          e.currentTarget.style.boxShadow = '0 2px 4px rgba(0, 0, 0, 0.05)';
                         }}
                       >
-                        <span style={{ fontSize: '20px' }}>🛒</span>
+                        🛒
                       </a>
                     )}
                   </div>

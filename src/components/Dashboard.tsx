@@ -61,42 +61,6 @@ export const Dashboard: React.FC = () => {
       <header className="site-header" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '10px 20px' }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: '20px' }}>
           <a href="#" className="site-title" onClick={() => { setSelectedGenreId(null); }} style={{ textDecoration: 'none', color: 'inherit', fontSize: '24px', fontWeight: '900' }}>生活必需品.com</a>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-            <div style={{ 
-              display: 'flex', 
-              alignItems: 'center', 
-              gap: '8px', 
-              padding: '4px 12px', 
-              background: tokensLeft > 10 ? '#f0fdf4' : '#fee2e2', 
-              borderRadius: '20px', 
-              fontSize: '11px', 
-              fontWeight: 'bold', 
-              color: tokensLeft > 10 ? '#166534' : '#991b1b',
-              border: `1px solid ${tokensLeft > 10 ? '#dcfce7' : '#fecaca'}`
-            }}>
-              <span style={{ fontSize: '14px' }}>📡</span>
-              Keepa同期: {tokensLeft}枚 {tokensLeft <= 0 && '(中断中)'}
-            </div>
-
-            {isPaused && (
-              <button 
-                onClick={handleResume}
-                style={{
-                  padding: '4px 12px',
-                  background: '#ef4444',
-                  color: 'white',
-                  border: 'none',
-                  borderRadius: '20px',
-                  fontSize: '11px',
-                  fontWeight: 'bold',
-                  cursor: 'pointer',
-                  animation: 'pulse-subtle 2s infinite'
-                }}
-              >
-                ⚠️ 0枚につき中断: 再開する
-              </button>
-            )}
-          </div>
         </div>
         
         <div className="flex items-center gap-2">

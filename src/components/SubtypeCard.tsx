@@ -297,9 +297,19 @@ export const SubtypeCard: React.FC<SubtypeCardProps> = ({ subtype, group, unitTy
                         style={{ 
                           display: 'flex', alignItems: 'center', justifyContent: 'center', 
                           width: '40px', height: '40px', borderRadius: '50%', 
-                          background: '#3b82f6', color: 'white', border: 'none',
+                          background: 'white', color: '#3b82f6', 
+                          border: '2px solid #3b82f6',
                           cursor: 'pointer', textDecoration: 'none',
-                          boxShadow: '0 4px 6px -1px rgba(59, 130, 246, 0.3)'
+                          transition: 'all 0.2s ease',
+                          boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.05)'
+                        }}
+                        onMouseEnter={(e) => {
+                          e.currentTarget.style.background = '#eff6ff';
+                          e.currentTarget.style.transform = 'scale(1.1)';
+                        }}
+                        onMouseLeave={(e) => {
+                          e.currentTarget.style.background = 'white';
+                          e.currentTarget.style.transform = 'scale(1)';
                         }}
                       >
                         <span style={{ fontSize: '20px' }}>🛒</span>

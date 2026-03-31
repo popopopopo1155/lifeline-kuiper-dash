@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { GenreCard } from './GenreCard';
+import Header from './Header';
 import { SubtypeCard } from './SubtypeCard';
 import { Sidebar } from './Sidebar';
 import { InventoryControl } from './InventoryControl';
@@ -58,27 +59,28 @@ export const Dashboard: React.FC = () => {
 
   return (
     <div className="app-wrapper">
-      <header className="site-header" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '10px 20px' }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: '20px' }}>
-          <a href="#" className="site-title" onClick={() => { setSelectedGenreId(null); }} style={{ textDecoration: 'none', color: 'inherit', fontSize: '24px', fontWeight: '900' }}>生活必需品.com</a>
-        </div>
-        
-        <div className="flex items-center gap-2">
+      <Header />
+      
+      {/* サブアクションバー：戻るボタンと地域選択 */}
+      <div className="bg-white border-b border-gray-100 px-8 py-2 flex justify-between items-center">
+        <div className="flex items-center gap-4">
           {selectedGenreId && (
             <button 
               onClick={handleBack}
-              style={{ padding: '8px 16px', background: '#0055aa', color: '#fff', border: 'none', borderRadius: '4px', fontSize: '14px', cursor: 'pointer', marginRight: '20px', fontWeight: 'bold' }}
+              className="px-4 py-1.5 bg-slate-900 text-white rounded-lg text-xs font-black flex items-center gap-2 hover:bg-slate-800 transition-colors shadow-sm"
             >
               ➔ 戻る
             </button>
           )}
-          <span style={{ fontSize: '12px', fontWeight: 'bold', color: '#666' }} className="mobile-hide">地域:</span>
-          <select className="region-selector">
+        </div>
+        <div className="flex items-center gap-3">
+          <span className="text-[10px] font-black text-gray-400 uppercase tracking-widest mobile-hide">Region:</span>
+          <select className="region-selector text-xs font-bold border-none bg-gray-50 rounded-lg px-3 py-1.5 text-gray-600 focus:ring-0">
             <option>東京都 世田谷区</option>
             <option>大阪府 大阪市</option>
           </select>
         </div>
-      </header>
+      </div>
       
       <QuickNav />
 

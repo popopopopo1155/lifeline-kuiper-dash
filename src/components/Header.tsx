@@ -9,22 +9,19 @@ interface HeaderProps {
 
 const Header: React.FC<HeaderProps> = ({ onBack, showBack }) => {
   const { isAdmin, toggleAdmin } = useAdmin();
-  const [clickCount, setClickCount] = useState(0);
-
+  const [clickTimestamps, setClickTimestamps] = useState<number[]>([]);
+  
   const handleLogoClick = () => {
-    const nextCount = clickCount + 1;
-    setClickCount(nextCount);
+    const now = Date.now();
+    const newTimestamps = [...clickTimestamps, now].filter(t => now - t <= 1000);
     
-    // 3回連続クリックで管理者モード
-    if (nextCount === 3) {
+    setClickTimestamps(newTimestamps);
+    
+    // 1秒間に6回以上のクリックで管理者モードを切り替え
+    if (newTimestamps.length >= 6) {
       toggleAdmin();
-      setClickCount(0);
+      setClickTimestamps([]);
     }
-
-    // 3秒経ったらリセット（余裕を持たせる）
-    setTimeout(() => {
-      setClickCount(0);
-    }, 3000);
   };
 
   return (

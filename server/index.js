@@ -7,8 +7,21 @@ import { parseStringPromise } from 'xml2js';
 import { GoogleGenerativeAI } from '@google/generative-ai';
 import fs from 'fs/promises';
 import path from 'path';
-import NEWS_DICTIONARY from './newsDictionary.js';
-import CATEGORY_NEWS_MAP from './newsMapper.js';
+// 🏮 [REINFORCED] 外部ファイルへの依存を排除し、サーバーの自己完結性を高めるためのインライン化
+const NEWS_DICTIONARY = {
+  POSITIVE: { keywords: ['低下', '安定', '増産', '豊作', '解消'], weight: 0.9 },
+  NEGATIVE: {
+    CRITICAL: { keywords: ['高騰', '停止', '封鎖', '不作', '枯渇'], weight: 1.5 },
+    HIGH: { keywords: ['上昇', '不足', '制限', '懸念', '減産'], weight: 1.2 },
+    NORMAL: { keywords: ['変動', '影響', '推移'], weight: 1.05 }
+  }
+};
+
+const CATEGORY_NEWS_MAP = {
+  RICE: { keywords: ['米', '不作', 'タイ米', '備蓄'], sensitivity: 1.1 },
+  WATER: { keywords: ['水', '原油', '輸送', 'インフラ'], sensitivity: 0.8 },
+  COMMON: { keywords: ['物価', '高騰', '地政学', '原油'], sensitivity: 1.0 }
+};
 
 dotenv.config();
 
@@ -49,13 +62,17 @@ const fetchAndAnalyzeNews = async () => {
       items.forEach(item => {
         const title = item.title && item.title[0];
         const link = item.link && item.link[0];
-        if (!title) return;
+        if (!title || typeof title !== 'string') return;
+        
         const isResolved = NEWS_DICTIONARY.POSITIVE.keywords.some(k => title.includes(k));
         if (isResolved) return;
+
         Object.keys(NEWS_DICTIONARY.NEGATIVE).forEach(level => {
           const { keywords } = NEWS_DICTIONARY.NEGATIVE[level];
           keywords.forEach(kw => {
-            if (title.includes(kw)) detectedRisks.push({ title, link, level, kw });
+            if (title.includes(kw)) {
+              detectedRisks.push({ title, link, level, kw });
+            }
           });
         });
       });

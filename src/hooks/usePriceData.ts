@@ -4,6 +4,8 @@ import type { Genre, Subtype, Product } from '../types';
 import { getNormalizedVolume } from '../api/dataUtils';
 import { useAdmin } from '../contexts/AdminContext';
 
+import { wrapAma, wrapRaku } from '../data/mockData';
+
 /**
  * 構成案に基づく高度なデータ取得フック (v5.0 手動ソート対応)
  */
@@ -171,7 +173,7 @@ export const usePriceData = () => {
             unit: genre.unitType,
             baseUnit: genre.unitType,
             popularity: p.popularity || 100,
-            affiliateUrl: p.affiliateUrl || p.itemUrl,
+            affiliateUrl: store === 'rakuten' ? wrapRaku(p.itemUrl) : wrapAma(p.itemUrl || `https://www.amazon.co.jp/dp/${p.asin}`),
             source: store === 'rakuten' ? 'Rakuten Live' : 'Amazon Pro',
             forecastData: Array(7).fill(price)
           };

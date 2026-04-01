@@ -14,14 +14,16 @@ export interface SubtypeMetadata {
 const RAKU_AFL_ID = '5025407c.d8994699.5025407d.e9a413e7';
 const AMA_AFL_TAG = 'mangaanimeosu-22';
 
-const wrapRaku = (pcUrl: string) => {
+export const wrapRaku = (pcUrl: string) => {
   const encPc = encodeURIComponent(pcUrl);
   return `https://hb.afl.rakuten.co.jp/hgc/${RAKU_AFL_ID}/?pc=${encPc}&m=${encPc}`;
 };
 
-const wrapAma = (baseUrl: string) => {
-  const connector = baseUrl.includes('?') ? '&' : '?';
-  return `${baseUrl}${connector}tag=${AMA_AFL_TAG}`;
+export const wrapAma = (url: string) => {
+  if (url.includes('?')) {
+    return `${url}&tag=${AMA_AFL_TAG}`;
+  }
+  return `${url}?tag=${AMA_AFL_TAG}`;
 };
 
 export const mockGenres: (Genre & { subtypes: (any & SubtypeMetadata)[] })[] = [
@@ -333,7 +335,48 @@ export const mockGenres: (Genre & { subtypes: (any & SubtypeMetadata)[] })[] = [
         searchOverride: 'トイレットペーパー 12ロール 送料無料 -定期便 -ふるさと納税',
         requiredKeywords: ['12', 'ロール'],
         excludeKeywords: ['定期便', 'ふるさと納税'],
-        products: []
+        products: [
+          {
+            id: 'tp-96r-rakuten',
+            name: '[96ロール] 再生紙ダブル 12r×8P - ¥3,200 (1ロール¥33.3)',
+            price: 3200, shipping: 0, points: 32, volume: 96, unit: 'roll', baseUnit: '1roll',
+            store: 'rakuten', rakutenCode: 'e-yuasa:10000058', popularity: 100,
+            affiliateUrl: wrapRaku('https://item.rakuten.co.jp/e-yuasa/10000058/'),
+            forecastData: [3200, 3200, 3200, 3200, 3200, 3200, 3200]
+          },
+          {
+            id: 'tp-Scottie3x-amazon',
+            name: '[12ロール] スコッティ 3倍長持ち 75mダブル - ¥1,000 (1ロール¥83.3 / 実質¥27.7)',
+            price: 1000, shipping: 0, points: 10, volume: 12, unit: 'roll', baseUnit: '1roll',
+            store: 'amazon', asin: 'B00B4S82XW', popularity: 98,
+            affiliateUrl: wrapAma('https://www.amazon.co.jp/dp/B00B4S82XW'),
+            forecastData: [1000, 1000, 1000, 1000, 1000, 1000, 1000]
+          },
+          {
+            id: 'tp-72r-rakuten',
+            name: '[72ロール] 緑茶の力 12r×6P - ¥4,199 (1ロール¥58.3)',
+            price: 4199, shipping: 0, points: 41, volume: 72, unit: 'roll', baseUnit: '1roll',
+            store: 'rakuten', rakutenCode: 'm-seishi:0268', popularity: 95,
+            affiliateUrl: wrapRaku('https://item.rakuten.co.jp/m-seishi/0268/'),
+            forecastData: [4199, 4199, 4199, 4199, 4199, 4199, 4199]
+          },
+          {
+            id: 'tp-ina-rakuten',
+            name: '[72ロール] エリエール i:na 12r×6P - ¥4,580 (1ロール¥63.6)',
+            price: 4580, shipping: 0, points: 45, volume: 72, unit: 'roll', baseUnit: '1roll',
+            store: 'rakuten', rakutenCode: 'soukai:4902011729122', popularity: 92,
+            affiliateUrl: wrapRaku('https://item.rakuten.co.jp/soukai/4902011729122/'),
+            forecastData: [4580, 4580, 4580, 4580, 4580, 4580, 4580]
+          },
+          {
+            id: 'tp-nepia-amazon',
+            name: '[72ロール] ネピア パブリック 12r×6P - ¥4,800 (1ロール¥66.6)',
+            price: 4800, shipping: 0, points: 48, volume: 72, unit: 'roll', baseUnit: '1roll',
+            store: 'amazon', asin: 'B01N2Z9TSW', popularity: 90,
+            affiliateUrl: wrapAma('https://www.amazon.co.jp/dp/B01N2Z9TSW'),
+            forecastData: [4800, 4800, 4800, 4800, 4800, 4800, 4800]
+          }
+        ]
       }
     ]
   },
@@ -393,6 +436,10 @@ export const mockGenres: (Genre & { subtypes: (any & SubtypeMetadata)[] })[] = [
         id: 'tissue-5p',
         name: '5個パック',
         regionalAverage: 350,
+        representativeAsin: 'B0054M8A6E',
+        searchOverride: 'ティッシュ 5個パック 送料無料',
+        requiredKeywords: ['5個', 'パック'],
+        excludeKeywords: [],
         products: []
       }
     ]
@@ -401,8 +448,8 @@ export const mockGenres: (Genre & { subtypes: (any & SubtypeMetadata)[] })[] = [
     id: 'detergent',
     name: '洗濯洗剤',
     group: 'stock',
-    unitType: '1kg',
-    historyData: [450, 445, 440, 438, 430, 420, 410, 405, 400, 410, 420, 430, 438, 445, 450],
+    unitType: '100g',
+    historyData: [80, 82, 85, 88, 90, 85, 80, 78, 75, 78, 80, 82, 85, 88, 90],
     subtypes: [
       {
         id: 'detergent-refill',

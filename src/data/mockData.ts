@@ -429,18 +429,59 @@ export const mockGenres: (Genre & { subtypes: (any & SubtypeMetadata)[] })[] = [
     id: 'tissue',
     name: 'ティッシュ',
     group: 'stock',
-    unitType: '1box',
+    unitType: '100組',
     historyData: [350, 345, 340, 338, 330, 320, 310, 305, 300, 310, 320, 330, 338, 345, 350],
     subtypes: [
       {
-        id: 'tissue-5p',
-        name: '5個パック',
-        regionalAverage: 350,
-        representativeAsin: 'B0054M8A6E',
-        searchOverride: 'ティッシュ 5個パック 送料無料',
-        requiredKeywords: ['5個', 'パック'],
-        excludeKeywords: [],
-        products: []
+        id: 'tissue-bulk',
+        name: 'ティッシュ (最安まとめ買い)',
+        regionalAverage: 65,
+        representativeAsin: 'B07HDZH354',
+        searchOverride: 'ティッシュ ソフトパック まとめ買い 60 80 90 100',
+        requiredKeywords: ['ティッシュ', 'ソフトパック', 'まとめ買い'],
+        excludeKeywords: ['定期便', 'ふるさと納税'],
+        products: [
+          {
+            id: 'ts-rakuten-forestway-200w',
+            name: '[80個] Forestway ソフトパック 200組 - ¥4,970 (100組¥31.1)',
+            price: 4970, shipping: 0, points: 49, volume: 16000, unit: '枚', baseUnit: '100組',
+            store: 'rakuten', rakutenCode: 'cocodecow:r859md', popularity: 100,
+            affiliateUrl: wrapRaku('https://item.rakuten.co.jp/cocodecow/r859md/'),
+            forecastData: [4970, 4970, 4970, 4970, 4970, 4970, 4970]
+          },
+          {
+            id: 'ts-rakuten-forestway-150w',
+            name: '[100個] Forestway ソフトパック 150組 - ¥4,970 (100組¥33.1)',
+            price: 4970, shipping: 0, points: 49, volume: 15000, unit: '枚', baseUnit: '100組',
+            store: 'rakuten', rakutenCode: 'cocodecow:r857md', popularity: 98,
+            affiliateUrl: wrapRaku('https://item.rakuten.co.jp/cocodecow/r857md/'),
+            forecastData: [4970, 4970, 4970, 4970, 4970, 4970, 4970]
+          },
+          {
+            id: 'ts-amazon-vinda-150w',
+            name: '[90個] Amazon VINDA ソフトパック 150組 - ¥4,980 (100組¥36.9)',
+            price: 4980, shipping: 0, points: 50, volume: 13500, unit: '枚', baseUnit: '100組',
+            store: 'amazon', asin: 'B07HDZH354', popularity: 95,
+            affiliateUrl: wrapAma('https://www.amazon.co.jp/dp/B07HDZH354'),
+            forecastData: [4980, 4980, 4980, 4980, 4980, 4980, 4980]
+          },
+          {
+            id: 'ts-amazon-fleurdoux-150w',
+            name: '[90個] Amazon fleurdoux ソフトパック 150組 - ¥4,980 (100組¥36.9)',
+            price: 4980, shipping: 0, points: 50, volume: 13500, unit: '枚', baseUnit: '100組',
+            store: 'amazon', asin: 'B08ZXQZVRL', popularity: 92,
+            affiliateUrl: wrapAma('https://www.amazon.co.jp/dp/B08ZXQZVRL'),
+            forecastData: [4980, 4980, 4980, 4980, 4980, 4980, 4980]
+          },
+          {
+            id: 'ts-rakuten-hello-150w',
+            name: '[60個] ハロー ソフトパック 150組 - ¥4,350 (100組¥48.3)',
+            price: 4350, shipping: 0, points: 43, volume: 9000, unit: '枚', baseUnit: '100組',
+            store: 'rakuten', rakutenCode: 'kaiteki-homes:10034606', popularity: 90,
+            affiliateUrl: wrapRaku('https://item.rakuten.co.jp/kaiteki-homes/10034606/'),
+            forecastData: [4350, 4350, 4350, 4350, 4350, 4350, 4350]
+          }
+        ]
       }
     ]
   },

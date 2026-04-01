@@ -346,11 +346,11 @@ export const mockGenres: (Genre & { subtypes: (any & SubtypeMetadata)[] })[] = [
           },
           {
             id: 'tp-Scottie3x-amazon',
-            name: '[12ロール] スコッティ 3倍長持ち 75mダブル - ¥1,000 (1ロール¥83.3 / 実質¥27.7)',
-            price: 1000, shipping: 0, points: 10, volume: 12, unit: 'roll', baseUnit: '1roll',
+            name: '[12ロール] スコッティ 3倍長持ち 75mダブル - ¥1,220 (1ロール¥101.6)',
+            price: 1220, shipping: 0, points: 12, volume: 12, unit: 'roll', baseUnit: '1roll',
             store: 'amazon', asin: 'B085GDK3FH', popularity: 98,
             affiliateUrl: wrapAma('https://www.amazon.co.jp/dp/B085GDK3FH'),
-            forecastData: [1000, 1000, 1000, 1000, 1000, 1000, 1000]
+            forecastData: [1220, 1220, 1220, 1220, 1220, 1220, 1220]
           },
           {
             id: 'tp-72r-rakuten',
@@ -359,6 +359,14 @@ export const mockGenres: (Genre & { subtypes: (any & SubtypeMetadata)[] })[] = [
             store: 'rakuten', rakutenCode: 'e-yuasa:10000058', popularity: 95,
             affiliateUrl: wrapRaku('https://item.rakuten.co.jp/e-yuasa/10000058/'),
             forecastData: [4199, 4199, 4199, 4199, 4199, 4199, 4199]
+          },
+          {
+            id: 'tp-Nepia-amazon',
+            name: '[12ロール] ネピア ネピネピ ダブル - ¥1,270 (1ロール¥105.8)',
+            price: 1270, shipping: 0, points: 13, volume: 12, unit: 'roll', baseUnit: '1roll',
+            store: 'amazon', asin: 'B0088UKJIM', popularity: 90,
+            affiliateUrl: wrapAma('https://www.amazon.co.jp/dp/B0088UKJIM'),
+            forecastData: [1270, 1270, 1270, 1270, 1270, 1270, 1270]
           },
           {
             id: 'tp-ina-rakuten',

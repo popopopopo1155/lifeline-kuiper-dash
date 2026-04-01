@@ -432,43 +432,43 @@ export const mockGenres: (Genre & { subtypes: (any & SubtypeMetadata)[] })[] = [
         products: [
           {
             id: 'dt-l-r1',
-            name: '業務用 液体洗濯洗剤 スクリット 18L B.I.B - ¥4,580 (1回¥4.3)',
-            price: 4580, shipping: 0, points: 46, volume: 18000, unit: 'ml', baseUnit: '1回',
+            name: '業務用 液体洗濯洗剤 スクリット 18L B.I.B - ¥5,300 (1回¥7.4)',
+            price: 5300, shipping: 0, points: 53, volume: 18000, unit: 'ml', baseUnit: '1回',
             store: 'rakuten', rakutenCode: 'kumano-official:5117', popularity: 100,
             affiliateUrl: wrapRaku('https://item.rakuten.co.jp/kumano-official/5117/'),
-            forecastData: [4580, 4580, 4580, 4580, 4580, 4580, 4580]
+            forecastData: [5300, 5300, 5300, 5300, 5300, 5300, 5300]
           },
           {
             id: 'dt-l-a2',
-            name: 'カネヨ 抗菌剤入り 衣料用液体洗剤 5kg×4 (業務用) - ¥4,950 (1回¥4.1)',
-            price: 4950, shipping: 0, points: 50, volume: 20000, unit: 'ml', baseUnit: '1回',
+            name: 'カネヨ 抗菌剤入り 衣料用液体洗剤 5kg×4 (業務用) - ¥7,599 (1回¥9.5)',
+            price: 7599, shipping: 0, points: 76, volume: 20000, unit: 'ml', baseUnit: '1回',
             store: 'amazon', asin: 'B0GDZJF5V7', popularity: 98,
             affiliateUrl: wrapAma('https://www.amazon.co.jp/dp/B0GDZJF5V7'),
-            forecastData: [4950, 4950, 4950, 4950, 4950, 4950, 4950]
+            forecastData: [7599, 7599, 7599, 7599, 7599, 7599, 7599]
           },
           {
             id: 'dt-l-a3',
-            name: 'トップ クリアリキッド 10kg (業務用) - ¥3,380 (1回¥6.8)',
-            price: 3380, shipping: 0, points: 34, volume: 10000, unit: 'ml', baseUnit: '1回',
+            name: 'トップ クリアリキッド 10kg (業務用) - ¥4,100 (1回¥10.3)',
+            price: 4100, shipping: 0, points: 41, volume: 10000, unit: 'ml', baseUnit: '1回',
             store: 'amazon', asin: 'B01IES8W2M', popularity: 95,
             affiliateUrl: wrapAma('https://www.amazon.co.jp/dp/B01IES8W2M'),
-            forecastData: [3380, 3380, 3380, 3380, 3380, 3380, 3380]
+            forecastData: [4100, 4100, 4100, 4100, 4100, 4100, 4100]
           },
           {
             id: 'dt-l-a4',
-            name: 'ナノックスOne 詰替 超特大 1.73kg - ¥1,420 (1回¥8.2)',
-            price: 1420, shipping: 0, points: 14, volume: 1730, unit: 'ml', baseUnit: '1回',
+            name: 'ナノックスOne 詰替 超特大 1.73kg - ¥1,363 (1回¥19.7)',
+            price: 1363, shipping: 0, points: 14, volume: 1730, unit: 'ml', baseUnit: '1回',
             store: 'amazon', asin: 'B0CBB3P48C', popularity: 92,
             affiliateUrl: wrapAma('https://www.amazon.co.jp/dp/B0CBB3P48C'),
-            forecastData: [1420, 1420, 1420, 1420, 1420, 1420, 1420]
+            forecastData: [1363, 1363, 1363, 1363, 1363, 1363, 1363]
           },
           {
             id: 'dt-l-a5',
-            name: 'アタックZERO 詰め替え 2150g - ¥2,100 (1回¥10.0)',
-            price: 2100, shipping: 0, points: 21, volume: 2150, unit: 'ml', baseUnit: '1回',
+            name: 'アタックZERO 詰め替え 2150g - ¥1,722 (1回¥20.0)',
+            price: 1722, shipping: 0, points: 17, volume: 2150, unit: 'ml', baseUnit: '1回',
             store: 'amazon', asin: 'B09T3VFBHG', popularity: 90,
             affiliateUrl: wrapAma('https://www.amazon.co.jp/dp/B09T3VFBHG'),
-            forecastData: [2100, 2100, 2100, 2100, 2100, 2100, 2100]
+            forecastData: [1722, 1722, 1722, 1722, 1722, 1722, 1722]
           }
         ]
       },
@@ -479,43 +479,43 @@ export const mockGenres: (Genre & { subtypes: (any & SubtypeMetadata)[] })[] = [
         products: [
           {
             id: 'dt-p-r1',
-            name: 'コーナン オリジナル クリーンランドリー 4.0kg - ¥768 (1回¥3.8)',
-            price: 768, shipping: 0, points: 8, volume: 4000, unit: 'g', baseUnit: '1回',
+            name: 'コーナン オリジナル クリーンランドリー 4.0kg - ¥1,490 (1回¥7.5)',
+            price: 1490, shipping: 0, points: 15, volume: 4000, unit: 'g', baseUnit: '1回',
             store: 'rakuten', rakutenCode: 'kohnan-eshop:4522831382170', popularity: 100,
             affiliateUrl: wrapRaku('https://item.rakuten.co.jp/kohnan-eshop/4522831382170/'),
-            forecastData: [768, 768, 768, 768, 768, 768, 768]
+            forecastData: [1490, 1490, 1490, 1490, 1490, 1490, 1490]
           },
           {
             id: 'dt-p-a2',
-            name: 'メガテック 衣料用洗剤 4.5kg (業務用) - ¥1,580 (1回¥3.5)',
-            price: 1580, shipping: 0, points: 16, volume: 4500, unit: 'g', baseUnit: '1回',
+            name: 'メガテック 衣料用洗剤 4.5kg (業務用) - ¥2,880 (1回¥6.4)',
+            price: 2880, shipping: 0, points: 29, volume: 4500, unit: 'g', baseUnit: '1回',
             store: 'amazon', asin: 'B07N8P6T96', popularity: 98,
             affiliateUrl: wrapAma('https://www.amazon.co.jp/dp/B07N8P6T96'),
-            forecastData: [1580, 1580, 1580, 1580, 1580, 1580, 1580]
+            forecastData: [2880, 2880, 2880, 2880, 2880, 2880, 2880]
           },
           {
             id: 'dt-p-a3',
-            name: 'アタック 10kg 高活性バイオEX (業務用) - ¥3,330 (1回¥6.7)',
-            price: 3330, shipping: 0, points: 33, volume: 10000, unit: 'g', baseUnit: '1回',
+            name: 'アタック 業務用 10kg (10kg×1個) - ¥5,480 (1回¥13.7)',
+            price: 5480, shipping: 0, points: 55, volume: 10000, unit: 'g', baseUnit: '1回',
             store: 'amazon', asin: 'B086VYPLNV', popularity: 95,
             affiliateUrl: wrapAma('https://www.amazon.co.jp/dp/B086VYPLNV'),
-            forecastData: [3330, 3330, 3330, 3330, 3330, 3330, 3330]
+            forecastData: [5480, 5480, 5480, 5480, 5480, 5480, 5480]
           },
           {
-            id: 'dt-p-a4',
-            name: 'トップ プラチナクリア 10kg (業務用/限定版) - ¥3,560 (1回¥7.1)',
-            price: 3560, shipping: 0, points: 36, volume: 10000, unit: 'g', baseUnit: '1回',
-            store: 'amazon', asin: 'B0D8Z25PZC', popularity: 92,
-            affiliateUrl: wrapAma('https://www.amazon.co.jp/dp/B0D8Z25PZC'),
-            forecastData: [3560, 3560, 3560, 3560, 3560, 3560, 3560]
+            id: 'dt-p-r4',
+            name: '花王 アタック業務用 10kg (2.5kg×4袋) - ¥4,341 (1回¥10.9)',
+            price: 4341, shipping: 0, points: 43, volume: 10000, unit: 'g', baseUnit: '1回',
+            store: 'rakuten', rakutenCode: 'prolabshop:62-3785-07', popularity: 92,
+            affiliateUrl: wrapRaku('https://item.rakuten.co.jp/prolabshop/62-3785-07/'),
+            forecastData: [4341, 4341, 4341, 4341, 4341, 4341, 4341]
           },
           {
             id: 'dt-p-r5',
-            name: 'ミツエイ ニュースーパーウォッシュ 4kg - ¥1,280 (1回¥6.4)',
-            price: 1280, shipping: 0, points: 13, volume: 4000, unit: 'g', baseUnit: '1回',
+            name: 'ミツエイ ニュースーパーウォッシュ 4kg - ¥2,236 (1回¥14.0)',
+            price: 2236, shipping: 0, points: 22, volume: 4000, unit: 'g', baseUnit: '1回',
             store: 'rakuten', rakutenCode: 'rakuten24:4978951060953', popularity: 90,
             affiliateUrl: wrapRaku('https://item.rakuten.co.jp/rakuten24/4978951060953/'),
-            forecastData: [1280, 1280, 1280, 1280, 1280, 1280, 1280]
+            forecastData: [2236, 2236, 2236, 2236, 2236, 2236, 2236]
           }
         ]
       },
@@ -526,7 +526,7 @@ export const mockGenres: (Genre & { subtypes: (any & SubtypeMetadata)[] })[] = [
         products: [
           {
             id: 'dt-g-r1',
-            name: 'TOWABOX 洗濯ジェル 150個入 (大容量) - ¥3,199 (1回¥21.3)',
+            name: 'TOWABOX 洗濯ジェル 50個入 × 3袋セット - ¥3,199 (1回¥21.3)',
             price: 3199, shipping: 0, points: 32, volume: 150, unit: '個', baseUnit: '1回',
             store: 'rakuten', rakutenCode: 'towabox:tw-rakuwash', popularity: 100,
             affiliateUrl: wrapRaku('https://item.rakuten.co.jp/towabox/tw-rakuwash/'),
@@ -536,33 +536,33 @@ export const mockGenres: (Genre & { subtypes: (any & SubtypeMetadata)[] })[] = [
             id: 'dt-g-a2',
             name: 'KIRKLAND ウルトラクリーン 152回分 - ¥3,498 (1回¥23.0)',
             price: 3498, shipping: 0, points: 35, volume: 152, unit: '個', baseUnit: '1回',
-            store: 'amazon', asin: 'B0CYZ6442V', popularity: 98,
-            affiliateUrl: wrapAma('https://www.amazon.co.jp/dp/B0CYZ6442V'),
+            store: 'amazon', asin: 'B08W5GMLCH', popularity: 98,
+            affiliateUrl: wrapAma('https://www.amazon.co.jp/dp/B08W5GMLCH'),
             forecastData: [3498, 3498, 3498, 3498, 3498, 3498, 3498]
           },
           {
             id: 'dt-g-r3',
-            name: 'LOUVRICH 微香 柔軟剤入り 105個入 - ¥2,790 (1回¥26.5)',
-            price: 2790, shipping: 0, points: 28, volume: 105, unit: '個', baseUnit: '1回',
+            name: 'LOUVRICH 微香 柔軟剤入り 105個入 - ¥3,980 (1回¥37.9)',
+            price: 3980, shipping: 0, points: 40, volume: 105, unit: '個', baseUnit: '1回',
             store: 'rakuten', rakutenCode: 'louvrich:2024111401', popularity: 95,
             affiliateUrl: wrapRaku('https://item.rakuten.co.jp/louvrich/2024111401/'),
-            forecastData: [2790, 2790, 2790, 2790, 2790, 2790, 2790]
+            forecastData: [3980, 3980, 3980, 3980, 3980, 3980, 3980]
           },
           {
             id: 'dt-g-r4',
-            name: 'アリエール ジェルボール4D 110個袋 - ¥3,800 (1回¥34.5)',
-            price: 3800, shipping: 0, points: 38, volume: 110, unit: '個', baseUnit: '1回',
-            store: 'rakuten', rakutenCode: 'platanusstore:4987176292865', popularity: 92,
-            affiliateUrl: wrapRaku('https://item.rakuten.co.jp/platanusstore/4987176292865/'),
-            forecastData: [3800, 3800, 3800, 3800, 3800, 3800, 3800]
+            name: 'アリエール ジェルボール4D 詰め替えセット (送料無料) - ¥4,979 (1回¥29.3)',
+            price: 4979, shipping: 0, points: 50, volume: 170, unit: '個', baseUnit: '1回',
+            store: 'rakuten', rakutenCode: 'rakuten24:405192', popularity: 92,
+            affiliateUrl: wrapRaku('https://item.rakuten.co.jp/rakuten24/405192/'),
+            forecastData: [4979, 4979, 4979, 4979, 4979, 4979, 4979]
           },
           {
             id: 'dt-g-r5',
-            name: 'ボールド ジェルボール 4D 100個袋 - ¥3,780 (1回¥37.8)',
-            price: 3780, shipping: 0, points: 38, volume: 100, unit: '個', baseUnit: '1回',
-            store: 'rakuten', rakutenCode: 'shopypp:3799-003791', popularity: 90,
-            affiliateUrl: wrapRaku('https://item.rakuten.co.jp/shopypp/3799-003791/'),
-            forecastData: [3780, 3780, 3780, 3780, 3780, 3780, 3780]
+            name: 'ボールド ジェルボール 4D 詰め替えセット (送料無料) - ¥4,980 (1回¥29.3)',
+            price: 4980, shipping: 0, points: 50, volume: 170, unit: '個', baseUnit: '1回',
+            store: 'rakuten', rakutenCode: 'rakuten24:405433', popularity: 90,
+            affiliateUrl: wrapRaku('https://item.rakuten.co.jp/rakuten24/405433/'),
+            forecastData: [4980, 4980, 4980, 4980, 4980, 4980, 4980]
           }
         ]
       }

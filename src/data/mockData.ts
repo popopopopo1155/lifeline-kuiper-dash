@@ -434,40 +434,40 @@ export const mockGenres: (Genre & { subtypes: (any & SubtypeMetadata)[] })[] = [
             id: 'dt-l-r1',
             name: '業務用 液体洗濯洗剤 スクリット 18L B.I.B - ¥4,580 (1回¥4.3)',
             price: 4580, shipping: 0, points: 46, volume: 18000, unit: 'ml', baseUnit: '1回',
-            store: 'rakuten', rakutenCode: 'auc-nontarou:km-01223', popularity: 100,
-            affiliateUrl: wrapRaku('https://item.rakuten.co.jp/auc-nontarou/km-01223/'),
+            store: 'rakuten', rakutenCode: 'kumano-official:5117', popularity: 100,
+            affiliateUrl: wrapRaku('https://item.rakuten.co.jp/kumano-official/5117/'),
             forecastData: [4580, 4580, 4580, 4580, 4580, 4580, 4580]
           },
           {
             id: 'dt-l-a2',
-            name: 'カネヨ 抗菌剤入り 衣料用液体洗剤 18kg (業務用) - ¥4,391 (1回¥6.1)',
-            price: 4391, shipping: 0, points: 44, volume: 18000, unit: 'ml', baseUnit: '1回',
-            store: 'amazon', asin: 'B003TXPTNA', popularity: 98,
-            affiliateUrl: wrapAma('https://www.amazon.co.jp/dp/B003TXPTNA'),
-            forecastData: [4391, 4391, 4391, 4391, 4391, 4391, 4391]
+            name: 'カネヨ 抗菌剤入り 衣料用液体洗剤 5kg×4 (業務用) - ¥4,950 (1回¥4.1)',
+            price: 4950, shipping: 0, points: 50, volume: 20000, unit: 'ml', baseUnit: '1回',
+            store: 'amazon', asin: 'B0GDZJF5V7', popularity: 98,
+            affiliateUrl: wrapAma('https://www.amazon.co.jp/dp/B0GDZJF5V7'),
+            forecastData: [4950, 4950, 4950, 4950, 4950, 4950, 4950]
           },
           {
             id: 'dt-l-a3',
-            name: 'トップ クリアリキッド 10kg (業務用) - ¥3,380 (1回¥8.4)',
+            name: 'トップ クリアリキッド 10kg (業務用) - ¥3,380 (1回¥6.8)',
             price: 3380, shipping: 0, points: 34, volume: 10000, unit: 'ml', baseUnit: '1回',
-            store: 'amazon', asin: 'B002KDP83E', popularity: 95,
-            affiliateUrl: wrapAma('https://www.amazon.co.jp/dp/B002KDP83E'),
+            store: 'amazon', asin: 'B01IES8W2M', popularity: 95,
+            affiliateUrl: wrapAma('https://www.amazon.co.jp/dp/B01IES8W2M'),
             forecastData: [3380, 3380, 3380, 3380, 3380, 3380, 3380]
           },
           {
             id: 'dt-l-a4',
-            name: 'ナノックスOne 詰替 超特大 1900g (約190回分) - ¥1,620 (1回¥21.3)',
-            price: 1620, shipping: 0, points: 16, volume: 1900, unit: 'ml', baseUnit: '1回',
-            store: 'amazon', asin: 'B0CW15Z9V7', popularity: 92,
-            affiliateUrl: wrapAma('https://www.amazon.co.jp/dp/B0CW15Z9V7'),
-            forecastData: [1620, 1620, 1620, 1620, 1620, 1620, 1620]
+            name: 'ナノックスOne 詰替 超特大 1.73kg - ¥1,420 (1回¥8.2)',
+            price: 1420, shipping: 0, points: 14, volume: 1730, unit: 'ml', baseUnit: '1回',
+            store: 'amazon', asin: 'B0CBB3P48C', popularity: 92,
+            affiliateUrl: wrapAma('https://www.amazon.co.jp/dp/B0CBB3P48C'),
+            forecastData: [1420, 1420, 1420, 1420, 1420, 1420, 1420]
           },
           {
             id: 'dt-l-a5',
-            name: 'アタックZERO 詰替 2150g (約215回分) - ¥2,100 (1回¥24.4)',
+            name: 'アタックZERO 詰め替え 2150g - ¥2,100 (1回¥10.0)',
             price: 2100, shipping: 0, points: 21, volume: 2150, unit: 'ml', baseUnit: '1回',
-            store: 'amazon', asin: 'B0CVL7M39R', popularity: 90,
-            affiliateUrl: wrapAma('https://www.amazon.co.jp/dp/B0CVL7M39R/'),
+            store: 'amazon', asin: 'B09T3VFBHG', popularity: 90,
+            affiliateUrl: wrapAma('https://www.amazon.co.jp/dp/B09T3VFBHG'),
             forecastData: [2100, 2100, 2100, 2100, 2100, 2100, 2100]
           }
         ]
@@ -486,36 +486,36 @@ export const mockGenres: (Genre & { subtypes: (any & SubtypeMetadata)[] })[] = [
             forecastData: [768, 768, 768, 768, 768, 768, 768]
           },
           {
-            id: 'dt-p-m2',
-            name: 'マツキヨ 高活性衣料用洗剤 1.0kg - ¥198 (1回¥3.9)',
-            price: 198, shipping: 0, points: 2, volume: 1000, unit: 'g', baseUnit: '1回',
-            store: 'amazon', asin: 'B0CBYW633R', popularity: 98,
-            affiliateUrl: wrapAma('https://www.amazon.co.jp/dp/B0CBYW633R'),
-            forecastData: [198, 198, 198, 198, 198, 198, 198]
+            id: 'dt-p-a2',
+            name: 'メガテック 衣料用洗剤 4.5kg (業務用) - ¥1,580 (1回¥3.5)',
+            price: 1580, shipping: 0, points: 16, volume: 4500, unit: 'g', baseUnit: '1回',
+            store: 'amazon', asin: 'B07N8P6T96', popularity: 98,
+            affiliateUrl: wrapAma('https://www.amazon.co.jp/dp/B07N8P6T96'),
+            forecastData: [1580, 1580, 1580, 1580, 1580, 1580, 1580]
           },
           {
             id: 'dt-p-a3',
-            name: 'アタック 高活性バイオEX 10kg (業務用) - ¥3,330 (1回¥6.6)',
+            name: 'アタック 10kg 高活性バイオEX (業務用) - ¥3,330 (1回¥6.7)',
             price: 3330, shipping: 0, points: 33, volume: 10000, unit: 'g', baseUnit: '1回',
-            store: 'amazon', asin: 'B0047Z8C3C', popularity: 95,
-            affiliateUrl: wrapAma('https://www.amazon.co.jp/dp/B0047Z8C3C'),
+            store: 'amazon', asin: 'B086VYPLNV', popularity: 95,
+            affiliateUrl: wrapAma('https://www.amazon.co.jp/dp/B086VYPLNV'),
             forecastData: [3330, 3330, 3330, 3330, 3330, 3330, 3330]
           },
           {
             id: 'dt-p-a4',
-            name: 'トップ 持続除菌EX 10kg (業務用) - ¥3,560 (1回¥7.1)',
+            name: 'トップ プラチナクリア 10kg (業務用/限定版) - ¥3,560 (1回¥7.1)',
             price: 3560, shipping: 0, points: 36, volume: 10000, unit: 'g', baseUnit: '1回',
-            store: 'amazon', asin: 'B002KDP83E', popularity: 92,
-            affiliateUrl: wrapAma('https://www.amazon.co.jp/dp/B002KDP83E'),
+            store: 'amazon', asin: 'B0D8Z25PZC', popularity: 92,
+            affiliateUrl: wrapAma('https://www.amazon.co.jp/dp/B0D8Z25PZC'),
             forecastData: [3560, 3560, 3560, 3560, 3560, 3560, 3560]
           },
           {
             id: 'dt-p-r5',
-            name: 'ミツエイ ニュースーパーウォッシュ 4kg - ¥1,488 (1回¥7.4)',
-            price: 1488, shipping: 0, points: 15, volume: 4000, unit: 'g', baseUnit: '1回',
-            store: 'rakuten', rakutenCode: 'loha-co:u602528', popularity: 90,
-            affiliateUrl: wrapRaku('https://item.rakuten.co.jp/loha-co/u602528/'),
-            forecastData: [1488, 1488, 1488, 1488, 1488, 1488, 1488]
+            name: 'ミツエイ ニュースーパーウォッシュ 4kg - ¥1,280 (1回¥6.4)',
+            price: 1280, shipping: 0, points: 13, volume: 4000, unit: 'g', baseUnit: '1回',
+            store: 'rakuten', rakutenCode: 'rakuten24:4978951060953', popularity: 90,
+            affiliateUrl: wrapRaku('https://item.rakuten.co.jp/rakuten24/4978951060953/'),
+            forecastData: [1280, 1280, 1280, 1280, 1280, 1280, 1280]
           }
         ]
       },

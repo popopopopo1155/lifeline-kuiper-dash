@@ -340,24 +340,24 @@ export const mockGenres: (Genre & { subtypes: (any & SubtypeMetadata)[] })[] = [
             id: 'tp-96r-rakuten',
             name: '[96ロール] 再生紙ダブル 12r×8P - ¥3,200 (1ロール¥33.3)',
             price: 3200, shipping: 0, points: 32, volume: 96, unit: 'roll', baseUnit: '1roll',
-            store: 'rakuten', rakutenCode: 'e-yuasa:10000058', popularity: 100,
-            affiliateUrl: wrapRaku('https://item.rakuten.co.jp/e-yuasa/10000058/'),
+            store: 'rakuten', rakutenCode: 'coming:jun1kyuhinrolls-recycle12rw', popularity: 100,
+            affiliateUrl: wrapRaku('https://item.rakuten.co.jp/coming/jun1kyuhinrolls-recycle12rw/'),
             forecastData: [3200, 3200, 3200, 3200, 3200, 3200, 3200]
           },
           {
             id: 'tp-Scottie3x-amazon',
             name: '[12ロール] スコッティ 3倍長持ち 75mダブル - ¥1,000 (1ロール¥83.3 / 実質¥27.7)',
             price: 1000, shipping: 0, points: 10, volume: 12, unit: 'roll', baseUnit: '1roll',
-            store: 'amazon', asin: 'B00B4S82XW', popularity: 98,
-            affiliateUrl: wrapAma('https://www.amazon.co.jp/dp/B00B4S82XW'),
+            store: 'amazon', asin: 'B085GDK3FH', popularity: 98,
+            affiliateUrl: wrapAma('https://www.amazon.co.jp/dp/B085GDK3FH'),
             forecastData: [1000, 1000, 1000, 1000, 1000, 1000, 1000]
           },
           {
             id: 'tp-72r-rakuten',
             name: '[72ロール] 緑茶の力 12r×6P - ¥4,199 (1ロール¥58.3)',
             price: 4199, shipping: 0, points: 41, volume: 72, unit: 'roll', baseUnit: '1roll',
-            store: 'rakuten', rakutenCode: 'm-seishi:0268', popularity: 95,
-            affiliateUrl: wrapRaku('https://item.rakuten.co.jp/m-seishi/0268/'),
+            store: 'rakuten', rakutenCode: 'e-yuasa:10000058', popularity: 95,
+            affiliateUrl: wrapRaku('https://item.rakuten.co.jp/e-yuasa/10000058/'),
             forecastData: [4199, 4199, 4199, 4199, 4199, 4199, 4199]
           },
           {

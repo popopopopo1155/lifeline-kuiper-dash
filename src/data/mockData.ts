@@ -366,7 +366,7 @@ export const mockGenres: (Genre & { subtypes: (any & SubtypeMetadata)[] })[] = [
             price: 3480, shipping: 0, points: 34, volume: 96, unit: 'roll', baseUnit: '1roll',
             store: 'amazon', asin: 'B0F37JL72Q', popularity: 92,
             affiliateUrl: wrapAma('https://www.amazon.co.jp/dp/B0F37JL72Q'),
-            forecastData: [3480, 3480, 3480, 3480, 3480, 3480, 3480]
+            forecastData: [3349, 3349, 3349, 3349, 3349, 3349, 3349]
           },
           {
             id: 'tp-96r-noshiro-3480',

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import type { Genre } from '../data/mockData';
-import { calculateUnitPrice } from '../data/mockData';
+import type { Genre } from '../types';
+import { getNormalizedVolume } from '../api/dataUtils';
 import { analyzePriceTrend } from '../api/priceAnalysis';
 
 interface GenreCardProps {
@@ -23,13 +23,16 @@ export const GenreCard: React.FC<GenreCardProps> = ({ genre, daysLeft, onClick, 
     regionalAverage = genre.subtypes[0].regionalAverage;
   }
 
-  genre.subtypes.forEach(subtype => {
-    subtype.products.forEach(product => {
-      const up = calculateUnitPrice(product);
+  genre.subtypes.forEach((subtype: any) => {
+    subtype.products.forEach((product: any) => {
+      // 🏮 [FIX] SubtypeCardと同じ精度の計算ロジックに統一
+      const normVol = getNormalizedVolume(product.name, genre.unitType, product.volume, product.unit);
+      const up = Math.round((product.price + product.shipping - product.points) / Math.max(0.1, normVol || 1));
+      
       allPrices.push(up);
       if (up < minUnitPrice) {
         minUnitPrice = up;
-        unitLabel = product.baseUnit as typeof genre.unitType;
+        unitLabel = genre.unitType;
         forecastData = product.forecastData;
         regionalAverage = subtype.regionalAverage;
       }

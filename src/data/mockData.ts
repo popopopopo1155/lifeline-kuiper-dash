@@ -501,138 +501,90 @@ export const mockGenres: (Genre & { subtypes: (any & SubtypeMetadata)[] })[] = [
         regionalAverage: 12,
         products: [
           {
-            id: 'dt-l-1',
-            name: 'Nanox One (濃縮) ケース販売 1160g×6 - ¥6,090 (1回¥8.7)',
-            price: 6090, shipping: 0, points: 61, volume: 6960, unit: 'ml', baseUnit: '1回',
-            store: 'amazon', asin: 'B0CHYMLRL7', popularity: 100,
-            affiliateUrl: wrapAma('https://www.amazon.co.jp/dp/B0CHYMLRL7'),
-            forecastData: [6090, 6090, 6090, 6090, 6090, 6090, 6090]
+            id: 'dt-l-r1',
+            name: 'アタックZERO 詰替 メガサイズ 1460g×6個 - ¥9,814 (1回¥11.2)',
+            price: 9814, shipping: 0, points: 98, volume: 8760, unit: 'ml', baseUnit: '1回',
+            store: 'rakuten', rakutenCode: 'rakuten24:404888', popularity: 100,
+            affiliateUrl: wrapRaku('https://item.rakuten.co.jp/rakuten24/404888/'),
+            forecastData: [9814, 9814, 9814, 9814, 9814, 9814, 9814]
           },
           {
-            id: 'dt-l-2',
-            name: 'アタックZERO (濃縮) ケース販売 1460g×6 - ¥7,837 (1回¥8.9)',
-            price: 7837, shipping: 0, points: 78, volume: 8760, unit: 'ml', baseUnit: '1回',
-            store: 'amazon', asin: 'B0DFN1Z6YQ', popularity: 98,
-            affiliateUrl: wrapAma('https://www.amazon.co.jp/dp/B0DFN1Z6YQ'),
-            forecastData: [7837, 7837, 7837, 7837, 7837, 7837, 7837]
+            id: 'dt-l-r2',
+            name: 'NANOX one ニオイ専用 詰替 超特大 1080g×3個 - ¥3,980 (1回¥12.3)',
+            price: 3980, shipping: 0, points: 40, volume: 3240, unit: 'ml', baseUnit: '1回',
+            store: 'rakuten', rakutenCode: 'rakuten24:406477', popularity: 98,
+            affiliateUrl: wrapRaku('https://item.rakuten.co.jp/rakuten24/406477/'),
+            forecastData: [3980, 3980, 3980, 3980, 3980, 3980, 3980]
           },
           {
-            id: 'dt-l-3',
-            name: 'アタック 抗菌EX (通常) 1.7kg×6 - ¥4,752 (1回¥11.6)',
-            price: 4752, shipping: 0, points: 48, volume: 10200, unit: 'ml', baseUnit: '1回',
-            store: 'amazon', asin: 'B09V7N8W47', popularity: 95,
-            affiliateUrl: wrapAma('https://www.amazon.co.jp/dp/B09V7N8W47'),
-            forecastData: [4752, 4752, 4752, 4752, 4752, 4752, 4752]
-          },
-          {
-            id: 'dt-l-4',
-            name: 'ニュービーズ リュクスクラフト 1.22kg×6 - ¥4,216 (1回¥14.4)',
-            price: 4216, shipping: 0, points: 42, volume: 7320, unit: 'ml', baseUnit: '1回',
-            store: 'amazon', asin: 'B0BNW6Z1YJ', popularity: 92,
-            affiliateUrl: wrapAma('https://www.amazon.co.jp/dp/B0BNW6Z1YJ'),
-            forecastData: [4216, 4216, 4216, 4216, 4216, 4216, 4216]
-          },
-          {
-            id: 'dt-l-5',
-            name: 'アリエール 除菌プラス 詰替 超特大 850g×6 - ¥4,136 (1回¥13.5)',
-            price: 4136, shipping: 0, points: 41, volume: 5100, unit: 'ml', baseUnit: '1回',
-            store: 'amazon', asin: 'B0BYSM6D9Y', popularity: 90,
-            affiliateUrl: wrapAma('https://www.amazon.co.jp/dp/B0BYSM6D9Y'),
-            forecastData: [4136, 4136, 4136, 4136, 4136, 4136, 4136]
+            id: 'dt-l-a3',
+            name: 'アタックZERO 詰替 2100g (約210回分) - ¥1,722 (1回¥8.2)',
+            price: 1722, shipping: 0, points: 17, volume: 2100, unit: 'ml', baseUnit: '1回',
+            store: 'amazon', asin: 'B0CVL7M39R', popularity: 100,
+            affiliateUrl: wrapAma('https://www.amazon.co.jp/dp/B0CVL7M39R/'),
+            forecastData: [1722, 1722, 1722, 1722, 1722, 1722, 1722]
           }
         ]
       },
       {
         id: 'detergent-powder',
         name: '粉末',
-        regionalAverage: 10,
+        regionalAverage: 12,
         products: [
           {
-            id: 'dt-p-1',
-            name: 'ファーファ 3倍濃縮 超コンパクト粉末 500g - ¥346 (1回¥8.0)',
-            price: 346, shipping: 0, points: 3, volume: 500, unit: 'g', baseUnit: '1回',
-            store: 'amazon', asin: 'B08DFGZ59P', popularity: 100,
-            affiliateUrl: wrapAma('https://www.amazon.co.jp/dp/B08DFGZ59P'),
-            forecastData: [346, 346, 346, 346, 346, 346, 346]
+            id: 'dt-p-r1',
+            name: 'アタック 高活性バイオEX 詰替 850g×8個 - ¥4,281 (1回¥12.6)',
+            price: 4281, shipping: 0, points: 43, volume: 6800, unit: 'g', baseUnit: '1回',
+            store: 'rakuten', rakutenCode: 'rakuten24:4901301456076', popularity: 100,
+            affiliateUrl: wrapRaku('https://item.rakuten.co.jp/rakuten24/4901301456076/'),
+            forecastData: [4281, 4281, 4281, 4281, 4281, 4281, 4281]
           },
           {
-            id: 'dt-p-2',
-            name: 'アタック 高活性バイオEX 810g×8個 - ¥2,750 (1回¥8.5)',
-            price: 2750, shipping: 0, points: 28, volume: 6480, unit: 'g', baseUnit: '1回',
-            store: 'amazon', asin: 'B00V49UDSU', popularity: 99,
-            affiliateUrl: wrapAma('https://www.amazon.co.jp/dp/B00V49UDSU'),
-            forecastData: [2750, 2750, 2750, 2750, 2750, 2750, 2750]
+            id: 'dt-p-r2',
+            name: '部屋干しトップ 除菌EX 詰替 810g×10個 - ¥6,408 (1回¥15.8)',
+            price: 6408, shipping: 0, points: 64, volume: 8100, unit: 'g', baseUnit: '1回',
+            store: 'rakuten', rakutenCode: 'rakuten24:554850', popularity: 95,
+            affiliateUrl: wrapRaku('https://item.rakuten.co.jp/rakuten24/554850/'),
+            forecastData: [6408, 6408, 6408, 6408, 6408, 6408, 6408]
           },
           {
-            id: 'dt-p-3',
-            name: 'ファーファ 粉末洗剤 大箱 3.3kg - ¥1,527 (1回¥9.3)',
-            price: 1527, shipping: 0, points: 15, volume: 3300, unit: 'g', baseUnit: '1回',
-            store: 'amazon', asin: 'B07G3BML6J', popularity: 97,
-            affiliateUrl: wrapAma('https://www.amazon.co.jp/dp/B07G3BML6J'),
-            forecastData: [1527, 1527, 1527, 1527, 1527, 1527, 1527]
-          },
-          {
-            id: 'dt-p-4',
-            name: 'ニュービーズ 純白の香り 粉末 710g - ¥345 (1回¥9.7)',
-            price: 345, shipping: 0, points: 3, volume: 710, unit: 'g', baseUnit: '1回',
-            store: 'amazon', asin: 'B0CJXQZQYQ', popularity: 95,
-            affiliateUrl: wrapAma('https://www.amazon.co.jp/dp/B0CJXQZQYQ'),
-            forecastData: [345, 345, 345, 345, 345, 345, 345]
-          },
-          {
-            id: 'dt-p-5',
-            name: '部屋干しトップ 除菌EX 810g×10個 - ¥4,960 (1回¥12.3)',
-            price: 4960, shipping: 0, points: 50, volume: 8100, unit: 'g', baseUnit: '1回',
-            store: 'amazon', asin: 'B07F37F3YJ', popularity: 92,
-            affiliateUrl: wrapAma('https://www.amazon.co.jp/dp/B07F37F3YJ'),
-            forecastData: [4960, 4960, 4960, 4960, 4960, 4960, 4960]
+            id: 'dt-p-a3',
+            name: 'アタック 業務用 2.5kg×2個 (約250回分) - ¥3,553 (1回¥14.2)',
+            price: 3553, shipping: 0, points: 36, volume: 5000, unit: 'g', baseUnit: '1回',
+            store: 'amazon', asin: 'B0F6VCLGGH', popularity: 98,
+            affiliateUrl: wrapAma('https://www.amazon.co.jp/dp/B0F6VCLGGH/'),
+            forecastData: [3553, 3553, 3553, 3553, 3553, 3553, 3553]
           }
         ]
       },
       {
         id: 'detergent-gel',
         name: 'ジェルボール',
-        regionalAverage: 30,
+        regionalAverage: 35,
         products: [
           {
-            id: 'dt-g-1',
-            name: 'アリエール ジェルボール4D 詰替 56個 - ¥1,344 (1回¥24.0)',
-            price: 1344, shipping: 0, points: 13, volume: 56, unit: '個', baseUnit: '1回',
-            store: 'amazon', asin: 'B0DFMZ1XGZ', popularity: 100,
-            affiliateUrl: wrapAma('https://www.amazon.co.jp/dp/B0DFMZ1XGZ'),
-            forecastData: [1344, 1344, 1344, 1344, 1344, 1344, 1344]
+            id: 'dt-g-r1',
+            name: 'アリエール ジェルボール4D 12個入×2袋 - ¥903 (1回¥37.6)',
+            price: 903, shipping: 0, points: 9, volume: 24, unit: '個', baseUnit: '1回',
+            store: 'rakuten', rakutenCode: 'rakuten24:518410', popularity: 90,
+            affiliateUrl: wrapRaku('https://item.rakuten.co.jp/rakuten24/518410/'),
+            forecastData: [903, 903, 903, 903, 903, 903, 903]
           },
           {
-            id: 'dt-g-2',
-            name: 'アリエール ジェルボール4D 詰替 103個 - ¥3,088 (1回¥30.0)',
-            price: 3088, shipping: 0, points: 31, volume: 103, unit: '個', baseUnit: '1回',
-            store: 'amazon', asin: 'B0DFMZ97W8', popularity: 98,
-            affiliateUrl: wrapAma('https://www.amazon.co.jp/dp/B0DFMZ97W8'),
-            forecastData: [3088, 3088, 3088, 3088, 3088, 3088, 3088]
+            id: 'dt-g-a2',
+            name: 'アリエール ジェルボール4D プロ 100個入 - ¥2,999 (1回¥30.0)',
+            price: 2999, shipping: 0, points: 30, volume: 100, unit: '個', baseUnit: '1回',
+            store: 'amazon', asin: 'B0DRCNW4GZ', popularity: 100,
+            affiliateUrl: wrapAma('https://www.amazon.co.jp/dp/B0DRCNW4GZ/'),
+            forecastData: [2999, 2999, 2999, 2999, 2999, 2999, 2999]
           },
           {
-            id: 'dt-g-3',
-            name: 'アリエール 部屋干し ジェルボール 126個 (63×2) - ¥3,980 (1回¥31.6)',
-            price: 3980, shipping: 0, points: 40, volume: 126, unit: '個', baseUnit: '1回',
-            store: 'amazon', asin: 'B0BTHY85X7', popularity: 96,
-            affiliateUrl: wrapAma('https://www.amazon.co.jp/dp/B0BTHY85X7'),
-            forecastData: [3980, 3980, 3980, 3980, 3980, 3980, 3980]
-          },
-          {
-            id: 'dt-g-4',
-            name: 'ボールド ジェルボール4D 92個 - ¥3,340 (1回¥36.3)',
-            price: 3340, shipping: 0, points: 33, volume: 92, unit: '個', baseUnit: '1回',
-            store: 'amazon', asin: 'B0DFMVRPXQ', popularity: 94,
-            affiliateUrl: wrapAma('https://www.amazon.co.jp/dp/B0DFMVRPXQ'),
-            forecastData: [3340, 3340, 3340, 3340, 3340, 3340, 3340]
-          },
-          {
-            id: 'dt-g-5',
-            name: 'ボールド ジェルボール4D 110個 - ¥4,000 (1回¥36.4)',
-            price: 4000, shipping: 0, points: 40, volume: 110, unit: '個', baseUnit: '1回',
-            store: 'amazon', asin: 'B0DFMWSF7Z', popularity: 92,
-            affiliateUrl: wrapAma('https://www.amazon.co.jp/dp/B0DFMWSF7Z'),
-            forecastData: [4000, 4000, 4000, 4000, 4000, 4000, 4000]
+            id: 'dt-g-a3',
+            name: 'ボールド ジェルボール4D 華やかプレミアム 100個入 - ¥2,999 (1回¥30.0)',
+            price: 2999, shipping: 0, points: 30, volume: 100, unit: '個', baseUnit: '1回',
+            store: 'amazon', asin: 'B0DSJ369XQ', popularity: 98,
+            affiliateUrl: wrapAma('https://www.amazon.co.jp/dp/B0DSJ369XQ/'),
+            forecastData: [2999, 2999, 2999, 2999, 2999, 2999, 2999]
           }
         ]
       }

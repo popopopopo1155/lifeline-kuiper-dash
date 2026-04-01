@@ -492,14 +492,85 @@ export const mockGenres: (Genre & { subtypes: (any & SubtypeMetadata)[] })[] = [
     id: 'detergent',
     name: '洗濯洗剤',
     group: 'stock',
-    unitType: '100g',
-    historyData: [80, 82, 85, 88, 90, 85, 80, 78, 75, 78, 80, 82, 85, 88, 90],
+    unitType: '1回',
+    historyData: [8.5, 8.4, 8.2, 8.2, 8.5, 8.8, 9.0, 8.5, 8.2, 8.0, 8.2, 8.4, 8.5, 8.8, 9.0],
     subtypes: [
       {
-        id: 'detergent-refill',
-        name: '詰め替え用',
-        regionalAverage: 450,
-        products: []
+        id: 'detergent-liquid',
+        name: '液体 (濃縮)',
+        regionalAverage: 12,
+        products: [
+          {
+            id: 'dt-amazon-zero-2100',
+            name: 'アタックZERO 詰め替え 2100g - ¥1,722 (1回¥8.2)',
+            price: 1722, shipping: 0, points: 17, volume: 2100, unit: 'ml', baseUnit: '1回',
+            store: 'amazon', asin: 'B0CVL7M39R', popularity: 100,
+            affiliateUrl: wrapAma('https://www.amazon.co.jp/dp/B0CVL7M39R'),
+            forecastData: [1722, 1722, 1722, 1722, 1722, 1722, 1722]
+          },
+          {
+            id: 'dt-amazon-ariel-2110',
+            name: 'アリエール ジェル 詰め替え 2110ml - ¥1,850 (1回¥8.8)',
+            price: 1850, shipping: 0, points: 19, volume: 2110, unit: 'ml', baseUnit: '1回',
+            store: 'amazon', asin: 'B0CHYMLRL7', popularity: 98,
+            affiliateUrl: wrapAma('https://www.amazon.co.jp/dp/B0CHYMLRL7'),
+            forecastData: [1850, 1850, 1850, 1850, 1850, 1850, 1850]
+          },
+          {
+            id: 'dt-rakuten-zero-2100',
+            name: 'アタックZERO 詰め替え 2100g - ¥2,133 (1回¥10.2)',
+            price: 2133, shipping: 0, points: 21, volume: 2100, unit: 'ml', baseUnit: '1回',
+            store: 'rakuten', rakutenCode: 'rakuten24:4901301436405', popularity: 95,
+            affiliateUrl: wrapRaku('https://item.rakuten.co.jp/rakuten24/4901301436405/'),
+            forecastData: [2133, 2133, 2133, 2133, 2133, 2133, 2133]
+          }
+        ]
+      },
+      {
+        id: 'detergent-powder',
+        name: '粉末',
+        regionalAverage: 10,
+        products: [
+          {
+            id: 'dt-amazon-bio-6800',
+            name: 'アタック 高活性バイオEX 8箱セット (6800g) - ¥2,886 (1回¥8.5)',
+            price: 2886, shipping: 0, points: 29, volume: 6800, unit: 'g', baseUnit: '1回',
+            store: 'amazon', asin: 'B00V49UDSU', popularity: 99,
+            affiliateUrl: wrapAma('https://www.amazon.co.jp/dp/B00V49UDSU'),
+            forecastData: [2886, 2886, 2886, 2886, 2886, 2886, 2886]
+          },
+          {
+            id: 'dt-rakuten-bio-6000',
+            name: 'アタック 高活性バイオEX 詰め替え 8個 (6000g) - ¥3,982 (1回¥13.3)',
+            price: 3982, shipping: 0, points: 40, volume: 6000, unit: 'g', baseUnit: '1回',
+            store: 'rakuten', rakutenCode: 'rakuten24:4901301381040', popularity: 92,
+            affiliateUrl: wrapRaku('https://item.rakuten.co.jp/rakuten24/4901301381040/'),
+            forecastData: [3982, 3982, 3982, 3982, 3982, 3982, 3982]
+          }
+        ]
+      },
+      {
+        id: 'detergent-gel',
+        name: 'ジェルボール',
+        regionalAverage: 30,
+        products: [
+          {
+            id: 'dt-amazon-gel-56',
+            name: 'アリエール ジェルボール4D 56個 - ¥1,344 (1回¥24.0)',
+            price: 1344, shipping: 0, points: 13, volume: 56, unit: '個', baseUnit: '1回',
+            store: 'amazon', asin: 'B0DFMZ1XGZ', popularity: 96,
+            affiliateUrl: wrapAma('https://www.amazon.co.jp/dp/B0DFMZ1XGZ'),
+            forecastData: [1344, 1344, 1344, 1344, 1344, 1344, 1344]
+          },
+          {
+            id: 'dt-amazon-gel-pro-100',
+            name: 'アリエール ジェルボールPRO 100個 - ¥2,999 (1回¥30.0)',
+            price: 2999, shipping: 0, points: 30, volume: 100, unit: '個', baseUnit: '1回',
+            store: 'amazon', asin: 'B0DRCNW4GZ', popularity: 94,
+            affiliateUrl: wrapAma('https://www.amazon.co.jp/dp/B0DRCNW4GZ'),
+            forecastData: [2999, 2999, 2999, 2999, 2999, 2999, 2999]
+          }
+        ]
       }
     ]
   },
@@ -507,14 +578,31 @@ export const mockGenres: (Genre & { subtypes: (any & SubtypeMetadata)[] })[] = [
     id: 'oil',
     name: '食用油',
     group: 'stock',
-    unitType: '1bottle',
+    unitType: '1L',
     historyData: [380, 375, 370, 368, 360, 350, 340, 335, 330, 340, 350, 360, 368, 375, 380],
     subtypes: [
       {
         id: 'oil-1l',
-        name: '1Lボトル',
+        name: 'サラダ油 1L',
         regionalAverage: 380,
-        products: []
+        products: [
+          {
+            id: 'oil-rakuten-nisshin-1l',
+            name: '日清キャノーラ油 1000g × 8本 - ¥2,880 (1L¥360)',
+            price: 2880, shipping: 0, points: 28, volume: 8000, unit: 'ml', baseUnit: '1L',
+            store: 'rakuten', rakutenCode: 'rakuten24:4902380188841', popularity: 100,
+            affiliateUrl: wrapRaku('https://item.rakuten.co.jp/rakuten24/4902380188841/'),
+            forecastData: [2880, 2880, 2880, 2880, 2880, 2880, 2880]
+          },
+          {
+            id: 'oil-amazon-showa-1l',
+            name: '昭和キャノーラ油 1000g × 4本 - ¥1,580 (1L¥395)',
+            price: 1580, shipping: 0, points: 16, volume: 4000, unit: 'ml', baseUnit: '1L',
+            store: 'amazon', asin: 'B0058X6PME', popularity: 95,
+            affiliateUrl: wrapAma('https://www.amazon.co.jp/dp/B0058X6PME'),
+            forecastData: [1580, 1580, 1580, 1580, 1580, 1580, 1580]
+          }
+        ]
       }
     ]
   }

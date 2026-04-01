@@ -31,9 +31,14 @@ export const extractQuantity = (name: string): number => {
  * ジャンルに応じた「標準単位」に変換したボリュームを算出して返す
  * 例: 米(1kg単位), 水(1本単位), 洗剤(100g単位)
  */
-export const getNormalizedVolume = (name: string, unitType: string): number => {
-  const volInfo = extractVolume(name);
-  const qty = extractQuantity(name);
+export const getNormalizedVolume = (name: string, unitType: string, pVolume?: number, pUnit?: string): number => {
+  // すでに数値がある場合はそれを使用し、なければ解析する
+  const volInfo = (pVolume !== undefined && pUnit !== undefined) 
+    ? { value: pVolume, unit: pUnit }
+    : extractVolume(name);
+  
+  // 数値が明示されている場合は入数を掛けない（すでに総量であると仮定）
+  const qty = (pVolume !== undefined) ? 1 : extractQuantity(name);
 
   let totalValue = (volInfo ? volInfo.value : 1) * qty;
   const unit = volInfo ? volInfo.unit : '';
@@ -55,6 +60,16 @@ export const getNormalizedVolume = (name: string, unitType: string): number => {
       // 1組 = 2枚(sheets)
       if (unit === '枚') return totalValue / 200; 
       return totalValue / 100; // '組'ベースまたは単位なし(通常は150組や200組)
+    case '1wash':
+    case '1回':
+      if (unit === 'g') return totalValue / 20; // 粉末標準: 20g/回
+      if (unit === 'ml' || unit === 'mℓ') {
+        // 濃縮タイプ(10ml)か通常タイプ(25ml)かを判定
+        // 商品名に「ZERO」「濃厚」「コンパクト」等があれば10ml、なければ25mlと仮定
+        const isCompact = /ZERO|濃厚|コンパクト|ナノックス|NANOX/i.test(name);
+        return totalValue / (isCompact ? 10 : 25);
+      }
+      return totalValue; // ジェルボール等(単位なし/個)はそのまま個数が回数
     default:
       return totalValue;
   }

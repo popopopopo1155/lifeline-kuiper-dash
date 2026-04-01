@@ -55,13 +55,13 @@ export const SubtypeCard: React.FC<SubtypeCardProps> = ({ subtype, group, unitTy
   const displayProducts = [...subtype.products].slice(0, 10);
   const bestProduct = displayProducts[0];
   
-  const bestNormalizedVol = bestProduct ? getNormalizedVolume(bestProduct.name, unitType) : 1;
+  const bestNormalizedVol = bestProduct ? getNormalizedVolume(bestProduct.name, unitType, bestProduct.volume, bestProduct.unit) : 1;
   const minPrice = bestProduct 
     ? Math.round((bestProduct.price + bestProduct.shipping - bestProduct.points) / Math.max(0.1, bestNormalizedVol || 1)) 
     : 0;
   
   const allUnitPrices = subtype.products.map((p: Product) => {
-    const normVol = getNormalizedVolume(p.name, unitType);
+    const normVol = getNormalizedVolume(p.name, unitType, p.volume, p.unit);
     return Math.round((p.price + p.shipping - p.points) / Math.max(0.1, normVol || 1));
   });
 

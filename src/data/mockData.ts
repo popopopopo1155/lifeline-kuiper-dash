@@ -4,10 +4,11 @@ export const calculateUnitPrice = (p: Product) => {
   return Math.round((p.price + p.shipping - p.points) / p.volume);
 };
 
-export interface SubtypeMetadata extends any {
+export interface SubtypeMetadata {
   searchOverride?: string;
   requiredKeywords?: string[];
   excludeKeywords?: string[];
+  [key: string]: any; // Allowing extra fields if needed
 }
 
 const RAKU_AFL_ID = '5025407c.d8994699.5025407d.e9a413e7';
@@ -35,8 +36,8 @@ export const mockGenres: (Genre & { subtypes: (any & SubtypeMetadata)[] })[] = [
       {
         id: 'rice-5kg',
         name: '5kg',
-        regionalAverage: 510,
-        representativeAsin: 'B0GQ2FV1NC',
+        regionalAverage: 580, // 🏮 [REAL SYNC] Keepa 90d Avg (580円/kg)
+        representativeAsin: 'B08Y5ZW24P',
         searchOverride: '米 5kg -ふるさと納税 -定期便 -業務用',
         requiredKeywords: ['5kg'],
         excludeKeywords: ['定期便', 'ふるさと納税', '業務用'],
@@ -121,7 +122,7 @@ export const mockGenres: (Genre & { subtypes: (any & SubtypeMetadata)[] })[] = [
       {
         id: 'rice-10kg',
         name: '10kg',
-        regionalAverage: 480,
+        regionalAverage: 538, // 🏮 [REAL SYNC] Keepa 90d Avg (538円/kg)
         representativeAsin: 'B0GQ2FV1NC',
         searchOverride: '米 10kg -ふるさと納税 -定期便 -業務用',
         requiredKeywords: ['10kg'],
@@ -216,7 +217,7 @@ export const mockGenres: (Genre & { subtypes: (any & SubtypeMetadata)[] })[] = [
       {
         id: 'water-500ml',
         name: '500ml',
-        regionalAverage: 80,
+        regionalAverage: 46, // 🏮 [REAL SYNC] Keepa 90d Avg (46円/本)
         representativeAsin: 'B094N6FW9M',
         searchOverride: '水 500ml 送料無料 -定期便 -ふるさと納税 -2L',
         requiredKeywords: ['500ml'],
@@ -267,7 +268,7 @@ export const mockGenres: (Genre & { subtypes: (any & SubtypeMetadata)[] })[] = [
       {
         id: 'water-2l',
         name: '2L',
-        regionalAverage: 100,
+        regionalAverage: 111, // 🏮 [REAL SYNC] Keepa 90d Avg (111円/本)
         representativeAsin: 'B0C1FS43ZW',
         searchOverride: '水 2L 送料無料 -定期便 -ふるさと納税 -500ml',
         requiredKeywords: ['2L'],

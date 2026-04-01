@@ -30,7 +30,7 @@ let currentRisks = {
 const fetchAndAnalyzeNews = async () => {
   try {
     const feedUrl = `https://news.google.com/rss/search?q=${encodeURIComponent('物価 高騰 原油 米 小麦 地政学 不作')}&hl=ja&gl=JP&ceid=JP:ja`;
-    const response = await axios.get(feedUrl);
+    const response = await axios.get(feedUrl, { timeout: 10000 });
     const result = await parseStringPromise(response.data);
     const channel = result && result.rss && result.rss.channel && result.rss.channel[0];
     const items = channel && channel.item ? channel.item : [];
@@ -124,7 +124,8 @@ app.get('/api/rakuten', async (req, res) => {
         'Referer': 'https://www.hitsujuhin.com/',
         'Origin': 'https://www.hitsujuhin.com/',
         'User-Agent': 'Mozilla/5.0'
-      }
+      },
+      timeout: 10000 // 🏮 [REINFORCED] ハング防止用10sタイムアウト
     });
 
     // v3 API のレスポンス構造（data.items または data.Items）に柔軟に対応

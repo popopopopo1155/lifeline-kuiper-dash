@@ -128,7 +128,11 @@ app.get('/api/rakuten', async (req, res) => {
   try {
     const url = 'https://openapi.rakuten.co.jp/ichibams/api/IchibaItem/Search/20220601';
     const params = { applicationId: appId, accessKey, affiliateId, keyword, format: 'json', hits: 100 };
-    const response = await axios.get(url, { params, headers: { 'Referer': 'https://www.hitsujuhin.com/', 'Origin': 'https://www.hitsujuhin.com/' } });
+    const response = await axios.get(url, { 
+      params, 
+      headers: { 'Referer': 'https://www.hitsujuhin.com/', 'Origin': 'https://www.hitsujuhin.com/' },
+      timeout: 10000 // 🏮 [REINFORCED] ハング防止用10sタイムアウト
+    });
     let rawItems = response.data.items || response.data.Items || [];
     let items = rawItems.map(i => {
       if (i.item) return { Item: i.item };
@@ -144,7 +148,10 @@ app.get('/api/rakuten', async (req, res) => {
       });
     }
     res.json({ Items: items });
-  } catch (error) { res.status(500).json({ error: 'Rakuten API failed' }); }
+  } catch (error) { 
+    console.error('Rakuten API failed:', error.message);
+    res.status(500).json({ error: 'Rakuten API failed', details: error.message }); 
+  }
 });
 
 app.get('/api/keepa', async (req, res) => {

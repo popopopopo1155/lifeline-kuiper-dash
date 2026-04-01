@@ -1,7 +1,10 @@
 import type { Product, Genre } from '../types';
 
+import { getNormalizedVolume } from '../api/dataUtils';
+
 export const calculateUnitPrice = (p: Product) => {
-  return Math.round((p.price + p.shipping - p.points) / p.volume);
+  const normVol = getNormalizedVolume(p.name, p.baseUnit || '');
+  return Math.round((p.price + p.shipping - p.points) / (normVol || p.volume || 1));
 };
 
 export interface SubtypeMetadata {
@@ -443,16 +446,24 @@ export const mockGenres: (Genre & { subtypes: (any & SubtypeMetadata)[] })[] = [
         products: [
           {
             id: 'ts-rakuten-forestway-200w',
-            name: '[80個] Forestway ソフトパック 200組 - ¥4,970 (100組¥31.1)',
-            price: 4970, shipping: 0, points: 49, volume: 16000, unit: '枚', baseUnit: '100組',
-            store: 'rakuten', rakutenCode: 'cocodecow:r859md', popularity: 100,
-            affiliateUrl: wrapRaku('https://item.rakuten.co.jp/cocodecow/r859md/'),
-            forecastData: [4970, 4970, 4970, 4970, 4970, 4970, 4970]
+            name: '[80個] Forestway ソフトパック 200組 - ¥4,752 (100組¥29.7)',
+            price: 4752, shipping: 0, points: 47, volume: 32000, unit: '枚', baseUnit: '100組',
+            store: 'rakuten', rakutenCode: 'jetprice:x399sd', popularity: 100,
+            affiliateUrl: wrapRaku('https://item.rakuten.co.jp/jetprice/x399sd/'),
+            forecastData: [4752, 4752, 4752, 4752, 4752, 4752, 4752]
+          },
+          {
+            id: 'ts-rakuten-smartlife-200w',
+            name: '[120個] Smart Life Labo ソフトパック 200組 - ¥7,755 (100組¥32.3)',
+            price: 7755, shipping: 0, points: 77, volume: 48000, unit: '枚', baseUnit: '100組',
+            store: 'rakuten', rakutenCode: 'smartlifelabo:fr-5622', popularity: 99,
+            affiliateUrl: wrapRaku('https://item.rakuten.co.jp/smartlifelabo/fr-5622/'),
+            forecastData: [7755, 7755, 7755, 7755, 7755, 7755, 7755]
           },
           {
             id: 'ts-rakuten-forestway-150w',
             name: '[100個] Forestway ソフトパック 150組 - ¥4,970 (100組¥33.1)',
-            price: 4970, shipping: 0, points: 49, volume: 15000, unit: '枚', baseUnit: '100組',
+            price: 4970, shipping: 0, points: 49, volume: 30000, unit: '枚', baseUnit: '100組',
             store: 'rakuten', rakutenCode: 'cocodecow:r857md', popularity: 98,
             affiliateUrl: wrapRaku('https://item.rakuten.co.jp/cocodecow/r857md/'),
             forecastData: [4970, 4970, 4970, 4970, 4970, 4970, 4970]
@@ -460,26 +471,18 @@ export const mockGenres: (Genre & { subtypes: (any & SubtypeMetadata)[] })[] = [
           {
             id: 'ts-amazon-vinda-150w',
             name: '[90個] Amazon VINDA ソフトパック 150組 - ¥4,980 (100組¥36.9)',
-            price: 4980, shipping: 0, points: 50, volume: 13500, unit: '枚', baseUnit: '100組',
+            price: 4980, shipping: 0, points: 50, volume: 27000, unit: '枚', baseUnit: '100組',
             store: 'amazon', asin: 'B07HDZH354', popularity: 95,
             affiliateUrl: wrapAma('https://www.amazon.co.jp/dp/B07HDZH354'),
             forecastData: [4980, 4980, 4980, 4980, 4980, 4980, 4980]
           },
           {
-            id: 'ts-amazon-fleurdoux-150w',
-            name: '[90個] Amazon fleurdoux ソフトパック 150組 - ¥4,980 (100組¥36.9)',
-            price: 4980, shipping: 0, points: 50, volume: 13500, unit: '枚', baseUnit: '100組',
-            store: 'amazon', asin: 'B08ZXQZVRL', popularity: 92,
-            affiliateUrl: wrapAma('https://www.amazon.co.jp/dp/B08ZXQZVRL'),
-            forecastData: [4980, 4980, 4980, 4980, 4980, 4980, 4980]
-          },
-          {
             id: 'ts-rakuten-hello-150w',
-            name: '[60個] ハロー ソフトパック 150組 - ¥4,350 (100組¥48.3)',
-            price: 4350, shipping: 0, points: 43, volume: 9000, unit: '枚', baseUnit: '100組',
-            store: 'rakuten', rakutenCode: 'kaiteki-homes:10034606', popularity: 90,
-            affiliateUrl: wrapRaku('https://item.rakuten.co.jp/kaiteki-homes/10034606/'),
-            forecastData: [4350, 4350, 4350, 4350, 4350, 4350, 4350]
+            name: '[60個] ハロー ソフトパック 150組 - ¥4,110 (100組¥45.7)',
+            price: 4110, shipping: 0, points: 41, volume: 18000, unit: '枚', baseUnit: '100組',
+            store: 'rakuten', rakutenCode: 'k-home:7176101', popularity: 90,
+            affiliateUrl: wrapRaku('https://item.rakuten.co.jp/k-home/7176101/'),
+            forecastData: [4110, 4110, 4110, 4110, 4110, 4110, 4110]
           }
         ]
       }

@@ -51,7 +51,8 @@ export const getNormalizedVolume = (name: string, unitType: string): number => {
     case '1pack':
     case '1bag':
     case '100sheets':
-      return qty; // 個数ベース
+    case '100組':
+      return totalValue / 200; // 9000枚 -> 45 (units of 100組)
     default:
       return totalValue;
   }

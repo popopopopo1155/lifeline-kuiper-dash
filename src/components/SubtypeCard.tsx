@@ -3,6 +3,7 @@ import type { Subtype, GenreGroup, Product } from '../types';
 import { analyzePriceTrend } from '../api/priceAnalysis';
 import { useAdmin } from '../contexts/AdminContext';
 import { ArrowUp, ArrowDown } from 'lucide-react';
+import { getNormalizedVolume } from '../api/dataUtils';
 
 interface SubtypeCardProps {
   subtype: Subtype;
@@ -54,13 +55,15 @@ export const SubtypeCard: React.FC<SubtypeCardProps> = ({ subtype, group, unitTy
   const displayProducts = [...subtype.products].slice(0, 10);
   const bestProduct = displayProducts[0];
   
+  const bestNormalizedVol = bestProduct ? getNormalizedVolume(bestProduct.name, unitType) : 1;
   const minPrice = bestProduct 
-    ? Math.round((bestProduct.price + bestProduct.shipping - bestProduct.points) / Math.max(0.1, bestProduct.volume)) 
+    ? Math.round((bestProduct.price + bestProduct.shipping - bestProduct.points) / Math.max(0.1, bestNormalizedVol || 1)) 
     : 0;
   
-  const allUnitPrices = subtype.products.map((p: Product) => 
-    Math.round((p.price + p.shipping - p.points) / Math.max(0.1, p.volume))
-  );
+  const allUnitPrices = subtype.products.map((p: Product) => {
+    const normVol = getNormalizedVolume(p.name, unitType);
+    return Math.round((p.price + p.shipping - p.points) / Math.max(0.1, normVol || 1));
+  });
 
   const analysis = analyzePriceTrend(
     subtype.id, 

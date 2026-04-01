@@ -148,6 +148,7 @@ app.get('/api/rakuten', async (req, res) => {
 });
 
 app.get('/api/keepa', async (req, res) => {
+  // Syncing ASIN metadata with Keepa API (v6.61 refresh)
   const { asin } = req.query;
   const key = process.env.KEEPA_API_KEY;
   const tag = process.env.AMAZON_AFFILIATE_TAG;

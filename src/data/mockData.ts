@@ -337,52 +337,44 @@ export const mockGenres: (Genre & { subtypes: (any & SubtypeMetadata)[] })[] = [
         excludeKeywords: ['定期便', 'ふるさと納税'],
         products: [
           {
-            id: 'tp-96r-rakuten',
-            name: '[96ロール] 再生紙ダブル 12r×8P - ¥3,200 (1ロール¥33.3)',
+            id: 'tp-96r-coming-3200',
+            name: '[96ロール] カミング 再生紙ダブル - ¥3,200 (1ロール¥33.3)',
             price: 3200, shipping: 0, points: 32, volume: 96, unit: 'roll', baseUnit: '1roll',
             store: 'rakuten', rakutenCode: 'coming:jun1kyuhinrolls-recycle12rw', popularity: 100,
             affiliateUrl: wrapRaku('https://item.rakuten.co.jp/coming/jun1kyuhinrolls-recycle12rw/'),
             forecastData: [3200, 3200, 3200, 3200, 3200, 3200, 3200]
           },
           {
-            id: 'tp-Scottie3x-amazon',
-            name: '[12ロール] スコッティ 3倍長持ち 75mダブル - ¥1,220 (1ロール¥101.6)',
-            price: 1220, shipping: 0, points: 12, volume: 12, unit: 'roll', baseUnit: '1roll',
-            store: 'amazon', asin: 'B085GDK3FH', popularity: 98,
-            affiliateUrl: wrapAma('https://www.amazon.co.jp/dp/B085GDK3FH'),
-            forecastData: [1220, 1220, 1220, 1220, 1220, 1220, 1220]
+            id: 'tp-96r-coming-3280',
+            name: '[96ロール] カミング エシカルダブル - ¥3,280 (1ロール¥34.2)',
+            price: 3280, shipping: 0, points: 32, volume: 96, unit: 'roll', baseUnit: '1roll',
+            store: 'rakuten', rakutenCode: 'coming:color-jun1kyuhinrolls-t', popularity: 98,
+            affiliateUrl: wrapRaku('https://item.rakuten.co.jp/coming/color-jun1kyuhinrolls-t/'),
+            forecastData: [3280, 3280, 3280, 3280, 3280, 3280, 3280]
           },
           {
-            id: 'tp-72r-rakuten',
-            name: '[72ロール] 緑茶の力 12r×6P - ¥4,199 (1ロール¥58.3)',
-            price: 4199, shipping: 0, points: 41, volume: 72, unit: 'roll', baseUnit: '1roll',
-            store: 'rakuten', rakutenCode: 'e-yuasa:10000058', popularity: 95,
-            affiliateUrl: wrapRaku('https://item.rakuten.co.jp/e-yuasa/10000058/'),
-            forecastData: [4199, 4199, 4199, 4199, 4199, 4199, 4199]
+            id: 'tp-96r-noshiro-3380',
+            name: '[96ロール] 能代製紙 バスターダブル - ¥3,380 (1ロール¥35.2)',
+            price: 3380, shipping: 0, points: 33, volume: 96, unit: 'roll', baseUnit: '1roll',
+            store: 'rakuten', rakutenCode: 'noshiroseishi:4958968-017-12rw', popularity: 95,
+            affiliateUrl: wrapRaku('https://item.rakuten.co.jp/noshiroseishi/4958968-017-12rw/'),
+            forecastData: [3380, 3380, 3380, 3380, 3380, 3380, 3380]
           },
           {
-            id: 'tp-Nepia-amazon',
-            name: '[12ロール] ネピア ネピネピ ダブル - ¥1,270 (1ロール¥105.8)',
-            price: 1270, shipping: 0, points: 13, volume: 12, unit: 'roll', baseUnit: '1roll',
-            store: 'amazon', asin: 'B0088UKJIM', popularity: 90,
-            affiliateUrl: wrapAma('https://www.amazon.co.jp/dp/B0088UKJIM'),
-            forecastData: [1270, 1270, 1270, 1270, 1270, 1270, 1270]
+            id: 'tp-96r-daisy-3480',
+            name: '[96ロール] Amazon デイジーアロマ - ¥3,480 (1ロール¥36.3)',
+            price: 3480, shipping: 0, points: 34, volume: 96, unit: 'roll', baseUnit: '1roll',
+            store: 'amazon', asin: 'B0F37JL72Q', popularity: 92,
+            affiliateUrl: wrapAma('https://www.amazon.co.jp/dp/B0F37JL72Q'),
+            forecastData: [3480, 3480, 3480, 3480, 3480, 3480, 3480]
           },
           {
-            id: 'tp-ina-rakuten',
-            name: '[72ロール] エリエール i:na 12r×6P - ¥4,580 (1ロール¥63.6)',
-            price: 4580, shipping: 0, points: 45, volume: 72, unit: 'roll', baseUnit: '1roll',
-            store: 'rakuten', rakutenCode: 'soukai:4902011729122', popularity: 92,
-            affiliateUrl: wrapRaku('https://item.rakuten.co.jp/soukai/4902011729122/'),
-            forecastData: [4580, 4580, 4580, 4580, 4580, 4580, 4580]
-          },
-          {
-            id: 'tp-nepia-amazon',
-            name: '[72ロール] ネピア パブリック 12r×6P - ¥4,800 (1ロール¥66.6)',
-            price: 4800, shipping: 0, points: 48, volume: 72, unit: 'roll', baseUnit: '1roll',
-            store: 'amazon', asin: 'B01N2Z9TSW', popularity: 90,
-            affiliateUrl: wrapAma('https://www.amazon.co.jp/dp/B01N2Z9TSW'),
-            forecastData: [4800, 4800, 4800, 4800, 4800, 4800, 4800]
+            id: 'tp-96r-noshiro-3480',
+            name: '[96ロール] 能代製紙 ブランカダブル - ¥3,480 (1ロール¥36.3)',
+            price: 3480, shipping: 0, points: 34, volume: 96, unit: 'roll', baseUnit: '1roll',
+            store: 'rakuten', rakutenCode: 'noshiroseishi:4958968-004-12r', popularity: 90,
+            affiliateUrl: wrapRaku('https://item.rakuten.co.jp/noshiroseishi/4958968-004-12r/'),
+            forecastData: [3480, 3480, 3480, 3480, 3480, 3480, 3480]
           }
         ]
       }

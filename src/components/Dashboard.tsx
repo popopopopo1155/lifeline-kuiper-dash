@@ -15,7 +15,7 @@ import RiskAlertBanner from './RiskAlertBanner';
 export const Dashboard: React.FC = () => {
   const [selectedGenreId, setSelectedGenreId] = useState<string | null>(null);
   const [searchQuery, setSearchQuery] = useState('');
-  const { data: genres, loading, tokensLeft, newsRisks, numericalRisks, isPaused, refreshData } = usePriceData();
+  const { data: genres, loading, refreshData, newsRisks, numericalRisks } = usePriceData();
   const { getDaysLeft } = useInventory();
 
   const filteredGenres = genres.filter(genre => {
@@ -31,15 +31,6 @@ export const Dashboard: React.FC = () => {
     setSelectedGenreId(null);
   };
 
-  const handleResume = () => {
-    if (selectedGenreId) {
-      refreshData(selectedGenreId);
-    } else {
-      // 全体検索中に止まった場合はデフォルトで米などを再開対象にするか、
-      // 最後に止まったIDをフックに持たせておくと親切
-      refreshData('rice');
-    }
-  };
 
   const stockGenres = filteredGenres.filter(g => g.group === 'stock');
   const dailyGenres = filteredGenres.filter(g => g.group === 'daily');
@@ -110,31 +101,10 @@ export const Dashboard: React.FC = () => {
             </section>
           ) : (
             <section>
-              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px', flexWrap: 'wrap', gap: '10px' }}>
+              <div style={{ marginBottom: '20px' }}>
                 <h2 className="section-title" style={{ margin: 0 }}>
                   {selectedGenre?.name} <span style={{ fontSize: '14px', color: '#666', fontWeight: 'normal' }}>の市場データ</span>
                 </h2>
-                <button 
-                  onClick={() => selectedGenreId && refreshData(selectedGenreId)}
-                  disabled={loading || tokensLeft <= 0}
-                  style={{
-                    padding: '10px 20px',
-                    background: tokensLeft > 0 ? 'linear-gradient(135deg, #0f172a 0%, #334155 100%)' : '#cbd5e1',
-                    color: 'white',
-                    border: 'none',
-                    borderRadius: '12px',
-                    fontSize: '14px',
-                    fontWeight: '900',
-                    cursor: loading || tokensLeft <= 0 ? 'not-allowed' : 'pointer',
-                    display: 'flex',
-                    alignItems: 'center',
-                    gap: '8px',
-                    boxShadow: '0 4px 12px rgba(15, 23, 42, 0.15)',
-                    transition: 'all 0.3s'
-                  }}
-                >
-                  {loading ? '🔄 同期中...' : '✨ インテリジェンス同期'}
-                </button>
               </div>
 
               <div className="heatmap-grid" style={{ marginBottom: '30px' }}>

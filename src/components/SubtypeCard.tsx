@@ -121,25 +121,6 @@ export const SubtypeCard: React.FC<SubtypeCardProps> = ({ subtype, group, unitTy
         border: '1px solid #f1f5f9',
         position: 'relative'
       }}>
-        {/* Manual Audit Badge */}
-        {!isDaily && (
-          <div style={{
-            position: 'absolute',
-            top: '-10px',
-            right: '10px',
-            background: '#0ea5e9',
-            color: 'white',
-            fontSize: '9px',
-            padding: '2px 8px',
-            borderRadius: '10px',
-            fontWeight: '900',
-            boxShadow: '0 2px 4px rgba(14, 165, 233, 0.3)',
-            zIndex: 10
-          }}>
-            🏮 誠実の極致 🏮 監査済: 04/02
-          </div>
-        )}
-
         <div style={{ fontSize: '12px', color: '#64748b', fontWeight: 'bold', marginBottom: '4px' }}>
           {isDaily ? '近隣スーパー目安価格' : '現在市場・最安実質単価'}
         </div>

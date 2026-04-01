@@ -445,44 +445,44 @@ export const mockGenres: (Genre & { subtypes: (any & SubtypeMetadata)[] })[] = [
         excludeKeywords: ['定期便', 'ふるさと納税'],
         products: [
           {
-            id: 'ts-rakuten-forestway-200w',
-            name: '[80個] Forestway ソフトパック 200組 - ¥4,752 (100組¥29.7)',
-            price: 4752, shipping: 0, points: 47, volume: 32000, unit: '枚', baseUnit: '100組',
-            store: 'rakuten', rakutenCode: 'jetprice:x399sd', popularity: 100,
-            affiliateUrl: wrapRaku('https://item.rakuten.co.jp/jetprice/x399sd/'),
-            forecastData: [4752, 4752, 4752, 4752, 4752, 4752, 4752]
+            id: 'ts-r-forestway-200-80',
+            name: 'Forestway ソフトパック 200組×80個 - ¥4,970 (100組¥31.0)',
+            price: 4970, shipping: 0, points: 49, volume: 16000, unit: '組', baseUnit: '100組',
+            store: 'rakuten', rakutenCode: 'cocodecow:r859md', popularity: 100,
+            affiliateUrl: wrapRaku('https://item.rakuten.co.jp/cocodecow/r859md/'),
+            forecastData: [4970, 4970, 4970, 4970, 4970, 4970, 4970]
           },
           {
-            id: 'ts-rakuten-smartlife-200w',
-            name: '[120個] Smart Life Labo ソフトパック 200組 - ¥7,755 (100組¥32.3)',
-            price: 7755, shipping: 0, points: 77, volume: 48000, unit: '枚', baseUnit: '100組',
-            store: 'rakuten', rakutenCode: 'smartlifelabo:fr-5622', popularity: 99,
+            id: 'ts-r-smartlife-200-120',
+            name: 'Smart Life Labo ソフトパック 200組×120個 - ¥7,755 (100組¥32.3)',
+            price: 7755, shipping: 0, points: 77, volume: 24000, unit: '組', baseUnit: '100組',
+            store: 'rakuten', rakutenCode: 'smartlifelabo:fr-5622', popularity: 98,
             affiliateUrl: wrapRaku('https://item.rakuten.co.jp/smartlifelabo/fr-5622/'),
             forecastData: [7755, 7755, 7755, 7755, 7755, 7755, 7755]
           },
           {
-            id: 'ts-rakuten-forestway-150w',
-            name: '[100個] Forestway ソフトパック 150組 - ¥4,970 (100組¥33.1)',
-            price: 4970, shipping: 0, points: 49, volume: 30000, unit: '枚', baseUnit: '100組',
-            store: 'rakuten', rakutenCode: 'cocodecow:r857md', popularity: 98,
-            affiliateUrl: wrapRaku('https://item.rakuten.co.jp/cocodecow/r857md/'),
-            forecastData: [4970, 4970, 4970, 4970, 4970, 4970, 4970]
+            id: 'ts-a-fleurdoux-200-80',
+            name: 'fleurdoux ソフトパック 200組×80個 - ¥5,280 (100組¥33.0)',
+            price: 5280, shipping: 0, points: 52, volume: 16000, unit: '組', baseUnit: '100組',
+            store: 'amazon', asin: 'B0CBV2RPWC', popularity: 95,
+            affiliateUrl: wrapAma('https://www.amazon.co.jp/dp/B0CBV2RPWC'),
+            forecastData: [5280, 5280, 5280, 5280, 5280, 5280, 5280]
           },
           {
-            id: 'ts-amazon-vinda-150w',
-            name: '[90個] Amazon VINDA ソフトパック 150組 - ¥4,980 (100組¥36.9)',
-            price: 4980, shipping: 0, points: 50, volume: 27000, unit: '枚', baseUnit: '100組',
-            store: 'amazon', asin: 'B07HDZH354', popularity: 95,
-            affiliateUrl: wrapAma('https://www.amazon.co.jp/dp/B07HDZH354'),
-            forecastData: [4980, 4980, 4980, 4980, 4980, 4980, 4980]
+            id: 'ts-a-hello-150-100',
+            name: 'ハロー ソフトパック 150組×100個 - ¥5,434 (100組¥36.2)',
+            price: 5434, shipping: 0, points: 54, volume: 15000, unit: '組', baseUnit: '100組',
+            store: 'amazon', asin: 'B0DMNDLC4L', popularity: 92,
+            affiliateUrl: wrapAma('https://www.amazon.co.jp/dp/B0DMNDLC4L'),
+            forecastData: [5434, 5434, 5434, 5434, 5434, 5434, 5434]
           },
           {
-            id: 'ts-rakuten-hello-150w',
-            name: '[60個] ハロー ソフトパック 150組 - ¥4,110 (100組¥45.7)',
-            price: 4110, shipping: 0, points: 41, volume: 18000, unit: '枚', baseUnit: '100組',
-            store: 'rakuten', rakutenCode: 'k-home:7176101', popularity: 90,
-            affiliateUrl: wrapRaku('https://item.rakuten.co.jp/k-home/7176101/'),
-            forecastData: [4110, 4110, 4110, 4110, 4110, 4110, 4110]
+            id: 'ts-r-smartstyle-200-80',
+            name: 'Smart Style 200W × 80個入 - ¥6,200 (100組¥38.7)',
+            price: 6200, shipping: 0, points: 62, volume: 16000, unit: '組', baseUnit: '100組',
+            store: 'rakuten', rakutenCode: 'coming:smartstyle-tissue200w', popularity: 90,
+            affiliateUrl: wrapRaku('https://item.rakuten.co.jp/coming/smartstyle-tissue200w/'),
+            forecastData: [6200, 6200, 6200, 6200, 6200, 6200, 6200]
           }
         ]
       }

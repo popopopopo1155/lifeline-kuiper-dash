@@ -45,8 +45,9 @@ export const getNormalizedVolume = (name: string, unitType: string, pVolume?: nu
 
   switch (unitType) {
     case '1kg':
-      if (unit === 'g') return totalValue / 1000;
-      return totalValue; // すでにkg前提
+    case '1L':
+      if (unit === 'g' || unit === 'ml' || unit === 'mℓ') return totalValue / 1000;
+      return totalValue; 
     case '100g':
     case '100ml':
       if (unit === 'kg' || unit === 'l') return totalValue * 10; // 1kg -> 100g x 10
@@ -55,6 +56,7 @@ export const getNormalizedVolume = (name: string, unitType: string, pVolume?: nu
     case '1roll':
     case '1pack':
     case '1bag':
+      return totalValue; // 個数ベース
     case '100sheets':
     case '100組':
       // 1組 = 2枚(sheets)

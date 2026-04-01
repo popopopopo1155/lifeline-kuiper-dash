@@ -489,8 +489,8 @@ export const mockGenres: (Genre & { subtypes: (any & SubtypeMetadata)[] })[] = [
             id: 'dt-p-a2',
             name: 'メガテック 衣料用洗剤 4.5kg (業務用) - ¥2,880 (1回¥6.4)',
             price: 2880, shipping: 0, points: 29, volume: 4500, unit: 'g', baseUnit: '1回',
-            store: 'amazon', asin: 'B07N8P6T96', popularity: 98,
-            affiliateUrl: wrapAma('https://www.amazon.co.jp/dp/B07N8P6T96'),
+            store: 'amazon', asin: 'B0088B6962', popularity: 98,
+            affiliateUrl: wrapAma('https://www.amazon.co.jp/dp/B0088B6962'),
             forecastData: [2880, 2880, 2880, 2880, 2880, 2880, 2880]
           },
           {
@@ -536,8 +536,8 @@ export const mockGenres: (Genre & { subtypes: (any & SubtypeMetadata)[] })[] = [
             id: 'dt-g-a2',
             name: 'KIRKLAND ウルトラクリーン 152回分 - ¥3,498 (1回¥23.0)',
             price: 3498, shipping: 0, points: 35, volume: 152, unit: '個', baseUnit: '1回',
-            store: 'amazon', asin: 'B08W5GMLCH', popularity: 98,
-            affiliateUrl: wrapAma('https://www.amazon.co.jp/dp/B08W5GMLCH'),
+            store: 'amazon', asin: 'B0CYZ6442V', popularity: 98,
+            affiliateUrl: wrapAma('https://www.amazon.co.jp/dp/B0CYZ6442V'),
             forecastData: [3498, 3498, 3498, 3498, 3498, 3498, 3498]
           },
           {

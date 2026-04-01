@@ -576,25 +576,75 @@ export const mockGenres: (Genre & { subtypes: (any & SubtypeMetadata)[] })[] = [
     historyData: [380, 375, 370, 368, 360, 350, 340, 335, 330, 340, 350, 360, 368, 375, 380],
     subtypes: [
       {
-        id: 'oil-1l',
-        name: 'サラダ油 1L',
-        regionalAverage: 380,
+        id: 'oil-canola',
+        name: 'サラダ油・キャノーラ油',
+        regionalAverage: 450,
+        searchOverride: '一番搾り キャノーラ油 1L 12本',
         products: [
           {
-            id: 'oil-rakuten-nisshin-1l',
-            name: '日清キャノーラ油 1000g × 8本 - ¥2,880 (1L¥360)',
-            price: 2880, shipping: 0, points: 28, volume: 8000, unit: 'ml', baseUnit: '1L',
-            store: 'rakuten', rakutenCode: 'rakuten24:4902380188841', popularity: 100,
-            affiliateUrl: wrapRaku('https://item.rakuten.co.jp/rakuten24/4902380188841/'),
-            forecastData: [2880, 2880, 2880, 2880, 2880, 2880, 2880]
+            id: 'oil-c-r1',
+            name: '理研 一番搾り キャノーラ油 1L × 12本 - ¥5,256 (1L¥438)',
+            price: 5256, shipping: 0, points: 52, volume: 12000, unit: 'ml', baseUnit: '1L',
+            store: 'rakuten', rakutenCode: 'beisia:10125866', popularity: 100,
+            affiliateUrl: wrapRaku('https://item.rakuten.co.jp/beisia/4903307525310-12/'),
+            forecastData: [5256, 5256, 5256, 5256, 5256, 5256, 5256]
           },
           {
-            id: 'oil-amazon-showa-1l',
-            name: '昭和キャノーラ油 1000g × 4本 - ¥1,580 (1L¥395)',
-            price: 1580, shipping: 0, points: 16, volume: 4000, unit: 'ml', baseUnit: '1L',
-            store: 'amazon', asin: 'B0058X6PME', popularity: 95,
-            affiliateUrl: wrapAma('https://www.amazon.co.jp/dp/B0058X6PME'),
-            forecastData: [1580, 1580, 1580, 1580, 1580, 1580, 1580]
+            id: 'oil-c-a2',
+            name: 'AJINOMOTO さらさらキャノーラ油 1000g × 10本 - ¥4,780 (1L¥478)',
+            price: 4780, shipping: 0, points: 48, volume: 10000, unit: 'ml', baseUnit: '1L',
+            store: 'amazon', asin: 'B007OOPP9G', popularity: 95,
+            affiliateUrl: wrapAma('https://www.amazon.co.jp/dp/B007OOPP9G'),
+            forecastData: [4780, 4780, 4780, 4780, 4780, 4780, 4780]
+          }
+        ]
+      },
+      {
+        id: 'oil-olive',
+        name: 'オリーブオイル',
+        regionalAverage: 1500,
+        searchOverride: 'オリーブオイル 1L 4本',
+        products: [
+          {
+            id: 'oil-o-r1',
+            name: 'ガルシア エキストラバージンオリーブオイル 1L × 4本 - ¥4,650 (1L¥1162)',
+            price: 4650, shipping: 0, points: 46, volume: 4000, unit: 'ml', baseUnit: '1L',
+            store: 'rakuten', rakutenCode: 'rakuten24:43486', popularity: 100,
+            affiliateUrl: wrapRaku('https://item.rakuten.co.jp/rakuten24/43486/'),
+            forecastData: [4650, 4650, 4650, 4650, 4650, 4650, 4650]
+          },
+          {
+            id: 'oil-o-a2',
+            name: 'by Amazon エキストラバージンオリーブオイル 1L - ¥1,645 (1L¥1645)',
+            price: 1645, shipping: 0, points: 16, volume: 1000, unit: 'ml', baseUnit: '1L',
+            store: 'amazon', asin: 'B09TVVZZRT', popularity: 90,
+            affiliateUrl: wrapAma('https://www.amazon.co.jp/dp/B09TVVZZRT'),
+            forecastData: [1645, 1645, 1645, 1645, 1645, 1645, 1645]
+          }
+        ]
+      },
+      {
+        id: 'oil-sesame',
+        name: 'ごま油',
+        regionalAverage: 280,
+        searchOverride: 'かどや ごま油 1650g',
+        unitType: '100g',
+        products: [
+          {
+            id: 'oil-s-a1',
+            name: 'かどや 銀印 濃口 純正ごま油 1650g - ¥2,550 (100g¥154)',
+            price: 2550, shipping: 0, points: 25, volume: 1650, unit: 'g', baseUnit: '100g',
+            store: 'amazon', asin: 'B00599Q1J8', popularity: 100,
+            affiliateUrl: wrapAma('https://www.amazon.co.jp/dp/B00599Q1J8'),
+            forecastData: [2550, 2550, 2550, 2550, 2550, 2550, 2550]
+          },
+          {
+            id: 'oil-s-r2',
+            name: 'かどや 金印 純正ごま油 600g × 2本 - ¥2,280 (100g¥190)',
+            price: 2280, shipping: 0, points: 22, volume: 1200, unit: 'g', baseUnit: '100g',
+            store: 'rakuten', rakutenCode: 'beisia:10118503', popularity: 90,
+            affiliateUrl: wrapRaku('https://item.rakuten.co.jp/beisia/4901458003153-2/'),
+            forecastData: [2280, 2280, 2280, 2280, 2280, 2280, 2280]
           }
         ]
       }

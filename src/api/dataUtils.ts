@@ -9,10 +9,10 @@ export const extractVolume = (name: string): { value: number; unit: string } | n
     return { value: parseFloat(kgMatch[1]), unit: kgMatch[2].toLowerCase() };
   }
 
-  // 2. g / ml の抽出 (500ml, 380g等)
-  const gMatch = name.match(/(\d+)\s*(g|ml|mℓ)/i);
+  // 2. g / ml / 枚 / 組 の抽出
+  const gMatch = name.match(/(\d+(?:\.\d+)?)\s*(g|ml|mℓ|枚|組)/i);
   if (gMatch) {
-    return { value: parseInt(gMatch[1], 10), unit: gMatch[2].toLowerCase() };
+    return { value: parseFloat(gMatch[1]), unit: gMatch[2].toLowerCase() };
   }
 
   return null;
@@ -20,7 +20,7 @@ export const extractVolume = (name: string): { value: number; unit: string } | n
 
 export const extractQuantity = (name: string): number => {
   // 入数 (24本, 6個, 5枚等)
-  const qMatch = name.match(/(\d+)\s*(本|ヶ|個|枚|袋|ロール|R|箱|P|パック)/i);
+  const qMatch = name.match(/(\d+)\s*(本|ヶ|個|枚|組|袋|ロール|R|箱|P|パック)/i);
   if (qMatch) {
     return parseInt(qMatch[1], 10);
   }
@@ -32,11 +32,11 @@ export const extractQuantity = (name: string): number => {
  * 例: 米(1kg単位), 水(1本単位), 洗剤(100g単位)
  */
 export const getNormalizedVolume = (name: string, unitType: string): number => {
-  const vol = extractVolume(name);
+  const volInfo = extractVolume(name);
   const qty = extractQuantity(name);
 
-  let totalValue = (vol ? vol.value : 1) * qty;
-  const unit = vol ? vol.unit : '';
+  let totalValue = (volInfo ? volInfo.value : 1) * qty;
+  const unit = volInfo ? volInfo.unit : '';
 
   switch (unitType) {
     case '1kg':
@@ -52,7 +52,9 @@ export const getNormalizedVolume = (name: string, unitType: string): number => {
     case '1bag':
     case '100sheets':
     case '100組':
-      return totalValue / 200; // 9000枚 -> 45 (units of 100組)
+      // 1組 = 2枚(sheets)
+      if (unit === '枚') return totalValue / 200; 
+      return totalValue / 100; // '組'ベースまたは単位なし(通常は150組や200組)
     default:
       return totalValue;
   }

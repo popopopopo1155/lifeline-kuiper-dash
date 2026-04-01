@@ -36,89 +36,54 @@ export const mockGenres: (Genre & { subtypes: (any & SubtypeMetadata)[] })[] = [
     name: '米',
     group: 'stock',
     unitType: '1kg',
-    historyData: [2800, 2750, 2900, 2850, 2700, 2600, 2550, 2480, 2450, 2420, 2400, 2380, 2400, 2450, 2500],
+    historyData: [620, 615, 608, 605, 595, 580, 560, 550, 538, 550, 560, 575, 590, 605, 608],
     subtypes: [
       {
         id: 'rice-5kg',
         name: '5kg',
-        regionalAverage: 580, // 🏮 [REAL SYNC] Keepa 90d Avg (580円/kg)
-        representativeAsin: 'B08Y5ZW24P',
-        searchOverride: '米 5kg -ふるさと納税 -定期便 -業務用',
+        regionalAverage: 580,
+        representativeAsin: 'B076C6T6L7',
+        searchOverride: '白米 5kg 送料無料 -定期便 -ふるさと納税',
         requiredKeywords: ['5kg'],
-        excludeKeywords: ['定期便', 'ふるさと納税', '業務用'],
+        excludeKeywords: ['定期便', 'ふるさと納税'],
         products: [
           { 
-            id: 'rice-5kg-v1', 
-            name: '令和7年産入り 生活応援米 5kg', 
-            price: 2950, 
-            shipping: 0, 
-            points: 29, 
-            volume: 5, 
-            unit: 'kg',
-            baseUnit: '1kg',
-            store: 'rakuten', 
-            rakutenCode: 'okaman:10000029-1',
-            popularity: 98,
-            affiliateUrl: wrapRaku('https://item.rakuten.co.jp/okaman/10000029-1/'),
-            forecastData: [2950, 2950, 2950, 2950, 2950, 2950, 2950]
-          },
-          { 
-            id: 'rice-5kg-v2', 
-            name: '生活応援米こごめさん 5kg', 
-            price: 2980, 
-            shipping: 0, 
-            points: 30, 
-            volume: 5, 
-            unit: 'kg',
-            baseUnit: '1kg',
-            store: 'rakuten', 
-            rakutenCode: 'yamamotoyasuo-saketen:kogomesan5',
-            popularity: 95,
-            affiliateUrl: wrapRaku('https://item.rakuten.co.jp/yamamotoyasuo-saketen/kogomesan5/'),
-            forecastData: [2980, 2980, 2980, 2980, 2980, 2980, 2980]
-          },
-          { 
-            id: 'rice-5kg-v3', 
-            name: '【食卓応援団】国内産ブレンド米 5kg 精米', 
-            price: 3132, 
-            shipping: 0, 
-            points: 0, 
-            volume: 5, 
-            unit: 'kg',
-            baseUnit: '1kg',
-            store: 'amazon', 
-            asin: 'B0GQ2FV1NC',
-            popularity: 92,
-            affiliateUrl: wrapAma('https://www.amazon.co.jp/dp/B0GQ2FV1NC?th=1&psc=1'),
-            forecastData: [3132, 3132, 3132, 3132, 3132, 3132, 3132]
-          },
-          { 
-            id: 'rice-5kg-v4', 
-            name: '【国産100％】小粒米（中粒米混） 5kg', 
-            price: 2900, 
-            shipping: 300, 
-            points: 0, 
-            volume: 5, 
-            unit: 'kg',
-            baseUnit: '1kg',
-            store: 'amazon', 
-            asin: 'B08Y5ZW24P',
-            popularity: 88,
-            affiliateUrl: wrapAma('https://www.amazon.co.jp/dp/B08Y5ZW24P'),
+            id: 'rice-5-v1', 
+            name: '[国産100%] 小粒米 (中粒米混) 5kg - ¥2,900 (1kg¥580)', 
+            price: 2900, shipping: 0, points: 0, volume: 5, unit: 'kg', baseUnit: '1kg',
+            store: 'amazon', asin: 'B0CHY6V8C9', popularity: 100,
+            affiliateUrl: wrapAma('https://www.amazon.co.jp/dp/B0CHY6V8C9'),
             forecastData: [2900, 2900, 2900, 2900, 2900, 2900, 2900]
           },
           { 
-            id: 'rice-5kg-v5', 
-            name: '令和7年新米入 生活応援 家計応援米 5kg', 
-            price: 3280, 
-            shipping: 0, 
-            points: 33, 
-            volume: 5, 
-            unit: 'kg',
-            baseUnit: '1kg',
-            store: 'rakuten', 
-            rakutenCode: 'rice-smile:sc-s2805',
-            popularity: 85,
+            id: 'rice-5-v2', 
+            name: '令和7年産入り 生活応援米 5kg - ¥2,950 (1kg¥590)', 
+            price: 2950, shipping: 0, points: 0, volume: 5, unit: 'kg', baseUnit: '1kg',
+            store: 'rakuten', rakutenCode: 'syokutakuouendan:rice-5kg-f01', popularity: 98,
+            affiliateUrl: wrapRaku('https://item.rakuten.co.jp/syokutakuouendan/rice-5kg-f01/'),
+            forecastData: [2950, 2950, 2950, 2950, 2950, 2950, 2950]
+          },
+          { 
+            id: 'rice-5-v3', 
+            name: '生活応援米 ここごめさん 5kg - ¥2,980 (1kg¥596)', 
+            price: 2980, shipping: 0, points: 0, volume: 5, unit: 'kg', baseUnit: '1kg',
+            store: 'rakuten', rakutenCode: 'syokutakuouendan:k-10p001', popularity: 95,
+            affiliateUrl: wrapRaku('https://item.rakuten.co.jp/syokutakuouendan/k-10p001/'),
+            forecastData: [2980, 2980, 2980, 2980, 2980, 2980, 2980]
+          },
+          { 
+            id: 'rice-5-v4', 
+            name: '【食卓応援団】国内産ブレンド米 5kg 精米 - ¥3,132 (1kg¥626)', 
+            price: 3132, shipping: 0, points: 0, volume: 5, unit: 'kg', baseUnit: '1kg',
+            store: 'amazon', asin: 'B0CHY6V8C9_alt', popularity: 92,
+            affiliateUrl: wrapAma('https://www.amazon.co.jp/dp/B0CHY6V8C9'),
+            forecastData: [3132, 3132, 3132, 3132, 3132, 3132, 3132]
+          },
+          { 
+            id: 'rice-5-v5', 
+            name: '令和7年新米入 生活応援家計応援米 5kg - ¥3,280 (1kg¥656)', 
+            price: 3280, shipping: 0, points: 0, volume: 5, unit: 'kg', baseUnit: '1kg',
+            store: 'rakuten', rakutenCode: 'rice-smile:sc-s2805', popularity: 85,
             affiliateUrl: wrapRaku('https://item.rakuten.co.jp/rice-smile/sc-s2805/'),
             forecastData: [3280, 3280, 3280, 3280, 3280, 3280, 3280]
           }
@@ -127,7 +92,7 @@ export const mockGenres: (Genre & { subtypes: (any & SubtypeMetadata)[] })[] = [
       {
         id: 'rice-10kg',
         name: '10kg',
-        regionalAverage: 538, // 🏮 [REAL SYNC] Keepa 90d Avg (538円/kg)
+        regionalAverage: 538,
         representativeAsin: 'B0GQ2FV1NC',
         searchOverride: '米 10kg -ふるさと納税 -定期便 -業務用',
         requiredKeywords: ['10kg'],
@@ -135,76 +100,41 @@ export const mockGenres: (Genre & { subtypes: (any & SubtypeMetadata)[] })[] = [
         products: [
           {
             id: 'rice-10kg-v1',
-            name: '【食卓応援団】国内産ブレンド米 10kg (5kg ×2) 精米',
-            price: 5382,
-            shipping: 0,
-            points: 0,
-            volume: 10,
-            unit: 'kg',
-            baseUnit: '1kg',
-            store: 'amazon',
-            asin: 'B0GQ2FV1NC',
-            popularity: 98,
+            name: '【食卓応援団】国内産ブレンド米 10kg (5kg×2) 精米 - ¥5,382 (1kg¥538)',
+            price: 5382, shipping: 0, points: 0, volume: 10, unit: 'kg', baseUnit: '1kg',
+            store: 'amazon', asin: 'B0GQ2FV1NC', popularity: 100,
             affiliateUrl: wrapAma('https://www.amazon.co.jp/dp/B0GQ2FV1NC'),
             forecastData: [5382, 5382, 5382, 5382, 5382, 5382, 5382]
           },
           {
             id: 'rice-10kg-v2',
-            name: '国内産 ほほえみ米 10kg (5kg×2)',
-            price: 5480,
-            shipping: 0,
-            points: 55,
-            volume: 10,
-            unit: 'kg',
-            baseUnit: '1kg',
-            store: 'rakuten',
-            rakutenCode: 'ricetanaka:r-005',
-            popularity: 95,
+            name: '国内産 ほほえみ米 10kg (5kg×2) - ¥5,480 (1kg¥548)',
+            price: 5480, shipping: 0, points: 0, volume: 10, unit: 'kg', baseUnit: '1kg',
+            store: 'rakuten', rakutenCode: 'ricetanaka:r-005', popularity: 95,
             affiliateUrl: wrapRaku('https://item.rakuten.co.jp/ricetanaka/r-005/'),
             forecastData: [5480, 5480, 5480, 5480, 5480, 5480, 5480]
           },
           {
             id: 'rice-10kg-v3',
-            name: '令和7年産入り 生活応援米 10kg (5kg×2)',
-            price: 5480,
-            shipping: 0,
-            points: 55,
-            volume: 10,
-            unit: 'kg',
-            baseUnit: '1kg',
-            store: 'rakuten',
-            rakutenCode: 'okaman:10000029-10',
-            popularity: 92,
+            name: '令和7年産入り 生活応援米 10kg (5kg×2) - ¥5,480 (1kg¥548)',
+            price: 5480, shipping: 0, points: 0, volume: 10, unit: 'kg', baseUnit: '1kg',
+            store: 'rakuten', rakutenCode: 'okaman:10000029-10', popularity: 92,
             affiliateUrl: wrapRaku('https://item.rakuten.co.jp/okaman/10000029-1/'),
             forecastData: [5480, 5480, 5480, 5480, 5480, 5480, 5480]
           },
           {
             id: 'rice-10kg-v4',
-            name: 'アメリカ・カリフォルニア産 カルローズ米 10kg',
-            price: 5580,
-            shipping: 0,
-            points: 56,
-            volume: 10,
-            unit: 'kg',
-            baseUnit: '1kg',
-            store: 'rakuten',
-            rakutenCode: 'skyfarm:karu',
-            popularity: 88,
+            name: 'アメリカ・カリフォルニア産 カルローズ米 10kg - ¥5,580 (1kg¥558)',
+            price: 5580, shipping: 0, points: 0, volume: 10, unit: 'kg', baseUnit: '1kg',
+            store: 'rakuten', rakutenCode: 'skyfarm:karu', popularity: 88,
             affiliateUrl: wrapRaku('https://item.rakuten.co.jp/skyfarm/karu/'),
             forecastData: [5580, 5580, 5580, 5580, 5580, 5580, 5580]
           },
           {
             id: 'rice-10kg-v5',
-            name: '福島県産 ひとめぼれ 10kg (5kg×2) 訳あり',
-            price: 6799,
-            shipping: 0,
-            points: 68,
-            volume: 10,
-            unit: 'kg',
-            baseUnit: '1kg',
-            store: 'rakuten',
-            rakutenCode: 'jcrops:4562129938740-2-wake-05',
-            popularity: 80,
+            name: '福島県産 ひとめぼれ 10kg (5kg×2) 訳あり - ¥6,799 (1kg¥680)',
+            price: 6799, shipping: 0, points: 0, volume: 10, unit: 'kg', baseUnit: '1kg',
+            store: 'rakuten', rakutenCode: 'jcrops:4562129938740-2-wake-05', popularity: 80,
             affiliateUrl: wrapRaku('https://item.rakuten.co.jp/jcrops/4562129938740-2-wake-05/'),
             forecastData: [6799, 6799, 6799, 6799, 6799, 6799, 6799]
           }
@@ -502,27 +432,43 @@ export const mockGenres: (Genre & { subtypes: (any & SubtypeMetadata)[] })[] = [
         products: [
           {
             id: 'dt-l-r1',
-            name: 'アタックZERO 詰替 メガサイズ 1460g×6個 - ¥9,814 (1回¥11.2)',
-            price: 9814, shipping: 0, points: 98, volume: 8760, unit: 'ml', baseUnit: '1回',
-            store: 'rakuten', rakutenCode: 'rakuten24:404888', popularity: 100,
-            affiliateUrl: wrapRaku('https://item.rakuten.co.jp/rakuten24/404888/'),
-            forecastData: [9814, 9814, 9814, 9814, 9814, 9814, 9814]
+            name: 'ミツエイ ハーバルスリーPLUS 11.6kg (1.45kg×8) - ¥2,750 (1回¥5.9)',
+            price: 2750, shipping: 0, points: 28, volume: 11600, unit: 'ml', baseUnit: '1回',
+            store: 'rakuten', rakutenCode: 'shikokubin:4978951050519-8', popularity: 100,
+            affiliateUrl: wrapRaku('https://item.rakuten.co.jp/shikokubin/4978951050519-8/'),
+            forecastData: [2750, 2750, 2750, 2750, 2750, 2750, 2750]
           },
           {
-            id: 'dt-l-r2',
-            name: 'NANOX one ニオイ専用 詰替 超特大 1080g×3個 - ¥3,980 (1回¥12.3)',
-            price: 3980, shipping: 0, points: 40, volume: 3240, unit: 'ml', baseUnit: '1回',
-            store: 'rakuten', rakutenCode: 'rakuten24:406477', popularity: 98,
-            affiliateUrl: wrapRaku('https://item.rakuten.co.jp/rakuten24/406477/'),
-            forecastData: [3980, 3980, 3980, 3980, 3980, 3980, 3980]
+            id: 'dt-l-a2',
+            name: 'カネヨ 抗菌剤入り 衣料用液体洗剤 18kg (業務用) - ¥4,391 (1回¥6.1)',
+            price: 4391, shipping: 0, points: 44, volume: 18000, unit: 'ml', baseUnit: '1回',
+            store: 'amazon', asin: 'B003TXPTNA', popularity: 98,
+            affiliateUrl: wrapAma('https://www.amazon.co.jp/dp/B003TXPTNA'),
+            forecastData: [4391, 4391, 4391, 4391, 4391, 4391, 4391]
           },
           {
             id: 'dt-l-a3',
-            name: 'アタックZERO 詰替 2100g (約210回分) - ¥1,722 (1回¥8.2)',
-            price: 1722, shipping: 0, points: 17, volume: 2100, unit: 'ml', baseUnit: '1回',
-            store: 'amazon', asin: 'B0CVL7M39R', popularity: 100,
+            name: 'トップ クリアリキッド 10kg (業務用) - ¥3,380 (1回¥8.4)',
+            price: 3380, shipping: 0, points: 34, volume: 10000, unit: 'ml', baseUnit: '1回',
+            store: 'amazon', asin: 'B002KDP83E', popularity: 95,
+            affiliateUrl: wrapAma('https://www.amazon.co.jp/dp/B002KDP83E'),
+            forecastData: [3380, 3380, 3380, 3380, 3380, 3380, 3380]
+          },
+          {
+            id: 'dt-l-a4',
+            name: 'ナノックスOne 詰替 超特大 1900g (約190回分) - ¥1,620 (1回¥21.3)',
+            price: 1620, shipping: 0, points: 16, volume: 1900, unit: 'ml', baseUnit: '1回',
+            store: 'amazon', asin: 'B0CW15Z9V7', popularity: 92,
+            affiliateUrl: wrapAma('https://www.amazon.co.jp/dp/B0CW15Z9V7'),
+            forecastData: [1620, 1620, 1620, 1620, 1620, 1620, 1620]
+          },
+          {
+            id: 'dt-l-a5',
+            name: 'アタックZERO 詰替 2150g (約215回分) - ¥2,100 (1回¥24.4)',
+            price: 2100, shipping: 0, points: 21, volume: 2150, unit: 'ml', baseUnit: '1回',
+            store: 'amazon', asin: 'B0CVL7M39R', popularity: 90,
             affiliateUrl: wrapAma('https://www.amazon.co.jp/dp/B0CVL7M39R/'),
-            forecastData: [1722, 1722, 1722, 1722, 1722, 1722, 1722]
+            forecastData: [2100, 2100, 2100, 2100, 2100, 2100, 2100]
           }
         ]
       },
@@ -532,28 +478,44 @@ export const mockGenres: (Genre & { subtypes: (any & SubtypeMetadata)[] })[] = [
         regionalAverage: 12,
         products: [
           {
-            id: 'dt-p-r1',
-            name: 'アタック 高活性バイオEX 詰替 850g×8個 - ¥4,281 (1回¥12.6)',
-            price: 4281, shipping: 0, points: 43, volume: 6800, unit: 'g', baseUnit: '1回',
-            store: 'rakuten', rakutenCode: 'rakuten24:4901301456076', popularity: 100,
-            affiliateUrl: wrapRaku('https://item.rakuten.co.jp/rakuten24/4901301456076/'),
-            forecastData: [4281, 4281, 4281, 4281, 4281, 4281, 4281]
+            id: 'dt-p-a1',
+            name: 'コーナン オリジナル クリーンランドリー 4.0kg - ¥768 (1回¥3.8)',
+            price: 768, shipping: 0, points: 8, volume: 4000, unit: 'g', baseUnit: '1回',
+            store: 'amazon', asin: 'B07Y9W3K9K', popularity: 100,
+            affiliateUrl: wrapAma('https://www.amazon.co.jp/dp/B07Y9W3K9K'),
+            forecastData: [768, 768, 768, 768, 768, 768, 768]
           },
           {
-            id: 'dt-p-r2',
-            name: '部屋干しトップ 除菌EX 詰替 810g×10個 - ¥6,408 (1回¥15.8)',
-            price: 6408, shipping: 0, points: 64, volume: 8100, unit: 'g', baseUnit: '1回',
-            store: 'rakuten', rakutenCode: 'rakuten24:554850', popularity: 95,
-            affiliateUrl: wrapRaku('https://item.rakuten.co.jp/rakuten24/554850/'),
-            forecastData: [6408, 6408, 6408, 6408, 6408, 6408, 6408]
+            id: 'dt-p-m2',
+            name: 'マツキヨ 高活性衣料用洗剤 1.0kg - ¥198 (1回¥3.9)',
+            price: 198, shipping: 0, points: 2, volume: 1000, unit: 'g', baseUnit: '1回',
+            store: 'amazon', asin: 'B0CBYW633R', popularity: 98,
+            affiliateUrl: wrapAma('https://www.amazon.co.jp/dp/B0CBYW633R'),
+            forecastData: [198, 198, 198, 198, 198, 198, 198]
           },
           {
             id: 'dt-p-a3',
-            name: 'アタック 業務用 2.5kg×2個 (約250回分) - ¥3,553 (1回¥14.2)',
-            price: 3553, shipping: 0, points: 36, volume: 5000, unit: 'g', baseUnit: '1回',
-            store: 'amazon', asin: 'B0F6VCLGGH', popularity: 98,
-            affiliateUrl: wrapAma('https://www.amazon.co.jp/dp/B0F6VCLGGH/'),
-            forecastData: [3553, 3553, 3553, 3553, 3553, 3553, 3553]
+            name: 'アタック 高活性バイオEX 10kg (業務用) - ¥3,330 (1回¥6.6)',
+            price: 3330, shipping: 0, points: 33, volume: 10000, unit: 'g', baseUnit: '1回',
+            store: 'amazon', asin: 'B0047Z8C3C', popularity: 95,
+            affiliateUrl: wrapAma('https://www.amazon.co.jp/dp/B0047Z8C3C'),
+            forecastData: [3330, 3330, 3330, 3330, 3330, 3330, 3330]
+          },
+          {
+            id: 'dt-p-a4',
+            name: 'トップ 持続除菌EX 10kg (業務用) - ¥3,560 (1回¥7.1)',
+            price: 3560, shipping: 0, points: 36, volume: 10000, unit: 'g', baseUnit: '1回',
+            store: 'amazon', asin: 'B002KDP83E', popularity: 92,
+            affiliateUrl: wrapAma('https://www.amazon.co.jp/dp/B002KDP83E'),
+            forecastData: [3560, 3560, 3560, 3560, 3560, 3560, 3560]
+          },
+          {
+            id: 'dt-p-r5',
+            name: 'ミツエイ ニュースーパーウォッシュ 4kg - ¥1,488 (1回¥7.4)',
+            price: 1488, shipping: 0, points: 15, volume: 4000, unit: 'g', baseUnit: '1回',
+            store: 'rakuten', rakutenCode: 'loha-co:u602528', popularity: 90,
+            affiliateUrl: wrapRaku('https://item.rakuten.co.jp/loha-co/u602528/'),
+            forecastData: [1488, 1488, 1488, 1488, 1488, 1488, 1488]
           }
         ]
       },
@@ -564,27 +526,43 @@ export const mockGenres: (Genre & { subtypes: (any & SubtypeMetadata)[] })[] = [
         products: [
           {
             id: 'dt-g-r1',
-            name: 'アリエール ジェルボール4D 12個入×2袋 - ¥903 (1回¥37.6)',
-            price: 903, shipping: 0, points: 9, volume: 24, unit: '個', baseUnit: '1回',
-            store: 'rakuten', rakutenCode: 'rakuten24:518410', popularity: 90,
-            affiliateUrl: wrapRaku('https://item.rakuten.co.jp/rakuten24/518410/'),
-            forecastData: [903, 903, 903, 903, 903, 903, 903]
+            name: 'TOWABOX 洗濯ジェル 150個入 (大容量) - ¥3,199 (1回¥21.3)',
+            price: 3199, shipping: 0, points: 32, volume: 150, unit: '個', baseUnit: '1回',
+            store: 'rakuten', rakutenCode: 'towabox:tw-rakuwash', popularity: 100,
+            affiliateUrl: wrapRaku('https://item.rakuten.co.jp/towabox/tw-rakuwash/'),
+            forecastData: [3199, 3199, 3199, 3199, 3199, 3199, 3199]
           },
           {
             id: 'dt-g-a2',
-            name: 'アリエール ジェルボール4D プロ 100個入 - ¥2,999 (1回¥30.0)',
-            price: 2999, shipping: 0, points: 30, volume: 100, unit: '個', baseUnit: '1回',
-            store: 'amazon', asin: 'B0DRCNW4GZ', popularity: 100,
-            affiliateUrl: wrapAma('https://www.amazon.co.jp/dp/B0DRCNW4GZ/'),
-            forecastData: [2999, 2999, 2999, 2999, 2999, 2999, 2999]
+            name: 'KIRKLAND ウルトラクリーン 152回分 - ¥3,498 (1回¥23.0)',
+            price: 3498, shipping: 0, points: 35, volume: 152, unit: '個', baseUnit: '1回',
+            store: 'amazon', asin: 'B0CYZ6442V', popularity: 98,
+            affiliateUrl: wrapAma('https://www.amazon.co.jp/dp/B0CYZ6442V'),
+            forecastData: [3498, 3498, 3498, 3498, 3498, 3498, 3498]
           },
           {
-            id: 'dt-g-a3',
-            name: 'ボールド ジェルボール4D 華やかプレミアム 100個入 - ¥2,999 (1回¥30.0)',
-            price: 2999, shipping: 0, points: 30, volume: 100, unit: '個', baseUnit: '1回',
-            store: 'amazon', asin: 'B0DSJ369XQ', popularity: 98,
-            affiliateUrl: wrapAma('https://www.amazon.co.jp/dp/B0DSJ369XQ/'),
-            forecastData: [2999, 2999, 2999, 2999, 2999, 2999, 2999]
+            id: 'dt-g-r3',
+            name: 'LOUVRICH 微香 柔軟剤入り 105個入 - ¥2,790 (1回¥26.5)',
+            price: 2790, shipping: 0, points: 28, volume: 105, unit: '個', baseUnit: '1回',
+            store: 'rakuten', rakutenCode: 'louvrich:2024111401', popularity: 95,
+            affiliateUrl: wrapRaku('https://item.rakuten.co.jp/louvrich/2024111401/'),
+            forecastData: [2790, 2790, 2790, 2790, 2790, 2790, 2790]
+          },
+          {
+            id: 'dt-g-r4',
+            name: 'アリエール ジェルボール4D 110個袋 - ¥3,800 (1回¥34.5)',
+            price: 3800, shipping: 0, points: 38, volume: 110, unit: '個', baseUnit: '1回',
+            store: 'rakuten', rakutenCode: 'platanusstore:4987176292865', popularity: 92,
+            affiliateUrl: wrapRaku('https://item.rakuten.co.jp/platanusstore/4987176292865/'),
+            forecastData: [3800, 3800, 3800, 3800, 3800, 3800, 3800]
+          },
+          {
+            id: 'dt-g-r5',
+            name: 'ボールド ジェルボール 4D 100個袋 - ¥3,780 (1回¥37.8)',
+            price: 3780, shipping: 0, points: 38, volume: 100, unit: '個', baseUnit: '1回',
+            store: 'rakuten', rakutenCode: 'shopypp:3799-003791', popularity: 90,
+            affiliateUrl: wrapRaku('https://item.rakuten.co.jp/shopypp/3799-003791/'),
+            forecastData: [3780, 3780, 3780, 3780, 3780, 3780, 3780]
           }
         ]
       }

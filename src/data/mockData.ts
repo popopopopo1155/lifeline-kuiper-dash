@@ -432,11 +432,11 @@ export const mockGenres: (Genre & { subtypes: (any & SubtypeMetadata)[] })[] = [
         products: [
           {
             id: 'dt-l-r1',
-            name: 'ミツエイ ハーバルスリーPLUS 11.6kg (1.45kg×8) - ¥2,750 (1回¥5.9)',
-            price: 2750, shipping: 0, points: 28, volume: 11600, unit: 'ml', baseUnit: '1回',
-            store: 'rakuten', rakutenCode: 'shikokubin:4978951050519-8', popularity: 100,
-            affiliateUrl: wrapRaku('https://item.rakuten.co.jp/shikokubin/4978951050519-8/'),
-            forecastData: [2750, 2750, 2750, 2750, 2750, 2750, 2750]
+            name: '業務用 液体洗濯洗剤 スクリット 18L B.I.B - ¥4,580 (1回¥4.3)',
+            price: 4580, shipping: 0, points: 46, volume: 18000, unit: 'ml', baseUnit: '1回',
+            store: 'rakuten', rakutenCode: 'auc-nontarou:km-01223', popularity: 100,
+            affiliateUrl: wrapRaku('https://item.rakuten.co.jp/auc-nontarou/km-01223/'),
+            forecastData: [4580, 4580, 4580, 4580, 4580, 4580, 4580]
           },
           {
             id: 'dt-l-a2',
@@ -478,11 +478,11 @@ export const mockGenres: (Genre & { subtypes: (any & SubtypeMetadata)[] })[] = [
         regionalAverage: 12,
         products: [
           {
-            id: 'dt-p-a1',
+            id: 'dt-p-r1',
             name: 'コーナン オリジナル クリーンランドリー 4.0kg - ¥768 (1回¥3.8)',
             price: 768, shipping: 0, points: 8, volume: 4000, unit: 'g', baseUnit: '1回',
-            store: 'amazon', asin: 'B07Y9W3K9K', popularity: 100,
-            affiliateUrl: wrapAma('https://www.amazon.co.jp/dp/B07Y9W3K9K'),
+            store: 'rakuten', rakutenCode: 'kohnan-eshop:4522831382170', popularity: 100,
+            affiliateUrl: wrapRaku('https://item.rakuten.co.jp/kohnan-eshop/4522831382170/'),
             forecastData: [768, 768, 768, 768, 768, 768, 768]
           },
           {

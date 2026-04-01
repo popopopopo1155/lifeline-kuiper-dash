@@ -1,6 +1,8 @@
 import React from 'react';
 import type { Genre } from '../types';
 
+import { getNormalizedVolume } from '../api/dataUtils';
+
 interface SidebarProps {
   genres: Genre[];
 }
@@ -14,7 +16,8 @@ export const Sidebar: React.FC<SidebarProps> = ({ genres }) => {
     let minPrice: number | null = null;
     genre.subtypes.forEach(s => {
       s.products.forEach(p => {
-        const unitPrice = (p.price + p.shipping - p.points) / Math.max(0.1, p.volume);
+        const normVol = getNormalizedVolume(p.name, p.baseUnit || '');
+        const unitPrice = (p.price + p.shipping - p.points) / (normVol || p.volume || 1);
         if (minPrice === null || unitPrice < minPrice) {
           minPrice = unitPrice;
         }

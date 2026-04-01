@@ -329,7 +329,7 @@ export const mockGenres: (Genre & { subtypes: (any & SubtypeMetadata)[] })[] = [
     subtypes: [
       {
         id: 'tp-12r',
-        name: '12ロール',
+        name: 'トイレットペーパー (最安まとめ買い)',
         regionalAverage: 110,
         representativeAsin: 'B0CX9913JP',
         searchOverride: 'トイレットペーパー 12ロール 送料無料 -定期便 -ふるさと納税',

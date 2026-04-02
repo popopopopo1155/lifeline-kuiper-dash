@@ -12,12 +12,15 @@ const Header: React.FC<HeaderProps> = ({ onBack, showBack }) => {
   const [clickTimestamps, setClickTimestamps] = useState<number[]>([]);
   
   const handleLogoClick = () => {
+    // 1回押された時点で即座にホームへ戻る（onBackがあれば実行）
+    if (onBack) onBack();
+
     const now = Date.now();
     const newTimestamps = [...clickTimestamps, now].filter(t => now - t <= 1000);
     
     setClickTimestamps(newTimestamps);
     
-    // 1秒間に6回以上のクリックで管理者モードを切り替え
+    // 1秒間に6回以上のクリックで管理者モードを切り替え（共存可能）
     if (newTimestamps.length >= 6) {
       toggleAdmin();
       setClickTimestamps([]);

@@ -81,6 +81,7 @@ body {
 .transition-transform { transition: transform 0.2s ease !important; }
 .active\:scale-95:active { transform: scale(0.95) !important; }
 .bg-black { background: #000000 !important; }
+.text-black { color: #000000 !important; }
 .text-white { color: #ffffff !important; }
 .rounded-xl { border-radius: 0.75rem !important; }
 .rounded-full { border-radius: 9999px !important; }

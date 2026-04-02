@@ -4,6 +4,7 @@ import { analyzePriceTrend } from '../api/priceAnalysis';
 import { useAdmin } from '../contexts/AdminContext';
 import { ArrowUp, ArrowDown } from 'lucide-react';
 import { getNormalizedVolume } from '../api/dataUtils';
+import { DailyBottomPriceControl } from './DailyBottomPriceControl';
 
 interface SubtypeCardProps {
   subtype: Subtype;
@@ -165,20 +166,12 @@ export const SubtypeCard: React.FC<SubtypeCardProps> = ({ subtype, group, unitTy
 
       {/* --- CONDITIONAL ACTION AREA --- */}
       {isDaily ? (
-        <div style={{ 
-          padding: '12px', 
-          background: '#f8fafc', 
-          borderRadius: '12px', 
-          border: '1px dashed #cbd5e1',
-          fontSize: '11px',
-          color: '#64748b',
-          textAlign: 'center',
-          lineHeight: '1.6'
-        }}>
-          💡 卵やパンなどの生鮮品はネット購入より、<br />
-          地元のスーパー店頭での購入を強く推奨します。<br />
-          <strong>目安単価 ¥{subtype.regionalAverage}</strong> 以下なら「買い」です。
-        </div>
+        <DailyBottomPriceControl 
+          subtypeId={subtype.id}
+          subtypeName={subtype.name}
+          regionalAverage={subtype.regionalAverage}
+          unitType={unitType}
+        />
       ) : (
         <>
           <div style={{ marginBottom: '12px', textAlign: 'center' }}>

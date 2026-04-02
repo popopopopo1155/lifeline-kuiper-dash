@@ -318,7 +318,7 @@ export const mockGenres: (Genre & { subtypes: (any & SubtypeMetadata)[] })[] = [
     name: '卵',
     group: 'daily',
     unitType: '1pack',
-    historyData: [220, 230, 240, 250, 258, 260, 270, 280, 290, 300, 310, 300, 290, 280, 270],
+    historyData: [260, 265, 270, 275, 280, 290, 300, 310, 315, 305, 295, 285, 275, 260, 240],
     subtypes: [
       {
         id: 'egg-10p',

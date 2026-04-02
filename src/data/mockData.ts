@@ -577,49 +577,49 @@ export const mockGenres: (Genre & { subtypes: (any & SubtypeMetadata)[] })[] = [
     subtypes: [
       {
         id: 'oil-canola',
-        name: 'サラダ油・キャノーラ油',
+        name: 'サラダ油・キャノーラ油 (JOYL/日清/ムソー)',
         regionalAverage: 450,
-        searchOverride: 'キャノーラ油 16.5kg 一斗缶',
+        searchOverride: '日清 JOYL ムソー キャノーラ油 16.5kg 1000g',
         products: [
           {
-            id: 'oil-c-r1',
-            name: '加藤製油 キャノーラ油 16.5kg (一斗缶) - ¥5,780 (1L¥350)',
-            price: 5780, shipping: 0, points: 57, volume: 16500, unit: 'ml', baseUnit: '1L',
-            store: 'rakuten', rakutenCode: 'sese-koreachiba:20965-1', popularity: 100,
-            affiliateUrl: wrapRaku('https://item.rakuten.co.jp/sese-koreachiba/20965-1/'),
-            forecastData: [5780, 5780, 5780, 5780, 5780, 5780, 5780]
+            id: 'oil-c-n1',
+            name: '日清オイリオ リノール キャノーラ油 16.5kg (一斗缶) - ¥5,800 (1L¥351)',
+            price: 5800, shipping: 0, points: 58, volume: 16500, unit: 'ml', baseUnit: '1L',
+            store: 'rakuten', rakutenCode: 'magokorooroshi:202323', popularity: 100,
+            affiliateUrl: wrapRaku('https://item.rakuten.co.jp/magokorooroshi/202323/'),
+            forecastData: [5800, 5800, 5800, 5800, 5800, 5800, 5800]
+          },
+          {
+            id: 'oil-c-j1',
+            name: 'JOYL PRO キャノーラ油 16.5kg (一斗缶) - ¥6,300 (1L¥381)',
+            price: 6300, shipping: 0, points: 63, volume: 16500, unit: 'ml', baseUnit: '1L',
+            store: 'rakuten', rakutenCode: 'cheeky:u521813', popularity: 98,
+            affiliateUrl: wrapRaku('https://item.rakuten.co.jp/cheeky/u521813/'),
+            forecastData: [6300, 6300, 6300, 6300, 6300, 6300, 6300]
+          },
+          {
+            id: 'oil-c-n2',
+            name: '日清オイリオ 日清キヤノーラ油 1000g × 16本 - ¥8,192 (1L¥512)',
+            price: 8192, shipping: 0, points: 81, volume: 16000, unit: 'ml', baseUnit: '1L',
+            store: 'rakuten', rakutenCode: 'beisia:4902380135845', popularity: 95,
+            affiliateUrl: wrapRaku('https://item.rakuten.co.jp/beisia/4902380135845/'),
+            forecastData: [8192, 8192, 8192, 8192, 8192, 8192, 8192]
           },
           {
             id: 'oil-c-a2',
-            name: '理研農産 キャノーラサラダ油 16.5kg (一斗缶) - ¥5,930 (1L¥359)',
-            price: 5930, shipping: 0, points: 59, volume: 16500, unit: 'ml', baseUnit: '1L',
-            store: 'amazon', asin: 'B0CLRVFYH4', popularity: 98,
-            affiliateUrl: wrapAma('https://www.amazon.co.jp/dp/B0CLRVFYH4'),
-            forecastData: [5930, 5930, 5930, 5930, 5930, 5930, 5930]
+            name: 'AJINOMOTO さらさらキャノーラ油 1350g × 6本 - ¥4,991 (1L¥616)',
+            price: 4991, shipping: 0, points: 49, volume: 8100, unit: 'ml', baseUnit: '1L',
+            store: 'amazon', asin: 'B0C68JY8JH', popularity: 92,
+            affiliateUrl: wrapAma('https://www.amazon.co.jp/dp/B0C68JY8JH'),
+            forecastData: [4991, 4991, 4991, 4991, 4991, 4991, 4991]
           },
           {
-            id: 'oil-c-a3',
-            name: '理研 キャノーラサラダ油 16.5kg (一斗缶) - ¥5,841 (1L¥354)',
-            price: 5841, shipping: 0, points: 58, volume: 16500, unit: 'ml', baseUnit: '1L',
-            store: 'amazon', asin: 'B0076JROJ8', popularity: 95,
-            affiliateUrl: wrapAma('https://www.amazon.co.jp/dp/B0076JROJ8'),
-            forecastData: [5841, 5841, 5841, 5841, 5841, 5841, 5841]
-          },
-          {
-            id: 'oil-c-a4',
-            name: '辻製油 サラダ油 16.5kg (一斗缶) - ¥5,983 (1L¥362)',
-            price: 5983, shipping: 0, points: 59, volume: 16500, unit: 'ml', baseUnit: '1L',
-            store: 'amazon', asin: 'B0C4K6H3F6', popularity: 92,
-            affiliateUrl: wrapAma('https://www.amazon.co.jp/dp/B0C4K6H3F6'),
-            forecastData: [5983, 5983, 5983, 5983, 5983, 5983, 5983]
-          },
-          {
-            id: 'oil-c-a5',
-            name: 'AJINOMOTO さらさらキャノーラ油 1000g × 10本 - ¥5,183 (1L¥518)',
-            price: 5183, shipping: 0, points: 52, volume: 10000, unit: 'ml', baseUnit: '1L',
-            store: 'amazon', asin: 'B007OOPP9G', popularity: 90,
-            affiliateUrl: wrapAma('https://www.amazon.co.jp/dp/B007OOPP9G'),
-            forecastData: [5183, 5183, 5183, 5183, 5183, 5183, 5183]
+            id: 'oil-c-m1',
+            name: 'ムソー 純正なたねサラダ油 1250g × 3本 - ¥4,655 (1L¥1241)',
+            price: 4655, shipping: 0, points: 46, volume: 3750, unit: 'ml', baseUnit: '1L',
+            store: 'rakuten', rakutenCode: 'tsutsu-uraura:muso-natanesarada1250g-3s', popularity: 88,
+            affiliateUrl: wrapRaku('https://item.rakuten.co.jp/tsutsu-uraura/muso-natanesarada1250g-3s/'),
+            forecastData: [4655, 4655, 4655, 4655, 4655, 4655, 4655]
           }
         ]
       },

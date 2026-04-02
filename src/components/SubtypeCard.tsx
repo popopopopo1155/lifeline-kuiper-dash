@@ -81,7 +81,6 @@ export const SubtypeCard: React.FC<SubtypeCardProps> = ({ subtype, group, unitTy
   return (
     <div className="price-card subtype-card-outer" style={{ 
       height: 'auto', 
-      minWidth: '0',
       display: 'flex', 
       flexDirection: 'column',
       padding: 'clamp(12px, 3vw, 20px)',
@@ -90,8 +89,7 @@ export const SubtypeCard: React.FC<SubtypeCardProps> = ({ subtype, group, unitTy
       boxShadow: '0 4px 6px -1px rgba(0,0,0,0.05)',
       border: analysis.sentiment === 'warning' 
         ? '2px solid #ef4444' 
-        : (analysis.sentiment === 'success' ? '2px solid #10b981' : '1px solid #e2e8f0'),
-      position: 'relative'
+        : (analysis.sentiment === 'success' ? '2px solid #10b981' : '1px solid #e2e8f0')
     }}>
       <div className="product-name" style={{ borderBottom: '1px solid #f1f5f9', paddingBottom: '12px', marginBottom: '12px', fontSize: '18px', fontWeight: '900', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
@@ -216,15 +214,7 @@ export const SubtypeCard: React.FC<SubtypeCardProps> = ({ subtype, group, unitTy
           </button>
 
           {isExpanded && (
-            <div style={{ 
-              marginTop: '16px', 
-              display: 'flex', 
-              flexDirection: 'column', 
-              gap: '8px',
-              width: '100%',
-              minWidth: '0',
-              overflow: 'hidden'
-            }}>
+            <div style={{ marginTop: '16px', display: 'flex', flexDirection: 'column', gap: '8px' }}>
               {displayProducts.map((p, idx) => (
                 <div 
                   key={p.id}
@@ -241,20 +231,9 @@ export const SubtypeCard: React.FC<SubtypeCardProps> = ({ subtype, group, unitTy
                     position: 'relative'
                   }}
                 >
-                  <div style={{ display: 'flex', flexDirection: 'column', gap: '4px', flex: 1, minWidth: '0' }}>
-                    <div style={{ 
-                      fontSize: '13px', 
-                      fontWeight: 'bold', 
-                      color: '#1e293b', 
-                      display: 'flex', 
-                      alignItems: 'center', 
-                      gap: '6px', 
-                      flexWrap: 'nowrap',
-                      overflow: 'hidden',
-                      textOverflow: 'ellipsis',
-                      whiteSpace: 'nowrap'
-                    }}>
-                      {p.name}
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: '4px', flex: 1 }}>
+                    <div style={{ fontSize: '13px', fontWeight: 'bold', color: '#1e293b', display: 'flex', alignItems: 'center', gap: '6px', flexWrap: 'wrap' }}>
+                      {p.name.length > 35 ? p.name.substring(0, 35) + '...' : p.name}
                       {idx === 0 && !p.isVerified && (
                         <span style={{ fontSize: '10px', background: '#fbbf24', color: '#78350f', padding: '1px 6px', borderRadius: '4px', fontWeight: '900' }}>⭐ 最安</span>
                       )}

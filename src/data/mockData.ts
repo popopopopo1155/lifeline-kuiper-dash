@@ -599,27 +599,27 @@ export const mockGenres: (Genre & { subtypes: (any & SubtypeMetadata)[] })[] = [
           },
           {
             id: 'oil-c-n2',
-            name: '日清オイリオ 日清キヤノーラ油 1000g × 16本 - ¥8,192 (1L¥512)',
-            price: 8192, shipping: 0, points: 81, volume: 16000, unit: 'ml', baseUnit: '1L',
-            store: 'rakuten', rakutenCode: 'beisia:4902380135845', popularity: 95,
-            affiliateUrl: wrapRaku('https://item.rakuten.co.jp/beisia/4902380135845/'),
-            forecastData: [8192, 8192, 8192, 8192, 8192, 8192, 8192]
+            name: '日清オイリオ ヘルシーキャノーラ油 1000g×2本 - ¥869 (1L¥434)',
+            price: 869, shipping: 0, points: 8, volume: 2000, unit: 'ml', baseUnit: '1L',
+            store: 'amazon', asin: 'B09V7HMQ86', popularity: 95,
+            affiliateUrl: wrapAma('https://www.amazon.co.jp/dp/B09V7HMQ86'),
+            forecastData: [869, 869, 869, 869, 869, 869, 869]
           },
           {
             id: 'oil-c-a2',
-            name: 'AJINOMOTO さらさらキャノーラ油 1350g × 6本 - ¥4,991 (1L¥616)',
-            price: 4991, shipping: 0, points: 49, volume: 8100, unit: 'ml', baseUnit: '1L',
-            store: 'amazon', asin: 'B0C68JY8JH', popularity: 92,
-            affiliateUrl: wrapAma('https://www.amazon.co.jp/dp/B0C68JY8JH'),
-            forecastData: [4991, 4991, 4991, 4991, 4991, 4991, 4991]
+            name: 'AJINOMOTO さらさらキャノーラ油 1000g×2本 - ¥1,174 (1L¥587)',
+            price: 1174, shipping: 0, points: 11, volume: 2000, unit: 'ml', baseUnit: '1L',
+            store: 'amazon', asin: 'B09V7DRN74', popularity: 92,
+            affiliateUrl: wrapAma('https://www.amazon.co.jp/dp/B09V7DRN74'),
+            forecastData: [1174, 1174, 1174, 1174, 1174, 1174, 1174]
           },
           {
             id: 'oil-c-m1',
-            name: 'ムソー 純正なたねサラダ油 1250g × 3本 - ¥4,655 (1L¥1241)',
-            price: 4655, shipping: 0, points: 46, volume: 3750, unit: 'ml', baseUnit: '1L',
-            store: 'rakuten', rakutenCode: 'tsutsu-uraura:muso-natanesarada1250g-3s', popularity: 88,
-            affiliateUrl: wrapRaku('https://item.rakuten.co.jp/tsutsu-uraura/muso-natanesarada1250g-3s/'),
-            forecastData: [4655, 4655, 4655, 4655, 4655, 4655, 4655]
+            name: 'ムソー 純正なたねサラダ油 1250g×2本 - ¥2,400 (1L¥960)',
+            price: 2400, shipping: 0, points: 24, volume: 2500, unit: 'ml', baseUnit: '1L',
+            store: 'amazon', asin: 'B0G5FZ6994', popularity: 88,
+            affiliateUrl: wrapAma('https://www.amazon.co.jp/dp/B0G5FZ6994'),
+            forecastData: [2400, 2400, 2400, 2400, 2400, 2400, 2400]
           }
         ]
       },
@@ -631,43 +631,43 @@ export const mockGenres: (Genre & { subtypes: (any & SubtypeMetadata)[] })[] = [
         products: [
           {
             id: 'oil-o-a1',
-            name: 'Palermo ピュア オリーブオイル 5L - ¥7,571 (1L¥1514)',
-            price: 7571, shipping: 0, points: 76, volume: 5000, unit: 'ml', baseUnit: '1L',
-            store: 'amazon', asin: 'B0032S7EPU', popularity: 100,
-            affiliateUrl: wrapAma('https://www.amazon.co.jp/dp/B0032S7EPU'),
-            forecastData: [7571, 7571, 7571, 7571, 7571, 7571, 7571]
+            name: 'ガルシア エキストラバージンオリーブオイル 1000ml - ¥1,850',
+            price: 1850, shipping: 0, points: 19, volume: 1000, unit: 'ml', baseUnit: '1L',
+            store: 'amazon', asin: 'B005I0DG76', popularity: 100,
+            affiliateUrl: wrapAma('https://www.amazon.co.jp/dp/B005I0DG76'),
+            forecastData: [1850, 1850, 1850, 1850, 1850, 1850, 1850]
           },
           {
             id: 'oil-o-a2',
-            name: 'Gran Maestro ピュア オリーブオイル 5L - ¥7,940 (1L¥1588)',
-            price: 7940, shipping: 0, points: 79, volume: 5000, unit: 'ml', baseUnit: '1L',
-            store: 'amazon', asin: 'B0D4QK158P', popularity: 95,
-            affiliateUrl: wrapAma('https://www.amazon.co.jp/dp/B0D4QK158P'),
-            forecastData: [7940, 7940, 7940, 7940, 7940, 7940, 7940]
+            name: 'ガルシア エキストラバージンオリーブオイル 2000ml - ¥3,843',
+            price: 3843, shipping: 0, points: 38, volume: 2000, unit: 'ml', baseUnit: '1L',
+            store: 'amazon', asin: 'B0068XKUEY', popularity: 95,
+            affiliateUrl: wrapAma('https://www.amazon.co.jp/dp/B0068XKUEY'),
+            forecastData: [3843, 3843, 3843, 3843, 3843, 3843, 3843]
           },
           {
             id: 'oil-o-a3',
-            name: 'CIVGIS オーガニック EVOO 1L × 3本 - ¥3,980 (1L¥1326)',
-            price: 3980, shipping: 0, points: 40, volume: 3000, unit: 'ml', baseUnit: '1L',
-            store: 'amazon', asin: 'B09SH8D2XG', popularity: 92,
-            affiliateUrl: wrapAma('https://www.amazon.co.jp/dp/B09SH8D2XG'),
-            forecastData: [3980, 3980, 3980, 3980, 3980, 3980, 3980]
+            name: 'by Amazon エキストラバージンオリーブオイル 1000g - ¥1,645',
+            price: 1645, shipping: 0, points: 16, volume: 1000, unit: 'ml', baseUnit: '1L',
+            store: 'amazon', asin: 'B09T9B69N4', popularity: 92,
+            affiliateUrl: wrapAma('https://www.amazon.co.jp/dp/B09T9B69N4'),
+            forecastData: [1645, 1645, 1645, 1645, 1645, 1645, 1645]
           },
           {
             id: 'oil-o-a4',
-            name: 'ガルシア エキストラバージンオリーブオイル 5L - ¥10,815 (1L¥2163)',
-            price: 10815, shipping: 0, points: 108, volume: 5000, unit: 'ml', baseUnit: '1L',
-            store: 'amazon', asin: 'B019YVUSFM', popularity: 90,
-            affiliateUrl: wrapAma('https://www.amazon.co.jp/dp/B019YVUSFM'),
-            forecastData: [10815, 10815, 10815, 10815, 10815, 10815, 10815]
+            name: 'アルチェネロ 有機エキストラバージンオリーブオイル 500ml - ¥1,610',
+            price: 1610, shipping: 0, points: 16, volume: 500, unit: 'ml', baseUnit: '1L',
+            store: 'amazon', asin: 'B005T65E36', popularity: 90,
+            affiliateUrl: wrapAma('https://www.amazon.co.jp/dp/B005T65E36'),
+            forecastData: [1610, 1610, 1610, 1610, 1610, 1610, 1610]
           },
           {
             id: 'oil-o-a5',
-            name: 'カークランド スパニッシュ EVOO 3L - ¥5,094 (1L¥1698)',
-            price: 5094, shipping: 0, points: 51, volume: 3000, unit: 'ml', baseUnit: '1L',
-            store: 'amazon', asin: 'B082VJVWS7', popularity: 88,
-            affiliateUrl: wrapAma('https://www.amazon.co.jp/dp/B082VJVWS7'),
-            forecastData: [5094, 5094, 5094, 5094, 5094, 5094, 5094]
+            name: '日清 BOSCO エキストラバージンオリーブオイル 456g×2本 - ¥1,811',
+            price: 1811, shipping: 0, points: 18, volume: 912, unit: 'ml', baseUnit: '1L',
+            store: 'amazon', asin: 'B09V7HGCPT', popularity: 88,
+            affiliateUrl: wrapAma('https://www.amazon.co.jp/dp/B09V7HGCPT'),
+            forecastData: [1811, 1811, 1811, 1811, 1811, 1811, 1811]
           }
         ]
       },
@@ -680,43 +680,43 @@ export const mockGenres: (Genre & { subtypes: (any & SubtypeMetadata)[] })[] = [
         products: [
           {
             id: 'oil-s-a1',
-            name: 'かどや 銀印 濃口 純正ごま油 1650g × 6本 - ¥11,650 (100g¥117)',
-            price: 11650, shipping: 0, points: 116, volume: 9900, unit: 'g', baseUnit: '100g',
-            store: 'amazon', asin: 'B001HYWMVI', popularity: 100,
-            affiliateUrl: wrapAma('https://www.amazon.co.jp/dp/B001HYWMVI'),
-            forecastData: [11650, 11650, 11650, 11650, 11650, 11650, 11650]
+            name: 'かどや 純正ごま油 600g - ¥1,064',
+            price: 1064, shipping: 0, points: 11, volume: 600, unit: 'g', baseUnit: '100g',
+            store: 'amazon', asin: 'B01MRE9JS6', popularity: 100,
+            affiliateUrl: wrapAma('https://www.amazon.co.jp/dp/B01MRE9JS6'),
+            forecastData: [1064, 1064, 1064, 1064, 1064, 1064, 1064]
           },
           {
             id: 'oil-s-a2',
-            name: 'かどや 銀印 濃口 純正ごま油 1650g - ¥2,320 (100g¥140)',
-            price: 2320, shipping: 0, points: 23, volume: 1650, unit: 'g', baseUnit: '100g',
-            store: 'amazon', asin: 'B002QEL0AW', popularity: 95,
-            affiliateUrl: wrapAma('https://www.amazon.co.jp/dp/B002QEL0AW'),
-            forecastData: [2320, 2320, 2320, 2320, 2320, 2320, 2320]
+            name: 'マルホン 純正ごま油 1650g - ¥2,918',
+            price: 2918, shipping: 0, points: 29, volume: 1650, unit: 'g', baseUnit: '100g',
+            store: 'amazon', asin: 'B00DAO732G', popularity: 95,
+            affiliateUrl: wrapAma('https://www.amazon.co.jp/dp/B00DAO732G'),
+            forecastData: [2918, 2918, 2918, 2918, 2918, 2918, 2918]
           },
           {
-            id: 'oil-s-a3',
-            name: 'マルホン 太白胡麻油 1650g - ¥2,700 (100g¥163)',
-            price: 2700, shipping: 0, points: 27, volume: 1650, unit: 'g', baseUnit: '100g',
-            store: 'amazon', asin: 'B003FSST4I', popularity: 92,
-            affiliateUrl: wrapAma('https://www.amazon.co.jp/dp/B003FSST4I'),
-            forecastData: [2700, 2700, 2700, 2700, 2700, 2700, 2700]
+            id: 'oil-s-r1',
+            name: 'かどや 銀印 ごま油 濃口 1650g [楽天] - ¥2,890',
+            price: 2890, shipping: 0, points: 29, volume: 1650, unit: 'g', baseUnit: '100g',
+            store: 'rakuten', rakutenCode: 'sinnara:10001615', popularity: 92,
+            affiliateUrl: wrapRaku('https://item.rakuten.co.jp/sinnara/10001615/'),
+            forecastData: [2890, 2890, 2890, 2890, 2890, 2890, 2890]
           },
           {
             id: 'oil-s-a4',
-            name: 'かどや 金印 純正ごま油 (濃口) 1650g - ¥2,798 (100g¥169)',
-            price: 2798, shipping: 0, points: 28, volume: 1650, unit: 'g', baseUnit: '100g',
-            store: 'amazon', asin: 'B0GVLN2384', popularity: 90,
-            affiliateUrl: wrapAma('https://www.amazon.co.jp/dp/B0GVLN2384'),
-            forecastData: [2798, 2798, 2798, 2798, 2798, 2798, 2798]
+            name: 'かどや 純正ごま油 300g - ¥675',
+            price: 675, shipping: 0, points: 7, volume: 300, unit: 'g', baseUnit: '100g',
+            store: 'amazon', asin: 'B078GB9PSZ', popularity: 90,
+            affiliateUrl: wrapAma('https://www.amazon.co.jp/dp/B078GB9PSZ'),
+            forecastData: [675, 675, 675, 675, 675, 675, 675]
           },
           {
             id: 'oil-s-a5',
-            name: 'マルホン 太香胡麻油 1650g - ¥2,918 (100g¥176)',
-            price: 2918, shipping: 0, points: 29, volume: 1650, unit: 'g', baseUnit: '100g',
-            store: 'amazon', asin: 'B00DAO732G', popularity: 88,
-            affiliateUrl: wrapAma('https://www.amazon.co.jp/dp/B00DAO732G'),
-            forecastData: [2918, 2918, 2918, 2918, 2918, 2918, 2918]
+            name: 'マルホン 太白ごま油 450g - ¥1,180',
+            price: 1180, shipping: 0, points: 12, volume: 450, unit: 'g', baseUnit: '100g',
+            store: 'amazon', asin: 'B00P0Z2IWC', popularity: 88,
+            affiliateUrl: wrapAma('https://www.amazon.co.jp/dp/B00P0Z2IWC'),
+            forecastData: [1180, 1180, 1180, 1180, 1180, 1180, 1180]
           }
         ]
       }

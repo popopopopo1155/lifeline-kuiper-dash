@@ -15,6 +15,9 @@ const Header: React.FC<HeaderProps> = ({ onBack, showBack }) => {
     // 1回押された時点で即座にホームへ戻る（onBackがあれば実行）
     if (onBack) onBack();
 
+    // 画面最上部へスクロール（master指示）
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+
     const now = Date.now();
     const newTimestamps = [...clickTimestamps, now].filter(t => now - t <= 1000);
     

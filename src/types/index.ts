@@ -26,6 +26,7 @@ export interface Product {
 export interface Subtype {
   id: string;
   name: string;
+  baseRegionalAverage?: number; // 算出前のオリジナル価格
   products: Product[];
   regionalAverage: number;
   representativeAsin?: string;

@@ -99,21 +99,40 @@ export const usePriceData = () => {
       const res = await fetch(`${SERVER_URL}/api/news/risks`);
       if (res.ok) {
         const rawRisks = await res.json();
+        
         setData((prevData) => {
+          // IMPORTANT: Use prevData to avoid stale closures
           const audited = auditNewsRisks(rawRisks, prevData);
           setNewsRisks(audited);
+
           return prevData.map((genre: Genre) => {
-            const modifier = audited.categoryModifiers[genre.id];
-            const multiplier = modifier ? modifier.multiplier : 1.0;
+            let multiplier = 1.0;
+            const categoryId = genre.id.toUpperCase();
+            const serverCategoryKey = (categoryId === 'MILK') ? 'DAIRY' : categoryId;
+            let modifier = audited.categoryModifiers[serverCategoryKey];
+            
+            if (modifier) {
+               multiplier = modifier.multiplier;
+            }
+
             return {
               ...genre,
-              subtypes: genre.subtypes.map((s: Subtype) => ({
-                ...s,
-                products: s.products.map((p: Product) => ({
-                  ...p,
-                  forecastData: p.forecastData.map(val => Math.round(val * multiplier))
-                }))
-              }))
+              subtypes: genre.subtypes.map((s: Subtype) => {
+                const dampingFactor = 0.5;
+                const benchmarkMultiplier = 1 + (multiplier - 1) * dampingFactor;
+                const stableBase = s.baseRegionalAverage || s.regionalAverage;
+                const newPrice = Math.round(stableBase * benchmarkMultiplier);
+                
+                return {
+                  ...s,
+                  baseRegionalAverage: stableBase,
+                  regionalAverage: newPrice,
+                  products: s.products.map((p: Product) => ({
+                    ...p,
+                    forecastData: p.forecastData.map(val => Math.round(val * multiplier))
+                  }))
+                };
+              })
             };
           });
         });

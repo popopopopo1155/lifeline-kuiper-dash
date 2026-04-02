@@ -20,7 +20,9 @@ const NEWS_DICTIONARY = {
 const CATEGORY_NEWS_MAP = {
   RICE: { keywords: ['米', '不作', 'タイ米', '備蓄'], sensitivity: 1.1 },
   WATER: { keywords: ['水', '原油', '輸送', 'インフラ'], sensitivity: 0.8 },
-  COMMON: { keywords: ['物価', '高騰', '地政学', '原油'], sensitivity: 1.0 }
+  EGG: { keywords: ['卵', '鶏', '鳥インフル', '供給'], sensitivity: 1.2 },
+  DAIRY: { keywords: ['牛乳', '酪農', '飼料', '乳製品'], sensitivity: 1.0 },
+  COMMON: { keywords: ['物価', '高騰', '地政学', '原油', '電気'], sensitivity: 1.0 }
 };
 
 dotenv.config();
@@ -81,19 +83,25 @@ const fetchAndAnalyzeNews = async () => {
     const modifiers = {};
     Object.keys(CATEGORY_NEWS_MAP).forEach(catId => {
       if (catId === 'COMMON') return;
+      
       let maxWeight = 1.0;
       const mapping = CATEGORY_NEWS_MAP[catId];
+      
+      // カテゴリ固有ニュース、または共通ニュース（原油・地政学等）を抽出
       const relatedNews = detectedRisks.filter(news => 
         mapping.keywords.some(k => news.title.includes(k)) || 
         CATEGORY_NEWS_MAP.COMMON.keywords.some(k => news.title.includes(k))
       );
+
       relatedNews.forEach(news => {
         const baseWeight = NEWS_DICTIONARY.NEGATIVE[news.level].weight;
+        // カテゴリ感度を適用して影響を算出
         const impact = 1 + (baseWeight - 1) * mapping.sensitivity;
         if (impact > maxWeight) maxWeight = impact;
       });
+
       modifiers[catId] = {
-        multiplier: maxWeight,
+        multiplier: Number(maxWeight.toFixed(2)),
         riskLevel: maxWeight > 1.3 ? 'CRITICAL' : (maxWeight > 1.1 ? 'HIGH' : 'NORMAL'),
         relevantNews: relatedNews.slice(0, 2)
       };

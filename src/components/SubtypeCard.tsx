@@ -127,9 +127,28 @@ export const SubtypeCard: React.FC<SubtypeCardProps> = ({ subtype, group, unitTy
         <div style={{ fontSize: '12px', color: '#64748b', fontWeight: 'bold', marginBottom: '4px' }}>
           {isDaily ? '近隣スーパー目安価格' : '現在市場・最安実質単価'}
         </div>
-        <div style={{ fontSize: '32px', color: '#0f172a', fontWeight: '900', letterSpacing: '-0.02em' }}>
+        <div style={{ fontSize: '32px', color: '#0f172a', fontWeight: '900', letterSpacing: '-0.02em', position: 'relative', display: 'inline-block' }}>
           ¥{isDaily ? subtype.regionalAverage : minPrice}
           <span style={{ fontSize: '14px', color: '#94a3b8', fontWeight: '700' }}>/{unitType}</span>
+          
+          {/* Index Link Indicator */}
+          {subtype.baseRegionalAverage && subtype.regionalAverage !== subtype.baseRegionalAverage && (
+            <div style={{ 
+              position: 'absolute',
+              top: '-12px',
+              right: '-40px',
+              fontSize: '10px',
+              background: '#0f172a',
+              color: 'white',
+              padding: '2px 6px',
+              borderRadius: '6px',
+              whiteSpace: 'nowrap',
+              fontWeight: '900',
+              boxShadow: '0 4px 6px rgba(0,0,0,0.1)'
+            }}>
+              ⚡ 指数連動中
+            </div>
+          )}
         </div>
         
         {/* Market Comparison Badge */}

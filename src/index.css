@@ -119,7 +119,8 @@ input[type=range].premium-slider::-webkit-slider-thumb {
 .main-content {
   flex: 1 !important;
   min-width: 0;
-  z-index: 1; /* ベースレイヤー */
+  z-index: 10; /* サイドバーより前面へ（master指示により逆転） */
+  position: relative;
 }
 
 .sidebar {
@@ -128,7 +129,7 @@ input[type=range].premium-slider::-webkit-slider-thumb {
   display: flex !important;
   flex-direction: column !important;
   gap: 24px !important;
-  z-index: 50 !important; /* メインコンテンツの前面に固定 */
+  z-index: 1 !important; /* ベースレイヤーへ変更 */
   position: relative;
 }
 

@@ -86,6 +86,8 @@ export const SubtypeCard: React.FC<SubtypeCardProps> = ({ subtype, group, unitTy
       padding: 'clamp(12px, 3vw, 20px)',
       borderRadius: '24px',
       background: 'white',
+      position: 'relative',
+      zIndex: isExpanded ? 30 : 1, /* 展開時はさらに前面へ（全体 z-index 10 の中での順序） */
       boxShadow: '0 4px 6px -1px rgba(0,0,0,0.05)',
       border: analysis.sentiment === 'warning' 
         ? '2px solid #ef4444' 

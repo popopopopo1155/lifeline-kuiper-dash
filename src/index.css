@@ -58,6 +58,46 @@ body {
   animation: admin-pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
 }
 
+/* 共通ユーティリティ (Tailwind ライクな安定化クラス) */
+.flex { display: flex !important; }
+.flex-col { flex-direction: column !important; }
+.items-center { align-items: center !important; }
+.justify-between { justify-content: space-between !important; }
+.justify-center { justify-content: center !important; }
+.gap-1 { gap: 0.25rem !important; }
+.gap-2 { gap: 0.5rem !important; }
+.gap-3 { gap: 0.75rem !important; }
+.gap-4 { gap: 1rem !important; }
+.gap-6 { gap: 1.5rem !important; }
+.px-8 { padding-left: 2rem !important; padding-right: 2rem !important; }
+.py-4 { padding-top: 1rem !important; padding-bottom: 1rem !important; }
+.pr-6 { padding-right: 1.5rem !important; }
+.pl-6 { padding-left: 1.5rem !important; }
+.mx-auto { margin-left: auto !important; margin-right: auto !important; }
+.w-full { width: 100% !important; }
+.max-w-\[1200px\] { max-width: 1200px !important; }
+.cursor-pointer { cursor: pointer !important; }
+.select-none { user-select: none !important; }
+.transition-transform { transition: transform 0.2s ease !important; }
+.active\:scale-95:active { transform: scale(0.95) !important; }
+.bg-black { background: #000000 !important; }
+.text-white { color: #ffffff !important; }
+.rounded-xl { border-radius: 0.75rem !important; }
+.rounded-full { border-radius: 9999px !important; }
+.text-xl { font-size: 1.25rem !important; }
+.font-black { font-weight: 900 !important; }
+.font-bold { font-weight: 700 !important; }
+.tracking-tight { letter-spacing: -0.025em !important; }
+.tracking-\[0\.2em\] { letter-spacing: 0.2em !important; }
+.text-\[10px\] { font-size: 10px !important; }
+.text-gray-500 { color: #64748b !important; }
+.uppercase { text-transform: uppercase !important; }
+.border-l { border-left: 1px solid #e2e8f0 !important; }
+.border-gray-100 { border-color: #f1f5f9 !important; }
+.bg-gray-100 { background: #f1f5f9 !important; }
+.h-8 { height: 2rem !important; }
+.p-2 { padding: 0.5rem !important; }
+
 .price-card {
   border: 1px solid var(--border-gray);
   padding: 1.25rem;

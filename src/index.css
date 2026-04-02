@@ -119,6 +119,7 @@ input[type=range].premium-slider::-webkit-slider-thumb {
 .main-content {
   flex: 1 !important;
   min-width: 0;
+  z-index: 1; /* ベースレイヤー */
 }
 
 .sidebar {
@@ -127,6 +128,17 @@ input[type=range].premium-slider::-webkit-slider-thumb {
   display: flex !important;
   flex-direction: column !important;
   gap: 24px !important;
+  z-index: 50 !important; /* メインコンテンツの前面に固定 */
+  position: relative;
+}
+
+/* Glassmorphism ユーティリティ (v6.50) */
+.glass-card {
+  background: rgba(255, 255, 255, 0.72) !important;
+  backdrop-filter: blur(12px) saturate(180%) !important;
+  -webkit-backdrop-filter: blur(12px) saturate(180%) !important;
+  border: 1px solid rgba(255, 255, 255, 0.4) !important;
+  box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.07) !important;
 }
 
 .heatmap-grid {

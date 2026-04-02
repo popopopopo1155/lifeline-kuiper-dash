@@ -37,16 +37,11 @@ export const AIAdvisor: React.FC = () => {
   }, [householdSize, inventory]);
 
   return (
-    <div className="sidebar-box" style={{ 
-      background: 'rgba(255, 255, 255, 0.7)', 
-      backdropFilter: 'blur(10px)',
-      WebkitBackdropFilter: 'blur(10px)',
-      border: '1px solid rgba(255, 255, 255, 0.5)',
-      boxShadow: '0 8px 32px 0 rgba(31, 38, 135, 0.07)',
+    <div className="sidebar-box glass-card" style={{ 
       width: '100%',
       boxSizing: 'border-box',
       borderRadius: '24px',
-      padding: '20px',
+      padding: '24px',
       position: 'relative',
       overflow: 'hidden'
     }}>
@@ -74,10 +69,11 @@ export const AIAdvisor: React.FC = () => {
         color: '#334155',
         position: 'relative',
         padding: '24px',
-        background: '#f1f5f9',
+        background: 'rgba(241, 245, 249, 0.4)',
         borderRadius: '24px',
-        border: '1px solid #e2e8f0',
-        boxShadow: 'inset 0 2px 4px rgba(0,0,0,0.02)'
+        border: '1px solid rgba(226, 232, 240, 0.5)',
+        boxShadow: 'inset 0 2px 4px rgba(0,0,0,0.01)',
+        overflow: 'hidden'
       }}>
         {loading ? (
           <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
@@ -92,7 +88,7 @@ export const AIAdvisor: React.FC = () => {
             
             {riskData && riskData.activeRisks && riskData.activeRisks.length > 0 && (
               <div style={{ marginTop: '8px', paddingTop: '12px', borderTop: '1px solid #e2e8f0' }}>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '6px', fontSize: '10px', fontBold: '900', color: '#2563eb', marginBottom: '8px', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '6px', fontSize: '10px', color: '#2563eb', marginBottom: '8px', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
                   <Newspaper style={{ width: '12px', height: '12px' }} />
                   検出された物価変動要因
                 </div>

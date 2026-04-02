@@ -80,10 +80,10 @@ export const Sidebar: React.FC<SidebarProps> = ({ genres }) => {
   );
 
   return (
-    <aside className="sidebar" style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
+    <div style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
       {/* --- STOCK SECTION --- */}
-      <div className="sidebar-box" style={{ background: 'white', borderRadius: '24px', border: '1px solid #e2e8f0', overflow: 'hidden' }}>
-        <div style={{ padding: '16px 20px', background: '#f8fafc', borderBottom: '1px solid #e2e8f0', fontSize: '12px', fontWeight: '900', color: '#0f172a', display: 'flex', alignItems: 'center', gap: '8px' }}>
+      <div className="sidebar-box glass-card" style={{ borderRadius: '24px', overflow: 'hidden' }}>
+        <div style={{ padding: '16px 20px', background: 'rgba(248, 250, 252, 0.5)', borderBottom: '1px solid rgba(226, 232, 240, 0.4)', fontSize: '12px', fontWeight: '900', color: '#0f172a', display: 'flex', alignItems: 'center', gap: '8px' }}>
           📦 ストック底値基準（ネット最安）
         </div>
         <div>
@@ -94,8 +94,8 @@ export const Sidebar: React.FC<SidebarProps> = ({ genres }) => {
       </div>
 
       {/* --- DAILY SECTION --- */}
-      <div className="sidebar-box" style={{ background: 'white', borderRadius: '24px', border: '1px solid #e2e8f0', overflow: 'hidden' }}>
-        <div style={{ padding: '16px 20px', background: '#fffbeb', borderBottom: '1px solid #fef3c7', fontSize: '12px', fontWeight: '900', color: '#92400e', display: 'flex', alignItems: 'center', gap: '8px' }}>
+      <div className="sidebar-box glass-card" style={{ borderRadius: '24px', overflow: 'hidden' }}>
+        <div style={{ padding: '16px 20px', background: 'rgba(255, 251, 235, 0.5)', borderBottom: '1px solid rgba(254, 243, 199, 0.4)', fontSize: '12px', fontWeight: '900', color: '#92400e', display: 'flex', alignItems: 'center', gap: '8px' }}>
           🥚 デイリー底値基準（スーパー推奨）
         </div>
         <div>
@@ -105,12 +105,12 @@ export const Sidebar: React.FC<SidebarProps> = ({ genres }) => {
         </div>
       </div>
 
-      <div className="sidebar-box" style={{ padding: '20px', borderLeft: '4px solid #3b82f6', background: 'rgba(59, 130, 246, 0.03)', borderRadius: '16px' }}>
+      <div className="sidebar-box glass-card" style={{ padding: '20px', borderLeft: '4px solid #3b82f6', borderRadius: '16px' }}>
         <p style={{ fontSize: '13px', fontWeight: '900', color: '#1d4ed8' }}>2026年式・賢い買い分け術</p>
         <p style={{ fontSize: '11px', color: '#475569', marginTop: '10px', lineHeight: '1.6', fontWeight: '500' }}>
           重いものやかさばるものはネットの「実質単価」をチェック。生鮮食品は本サイトの「スーパー平均」を下回る時が買い時です。
         </p>
       </div>
-    </aside>
+    </div>
   );
 };

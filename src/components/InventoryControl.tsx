@@ -122,15 +122,15 @@ export const InventoryControl: React.FC = () => {
   };
 
   return (
-    <div className="sidebar-box" style={{ 
-      padding: '0', 
-      overflow: 'hidden', 
-      background: 'white',
+    <div className="sidebar-box glass-card" style={{ 
+      width: '100%',
+      boxSizing: 'border-box',
       borderRadius: '24px',
-      border: '1px solid #e2e8f0',
-      boxShadow: '0 10px 15px -3px rgba(0, 0, 0, 0.05)'
+      padding: '24px',
+      position: 'relative',
+      overflow: 'hidden'
     }}>
-      <div style={{ padding: '20px', background: '#f8fafc', borderBottom: '1px solid #e2e8f0' }}>
+      <div style={{ paddingBottom: '20px', borderBottom: '1px solid rgba(226, 232, 240, 0.5)' }}>
         <div style={{ 
           fontSize: '14px', 
           fontWeight: '900', 
@@ -148,11 +148,11 @@ export const InventoryControl: React.FC = () => {
             style={{ 
               padding: '6px 12px', 
               borderRadius: '10px', 
-              border: '2px solid #e2e8f0', 
+              border: '2px solid rgba(226, 232, 240, 0.8)', 
               fontSize: '13px', 
               fontWeight: '800',
               outline: 'none',
-              background: 'white',
+              background: 'rgba(255, 255, 255, 0.5)',
               cursor: 'pointer'
             }}
           >
@@ -161,7 +161,7 @@ export const InventoryControl: React.FC = () => {
         </div>
       </div>
 
-      <div style={{ padding: '20px' }}>
+      <div style={{ paddingTop: '20px' }}>
         <div style={{ 
           fontSize: '15px', 
           fontWeight: '900', 

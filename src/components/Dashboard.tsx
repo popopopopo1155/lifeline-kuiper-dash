@@ -68,7 +68,14 @@ export const Dashboard: React.FC = () => {
 
           {!selectedGenreId ? (
             <section id="products-section">
-              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px', flexWrap: 'wrap', gap: '15px' }}>
+              <div className="sidebar-box glass-card" style={{ 
+                width: '100%',
+                boxSizing: 'border-box',
+                borderRadius: '24px',
+                padding: '24px',
+                marginBottom: '20px',
+                display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '15px' 
+              }}>
                 <h2 className="section-title" style={{ margin: 0 }}>生活必需品インテリジェンス</h2>
                 <div style={{ position: 'relative', flex: '1', maxWidth: '400px' }}>
                   <input 
@@ -132,20 +139,27 @@ export const Dashboard: React.FC = () => {
           )}
         </main>
 
-        <aside className="sidebar" style={{ width: '320px', flexShrink: 0, display: 'flex', flexDirection: 'column', gap: '24px' }}>
-          <div id="ai-section"><AIAdvisor /></div>
-          <div id="inventory-section"><InventoryControl /></div>
+        <aside className="sidebar">
+          <div id="ai-section" style={{ marginBottom: '24px' }}><AIAdvisor /></div>
+          <div id="inventory-section" style={{ marginBottom: '24px' }}><InventoryControl /></div>
           <Sidebar genres={genres} />
         </aside>
       </div>
 
       <footer className="site-footer" style={{ marginTop: '60px', padding: '40px 20px', borderTop: '1px solid #e2e8f0', textAlign: 'center' }}>
-        <p style={{ fontSize: '12px', color: '#94a3b8', maxWidth: '600px', margin: '0 auto', lineHeight: '1.6', fontWeight: 'bold' }}>
-          本サイトはAmazon.co.jpおよび楽天の各アフィリエイトプログラムに参加しており、紹介商品から収益を得る場合があります。
-          2026年最新の市場データに基づき、あなたに最適な購入タイミングを中立的な立場から診断しています。
-        </p>
-        <div style={{ marginTop: '20px', fontSize: '11px', color: '#cbd5e1' }}>
-          © 2026 生活必需品.com - Intelligent Supply Chain Insight
+        <div className="sidebar-box glass-card" style={{ 
+          overflow: 'hidden', 
+          borderRadius: '24px',
+        }}>
+          <div style={{ padding: '20px', background: 'rgba(248, 250, 252, 0.5)', borderBottom: '1px solid rgba(226, 232, 240, 0.5)' }}>
+            <p style={{ fontSize: '12px', color: '#94a3b8', maxWidth: '600px', margin: '0 auto', lineHeight: '1.6', fontWeight: 'bold' }}>
+              本サイトはAmazon.co.jpおよび楽天の各アフィリエイトプログラムに参加しており、紹介商品から収益を得る場合があります。
+              2026年最新の市場データに基づき、あなたに最適な購入タイミングを中立的な立場から診断しています。
+            </p>
+            <div style={{ marginTop: '20px', fontSize: '11px', color: '#cbd5e1' }}>
+              © 2026 生活必需品.com - Intelligent Supply Chain Insight
+            </div>
+          </div>
         </div>
       </footer>
       

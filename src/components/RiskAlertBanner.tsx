@@ -20,20 +20,20 @@ const RiskAlertBanner: React.FC<RiskAlertBannerProps> = ({ newsRisks, numericalR
   const highestLevel = combinedRisks.some(r => r.level === 'CRITICAL') ? 'CRITICAL' :
                        combinedRisks.some(r => r.level === 'HIGH') ? 'HIGH' : 'MODERATE';
 
-  // 黒枠と薄いグレーの背景に固定
+  // テーマ変数を使用するように変更
   const boxStyles = { 
-    backgroundColor: '#f8fafc', // 清潔感のある極薄グレー
-    border: '1.5px solid #000000', // 重厚感のある黒枠
+    backgroundColor: 'var(--bg-card)', 
+    border: '1.5px solid var(--border-main)', 
   };
 
-  const textColor = 'text-black'; // テキストも黒で統一し視認性を最大化
+  const textColor = 'text-[var(--text-main)]'; 
 
   const Icon = highestLevel === 'CRITICAL' ? ShieldAlert :
                highestLevel === 'HIGH' ? AlertTriangle : Info;
 
   return (
     <div 
-      className="mb-8 p-5 rounded-lg"
+      className="mb-8 p-5 rounded-lg transition-colors"
       style={{ ...boxStyles, boxShadow: '4px 4px 0px rgba(0,0,0,0.05)' }}
     >
       {/* 1. ヘッダー：アイコンとタイトルを一列に固定 */}
@@ -42,7 +42,7 @@ const RiskAlertBanner: React.FC<RiskAlertBannerProps> = ({ newsRisks, numericalR
       >
         <Icon 
           style={{ flexShrink: 0 }}
-          className="w-6 h-6 text-black" 
+          className="w-6 h-6 text-[var(--text-main)]" 
         />
         <h3 
           className={`text-lg font-black ${textColor}`}
@@ -62,9 +62,9 @@ const RiskAlertBanner: React.FC<RiskAlertBannerProps> = ({ newsRisks, numericalR
           >
             {/* 絵文字アイコン */}
             {risk.type === 'data' ? (
-              <TrendingUp style={{ flexShrink: 0 }} className="w-5 h-5 text-black" />
+              <TrendingUp style={{ flexShrink: 0 }} className="w-5 h-5 text-[var(--text-main)]" />
             ) : (
-              <Newspaper style={{ flexShrink: 0 }} className="w-5 h-5 text-black" />
+              <Newspaper style={{ flexShrink: 0 }} className="w-5 h-5 text-[var(--text-main)]" />
             )}
             
             {/* テキストとリンク (絶対に折返さない) */}
@@ -74,26 +74,25 @@ const RiskAlertBanner: React.FC<RiskAlertBannerProps> = ({ newsRisks, numericalR
                   href={risk.link} 
                   target="_blank" 
                   rel="noopener noreferrer" 
-                  className="text-black transition-colors underline decoration-black underline-offset-4 whitespace-nowrap overflow-hidden text-ellipsis font-bold"
-                  style={{ color: '#000000' }}
+                  className="transition-colors underline decoration-[var(--text-main)] underline-offset-4 whitespace-nowrap overflow-hidden text-ellipsis font-bold text-[var(--text-main)]"
                 >
                   {risk.title}
                 </a>
               ) : (
-                <span className="text-black font-black whitespace-nowrap overflow-hidden text-ellipsis">
+                <span className="font-black whitespace-nowrap overflow-hidden text-ellipsis text-[var(--text-main)]">
                   {risk.title}
                 </span>
               )}
 
               {/* Verified Badge */}
               {risk.type === 'news' && hasNumerical && numericalRisks.some(n => risk.title.includes(n.title.split(':')[1]?.trim().split('(')[0] || '')) && (
-                <CheckCircle2 style={{ flexShrink: 0 }} className="w-4 h-4 text-black" />
+                <CheckCircle2 style={{ flexShrink: 0 }} className="w-4 h-4 text-[var(--text-main)]" />
               )}
             </div>
           </div>
         ))}
 
-        <p className="mt-5 text-[11px] text-gray-500 font-bold border-t border-black/10 pt-4">
+        <p className="mt-5 text-[11px] text-[var(--text-sub)] font-bold border-t border-[var(--border-main)] pt-4">
           ※ 報道と実勢価格の乖離を 14日間 監視し、不確かな情報は自動排除されます
         </p>
       </div>

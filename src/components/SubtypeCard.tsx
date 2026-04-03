@@ -65,15 +65,15 @@ export const SubtypeCard: React.FC<SubtypeCardProps> = ({ subtype, group, unitTy
       flexDirection: 'column',
       padding: 'clamp(12px, 3vw, 20px)',
       borderRadius: '24px',
-      background: 'white',
+      background: 'var(--bg-card)',
       position: 'relative',
       zIndex: isExpanded ? 30 : 1, /* 展開時はさらに前面へ（全体 z-index 10 の中での順序） */
       boxShadow: '0 4px 6px -1px rgba(0,0,0,0.05)',
       border: analysis.sentiment === 'warning' 
-        ? '2px solid #ef4444' 
-        : (analysis.sentiment === 'success' ? '2px solid #10b981' : '1px solid #e2e8f0')
+        ? '2px solid var(--signal-red)' 
+        : (analysis.sentiment === 'success' ? '2px solid var(--signal-green)' : '1px solid var(--border-main)')
     }}>
-      <div className="product-name" style={{ borderBottom: '1px solid #f1f5f9', paddingBottom: '12px', marginBottom: '12px', fontSize: '18px', fontWeight: '900', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+      <div className="product-name" style={{ borderBottom: '1px solid var(--border-main)', paddingBottom: '12px', marginBottom: '12px', fontSize: '18px', fontWeight: '900', display: 'flex', justifyContent: 'space-between', alignItems: 'center', color: 'var(--text-main)' }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
              {subtype.name}
              <div className={`status-chip status-${analysis.sentiment === 'warning' ? 'wait' : (analysis.sentiment === 'success' ? 'buy' : 'regular')}`} style={{ fontSize: '10px' }}>
@@ -82,12 +82,12 @@ export const SubtypeCard: React.FC<SubtypeCardProps> = ({ subtype, group, unitTy
         </div>
         <div style={{ 
           fontSize: '11px', 
-          color: subtype.products.length > 0 ? '#3b82f6' : '#94a3b8', 
-          background: subtype.products.length > 0 ? '#eff6ff' : '#f8fafc', 
+          color: subtype.products.length > 0 ? 'var(--price-blue)' : 'var(--text-sub)', 
+          background: subtype.products.length > 0 ? 'var(--bg-app)' : 'var(--border-main)', 
           padding: '4px 10px', 
           borderRadius: '12px',
           fontWeight: '900',
-          border: `1px solid ${subtype.products.length > 0 ? '#dbeafe' : '#f1f5f9'}`
+          border: `1px solid ${subtype.products.length > 0 ? 'var(--price-blue)' : 'var(--border-main)'}`
         }}>
            {isDaily ? '🏠 地場価格優先' : `📊 市場データ: ${subtype.products.length}件`}
         </div>
@@ -97,18 +97,18 @@ export const SubtypeCard: React.FC<SubtypeCardProps> = ({ subtype, group, unitTy
       <div className="unit-price-box" style={{ 
         marginBottom: '16px',
         padding: '16px', 
-        background: '#f8fafc', 
+        background: 'var(--bg-app)', 
         borderRadius: '16px', 
         textAlign: 'center',
-        border: '1px solid #f1f5f9',
+        border: '1px solid var(--border-main)',
         position: 'relative'
       }}>
-        <div style={{ fontSize: '12px', color: '#64748b', fontWeight: 'bold', marginBottom: '4px' }}>
+        <div style={{ fontSize: '12px', color: 'var(--text-sub)', fontWeight: 'bold', marginBottom: '4px' }}>
           {isDaily ? '近隣スーパー目安価格' : '現在市場・最安実質単価'}
         </div>
-        <div style={{ fontSize: '32px', color: '#0f172a', fontWeight: '900', letterSpacing: '-0.02em', position: 'relative', display: 'inline-block' }}>
+        <div style={{ fontSize: '32px', color: 'var(--text-main)', fontWeight: '900', letterSpacing: '-0.02em', position: 'relative', display: 'inline-block' }}>
           ¥{isDaily ? subtype.regionalAverage : minPrice}
-          <span style={{ fontSize: '14px', color: '#94a3b8', fontWeight: '700' }}>/{unitType}</span>
+          <span style={{ fontSize: '14px', color: 'var(--text-sub)', fontWeight: '700' }}>/{unitType}</span>
           </div>
         
         {/* Market Comparison Badge */}
@@ -119,8 +119,8 @@ export const SubtypeCard: React.FC<SubtypeCardProps> = ({ subtype, group, unitTy
             display: 'inline-block',
             padding: '3px 10px', 
             borderRadius: '20px',
-            background: minPrice < subtype.regionalAverage ? '#dcfce7' : '#fee2e2',
-            color: minPrice < subtype.regionalAverage ? '#166534' : '#991b1b',
+            background: minPrice < subtype.regionalAverage ? 'var(--bg-success)' : 'var(--bg-warning)',
+            color: minPrice < subtype.regionalAverage ? 'var(--text-success)' : 'var(--text-warning)',
             fontWeight: '900'
           }}>
             {minPrice < subtype.regionalAverage ? '📉 スーパーよりお得' : '🛑 スーパー推奨'}
@@ -131,14 +131,14 @@ export const SubtypeCard: React.FC<SubtypeCardProps> = ({ subtype, group, unitTy
       {/* AI Intelligence Reasoning */}
       <div style={{ 
         marginBottom: '16px',
-        background: analysis.sentiment === 'warning' ? '#fef2f2' : (analysis.sentiment === 'success' ? '#f0fdf4' : '#fffbeb'),
+        background: analysis.sentiment === 'warning' ? 'var(--bg-warning)' : (analysis.sentiment === 'success' ? 'var(--bg-success)' : 'var(--bg-info)'),
         borderRadius: '12px',
         padding: '12px',
         fontSize: '13px',
-        color: analysis.sentiment === 'warning' ? '#991b1b' : (analysis.sentiment === 'success' ? '#166534' : '#92400e'),
+        color: analysis.sentiment === 'warning' ? 'var(--text-warning)' : (analysis.sentiment === 'success' ? 'var(--text-success)' : 'var(--text-info)'),
         fontWeight: 'bold',
         lineHeight: '1.5',
-        border: `1px solid ${analysis.sentiment === 'warning' ? '#fee2e2' : (analysis.sentiment === 'success' ? '#dcfce7' : '#fef3c7')}`
+        border: `1px solid ${analysis.sentiment === 'warning' ? 'var(--signal-red)' : (analysis.sentiment === 'success' ? 'var(--signal-green)' : 'var(--price-blue)')}`
       }}>
         {analysis.reasoning}
       </div>
@@ -154,11 +154,11 @@ export const SubtypeCard: React.FC<SubtypeCardProps> = ({ subtype, group, unitTy
       ) : (
         <>
           <div style={{ marginBottom: '12px', textAlign: 'center' }}>
-              <span style={{ fontSize: '0.8rem', opacity: 0.8 }}>
+              <span style={{ fontSize: '0.8rem', opacity: 0.8, color: 'var(--text-sub)' }}>
                 実効最安値: ¥{minPrice.toLocaleString()}/{unitType}
               </span>
               {subtype.lastUpdated && (
-                <div style={{ fontSize: '0.7rem', opacity: 0.6, marginTop: '2px' }}>
+                <div style={{ fontSize: '0.7rem', opacity: 0.6, marginTop: '2px', color: 'var(--text-sub)' }}>
                   🕒 {new Date(subtype.lastUpdated).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })} 更新
                 </div>
               )}
@@ -168,9 +168,9 @@ export const SubtypeCard: React.FC<SubtypeCardProps> = ({ subtype, group, unitTy
             style={{
               width: '100%',
               padding: '12px',
-              background: '#0f172a',
-              color: 'white',
-              border: 'none',
+              background: 'var(--bg-white)',
+              color: 'var(--text-main)',
+              border: '1px solid var(--border-main)',
               borderRadius: '12px',
               fontSize: '14px',
               fontWeight: '900',
@@ -194,8 +194,8 @@ export const SubtypeCard: React.FC<SubtypeCardProps> = ({ subtype, group, unitTy
                   key={p.id}
                   style={{ 
                     padding: '12px', 
-                    background: p.isVerified ? '#f0f9ff' : 'white', 
-                    border: p.isVerified ? '2px solid #0ea5e9' : '1px solid #e2e8f0', 
+                    background: p.isVerified ? 'var(--bg-info)' : 'var(--bg-card)', 
+                    border: p.isVerified ? '2px solid var(--price-blue)' : '1px solid var(--border-main)', 
                     borderRadius: '12px',
                     display: 'flex',
                     justifyContent: 'space-between',
@@ -206,20 +206,20 @@ export const SubtypeCard: React.FC<SubtypeCardProps> = ({ subtype, group, unitTy
                   }}
                 >
                   <div style={{ display: 'flex', flexDirection: 'column', gap: '4px', flex: 1 }}>
-                    <div style={{ fontSize: '13px', fontWeight: 'bold', color: '#1e293b', display: 'flex', alignItems: 'center', gap: '6px', flexWrap: 'wrap' }}>
+                    <div style={{ fontSize: '13px', fontWeight: 'bold', color: 'var(--text-main)', display: 'flex', alignItems: 'center', gap: '6px', flexWrap: 'wrap' }}>
                       {p.name.length > 35 ? p.name.substring(0, 35) + '...' : p.name}
                       {idx === 0 && !p.isVerified && (
                         <span style={{ fontSize: '10px', background: '#fbbf24', color: '#78350f', padding: '1px 6px', borderRadius: '4px', fontWeight: '900' }}>⭐ 最安</span>
                       )}
                       {p.isVerified && (
-                        <span style={{ fontSize: '10px', background: '#0ea5e9', color: 'white', padding: '1px 8px', borderRadius: '4px', fontWeight: '900' }}>✅ 検証済</span>
+                        <span style={{ fontSize: '10px', background: 'var(--price-blue)', color: 'white', padding: '1px 8px', borderRadius: '4px', fontWeight: '900' }}>✅ 検証済</span>
                       )}
                     </div>
                     <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
                       <span style={{ fontSize: '9px', padding: '2px 4px', background: p.store === 'amazon' ? '#232f3e' : '#bf0000', color: 'white', borderRadius: '4px', fontWeight: '900', letterSpacing: '0.05em' }}>
                         {p.store.toUpperCase()}
                       </span>
-                      <span style={{ fontSize: '11px', color: '#64748b', fontWeight: 'bold' }}>
+                      <span style={{ fontSize: '11px', color: 'var(--text-sub)', fontWeight: 'bold' }}>
                         ¥{Math.round((p.price + p.shipping - p.points) / Math.max(0.1, getNormalizedVolume(p.name, unitType, p.volume, p.unit)))}/{unitType}
                         <span style={{ marginLeft: '6px', opacity: 0.7 }}>({p.volume}{p.unit})</span>
                       </span>
@@ -233,14 +233,14 @@ export const SubtypeCard: React.FC<SubtypeCardProps> = ({ subtype, group, unitTy
                         <button 
                           onClick={() => handleMove(p.id, -1)}
                           disabled={idx === 0}
-                          style={{ padding: '2px', opacity: idx === 0 ? 0.2 : 1, cursor: idx === 0 ? 'default' : 'pointer', background: '#f1f5f9', border: 'none', borderRadius: '4px' }}
+                          style={{ padding: '2px', opacity: idx === 0 ? 0.2 : 1, cursor: idx === 0 ? 'default' : 'pointer', background: 'var(--bg-app)', border: 'none', borderRadius: '4px', color: 'var(--text-main)' }}
                         >
                           <ArrowUp size={12} />
                         </button>
                         <button 
                           onClick={() => handleMove(p.id, 1)}
                           disabled={idx === displayProducts.length - 1}
-                          style={{ padding: '2px', opacity: idx === displayProducts.length - 1 ? 0.2 : 1, cursor: idx === displayProducts.length - 1 ? 'default' : 'pointer', background: '#f1f5f9', border: 'none', borderRadius: '4px' }}
+                          style={{ padding: '2px', opacity: idx === displayProducts.length - 1 ? 0.2 : 1, cursor: idx === displayProducts.length - 1 ? 'default' : 'pointer', background: 'var(--bg-app)', border: 'none', borderRadius: '4px', color: 'var(--text-main)' }}
                         >
                           <ArrowDown size={12} />
                         </button>
@@ -248,13 +248,13 @@ export const SubtypeCard: React.FC<SubtypeCardProps> = ({ subtype, group, unitTy
                     )}
 
                     <div>
-                      <div style={{ fontSize: '16px', fontWeight: '900', color: '#0f172a' }}>¥{p.price.toLocaleString()}</div>
+                      <div style={{ fontSize: '16px', fontWeight: '900', color: 'var(--text-main)' }}>¥{p.price.toLocaleString()}</div>
                       <a 
                         href={p.affiliateUrl || '#'} 
                         target="_blank" 
                         rel="noopener noreferrer"
                         onClick={(e) => e.stopPropagation()}
-                        style={{ fontSize: '10px', color: '#3b82f6', fontWeight: 'bold', textDecoration: 'none', display: 'block' }}
+                        style={{ fontSize: '10px', color: 'var(--price-blue)', fontWeight: 'bold', textDecoration: 'none', display: 'block' }}
                       >
                         購入 ➔
                       </a>
@@ -262,7 +262,7 @@ export const SubtypeCard: React.FC<SubtypeCardProps> = ({ subtype, group, unitTy
                     {isAdmin ? (
                       <button 
                         onClick={(e) => { e.stopPropagation(); setEditingProduct(p); }}
-                        style={{ border: 'none', padding: '8px', cursor: 'pointer', borderRadius: '50%', background: '#f1f5f9' }}
+                        style={{ border: 'none', padding: '8px', cursor: 'pointer', borderRadius: '50%', background: 'var(--bg-app)' }}
                       >
                         ✏️
                       </button>
@@ -275,20 +275,20 @@ export const SubtypeCard: React.FC<SubtypeCardProps> = ({ subtype, group, unitTy
                         style={{ 
                           display: 'flex', alignItems: 'center', justifyContent: 'center', 
                           width: '42px', height: '42px', borderRadius: '50%', 
-                          background: '#ffffff', color: '#2563eb', 
-                          border: '1.5px solid #dbeafe',
+                          background: 'var(--bg-card)', color: 'var(--price-blue)', 
+                          border: '1.5px solid var(--border-main)',
                           cursor: 'pointer', textDecoration: 'none',
                           transition: 'all 0.2s cubic-bezier(0.4, 0, 0.2, 1)',
                           boxShadow: '0 2px 4px rgba(0, 0, 0, 0.05)',
                           fontSize: '22px'
                         }}
                         onMouseEnter={(e) => {
-                          e.currentTarget.style.borderColor = '#2563eb';
+                          e.currentTarget.style.borderColor = 'var(--price-blue)';
                           e.currentTarget.style.transform = 'scale(1.1)';
                           e.currentTarget.style.boxShadow = '0 10px 15px -3px rgba(37, 99, 235, 0.1)';
                         }}
                         onMouseLeave={(e) => {
-                          e.currentTarget.style.borderColor = '#dbeafe';
+                          e.currentTarget.style.borderColor = 'var(--border-main)';
                           e.currentTarget.style.transform = 'scale(1)';
                           e.currentTarget.style.boxShadow = '0 2px 4px rgba(0, 0, 0, 0.05)';
                         }}

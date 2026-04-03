@@ -21,10 +21,10 @@ export const PriceTrendChart: React.FC<PriceTrendChartProps> = ({ genreName, dat
   const pathD = `M ${points.map(p => `${p.x},${p.y}`).join(' L ')}`;
 
   return (
-    <div className="price-card" style={{ marginTop: '30px', padding: '20px', background: '#fff' }}>
+    <div className="price-card" style={{ marginTop: '30px', padding: '20px', background: 'var(--bg-card)', border: '1px solid var(--border-main)', borderRadius: '24px' }}>
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
-        <h3 style={{ margin: 0, fontSize: '18px' }}>
-          {genreName} の市場価格推移 <span style={{ fontSize: '12px', color: '#666', fontWeight: 'normal' }}>(過去90日・主要モール平均)</span>
+        <h3 style={{ margin: 0, fontSize: '18px', color: 'var(--text-main)' }}>
+          {genreName} の市場価格推移 <span style={{ fontSize: '12px', color: 'var(--text-sub)', fontWeight: 'normal' }}>(過去90日・主要モール平均)</span>
         </h3>
         <div style={{ display: 'flex', gap: '15px' }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: '5px', fontSize: '12px' }}>
@@ -44,8 +44,9 @@ export const PriceTrendChart: React.FC<PriceTrendChartProps> = ({ genreName, dat
               key={i} 
               x1="0" y1={(i * height) / 3} 
               x2={width} y2={(i * height) / 3} 
-              stroke="#f0f0f0" 
+              stroke="var(--border-main)" 
               strokeWidth="1" 
+              opacity="0.5"
             />
           ))}
           
@@ -53,7 +54,7 @@ export const PriceTrendChart: React.FC<PriceTrendChartProps> = ({ genreName, dat
           <path
             d={pathD}
             fill="none"
-            stroke="#0055aa"
+            stroke="var(--price-blue)"
             strokeWidth="3"
             strokeLinecap="round"
             strokeLinejoin="round"
@@ -68,8 +69,8 @@ export const PriceTrendChart: React.FC<PriceTrendChartProps> = ({ genreName, dat
           
           <defs>
             <linearGradient id="trendGradient" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="0%" stopColor="#0055aa" />
-              <stop offset="100%" stopColor="#fff" />
+              <stop offset="0%" stopColor="var(--price-blue)" />
+              <stop offset="100%" stopColor="var(--bg-card)" stopOpacity="0" />
             </linearGradient>
           </defs>
 
@@ -78,20 +79,20 @@ export const PriceTrendChart: React.FC<PriceTrendChartProps> = ({ genreName, dat
         </svg>
 
         {/* X軸のラベル */}
-        <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: '10px', color: '#999', fontSize: '11px' }}>
+        <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: '10px', color: 'var(--text-sub)', fontSize: '11px', fontWeight: 'bold' }}>
           <span>90日前</span>
           <span>60日前</span>
           <span>30日前</span>
           <span>現在</span>
-          <span style={{ color: '#0055aa', fontWeight: 'bold' }}>予測 (7日間)</span>
+          <span style={{ color: 'var(--price-blue)', fontWeight: 'bold' }}>予測 (7日間)</span>
         </div>
       </div>
 
-      <div style={{ marginTop: '20px', padding: '15px', background: '#f0f7ff', borderRadius: '8px', display: 'flex', gap: '20px', alignItems: 'center' }}>
-        <div style={{ fontSize: '18px', fontWeight: '900', color: '#0055aa' }}>MEMO</div>
+      <div style={{ marginTop: '20px', padding: '15px', background: 'var(--bg-info)', border: '1px solid var(--price-blue)', borderRadius: '16px', display: 'flex', gap: '20px', alignItems: 'center' }}>
+        <div style={{ fontSize: '18px', fontWeight: '900', color: 'var(--text-info)' }}>MEMO</div>
         <div>
-          <div style={{ fontWeight: 'bold', fontSize: '14px', color: '#0055aa' }}>市場トレンド展望: 「買い時」です</div>
-          <div style={{ fontSize: '12px', color: '#666' }}>
+          <div style={{ fontWeight: 'bold', fontSize: '14px', color: 'var(--text-info)' }}>市場トレンド展望: 「買い時」です</div>
+          <div style={{ fontSize: '12px', color: 'var(--text-main)', opacity: 0.8 }}>
             現在の価格は過去90日間の平均より 8% 安く、底値域にあります。来週以降、物流コストの影響で微増する予測が出ているため、在庫が少なければ今週中の購入をおすすめします。
           </div>
         </div>

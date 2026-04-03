@@ -73,12 +73,12 @@ export const GenreCard: React.FC<GenreCardProps> = ({ genre, daysLeft, onClick, 
         transition: 'all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275)',
         cursor: 'pointer',
         height: '100%',
-        background: isHovered ? '#f8fafc' : 'white',
+        background: isHovered ? 'var(--bg-app)' : 'var(--bg-card)',
         border: status === 'buy' 
-          ? '2px solid #10b981' 
+          ? '2px solid var(--signal-green)' 
           : (status === 'wait' 
-              ? '2px solid #ef4444' 
-              : (isHighPriority ? '2px solid #ff0000' : (isHovered ? '2px solid #bbc1cc' : '2px solid #cbd5e1'))),
+              ? '2px solid var(--signal-red)' 
+              : (isHighPriority ? '2px solid #ff0000' : (isHovered ? '2px solid var(--price-blue)' : '2px solid var(--border-main)'))),
         borderRadius: '20px',
         boxShadow: status === 'buy' 
           ? '0 20px 40px -10px rgba(16, 185, 129, 0.2)' 
@@ -90,7 +90,7 @@ export const GenreCard: React.FC<GenreCardProps> = ({ genre, daysLeft, onClick, 
       }}
     >
       {/* 1. Header & Image */}
-      <h3 style={{ fontSize: 'clamp(14px, 4vw, 22px)', fontWeight: '900', textAlign: 'center', margin: '0 0 12px 0', color: '#0f172a' }}>
+      <h3 style={{ fontSize: 'clamp(14px, 4vw, 22px)', fontWeight: '900', textAlign: 'center', margin: '0 0 12px 0', color: 'var(--text-main)' }}>
         {genre.name}
       </h3>
 
@@ -100,7 +100,7 @@ export const GenreCard: React.FC<GenreCardProps> = ({ genre, daysLeft, onClick, 
         marginBottom: '12px', 
         borderRadius: '16px', 
         overflow: 'hidden',
-        background: '#f1f5f9',
+        background: 'var(--bg-app)',
         display: 'flex',
         justifyContent: 'center',
         alignItems: 'center',
@@ -109,7 +109,7 @@ export const GenreCard: React.FC<GenreCardProps> = ({ genre, daysLeft, onClick, 
         {heroImage ? (
           <img src={heroImage} alt={genre.name} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
         ) : (
-          <div style={{ fontSize: '56px', color: '#cbd5e1', fontWeight: '900' }}>{genre.name[0]}</div>
+          <div style={{ fontSize: '56px', color: 'var(--signal-gray)', fontWeight: '900' }}>{genre.name[0]}</div>
         )}
       </div>
 
@@ -120,7 +120,7 @@ export const GenreCard: React.FC<GenreCardProps> = ({ genre, daysLeft, onClick, 
             {getStatusLabel(status)}
           </div>
         </div>
-        <div style={{ color: '#0f172a', fontSize: 'clamp(24px, 8vw, 42px)', fontWeight: '900', lineHeight: 1, letterSpacing: '-0.02em' }}>
+        <div style={{ color: 'var(--text-main)', fontSize: 'clamp(24px, 8vw, 42px)', fontWeight: '900', lineHeight: 1, letterSpacing: '-0.02em' }}>
           <span style={{ fontSize: 'clamp(12px, 4vw, 20px)', opacity: 0.4, marginRight: '2px' }}>¥</span>
           {minUnitPrice === Infinity ? (
              <span style={{ opacity: 0.7 }}>{regionalAverage || '---'}</span>
@@ -129,7 +129,7 @@ export const GenreCard: React.FC<GenreCardProps> = ({ genre, daysLeft, onClick, 
           )}
           <span style={{ fontSize: 'clamp(10px, 3vw, 16px)', opacity: 0.4 }}>/{unitLabel}</span>
           {minUnitPrice === Infinity && (
-            <div style={{ fontSize: '10px', color: '#94a3b8', marginTop: '4px' }}>統計目安</div>
+            <div style={{ fontSize: '10px', color: 'var(--text-sub)', marginTop: '4px' }}>統計目安</div>
           )}
         </div>
       </div>
@@ -160,14 +160,14 @@ export const GenreCard: React.FC<GenreCardProps> = ({ genre, daysLeft, onClick, 
       }}>
         <div style={{ 
           background: analysis.sentiment === 'warning' 
-            ? 'linear-gradient(135deg, #fff5f5 0%, #fff 100%)' 
-            : (analysis.sentiment === 'success' ? 'linear-gradient(135deg, #f0fdf4 0%, #fff 100%)' : 'linear-gradient(135deg, #fffbeb 0%, #fff 100%)'),
+            ? 'var(--bg-warning)' 
+            : (analysis.sentiment === 'success' ? 'var(--bg-success)' : 'var(--bg-info)'),
           border: analysis.sentiment === 'warning'
-            ? '1px solid #fee2e2'
-            : (analysis.sentiment === 'success' ? '1px solid #dcfce7' : '1px solid #fef3c7'),
+            ? '1px solid var(--signal-red)'
+            : (analysis.sentiment === 'success' ? '1px solid var(--signal-green)' : '1px solid var(--price-blue)'),
           borderLeft: analysis.sentiment === 'warning'
-            ? '4px solid #ff0000'
-            : (analysis.sentiment === 'success' ? '4px solid #10b981' : '4px solid #f59e0b'),
+            ? '4px solid var(--signal-red)'
+            : (analysis.sentiment === 'success' ? '4px solid var(--signal-green)' : '4px solid var(--price-blue)'),
           borderRadius: '12px',
           padding: '8px 12px',
           width: '100%',
@@ -177,8 +177,8 @@ export const GenreCard: React.FC<GenreCardProps> = ({ genre, daysLeft, onClick, 
           fontSize: 'clamp(10px, 3vw, 13px)', 
           fontWeight: '900', 
           color: analysis.sentiment === 'warning'
-            ? '#b91c1c'
-            : (analysis.sentiment === 'success' ? '#166534' : '#92400e'),
+            ? 'var(--text-warning)'
+            : (analysis.sentiment === 'success' ? 'var(--text-success)' : 'var(--text-info)'),
           lineHeight: '1.4',
           boxShadow: '0 2px 4px rgba(0,0,0,0.02)'
         }}>
@@ -190,17 +190,17 @@ export const GenreCard: React.FC<GenreCardProps> = ({ genre, daysLeft, onClick, 
       <div style={{ 
         marginTop: '24px', 
         padding: '24px 0', 
-        borderTop: '2px solid #f1f5f9',
+        borderTop: '2px solid var(--border-main)',
         textAlign: 'center', 
         fontSize: '18px', // DYNAMIC 18px text
-        color: isHovered ? '#2563eb' : '#2d3748', 
+        color: isHovered ? 'var(--price-blue)' : 'var(--text-main)', 
         fontWeight: '900', 
         display: 'flex', 
         alignItems: 'center', 
         justifyContent: 'center', 
         gap: '8px',
         transition: 'all 0.3s ease',
-        background: isHovered ? '#eff6ff' : 'transparent',
+        background: isHovered ? 'var(--bg-app)' : 'transparent',
         margin: '0 -24px -24px -24px' 
       }}>
         {isHovered ? '最安値をチェック' : '詳細を見る'}

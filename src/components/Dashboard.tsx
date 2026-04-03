@@ -15,7 +15,7 @@ import RiskAlertBanner from './RiskAlertBanner';
 export const Dashboard: React.FC = () => {
   const [selectedGenreId, setSelectedGenreId] = useState<string | null>(null);
   const [searchQuery, setSearchQuery] = useState('');
-  const { data: genres, loading, refreshData, newsRisks, numericalRisks } = usePriceData();
+  const { data: genres, loading, newsRisks, numericalRisks } = usePriceData();
   const { getDaysLeft } = useInventory();
 
   const filteredGenres = genres.filter(genre => {
@@ -82,13 +82,13 @@ export const Dashboard: React.FC = () => {
                     type="text" 
                     placeholder="商品名や種類を検索..." 
                     onChange={(e) => setSearchQuery(e.target.value)}
-                    style={{ width: '100%', padding: '12px 16px 12px 40px', borderRadius: '12px', border: '1px solid #e2e8f0', background: '#fff', fontSize: '14px' }}
+                    style={{ width: '100%', padding: '12px 16px 12px 40px', borderRadius: '12px', border: '1px solid var(--border-main)', background: 'var(--bg-card)', color: 'var(--text-main)', fontSize: '14px' }}
                   />
                   <span style={{ position: 'absolute', left: '12px', top: '50%', transform: 'translateY(-50%)', opacity: 0.4 }}>🔍</span>
                 </div>
               </div>
 
-              <h3 style={{ fontSize: '14px', color: '#64748b', marginBottom: '15px', display: 'flex', alignItems: 'center', gap: '8px' }}>
+              <h3 style={{ fontSize: '14px', color: 'var(--text-sub)', marginBottom: '15px', display: 'flex', alignItems: 'center', gap: '8px' }}>
                 📦 【ストック品】 ネットまとめ買い推奨
               </h3>
               <div className="heatmap-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '16px', marginBottom: '40px' }}>
@@ -97,7 +97,7 @@ export const Dashboard: React.FC = () => {
                 ))}
               </div>
 
-              <h3 style={{ fontSize: '14px', color: '#64748b', marginBottom: '15px', display: 'flex', alignItems: 'center', gap: '8px' }}>
+              <h3 style={{ fontSize: '14px', color: 'var(--text-sub)', marginBottom: '15px', display: 'flex', alignItems: 'center', gap: '8px' }}>
                 🥚 【デイリー品】 スーパー底値比較・鮮度重視
               </h3>
               <div className="heatmap-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '16px' }}>
@@ -110,7 +110,7 @@ export const Dashboard: React.FC = () => {
             <section>
               <div style={{ marginBottom: '20px' }}>
                 <h2 className="section-title" style={{ margin: 0 }}>
-                  {selectedGenre?.name} <span style={{ fontSize: '14px', color: '#666', fontWeight: 'normal' }}>の市場データ</span>
+                  {selectedGenre?.name} <span style={{ fontSize: '14px', color: 'var(--text-sub)', fontWeight: 'normal' }}>の市場データ</span>
                 </h2>
               </div>
 
@@ -150,17 +150,17 @@ export const Dashboard: React.FC = () => {
         </aside>
       </div>
 
-      <footer className="site-footer" style={{ marginTop: '60px', padding: '40px 20px', borderTop: '1px solid #e2e8f0', textAlign: 'center' }}>
+      <footer className="site-footer" style={{ marginTop: '60px', padding: '40px 20px', borderTop: '1px solid var(--border-main)', textAlign: 'center' }}>
         <div className="sidebar-box glass-card" style={{ 
           overflow: 'hidden', 
           borderRadius: '24px',
         }}>
-          <div style={{ padding: '20px', background: 'rgba(248, 250, 252, 0.5)', borderBottom: '1px solid rgba(226, 232, 240, 0.5)' }}>
-            <p style={{ fontSize: '12px', color: '#94a3b8', maxWidth: '600px', margin: '0 auto', lineHeight: '1.6', fontWeight: 'bold' }}>
+          <div style={{ padding: '20px', background: 'var(--bg-app)', borderBottom: '1px solid var(--border-main)' }}>
+            <p style={{ fontSize: '12px', color: 'var(--text-sub)', maxWidth: '600px', margin: '0 auto', lineHeight: '1.6', fontWeight: 'bold' }}>
               本サイトはAmazon.co.jpおよび楽天の各アフィリエイトプログラムに参加しており、紹介商品から収益を得る場合があります。
               2026年最新の市場データに基づき、あなたに最適な購入タイミングを中立的な立場から診断しています。
             </p>
-            <div style={{ marginTop: '20px', fontSize: '11px', color: '#cbd5e1' }}>
+            <div style={{ marginTop: '20px', fontSize: '11px', color: 'var(--signal-gray)' }}>
               © 2026 生活必需品.com - Intelligent Supply Chain Insight
             </div>
           </div>

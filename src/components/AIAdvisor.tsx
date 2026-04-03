@@ -50,13 +50,13 @@ export const AIAdvisor: React.FC = () => {
       </div>
 
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '16px' }}>
-        <div style={{ fontSize: '14px', fontWeight: '900', color: '#0f172a', display: 'flex', alignItems: 'center', gap: '8px' }}>
+        <div style={{ fontSize: '14px', fontWeight: '900', color: 'var(--text-main)', display: 'flex', alignItems: 'center', gap: '8px' }}>
           あなただけの生活通信
         </div>
         <button 
           onClick={fetchAdvice} 
           disabled={loading}
-          style={{ background: 'transparent', border: 'none', fontSize: '11px', padding: '4px', cursor: 'pointer', color: '#2563eb', fontWeight: '900', textDecoration: 'underline' }}
+          style={{ background: 'transparent', border: 'none', fontSize: '11px', padding: '4px', cursor: 'pointer', color: 'var(--price-blue)', fontWeight: '900', textDecoration: 'underline' }}
         >
           {loading ? '分析中...' : '再読み込み'}
         </button>
@@ -66,37 +66,37 @@ export const AIAdvisor: React.FC = () => {
         minHeight: '80px', 
         fontSize: '13px', 
         lineHeight: '1.8', 
-        color: '#334155',
+        color: 'var(--text-main)',
         position: 'relative',
         padding: '24px',
-        background: 'rgba(241, 245, 249, 0.4)',
+        background: 'var(--bg-app)',
         borderRadius: '24px',
-        border: '1px solid rgba(226, 232, 240, 0.5)',
+        border: '1px solid var(--border-main)',
         boxShadow: 'inset 0 2px 4px rgba(0,0,0,0.01)',
         overflow: 'hidden'
       }}>
         {loading ? (
           <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
-            <div className="skeleton" style={{ height: '14px', width: '90%', background: '#3b82f6', opacity: 0.1, borderRadius: '4px' }}></div>
-            <div className="skeleton" style={{ height: '14px', width: '70%', background: '#3b82f6', opacity: 0.1, borderRadius: '4px' }}></div>
+            <div className="skeleton" style={{ height: '14px', width: '90%', background: 'var(--price-blue)', opacity: 0.1, borderRadius: '4px' }}></div>
+            <div className="skeleton" style={{ height: '14px', width: '70%', background: 'var(--price-blue)', opacity: 0.1, borderRadius: '4px' }}></div>
           </div>
         ) : (
           <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
-            <div style={{ whiteSpace: 'pre-wrap', fontWeight: '800', letterSpacing: '0.02em', color: '#1e293b' }}>
+            <div style={{ whiteSpace: 'pre-wrap', fontWeight: '800', letterSpacing: '0.02em', color: 'var(--text-main)' }}>
               {advice}
             </div>
             
             {riskData && riskData.activeRisks && riskData.activeRisks.length > 0 && (
-              <div style={{ marginTop: '8px', paddingTop: '12px', borderTop: '1px solid #e2e8f0' }}>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '6px', fontSize: '10px', color: '#2563eb', marginBottom: '8px', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
+              <div style={{ marginTop: '8px', paddingTop: '12px', borderTop: '1px solid var(--border-main)' }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '6px', fontSize: '10px', color: 'var(--price-blue)', marginBottom: '8px', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
                   <Newspaper style={{ width: '12px', height: '12px' }} />
                   検出された物価変動要因
                 </div>
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
                   {riskData.activeRisks.slice(0, 2).map((risk: any, i: number) => (
-                    <div key={i} style={{ display: 'flex', alignItems: 'start', gap: '4px', fontSize: '11px', lineHeight: '1.4', color: '#475569', fontWeight: 'bold' }}>
-                      <ChevronRight style={{ width: '12px', height: '12px', marginTop: '2px', flexShrink: 0, color: '#3b82f6' }} />
-                      <a href={risk.link} target="_blank" rel="noopener noreferrer" style={{ color: 'inherit', textDecoration: 'none', borderBottom: '1px solid transparent' }} onMouseOver={(e) => e.currentTarget.style.color = '#1d4ed8'} onMouseOut={(e) => e.currentTarget.style.color = '#475569'}>
+                    <div key={i} style={{ display: 'flex', alignItems: 'start', gap: '4px', fontSize: '11px', lineHeight: '1.4', color: 'var(--text-sub)', fontWeight: 'bold' }}>
+                      <ChevronRight style={{ width: '12px', height: '12px', marginTop: '2px', flexShrink: 0, color: 'var(--price-blue)' }} />
+                      <a href={risk.link} target="_blank" rel="noopener noreferrer" style={{ color: 'inherit', textDecoration: 'none', borderBottom: '1px solid transparent' }} onMouseOver={(e) => e.currentTarget.style.color = 'var(--price-blue-hover)'} onMouseOut={(e) => e.currentTarget.style.color = 'inherit'}>
                         {risk.title.length > 35 ? risk.title.substring(0, 35) + '...' : risk.title}
                       </a>
                     </div>
@@ -108,7 +108,7 @@ export const AIAdvisor: React.FC = () => {
         )}
       </div>
       
-      <div style={{ marginTop: '16px', fontSize: '9px', color: '#94a3b8', textAlign: 'center', fontWeight: '800', letterSpacing: '0.05em', opacity: 0.3 }}>
+      <div style={{ marginTop: '16px', fontSize: '9px', color: 'var(--text-sub)', textAlign: 'center', fontWeight: '800', letterSpacing: '0.05em', opacity: 0.3 }}>
         LIFELINE ANALYSIS ENGINE V2
       </div>
     </div>

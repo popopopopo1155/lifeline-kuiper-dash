@@ -17,8 +17,7 @@ interface DailyBottomPriceControlProps {
 
 export const DailyBottomPriceControl: React.FC<DailyBottomPriceControlProps> = ({ 
   subtypeId, 
-  regionalAverage,
-  unitType
+  regionalAverage
 }) => {
   const [records, setRecords] = useState<StoreRecord[]>([]);
   const [newName, setNewName] = useState('');
@@ -67,9 +66,9 @@ export const DailyBottomPriceControl: React.FC<DailyBottomPriceControlProps> = (
     <div className="daily-price-control" style={{ marginTop: '20px' }}>
       <div style={{ 
         padding: '16px', 
-        background: 'rgba(15, 23, 42, 0.03)', 
+        background: 'var(--bg-app)', 
         borderRadius: '20px', 
-        border: '1.5px dashed #cbd5e1',
+        border: '1.5px dashed var(--border-main)',
         marginBottom: '20px'
       }}>
         <h4 style={{ 
@@ -78,7 +77,7 @@ export const DailyBottomPriceControl: React.FC<DailyBottomPriceControlProps> = (
           display: 'flex', 
           alignItems: 'center', 
           gap: '8px', 
-          color: '#475569',
+          color: 'var(--text-sub)',
           fontWeight: '900'
         }}>
           <ShoppingCart size={16} /> 近隣スーパーの底値を記録
@@ -90,21 +89,21 @@ export const DailyBottomPriceControl: React.FC<DailyBottomPriceControlProps> = (
             placeholder="店名 (例: ライフ)" 
             value={newName}
             onChange={(e) => setNewName(e.target.value)}
-            style={{ flex: 2, padding: '8px 12px', borderRadius: 10, border: '1px solid #e2e8f0', fontSize: '13px' }}
+            style={{ flex: 2, padding: '8px 12px', borderRadius: 10, border: '1px solid var(--border-main)', background: 'var(--bg-card)', color: 'var(--text-main)', fontSize: '13px' }}
           />
           <input 
             type="number" 
             placeholder="価格" 
             value={newPrice}
             onChange={(e) => setNewPrice(e.target.value === '' ? '' : Number(e.target.value))}
-            style={{ flex: 1, padding: '8px 12px', borderRadius: 10, border: '1px solid #e2e8f0', fontSize: '13px' }}
+            style={{ flex: 1, padding: '8px 12px', borderRadius: 10, border: '1px solid var(--border-main)', background: 'var(--bg-card)', color: 'var(--text-main)', fontSize: '13px' }}
           />
           <button 
             onClick={addRecord}
             style={{ 
               padding: '8px 16px', 
-              background: '#0f172a', 
-              color: 'white', 
+              background: 'var(--text-main)', 
+              color: 'var(--bg-card)', 
               border: 'none', 
               borderRadius: 10, 
               cursor: 'pointer',
@@ -124,28 +123,28 @@ export const DailyBottomPriceControl: React.FC<DailyBottomPriceControlProps> = (
           return (
             <div key={record.id} style={{ 
               padding: '12px 16px', 
-              background: 'white', 
+              background: 'var(--bg-card)', 
               borderRadius: '16px', 
-              border: '1px solid #f1f5f9',
+              border: '1px solid var(--border-main)',
               display: 'flex',
               justifyContent: 'space-between',
               alignItems: 'center',
               boxShadow: '0 2px 4px rgba(0,0,0,0.02)'
             }}>
               <div style={{ display: 'flex', flexDirection: 'column' }}>
-                <div style={{ fontSize: '14px', fontWeight: '900', color: '#1e293b' }}>
-                  {record.name} <span style={{ fontSize: '11px', color: '#94a3b8', fontWeight: 'normal' }}>({record.date})</span>
+                <div style={{ fontSize: '14px', fontWeight: '900', color: 'var(--text-main)' }}>
+                  {record.name} <span style={{ fontSize: '11px', color: 'var(--text-sub)', fontWeight: 'normal' }}>({record.date})</span>
                 </div>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '6px', marginTop: '4px' }}>
-                  <span style={{ fontSize: '18px', fontWeight: '900', color: '#0f172a' }}>¥{record.price.toLocaleString()}</span>
+                  <span style={{ fontSize: '18px', fontWeight: '900', color: 'var(--text-main)' }}>¥{record.price.toLocaleString()}</span>
                   
                   {/* Comparison Indicator */}
                   <div style={{ 
                     fontSize: '10px', 
                     padding: '2px 8px', 
                     borderRadius: '20px', 
-                    background: isBargain ? '#dcfce7' : (diff === 0 ? '#f1f5f9' : '#fee2e2'),
-                    color: isBargain ? '#166534' : (diff === 0 ? '#64748b' : '#991b1b'),
+                    background: isBargain ? 'var(--bg-success)' : (diff === 0 ? 'var(--bg-app)' : 'var(--bg-warning)'),
+                    color: isBargain ? 'var(--text-success)' : (diff === 0 ? 'var(--text-sub)' : 'var(--text-warning)'),
                     fontWeight: '900',
                     display: 'flex',
                     alignItems: 'center',
@@ -159,7 +158,7 @@ export const DailyBottomPriceControl: React.FC<DailyBottomPriceControlProps> = (
               
               <button 
                 onClick={() => removeRecord(record.id)}
-                style={{ border: 'none', background: 'transparent', color: '#cbd5e1', cursor: 'pointer', padding: '8px' }}
+                style={{ border: 'none', background: 'transparent', color: 'var(--text-sub)', cursor: 'pointer', padding: '8px' }}
               >
                 <Trash2 size={16} />
               </button>
@@ -172,7 +171,7 @@ export const DailyBottomPriceControl: React.FC<DailyBottomPriceControlProps> = (
         <div style={{ 
           textAlign: 'center', 
           padding: '20px', 
-          color: '#94a3b8', 
+          color: 'var(--text-sub)', 
           fontSize: '12px',
           fontStyle: 'italic'
         }}>

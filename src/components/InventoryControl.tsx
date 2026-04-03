@@ -55,19 +55,19 @@ export const InventoryControl: React.FC = () => {
       <div key={item.id} style={{ 
         marginBottom: '16px', 
         padding: '16px', 
-        background: isTemp ? '#f0f9ff' : (isCritical ? '#fff1f2' : 'white'), 
+        background: isTemp ? 'var(--bg-info)' : (isCritical ? 'var(--bg-warning)' : 'var(--bg-card)'), 
         borderRadius: '20px', 
-        border: `1px solid ${isTemp ? '#bae6fd' : (isCritical ? '#fecdd3' : '#e2e8f0')}`,
+        border: `1px solid ${isTemp ? 'var(--price-blue)' : (isCritical ? 'var(--signal-red)' : 'var(--border-main)')}`,
         boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.02)',
         transition: 'all 0.2s ease'
       }}>
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '12px' }}>
-          <span style={{ fontSize: '12px', fontWeight: '900', color: '#1e293b' }}>{item.name}</span>
+          <span style={{ fontSize: '12px', fontWeight: '900', color: 'var(--text-main)' }}>{item.name}</span>
           <span style={{ 
             fontSize: '11px', 
             fontWeight: '900', 
-            color: isCritical ? '#e11d48' : '#059669',
-            background: isCritical ? 'rgba(225, 29, 72, 0.05)' : 'rgba(5, 150, 105, 0.05)',
+            color: isCritical ? 'var(--signal-red)' : 'var(--signal-green)',
+            background: isCritical ? 'var(--bg-warning)' : 'var(--bg-success)',
             padding: '4px 8px',
             borderRadius: '8px'
           }}>
@@ -87,18 +87,18 @@ export const InventoryControl: React.FC = () => {
                 width: '70px', 
                 padding: '8px 4px', 
                 borderRadius: '10px', 
-                border: '1px solid #e2e8f0', 
+                border: '1px solid var(--border-main)', 
                 fontSize: '14px', 
                 fontWeight: '900',
-                color: '#0f172a',
+                color: 'var(--text-main)',
                 textAlign: 'center',
                 outline: 'none',
-                background: 'white'
+                background: 'var(--bg-card)'
               }}
             />
             <span style={{ 
               fontSize: '10px', 
-              color: '#64748b', 
+              color: 'var(--text-sub)', 
               fontWeight: '800',
               width: '40px',
               textAlign: 'left'
@@ -130,11 +130,11 @@ export const InventoryControl: React.FC = () => {
       position: 'relative',
       overflow: 'hidden'
     }}>
-      <div style={{ paddingBottom: '20px', borderBottom: '1px solid rgba(226, 232, 240, 0.5)' }}>
+      <div style={{ paddingBottom: '20px', borderBottom: '1px solid var(--border-main)' }}>
         <div style={{ 
           fontSize: '14px', 
           fontWeight: '900', 
-          color: '#334155', 
+          color: 'var(--text-main)', 
           display: 'flex', 
           alignItems: 'center', 
           justifyContent: 'space-between'
@@ -148,11 +148,12 @@ export const InventoryControl: React.FC = () => {
             style={{ 
               padding: '6px 12px', 
               borderRadius: '10px', 
-              border: '2px solid rgba(226, 232, 240, 0.8)', 
+              border: '2px solid var(--border-main)', 
               fontSize: '13px', 
               fontWeight: '800',
               outline: 'none',
-              background: 'rgba(255, 255, 255, 0.5)',
+              background: 'var(--bg-app)',
+              color: 'var(--text-main)',
               cursor: 'pointer'
             }}
           >
@@ -166,7 +167,7 @@ export const InventoryControl: React.FC = () => {
           fontSize: '15px', 
           fontWeight: '900', 
           marginBottom: '20px', 
-          color: '#0f172a',
+          color: 'var(--text-main)',
           display: 'flex',
           alignItems: 'center',
           gap: '8px'
@@ -181,12 +182,12 @@ export const InventoryControl: React.FC = () => {
           style={{
             width: '100%',
             padding: '12px',
-            background: isMoreExpanded ? '#f1f5f9' : 'white',
-            border: '2px dashed #cbd5e1',
+            background: isMoreExpanded ? 'var(--bg-app)' : 'var(--bg-card)',
+            border: '2px dashed var(--border-main)',
             borderRadius: '12px',
             fontSize: '12px',
             fontWeight: '900',
-            color: '#64748b',
+            color: 'var(--text-sub)',
             cursor: 'pointer',
             marginTop: '8px',
             marginBottom: '16px',
@@ -197,7 +198,7 @@ export const InventoryControl: React.FC = () => {
         </button>
 
         {isMoreExpanded && (
-          <div style={{ marginBottom: '16px', borderTop: '1px solid #f1f5f9', paddingTop: '16px' }}>
+          <div style={{ marginBottom: '16px', borderTop: '1px solid var(--border-main)', paddingTop: '16px' }}>
             {otherItems.map(renderItem)}
           </div>
         )}
@@ -209,11 +210,11 @@ export const InventoryControl: React.FC = () => {
               flex: 1, 
               padding: '10px', 
               borderRadius: '12px', 
-              border: '1px solid #e2e8f0', 
-              background: 'white', 
+              border: '1px solid var(--border-main)', 
+              background: 'var(--bg-card)', 
               fontSize: '12px', 
               fontWeight: '800',
-              color: '#64748b',
+              color: 'var(--text-sub)',
               cursor: 'pointer'
             }}
           >
@@ -227,7 +228,7 @@ export const InventoryControl: React.FC = () => {
               padding: '10px', 
               borderRadius: '12px', 
               border: 'none', 
-              background: hasChanges ? '#0055aa' : '#cbd5e1', 
+              background: hasChanges ? 'var(--price-blue)' : 'var(--signal-gray)', 
               color: 'white',
               fontSize: '12px', 
               fontWeight: '900',
@@ -239,7 +240,7 @@ export const InventoryControl: React.FC = () => {
           </button>
         </div>
         
-        <p style={{ fontSize: '10px', color: '#94a3b8', marginTop: '16px', fontWeight: '500', textAlign: 'center' }}>
+        <p style={{ fontSize: '10px', color: 'var(--text-sub)', marginTop: '16px', fontWeight: '500', textAlign: 'center' }}>
           ※数値を変更して消費シミュレーションが可能
         </p>
       </div>

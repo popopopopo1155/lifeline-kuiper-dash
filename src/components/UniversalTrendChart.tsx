@@ -112,17 +112,17 @@ export const UniversalTrendChart: React.FC<UniversalTrendChartProps> = ({ genres
     <div className="sidebar-box universal-chart-outer" style={{ 
       marginTop: '40px', 
       padding: '24px 16px', 
-      background: 'white',
+      background: 'var(--bg-card)',
       borderRadius: '24px',
-      border: '1px solid #e2e8f0',
+      border: '1px solid var(--border-main)',
       boxShadow: '0 10px 15px -3px rgba(0, 0, 0, 0.05)',
       width: '100%',
       boxSizing: 'border-box'
     }}>
       <div className="chart-header">
         <div>
-          <h2 className="chart-title">価格トレンド解析センター <span style={{ fontSize: '12px', background: '#e0f2fe', color: '#0369a1', padding: '2px 8px', borderRadius: '4px', verticalAlign: 'middle', marginLeft: '8px' }}>PERFECT INTELLIGENCE v5.1</span></h2>
-          <p className="chart-subtitle">
+          <h2 className="chart-title">価格トレンド解析センター <span style={{ fontSize: '12px', background: 'var(--bg-info)', color: 'var(--text-info)', padding: '2px 8px', borderRadius: '4px', verticalAlign: 'middle', marginLeft: '8px' }}>PERFECT INTELLIGENCE v6.70</span></h2>
+          <p className="chart-subtitle" style={{ color: 'var(--text-sub)' }}>
             AIが市場リスクと連動して「7日間予測」を描画します
           </p>
         </div>
@@ -144,7 +144,7 @@ export const UniversalTrendChart: React.FC<UniversalTrendChartProps> = ({ genres
       <div className="chart-main-layout">
         <div style={{ position: 'relative', minHeight: '260px' }}>
           <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '15px' }}>
-            <div style={{ fontSize: '13px', fontWeight: '900', color: '#1e293b' }}>
+            <div style={{ fontSize: '13px', fontWeight: '900', color: 'var(--text-main)' }}>
               {currentGenre.name} の推移と予測 (90 + 7日間)
             </div>
           </div>
@@ -155,8 +155,9 @@ export const UniversalTrendChart: React.FC<UniversalTrendChartProps> = ({ genres
                 key={i} 
                 x1="0" y1={(i * height) / 4} 
                 x2={width} y2={(i * height) / 4} 
-                stroke="#f1f5f9" 
+                stroke="var(--border-main)" 
                 strokeWidth="1" 
+                opacity="0.3"
               />
             ))}
             
@@ -168,15 +169,15 @@ export const UniversalTrendChart: React.FC<UniversalTrendChartProps> = ({ genres
             
             <defs>
               <linearGradient id="universalGradient" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="0%" stopColor="#3b82f6" />
-                <stop offset="100%" stopColor="#fff" />
+                <stop offset="0%" stopColor="var(--price-blue)" />
+                <stop offset="100%" stopColor="var(--bg-card)" stopOpacity="0" />
               </linearGradient>
             </defs>
 
             <path
               d={pathD}
               fill="none"
-              stroke="#3b82f6"
+              stroke="var(--price-blue)"
               strokeWidth="4"
               strokeLinecap="round"
               strokeLinejoin="round"
@@ -194,22 +195,22 @@ export const UniversalTrendChart: React.FC<UniversalTrendChartProps> = ({ genres
             />
           </svg>
 
-          <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: '12px', color: '#94a3b8', fontSize: '10px', fontWeight: '700' }}>
+          <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: '12px', color: 'var(--text-sub)', fontSize: '10px', fontWeight: '700' }}>
             <span>90日前</span>
-            <span style={{ color: '#334155' }}>現在</span>
-            <span style={{ color: '#94a3b8' }}>7日後予測</span>
+            <span style={{ color: 'var(--text-main)' }}>現在</span>
+            <span style={{ color: 'var(--text-sub)' }}>7日後予測</span>
           </div>
         </div>
 
-        <div className="chart-insight-box">
-          <div style={{ fontSize: '12px', fontWeight: '900', color: '#0f172a', marginBottom: '12px' }}>
-            市場トレンド展望 <span style={{ color: '#3b82f6' }}>Powered by AI</span>
+        <div className="chart-insight-box" style={{ background: 'var(--bg-app)', border: '1px solid var(--border-main)', borderRadius: '20px', padding: '20px' }}>
+          <div style={{ fontSize: '12px', fontWeight: '900', color: 'var(--text-main)', marginBottom: '12px' }}>
+            市場トレンド展望 <span style={{ color: 'var(--price-blue)' }}>Powered by AI</span>
           </div>
-          <div style={{ fontSize: '12px', lineHeight: '1.6', color: '#334155', fontWeight: '600' }}>
+          <div style={{ fontSize: '12px', lineHeight: '1.6', color: 'var(--text-main)', fontWeight: '600', opacity: 0.9 }}>
             {getMarketDiagnosis(data)}
           </div>
-          <div style={{ marginTop: '16px', paddingTop: '16px', borderTop: '1px solid #e2e8f0' }}>
-            <div style={{ width: '100%', height: '4px', background: '#e2e8f0', borderRadius: '10px', overflow: 'hidden' }}>
+          <div style={{ marginTop: '16px', paddingTop: '16px', borderTop: '1px solid var(--border-main)' }}>
+            <div style={{ width: '100%', height: '4px', background: 'var(--border-main)', borderRadius: '10px', overflow: 'hidden' }}>
               <div style={{ width: `${sensitivityScore}%`, height: '100%', background: sensitivityColor, borderRadius: '10px', transition: 'width 0.5s ease' }}></div>
             </div>
             <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: '6px', fontSize: '10px', fontWeight: '800', color: sensitivityColor }}>

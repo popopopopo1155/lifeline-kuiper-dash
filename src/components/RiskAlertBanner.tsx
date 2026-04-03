@@ -74,7 +74,8 @@ const RiskAlertBanner: React.FC<RiskAlertBannerProps> = ({ newsRisks, numericalR
                   href={risk.link} 
                   target="_blank" 
                   rel="noopener noreferrer" 
-                  className="transition-colors underline decoration-[var(--text-main)] underline-offset-4 whitespace-nowrap overflow-hidden text-ellipsis font-bold text-[var(--text-main)]"
+                  className="transition-colors underline underline-offset-4 whitespace-nowrap overflow-hidden text-ellipsis font-bold"
+                  style={{ color: 'var(--news-link)', textDecorationColor: 'var(--news-link)' }}
                 >
                   {risk.title}
                 </a>

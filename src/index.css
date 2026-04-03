@@ -19,6 +19,7 @@
   --signal-red: #ef4444;
   --glass-bg: rgba(255, 255, 255, 0.72);
   --glass-border: rgba(255, 255, 255, 0.4);
+  --news-link: #000000;
 
   /* State Backgrounds (Light) */
   --bg-success: #f0fdf4;
@@ -47,6 +48,7 @@
   --signal-red: #f87171;
   --glass-bg: rgba(15, 23, 42, 0.72);
   --glass-border: rgba(255, 255, 255, 0.05);
+  --news-link: #ffffff;
 
   /* State Backgrounds (Dark) */
   --bg-success: rgba(52, 211, 153, 0.1);

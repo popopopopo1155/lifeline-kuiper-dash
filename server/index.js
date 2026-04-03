@@ -22,6 +22,7 @@ const CATEGORY_NEWS_MAP = {
   WATER: { keywords: ['水', '原油', '輸送', 'インフラ'], sensitivity: 0.8 },
   EGG: { keywords: ['卵', '鶏', '鳥インフル', '供給'], sensitivity: 1.2 },
   DAIRY: { keywords: ['牛乳', '酪農', '飼料', '乳製品'], sensitivity: 1.0 },
+  BREAD: { keywords: ['食パン', '小麦', '原材料', '輸入小麦'], sensitivity: 0.9 },
   COMMON: { keywords: ['物価', '高騰', '地政学', '原油', '電気'], sensitivity: 1.0 }
 };
 

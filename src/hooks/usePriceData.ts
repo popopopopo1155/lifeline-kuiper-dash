@@ -108,7 +108,8 @@ export const usePriceData = () => {
           return prevData.map((genre: Genre) => {
             let multiplier = 1.0;
             const categoryId = genre.id.toUpperCase();
-            const serverCategoryKey = (categoryId === 'MILK') ? 'DAIRY' : categoryId;
+            let serverCategoryKey = (categoryId === 'MILK') ? 'DAIRY' : categoryId;
+            if (genre.id === 'bread') serverCategoryKey = 'BREAD';
             let modifier = audited.categoryModifiers[serverCategoryKey];
             
             if (modifier) {

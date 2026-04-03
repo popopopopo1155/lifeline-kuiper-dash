@@ -15,28 +15,7 @@ interface SubtypeCardProps {
 export const SubtypeCard: React.FC<SubtypeCardProps> = ({ subtype, group, unitType }) => {
   const [isExpanded, setIsExpanded] = useState(false);
   const [editingProduct, setEditingProduct] = useState<Product | null>(null);
-  const [isSaving, setIsSaving] = useState(false);
   const { isAdmin, saveOverride, saveOrder } = useAdmin();
-
-  const handleSaveVerified = async () => {
-    if (!editingProduct) return;
-    setIsSaving(true);
-    try {
-      const res = await fetch('/api/manual/verify', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ item: editingProduct })
-      });
-      if (res.ok) {
-        alert('検証データを保存しました。次回の同期から優先表示されます。');
-        setEditingProduct(null);
-      }
-    } catch (err) {
-      console.error('Save failed');
-    } finally {
-      setIsSaving(false);
-    }
-  };
 
   const handleMove = (productId: string, direction: number) => {
     const currentOrder = subtype.products.map(p => p.id);
@@ -130,26 +109,7 @@ export const SubtypeCard: React.FC<SubtypeCardProps> = ({ subtype, group, unitTy
         <div style={{ fontSize: '32px', color: '#0f172a', fontWeight: '900', letterSpacing: '-0.02em', position: 'relative', display: 'inline-block' }}>
           ¥{isDaily ? subtype.regionalAverage : minPrice}
           <span style={{ fontSize: '14px', color: '#94a3b8', fontWeight: '700' }}>/{unitType}</span>
-          
-          {/* Index Link Indicator */}
-          {subtype.baseRegionalAverage && subtype.regionalAverage !== subtype.baseRegionalAverage && (
-            <div style={{ 
-              position: 'absolute',
-              top: '-12px',
-              right: '-40px',
-              fontSize: '10px',
-              background: '#0f172a',
-              color: 'white',
-              padding: '2px 6px',
-              borderRadius: '6px',
-              whiteSpace: 'nowrap',
-              fontWeight: '900',
-              boxShadow: '0 4px 6px rgba(0,0,0,0.1)'
-            }}>
-              ⚡ 指数連動中
-            </div>
-          )}
-        </div>
+          </div>
         
         {/* Market Comparison Badge */}
         {!isDaily && subtype.regionalAverage > 0 && minPrice > 0 && (

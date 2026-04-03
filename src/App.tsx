@@ -1,11 +1,16 @@
-import React from 'react';
 import { Dashboard } from './components/Dashboard';
+import { ThemeProvider } from './contexts/ThemeContext';
+import { AdminProvider } from './contexts/AdminContext';
 
 function App() {
   return (
-    <div className="min-h-screen bg-gray-50 flex flex-col">
-      <Dashboard />
-    </div>
+    <ThemeProvider>
+      <AdminProvider>
+        <div className="min-h-screen flex flex-col">
+          <Dashboard />
+        </div>
+      </AdminProvider>
+    </ThemeProvider>
   );
 }
 

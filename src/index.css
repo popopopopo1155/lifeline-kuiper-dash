@@ -4,24 +4,52 @@
 */
 
 :root {
+  /* Core Tokens (Light Mode Default) */
+  --bg-app: #f8fafc;
   --bg-white: #ffffff;
-  --border-gray: #e2e8f0;
+  --bg-card: #ffffff;
+  --bg-header: #ffffff;
+  --border-main: #e2e8f0;
   --text-main: #0f172a;
   --text-sub: #64748b;
   --price-blue: #2563eb;
+  --price-blue-hover: #1d4ed8;
   --signal-green: #10b981;
   --signal-gray: #94a3af;
   --signal-red: #ef4444;
+  --glass-bg: rgba(255, 255, 255, 0.72);
+  --glass-border: rgba(255, 255, 255, 0.4);
+  
+  --transition-theme: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.dark {
+  /* Dark Mode Overrides (Deep Slate / Onyx) */
+  --bg-app: #020617;
+  --bg-white: #0f172a;
+  --bg-card: #0f172a;
+  --bg-header: rgba(15, 23, 42, 0.8);
+  --border-main: #1e293b;
+  --text-main: #f8fafc;
+  --text-sub: #94a3b8;
+  --price-blue: #60a5fa;
+  --price-blue-hover: #93c5fd;
+  --signal-green: #34d399;
+  --signal-gray: #475569;
+  --signal-red: #f87171;
+  --glass-bg: rgba(15, 23, 42, 0.72);
+  --glass-border: rgba(255, 255, 255, 0.05);
 }
 
 * {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
+  transition: background-color var(--transition-theme), border-color var(--transition-theme), color var(--transition-theme);
 }
 
 body {
-  background: var(--bg-white);
+  background: var(--bg-app);
   color: var(--text-main);
   font-family: 'Inter', -apple-system, sans-serif;
   line-height: 1.5;
@@ -39,12 +67,14 @@ body {
   display: flex !important;
   justify-content: space-between !important;
   align-items: center !important;
-  border-bottom: 1px solid var(--border-gray);
+  border-bottom: 1px solid var(--border-main);
   padding: 1rem 0;
-  background: white;
+  background: var(--bg-header);
   position: sticky;
   top: 0;
   z-index: 50;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
 }
 
 /* 管理者モード用バッジのアニメーション（ピュアCSS） */
@@ -100,9 +130,9 @@ body {
 .p-2 { padding: 0.5rem !important; }
 
 .price-card {
-  border: 1px solid var(--border-gray);
+  border: 1px solid var(--border-main);
   padding: 1.25rem;
-  background: white;
+  background: var(--bg-card);
   transition: all 0.2s ease;
   cursor: pointer;
   display: flex;
@@ -111,7 +141,7 @@ body {
 
 .price-card:hover {
   border-color: var(--price-blue);
-  background: #f8fafc;
+  background: var(--bg-app);
 }
 
 .section-title {
@@ -120,7 +150,7 @@ body {
   margin-bottom: 1.25rem;
   padding-left: 0.8rem;
   border-left: 4px solid var(--price-blue);
-  color: #1e293b;
+  color: var(--text-main);
 }
 
 /* スライダー */
@@ -129,6 +159,7 @@ input[type=range].premium-slider {
   margin: 10px 0;
   background: transparent;
   -webkit-appearance: none;
+  appearance: none;
 }
 input[type=range].premium-slider::-webkit-slider-runnable-track {
   width: 100%;
@@ -176,11 +207,11 @@ input[type=range].premium-slider::-webkit-slider-thumb {
 
 /* Glassmorphism ユーティリティ (v6.50) */
 .glass-card {
-  background: rgba(255, 255, 255, 0.72) !important;
+  background: var(--glass-bg) !important;
   backdrop-filter: blur(12px) saturate(180%) !important;
   -webkit-backdrop-filter: blur(12px) saturate(180%) !important;
-  border: 1px solid rgba(255, 255, 255, 0.4) !important;
-  box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.07) !important;
+  border: 1px solid var(--glass-border) !important;
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.1) !important;
 }
 
 .heatmap-grid {
@@ -209,7 +240,7 @@ input[type=range].premium-slider::-webkit-slider-thumb {
 /* クイックナビゲーションの再建 */
 .quick-nav {
   margin-bottom: 24px;
-  border-bottom: 1px solid var(--border-gray);
+  border-bottom: 1px solid var(--border-main);
   padding-bottom: 16px;
   margin-top: 8px;
 }
@@ -224,8 +255,8 @@ input[type=range].premium-slider::-webkit-slider-thumb {
   align-items: center !important;
   gap: 8px !important;
   padding: 8px 16px !important;
-  background: #f8fafc !important;
-  border: 1px solid var(--border-gray) !important;
+  background: var(--bg-card) !important;
+  border: 1px solid var(--border-main) !important;
   border-radius: 8px !important;
   font-size: 0.875rem !important;
   font-weight: 700 !important;
@@ -235,7 +266,7 @@ input[type=range].premium-slider::-webkit-slider-thumb {
 }
 
 .quick-nav-item:hover {
-  background: white !important;
+  background: var(--bg-app) !important;
   border-color: var(--price-blue) !important;
   box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1) !important;
   transform: translateY(-1px) !important;
@@ -254,14 +285,14 @@ input[type=range].premium-slider::-webkit-slider-thumb {
 .chart-title {
   font-size: 1.5rem !important;
   font-weight: 900 !important;
-  color: #0f172a !important;
+  color: var(--text-main) !important;
   margin-bottom: 4px !important;
   letter-spacing: -0.025em !important;
 }
 
 .chart-subtitle {
   font-size: 0.875rem !important;
-  color: #64748b !important;
+  color: var(--text-sub) !important;
   font-weight: 600 !important;
 }
 
@@ -271,7 +302,7 @@ input[type=range].premium-slider::-webkit-slider-thumb {
   gap: 8px !important;
   margin-bottom: 24px !important;
   padding-bottom: 16px !important;
-  border-bottom: 1px solid #f1f5f9 !important;
+  border-bottom: 1px solid var(--border-main) !important;
 }
 
 .chart-tab {
@@ -279,21 +310,21 @@ input[type=range].premium-slider::-webkit-slider-thumb {
   border-radius: 9999px !important;
   font-size: 0.75rem !important;
   font-weight: 800 !important;
-  background: #f1f5f9 !important;
-  color: #64748b !important;
-  border: 1px solid transparent !important;
+  background: var(--bg-card) !important;
+  color: var(--text-sub) !important;
+  border: 1px solid var(--border-main) !important;
   transition: all 0.2s ease !important;
   cursor: pointer !important;
 }
 
 .chart-tab:hover {
-  background: #e2e8f0 !important;
-  color: #0f172a !important;
+  background: var(--bg-app) !important;
+  color: var(--text-main) !important;
 }
 
 .chart-tab.active {
-  background: #0f172a !important;
-  color: white !important;
+  background: var(--text-main) !important;
+  color: var(--bg-card) !important;
   box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1) !important;
 }
 
@@ -304,10 +335,10 @@ input[type=range].premium-slider::-webkit-slider-thumb {
 }
 
 .chart-insight-box {
-  background: #f8fafc !important;
+  background: var(--bg-app) !important;
   padding: 20px !important;
   border-radius: 16px !important;
-  border: 1px solid #f1f5f9 !important;
+  border: 1px solid var(--border-main) !important;
   height: fit-content !important;
 }
 

@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
-import { LayoutDashboard, TrendingUp, Compass, Settings } from 'lucide-react';
+import { LayoutDashboard, Sun, Moon } from 'lucide-react';
 import { useAdmin } from '../contexts/AdminContext';
+import { useTheme } from '../contexts/ThemeContext';
 
 interface HeaderProps {
   onBack?: () => void;
@@ -9,21 +10,17 @@ interface HeaderProps {
 
 const Header: React.FC<HeaderProps> = ({ onBack, showBack }) => {
   const { isAdmin, toggleAdmin } = useAdmin();
+  const { theme, toggleTheme } = useTheme();
   const [clickTimestamps, setClickTimestamps] = useState<number[]>([]);
   
   const handleLogoClick = () => {
-    // 1回押された時点で即座にホームへ戻る（onBackがあれば実行）
     if (onBack) onBack();
-
-    // 画面最上部へスクロール（master指示）
     window.scrollTo({ top: 0, behavior: 'smooth' });
 
     const now = Date.now();
     const newTimestamps = [...clickTimestamps, now].filter(t => now - t <= 1000);
-    
     setClickTimestamps(newTimestamps);
     
-    // 1秒間に6回以上のクリックで管理者モードを切り替え（共存可能）
     if (newTimestamps.length >= 6) {
       toggleAdmin();
       setClickTimestamps([]);
@@ -62,30 +59,29 @@ const Header: React.FC<HeaderProps> = ({ onBack, showBack }) => {
                 </span>
               )}
             </h1>
-            <p className="text-[10px] text-gray-500 font-bold uppercase tracking-[0.2em]">「買い時」がわかる。暮らしが変わる。</p>
+            <p className="text-[10px] text-gray-500 font-bold uppercase tracking-[0.2em] dark:text-gray-400">「買い時」がわかる。暮らしが変わる。</p>
           </div>
         </div>
 
-        <div className="flex items-center gap-6">
-          <div className="flex items-center gap-3 pr-6">
+        <div className="flex items-center gap-4">
+          <div className="flex items-center gap-3 pr-4 border-r border-gray-100 dark:border-gray-800">
             {showBack && onBack && (
               <button 
                 onClick={onBack}
-                className="px-4 py-1.5 bg-slate-900 text-white rounded-lg text-xs font-black flex items-center gap-2 hover:bg-slate-800 transition-all active:scale-95 shadow-sm"
+                className="px-4 py-1.5 bg-slate-900 dark:bg-slate-700 text-white rounded-lg text-xs font-black flex items-center gap-2 hover:bg-slate-800 transition-all active:scale-95 shadow-sm"
               >
                 ➔ 戻る
               </button>
             )}
           </div>
           
-          <div className="flex items-center gap-3 border-l border-gray-100 pl-6 h-8">
-            <div className="bg-gray-100 p-2 rounded-full text-gray-500 hover:bg-gray-200 transition-colors cursor-pointer">
-              <Compass size={18} />
-            </div>
-            <div className="bg-gray-100 p-2 rounded-full text-gray-500 hover:bg-gray-200 transition-colors cursor-pointer">
-              <Settings size={18} />
-            </div>
-          </div>
+          <button 
+            onClick={toggleTheme}
+            className="flex items-center justify-center p-2.5 bg-gray-100 dark:bg-slate-800 rounded-xl text-gray-700 dark:text-gray-200 hover:bg-gray-200 dark:hover:bg-slate-700 transition-all active:scale-90 shadow-sm border border-transparent dark:border-slate-700"
+            title={theme === 'light' ? 'ダークモードへ' : 'ライトモードへ'}
+          >
+            {theme === 'light' ? <Moon size={18} fill="currentColor" /> : <Sun size={18} />}
+          </button>
         </div>
       </div>
     </header>

@@ -23,7 +23,15 @@ export const wrapRaku = (pcUrl: string) => {
 };
 
 export const wrapAma = (url: string) => {
+  // ASINの抽出を試みる (B0で始まる10桁の文字列)
+  const asinMatch = url.match(/(?:dp|gp\/product)\/([A-Z0-9]{10})/i) || url.match(/\/([B0-9][A-Z0-9]{9})(?:[/?]|$)/);
+  if (asinMatch && asinMatch[1]) {
+    return `https://www.amazon.co.jp/gp/product/${asinMatch[1]}/?tag=${AMA_AFL_TAG}`;
+  }
+  
+  // 抽出失敗時は既存のクエリパラメータ付与
   if (url.includes('?')) {
+    if (url.includes('tag=')) return url;
     return `${url}&tag=${AMA_AFL_TAG}`;
   }
   return `${url}?tag=${AMA_AFL_TAG}`;

@@ -5,6 +5,7 @@ import { useAdmin } from '../contexts/AdminContext';
 import { ArrowUp, ArrowDown } from 'lucide-react';
 import { getNormalizedVolume } from '../api/dataUtils';
 import { DailyBottomPriceControl } from './DailyBottomPriceControl';
+import { wrapAma, wrapRaku } from '../data/mockData';
 
 interface SubtypeCardProps {
   subtype: Subtype;
@@ -29,6 +30,18 @@ export const SubtypeCard: React.FC<SubtypeCardProps> = ({ subtype, group, unitTy
     [newOrder[index], newOrder[newIndex]] = [newOrder[newIndex], newOrder[index]];
     
     saveOrder(subtype.id, newOrder);
+  };
+  
+  const handleLinkConvert = () => {
+    if (!editingProduct || !editingProduct.affiliateUrl) return;
+    const url = editingProduct.affiliateUrl.trim();
+    if (url.includes('amazon.co.jp')) {
+      const converted = wrapAma(url);
+      setEditingProduct({ ...editingProduct, affiliateUrl: converted });
+    } else if (url.includes('rakuten.co.jp')) {
+      const converted = wrapRaku(url);
+      setEditingProduct({ ...editingProduct, affiliateUrl: converted });
+    }
   };
 
   // usePriceData側で既にソート済みだが、念のためここでも subtype.products をそのまま表示
@@ -365,13 +378,31 @@ export const SubtypeCard: React.FC<SubtypeCardProps> = ({ subtype, group, unitTy
               </div>
               <div>
                 <label style={{ fontSize: '12px', fontWeight: 'bold', color: '#e11d48' }}>🚩 商品URL / アフィリエイトリンク</label>
-                <input 
-                  type="text" 
-                  value={editingProduct.affiliateUrl || ''}
-                  placeholder="https://..."
-                  onChange={(e) => setEditingProduct({ ...editingProduct, affiliateUrl: e.target.value })}
-                  style={{ width: '100%', padding: '10px', border: '2px solid #fda4af', borderRadius: '8px', marginTop: '4px', fontSize: '12px' }}
-                />
+                <div style={{ display: 'flex', gap: '8px', marginTop: '4px' }}>
+                  <input 
+                    type="text" 
+                    value={editingProduct.affiliateUrl || ''}
+                    placeholder="https://..."
+                    onChange={(e) => setEditingProduct({ ...editingProduct, affiliateUrl: e.target.value })}
+                    style={{ flex: 1, padding: '10px', border: '2px solid #fda4af', borderRadius: '8px', fontSize: '12px' }}
+                  />
+                  <button 
+                    onClick={handleLinkConvert}
+                    style={{ 
+                      padding: '0 16px', 
+                      background: 'var(--price-blue)', 
+                      color: 'white', 
+                      border: 'none', 
+                      borderRadius: '8px', 
+                      fontSize: '12px', 
+                      fontWeight: '900',
+                      cursor: 'pointer',
+                      whiteSpace: 'nowrap'
+                    }}
+                  >
+                    🧙 変換
+                  </button>
+                </div>
               </div>
             </div>
 

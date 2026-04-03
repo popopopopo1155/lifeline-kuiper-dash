@@ -134,7 +134,11 @@ export const Dashboard: React.FC = () => {
 
           {!selectedGenreId && (
             <div id="trend-section" style={{ marginTop: '40px' }}>
-              <UniversalTrendChart genres={genres} activeGenreId={selectedGenreId} />
+              <UniversalTrendChart 
+                genres={genres} 
+                activeGenreId={selectedGenreId} 
+                newsRisks={newsRisks?.activeRisks || []}
+              />
             </div>
           )}
         </main>

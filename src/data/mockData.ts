@@ -271,7 +271,7 @@ export const mockGenres: (Genre & { subtypes: (any & SubtypeMetadata)[] })[] = [
       {
         id: 'tp-single',
         name: 'トイレットペーパー (シングル)',
-        regionalAverage: 140, // シングルは100m単価が安め
+        regionalAverage: 140, 
         representativeAsin: 'B0797MG3S1',
         searchOverride: 'トイレットペーパー シングル 12ロール 送料無料 -定期便 -ふるさと納税',
         requiredKeywords: ['シングル', 'S'],
@@ -292,13 +292,37 @@ export const mockGenres: (Genre & { subtypes: (any & SubtypeMetadata)[] })[] = [
             store: 'amazon', asin: 'B005T65Z6A', popularity: 95,
             affiliateUrl: wrapAma('https://www.amazon.co.jp/dp/B005T65Z6A'),
             forecastData: [5280, 5280, 5280, 5280, 5280, 5280, 5280]
+          },
+          {
+            id: 'tp-s-scottie-3x-75m',
+            name: 'スコッティ 3倍巻き シングル 75m×12ロール - ¥1,080 (100m¥120)',
+            price: 1080, shipping: 0, points: 11, volume: 12, unit: 'roll', baseUnit: '100m',
+            store: 'amazon', asin: 'B0CLRVFYH4', popularity: 92,
+            affiliateUrl: wrapAma('https://www.amazon.co.jp/dp/B0CLRVFYH4'),
+            forecastData: [1080, 1080, 1080, 1080, 1080, 1080, 1080]
+          },
+          {
+            id: 'tp-s-coreless-130m',
+            name: '[48ロール/130mシングル] 芯なし 再生紙 - ¥4,580 (100m¥73)',
+            price: 4580, shipping: 0, points: 46, volume: 48, unit: 'roll', baseUnit: '100m',
+            store: 'amazon', asin: 'B005T65SGC', popularity: 90,
+            affiliateUrl: wrapAma('https://www.amazon.co.jp/dp/B005T65SGC'),
+            forecastData: [4580, 4580, 4580, 4580, 4580, 4580, 4580]
+          },
+          {
+            id: 'tp-s-soft-60m',
+            name: '[72ロール/60mシングル] ソフトタイプ - ¥3,980 (100m¥92)',
+            price: 3980, shipping: 0, points: 40, volume: 72, unit: 'roll', baseUnit: '100m',
+            store: 'rakuten', rakutenCode: 'p-ark:10000001', popularity: 88,
+            affiliateUrl: wrapRaku('https://item.rakuten.co.jp/p-ark/10000001/'),
+            forecastData: [3980, 3980, 3980, 3980, 3980, 3980, 3980]
           }
         ]
       },
       {
         id: 'tp-double',
         name: 'トイレットペーパー (ダブル)',
-        regionalAverage: 240, // ダブルは100m単価が高め
+        regionalAverage: 240, 
         representativeAsin: 'B0CX9913JP',
         searchOverride: 'トイレットペーパー ダブル 12ロール 送料無料 -定期便 -ふるさと納税',
         requiredKeywords: ['ダブル', 'W'],
@@ -314,7 +338,7 @@ export const mockGenres: (Genre & { subtypes: (any & SubtypeMetadata)[] })[] = [
           },
           {
             id: 'tp-12r-scottie-3倍',
-            name: 'スコッティ フラワーパック 3倍巻き ダブル 75m×12ロール - ¥1,480 (100m¥164)',
+            name: 'スコッティ 3倍巻き ダブル 75m×12ロール - ¥1,480 (100m¥164)',
             price: 1480, shipping: 0, points: 15, volume: 12, unit: 'roll', baseUnit: '100m',
             store: 'amazon', asin: 'B01IES8X2B', popularity: 98,
             affiliateUrl: wrapAma('https://www.amazon.co.jp/dp/B01IES8X2B'),
@@ -324,9 +348,25 @@ export const mockGenres: (Genre & { subtypes: (any & SubtypeMetadata)[] })[] = [
             id: 'tp-double-vinda-3倍',
             name: 'Vinda 3倍巻き ダブル 60m×12ロール - ¥1,280 (100m¥177)',
             price: 1280, shipping: 0, points: 13, volume: 12, unit: 'roll', baseUnit: '100m',
-            store: 'amazon', asin: 'B0C68JY8JH', popularity: 90,
+            store: 'amazon', asin: 'B0C68JY8JH', popularity: 95,
             affiliateUrl: wrapAma('https://www.amazon.co.jp/dp/B0C68JY8JH'),
             forecastData: [1280, 1280, 1280, 1280, 1280, 1280, 1280]
+          },
+          {
+            id: 'tp-d-elina-2x-50m',
+            name: 'エリエール i:na 2倍巻き ダブル 50m×12ロール - ¥1,180 (100m¥196)',
+            price: 1180, shipping: 0, points: 12, volume: 12, unit: 'roll', baseUnit: '100m',
+            store: 'amazon', asin: 'B078N29MWR', popularity: 92,
+            affiliateUrl: wrapAma('https://www.amazon.co.jp/dp/B078N29MWR'),
+            forecastData: [1180, 1180, 1180, 1180, 1180, 1180, 1180]
+          },
+          {
+            id: 'tp-d-noshiro-25m-96',
+            name: '[96ロール/25mダブル] 能代製紙 ブランカ - ¥5,780 (100m¥240)',
+            price: 5780, shipping: 0, points: 58, volume: 96, unit: 'roll', baseUnit: '100m',
+            store: 'rakuten', rakutenCode: 'noshiroseishi:4958968-004-d', popularity: 90,
+            affiliateUrl: wrapRaku('https://item.rakuten.co.jp/noshiroseishi/4958968-004-d/'),
+            forecastData: [5780, 5780, 5780, 5780, 5780, 5780, 5780]
           }
         ]
       }

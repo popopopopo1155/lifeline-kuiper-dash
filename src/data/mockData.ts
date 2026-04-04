@@ -269,13 +269,40 @@ export const mockGenres: (Genre & { subtypes: (any & SubtypeMetadata)[] })[] = [
     historyData: [150, 148, 145, 142, 140, 138, 135, 133, 130, 135, 138, 140, 142, 145, 150],
     subtypes: [
       {
-        id: 'tp-12r',
-        name: 'トイレットペーパー (最安まとめ買い)',
-        regionalAverage: 180,
+        id: 'tp-single',
+        name: 'トイレットペーパー (シングル)',
+        regionalAverage: 140, // シングルは100m単価が安め
+        representativeAsin: 'B0797MG3S1',
+        searchOverride: 'トイレットペーパー シングル 12ロール 送料無料 -定期便 -ふるさと納税',
+        requiredKeywords: ['シングル', 'S'],
+        excludeKeywords: ['ダブル', 'W', '定期便', 'ふるさと納税'],
+        products: [
+          {
+            id: 'tp-s-noshiro-100m-96',
+            name: '[96ロール/100mシングル] 能代製紙 ホワイト - ¥5,480 (100m¥57)',
+            price: 5480, shipping: 0, points: 55, volume: 96, unit: 'roll', baseUnit: '100m',
+            store: 'rakuten', rakutenCode: 'noshiroseishi:4958968-017-s', popularity: 100,
+            affiliateUrl: wrapRaku('https://item.rakuten.co.jp/noshiroseishi/4958968-017-s/'),
+            forecastData: [5480, 5480, 5480, 5480, 5480, 5480, 5480]
+          },
+          {
+            id: 'tp-s-coreless-170m',
+            name: '[48ロール/170mシングル] 芯なし 超長巻き - ¥5,280 (100m¥64)',
+            price: 5280, shipping: 0, points: 52, volume: 48, unit: 'roll', baseUnit: '100m',
+            store: 'amazon', asin: 'B005T65Z6A', popularity: 95,
+            affiliateUrl: wrapAma('https://www.amazon.co.jp/dp/B005T65Z6A'),
+            forecastData: [5280, 5280, 5280, 5280, 5280, 5280, 5280]
+          }
+        ]
+      },
+      {
+        id: 'tp-double',
+        name: 'トイレットペーパー (ダブル)',
+        regionalAverage: 240, // ダブルは100m単価が高め
         representativeAsin: 'B0CX9913JP',
-        searchOverride: 'トイレットペーパー 12ロール 送料無料 -定期便 -ふるさと納税',
-        requiredKeywords: ['12', 'ロール'],
-        excludeKeywords: ['定期便', 'ふるさと納税'],
+        searchOverride: 'トイレットペーパー ダブル 12ロール 送料無料 -定期便 -ふるさと納税',
+        requiredKeywords: ['ダブル', 'W'],
+        excludeKeywords: ['シングル', 'S', '定期便', 'ふるさと納税'],
         products: [
           {
             id: 'tp-96r-coming-3200',
@@ -286,44 +313,20 @@ export const mockGenres: (Genre & { subtypes: (any & SubtypeMetadata)[] })[] = [
             forecastData: [3200, 3200, 3200, 3200, 3200, 3200, 3200]
           },
           {
-            id: 'tp-96r-coming-3280',
-            name: '[96ロール/25mダブル] カミング エシカル - ¥3,280 (100m¥136)',
-            price: 3280, shipping: 0, points: 32, volume: 96, unit: 'roll', baseUnit: '100m',
-            store: 'rakuten', rakutenCode: 'coming:color-jun1kyuhinrolls-t', popularity: 98,
-            affiliateUrl: wrapRaku('https://item.rakuten.co.jp/coming/color-jun1kyuhinrolls-t/'),
-            forecastData: [3280, 3280, 3280, 3280, 3280, 3280, 3280]
-          },
-          {
-            id: 'tp-96r-noshiro-3380',
-            name: '[96ロール/25mダブル] 能代製紙 バスター - ¥3,380 (100m¥140)',
-            price: 3380, shipping: 0, points: 33, volume: 96, unit: 'roll', baseUnit: '100m',
-            store: 'rakuten', rakutenCode: 'noshiroseishi:4958968-017-12rw', popularity: 95,
-            affiliateUrl: wrapRaku('https://item.rakuten.co.jp/noshiroseishi/4958968-017-12rw/'),
-            forecastData: [3380, 3380, 3380, 3380, 3380, 3380, 3380]
-          },
-          {
-            id: 'tp-96r-daisy-3480',
-            name: '[96ロール/25mダブル] Amazon デイジーアロマ - ¥3,480 (100m¥145)',
-            price: 3480, shipping: 0, points: 34, volume: 96, unit: 'roll', baseUnit: '100m',
-            store: 'amazon', asin: 'B0F37JL72Q', popularity: 92,
-            affiliateUrl: wrapAma('https://www.amazon.co.jp/dp/B0F37JL72Q'),
-            forecastData: [3349, 3349, 3349, 3349, 3349, 3349, 3349]
-          },
-          {
-            id: 'tp-96r-noshiro-3480',
-            name: '[96ロール/25mダブル] 能代製紙 ブランカ - ¥3,480 (100m¥145)',
-            price: 3480, shipping: 0, points: 34, volume: 96, unit: 'roll', baseUnit: '100m',
-            store: 'rakuten', rakutenCode: 'noshiroseishi:4958968-004-12r', popularity: 90,
-            affiliateUrl: wrapRaku('https://item.rakuten.co.jp/noshiroseishi/4958968-004-12r/'),
-            forecastData: [3480, 3480, 3480, 3480, 3480, 3480, 3480]
-          },
-          {
             id: 'tp-12r-scottie-3倍',
-            name: 'スコッティ フラワーパック 3倍巻き ダブル 75m×12ロール - ¥1,480',
+            name: 'スコッティ フラワーパック 3倍巻き ダブル 75m×12ロール - ¥1,480 (100m¥164)',
             price: 1480, shipping: 0, points: 15, volume: 12, unit: 'roll', baseUnit: '100m',
-            store: 'amazon', asin: 'B01IES8X2B', popularity: 85,
+            store: 'amazon', asin: 'B01IES8X2B', popularity: 98,
             affiliateUrl: wrapAma('https://www.amazon.co.jp/dp/B01IES8X2B'),
             forecastData: [1480, 1480, 1480, 1480, 1480, 1480, 1480]
+          },
+          {
+            id: 'tp-double-vinda-3倍',
+            name: 'Vinda 3倍巻き ダブル 60m×12ロール - ¥1,280 (100m¥177)',
+            price: 1280, shipping: 0, points: 13, volume: 12, unit: 'roll', baseUnit: '100m',
+            store: 'amazon', asin: 'B0C68JY8JH', popularity: 90,
+            affiliateUrl: wrapAma('https://www.amazon.co.jp/dp/B0C68JY8JH'),
+            forecastData: [1280, 1280, 1280, 1280, 1280, 1280, 1280]
           }
         ]
       }

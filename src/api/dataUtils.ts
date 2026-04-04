@@ -9,8 +9,8 @@ export const extractVolume = (name: string): { value: number; unit: string } | n
     return { value: parseFloat(kgMatch[1]), unit: kgMatch[2].toLowerCase() };
   }
 
-  // 2. g / ml / 枚 / 組 の抽出
-  const gMatch = name.match(/(\d+(?:\.\d+)?)\s*(g|ml|mℓ|枚|組)/i);
+  // 2. g / ml / 枚 / 組 / m の抽出
+  const gMatch = name.match(/(\d+(?:\.\d+)?)\s*(g|ml|mℓ|枚|組|m|メートル)/i);
   if (gMatch) {
     return { value: parseFloat(gMatch[1]), unit: gMatch[2].toLowerCase() };
   }
@@ -29,15 +29,15 @@ export const extractQuantity = (name: string): number => {
 
 /**
  * ジャンルに応じた「標準単位」に変換したボリュームを算出して返す
- * 例: 米(1kg単位), 水(1本単位), 洗剤(100g単位)
+ * 例: 米(1kg単位), 水(1本単位), 洗剤(100g単位), TP(100m単位)
  */
 export const getNormalizedVolume = (name: string, unitType: string, pVolume?: number, pUnit?: string): number => {
-  // すでに数値がある場合はそれを使用し、なければ解析する
+  // 1. 基本ボリューム情報の取得
   const volInfo = (pVolume !== undefined && pUnit !== undefined) 
     ? { value: pVolume, unit: pUnit }
     : extractVolume(name);
   
-  // 数値が明示されている場合は入数を掛けない（すでに総量であると仮定）
+  // 2. 入数の取得
   const qty = (pVolume !== undefined) ? 1 : extractQuantity(name);
 
   let totalValue = (volInfo ? volInfo.value : 1) * qty;
@@ -50,28 +50,50 @@ export const getNormalizedVolume = (name: string, unitType: string, pVolume?: nu
       return totalValue; 
     case '100g':
     case '100ml':
-      if (unit === 'kg' || unit === 'l') return totalValue * 10; // 1kg -> 100g x 10
-      return totalValue / 100; // 500g -> 5.0 (units of 100g)
+      if (unit === 'kg' || unit === 'l') return totalValue * 10; 
+      return totalValue / 100; 
+    case '100m':
+      // トイレットペーパー専用: 100メートルあたりの単価計算用
+      // もし単位が 'm' ならそのまま合計メートルを使用
+      if (unit === 'm' || unit === 'メートル') return totalValue / 100;
+      
+      // 単位が 'ロール' や 'r' の場合、1ロールあたりの長さを推測する
+      if (unit === 'ロール' || unit === 'r' || unit === 'roll' || unit === '') {
+        // 名前から「50m」などを探す
+        const mMatch = name.match(/(\d+)\s*m/i);
+        let lengthPerRoll = mMatch ? parseInt(mMatch[1], 10) : 0;
+        
+        if (lengthPerRoll === 0) {
+          // キーワードから推測
+          if (name.includes('3倍') || name.includes('75m')) lengthPerRoll = 75;
+          else if (name.includes('2倍') || name.includes('50m')) lengthPerRoll = 50;
+          else if (name.includes('4倍') || name.includes('100m')) lengthPerRoll = 100;
+          else if (name.includes('ダブル')) lengthPerRoll = 25; // 一般的なダブル
+          else if (name.includes('シングル')) lengthPerRoll = 50; // 一般的なシングル
+          else lengthPerRoll = 25; // デフォルトは最短のダブルと仮定
+        }
+        
+        const totalMeters = totalValue * lengthPerRoll;
+        return totalMeters / 100; // 100m単位の数値を返す
+      }
+      return totalValue;
     case '1bottle':
     case '1roll':
     case '1pack':
     case '1bag':
-      return totalValue; // 個数ベース
+      return totalValue; 
     case '100sheets':
     case '100組':
-      // 1組 = 2枚(sheets)
       if (unit === '枚') return totalValue / 200; 
-      return totalValue / 100; // '組'ベースまたは単位なし(通常は150組や200組)
+      return totalValue / 100; 
     case '1wash':
     case '1回':
-      if (unit === 'g') return totalValue / 20; // 粉末標準: 20g/回
+      if (unit === 'g') return totalValue / 20; 
       if (unit === 'ml' || unit === 'mℓ') {
-        // 濃縮タイプ(10ml)か通常タイプ(25ml)かを判定
-        // 商品名に「ZERO」「濃厚」「コンパクト」等があれば10ml、なければ25mlと仮定
         const isCompact = /ZERO|濃厚|コンパクト|ナノックス|NANOX/i.test(name);
         return totalValue / (isCompact ? 10 : 25);
       }
-      return totalValue; // ジェルボール等(単位なし/個)はそのまま個数が回数
+      return totalValue; 
     default:
       return totalValue;
   }

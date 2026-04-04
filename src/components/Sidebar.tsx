@@ -36,7 +36,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ genres }) => {
 
   const stockItems = [
     { id: 'rice', label: 'お米 (1kg)', unit: '1kg' },
-    { id: 'tp', label: 'トイレットペーパー', unit: '12R' },
+    { id: 'tp', label: 'トイレットペーパー', unit: '100m' },
     { id: 'detergent', label: '洗濯洗剤', unit: '100g' },
     { id: 'tissue', label: 'ティッシュ', unit: '1箱' },
     { id: 'water', label: '水 (2L)', unit: '1本' },

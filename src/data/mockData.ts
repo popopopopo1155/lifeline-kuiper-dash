@@ -265,13 +265,13 @@ export const mockGenres: (Genre & { subtypes: (any & SubtypeMetadata)[] })[] = [
     id: 'tp',
     name: 'トイレットペーパー',
     group: 'stock',
-    unitType: '1roll',
-    historyData: [900, 880, 890, 898, 920, 950, 930, 920, 910, 898, 880, 898, 920, 940, 950],
+    unitType: '100m',
+    historyData: [150, 148, 145, 142, 140, 138, 135, 133, 130, 135, 138, 140, 142, 145, 150],
     subtypes: [
       {
         id: 'tp-12r',
         name: 'トイレットペーパー (最安まとめ買い)',
-        regionalAverage: 110,
+        regionalAverage: 180,
         representativeAsin: 'B0CX9913JP',
         searchOverride: 'トイレットペーパー 12ロール 送料無料 -定期便 -ふるさと納税',
         requiredKeywords: ['12', 'ロール'],
@@ -279,43 +279,51 @@ export const mockGenres: (Genre & { subtypes: (any & SubtypeMetadata)[] })[] = [
         products: [
           {
             id: 'tp-96r-coming-3200',
-            name: '[96ロール] カミング 再生紙ダブル - ¥3,200 (1ロール¥33.3)',
-            price: 3200, shipping: 0, points: 32, volume: 96, unit: 'roll', baseUnit: '1roll',
+            name: '[96ロール/25mダブル] カミング 再生紙 - ¥3,200 (100m¥133)',
+            price: 3200, shipping: 0, points: 32, volume: 96, unit: 'roll', baseUnit: '100m',
             store: 'rakuten', rakutenCode: 'coming:jun1kyuhinrolls-recycle12rw', popularity: 100,
             affiliateUrl: wrapRaku('https://item.rakuten.co.jp/coming/jun1kyuhinrolls-recycle12rw/'),
             forecastData: [3200, 3200, 3200, 3200, 3200, 3200, 3200]
           },
           {
             id: 'tp-96r-coming-3280',
-            name: '[96ロール] カミング エシカルダブル - ¥3,280 (1ロール¥34.2)',
-            price: 3280, shipping: 0, points: 32, volume: 96, unit: 'roll', baseUnit: '1roll',
+            name: '[96ロール/25mダブル] カミング エシカル - ¥3,280 (100m¥136)',
+            price: 3280, shipping: 0, points: 32, volume: 96, unit: 'roll', baseUnit: '100m',
             store: 'rakuten', rakutenCode: 'coming:color-jun1kyuhinrolls-t', popularity: 98,
             affiliateUrl: wrapRaku('https://item.rakuten.co.jp/coming/color-jun1kyuhinrolls-t/'),
             forecastData: [3280, 3280, 3280, 3280, 3280, 3280, 3280]
           },
           {
             id: 'tp-96r-noshiro-3380',
-            name: '[96ロール] 能代製紙 バスターダブル - ¥3,380 (1ロール¥35.2)',
-            price: 3380, shipping: 0, points: 33, volume: 96, unit: 'roll', baseUnit: '1roll',
+            name: '[96ロール/25mダブル] 能代製紙 バスター - ¥3,380 (100m¥140)',
+            price: 3380, shipping: 0, points: 33, volume: 96, unit: 'roll', baseUnit: '100m',
             store: 'rakuten', rakutenCode: 'noshiroseishi:4958968-017-12rw', popularity: 95,
             affiliateUrl: wrapRaku('https://item.rakuten.co.jp/noshiroseishi/4958968-017-12rw/'),
             forecastData: [3380, 3380, 3380, 3380, 3380, 3380, 3380]
           },
           {
             id: 'tp-96r-daisy-3480',
-            name: '[96ロール] Amazon デイジーアロマ - ¥3,480 (1ロール¥36.3)',
-            price: 3480, shipping: 0, points: 34, volume: 96, unit: 'roll', baseUnit: '1roll',
+            name: '[96ロール/25mダブル] Amazon デイジーアロマ - ¥3,480 (100m¥145)',
+            price: 3480, shipping: 0, points: 34, volume: 96, unit: 'roll', baseUnit: '100m',
             store: 'amazon', asin: 'B0F37JL72Q', popularity: 92,
             affiliateUrl: wrapAma('https://www.amazon.co.jp/dp/B0F37JL72Q'),
             forecastData: [3349, 3349, 3349, 3349, 3349, 3349, 3349]
           },
           {
             id: 'tp-96r-noshiro-3480',
-            name: '[96ロール] 能代製紙 ブランカダブル - ¥3,480 (1ロール¥36.3)',
-            price: 3480, shipping: 0, points: 34, volume: 96, unit: 'roll', baseUnit: '1roll',
+            name: '[96ロール/25mダブル] 能代製紙 ブランカ - ¥3,480 (100m¥145)',
+            price: 3480, shipping: 0, points: 34, volume: 96, unit: 'roll', baseUnit: '100m',
             store: 'rakuten', rakutenCode: 'noshiroseishi:4958968-004-12r', popularity: 90,
             affiliateUrl: wrapRaku('https://item.rakuten.co.jp/noshiroseishi/4958968-004-12r/'),
             forecastData: [3480, 3480, 3480, 3480, 3480, 3480, 3480]
+          },
+          {
+            id: 'tp-12r-scottie-3倍',
+            name: 'スコッティ フラワーパック 3倍巻き ダブル 75m×12ロール - ¥1,480',
+            price: 1480, shipping: 0, points: 15, volume: 12, unit: 'roll', baseUnit: '100m',
+            store: 'amazon', asin: 'B01IES8X2B', popularity: 85,
+            affiliateUrl: wrapAma('https://www.amazon.co.jp/dp/B01IES8X2B'),
+            forecastData: [1480, 1480, 1480, 1480, 1480, 1480, 1480]
           }
         ]
       }

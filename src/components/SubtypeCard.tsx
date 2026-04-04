@@ -377,6 +377,43 @@ export const SubtypeCard: React.FC<SubtypeCardProps> = ({ subtype, group, unitTy
                 </div>
               </div>
               <div>
+                <label style={{ fontSize: '12px', fontWeight: 'bold', color: '#64748b' }}>ストア選択</label>
+                <div style={{ display: 'flex', gap: '8px', marginTop: '4px' }}>
+                  <button
+                    onClick={() => setEditingProduct({ ...editingProduct, store: 'amazon' })}
+                    style={{
+                      flex: 1,
+                      padding: '8px',
+                      background: editingProduct.store === 'amazon' ? '#232f3e' : '#f1f5f9',
+                      color: editingProduct.store === 'amazon' ? 'white' : '#64748b',
+                      border: 'none',
+                      borderRadius: '8px',
+                      fontSize: '11px',
+                      fontWeight: '900',
+                      cursor: 'pointer'
+                    }}
+                  >
+                    AMAZON
+                  </button>
+                  <button
+                    onClick={() => setEditingProduct({ ...editingProduct, store: 'rakuten' })}
+                    style={{
+                      flex: 1,
+                      padding: '8px',
+                      background: editingProduct.store === 'rakuten' ? '#bf0000' : '#f1f5f9',
+                      color: editingProduct.store === 'rakuten' ? 'white' : '#64748b',
+                      border: 'none',
+                      borderRadius: '8px',
+                      fontSize: '11px',
+                      fontWeight: '900',
+                      cursor: 'pointer'
+                    }}
+                  >
+                    RAKUTEN
+                  </button>
+                </div>
+              </div>
+              <div>
                 <label style={{ fontSize: '12px', fontWeight: 'bold', color: '#e11d48' }}>🚩 商品URL / アフィリエイトリンク</label>
                 <div style={{ display: 'flex', gap: '8px', marginTop: '4px' }}>
                   <input 

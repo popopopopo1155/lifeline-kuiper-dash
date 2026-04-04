@@ -21,7 +21,7 @@ const Header: React.FC<HeaderProps> = ({ onBack, showBack }) => {
     const newTimestamps = [...clickTimestamps, now].filter(t => now - t <= 1000);
     setClickTimestamps(newTimestamps);
     
-    if (newTimestamps.length >= 6) {
+    if (newTimestamps.length >= 10) {
       toggleAdmin();
       setClickTimestamps([]);
     }

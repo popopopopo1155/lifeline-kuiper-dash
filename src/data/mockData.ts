@@ -286,6 +286,14 @@ export const mockGenres: (Genre & { subtypes: (any & SubtypeMetadata)[] })[] = [
             forecastData: [5480, 5480, 5480, 5480, 5480, 5480, 5480]
           },
           {
+            id: 'tp-s-daisy-50m-96',
+            name: '[96ロール/50mシングル] デイジーアロマ - ¥3,480 (100m¥73)',
+            price: 3480, shipping: 0, points: 34, volume: 96, unit: 'roll', baseUnit: '100m',
+            store: 'amazon', asin: 'B0F37XZTTT', popularity: 98,
+            affiliateUrl: wrapAma('https://www.amazon.co.jp/dp/B0F37XZTTT'),
+            forecastData: [3480, 3480, 3480, 3480, 3480, 3480, 3480]
+          },
+          {
             id: 'tp-s-coreless-170m',
             name: '[48ロール/170mシングル] 芯なし 超長巻き - ¥5,280 (100m¥64)',
             price: 5280, shipping: 0, points: 52, volume: 48, unit: 'roll', baseUnit: '100m',
@@ -308,14 +316,6 @@ export const mockGenres: (Genre & { subtypes: (any & SubtypeMetadata)[] })[] = [
             store: 'amazon', asin: 'B005T65SGC', popularity: 90,
             affiliateUrl: wrapAma('https://www.amazon.co.jp/dp/B005T65SGC'),
             forecastData: [4580, 4580, 4580, 4580, 4580, 4580, 4580]
-          },
-          {
-            id: 'tp-s-soft-60m',
-            name: '[72ロール/60mシングル] ソフトタイプ - ¥3,980 (100m¥92)',
-            price: 3980, shipping: 0, points: 40, volume: 72, unit: 'roll', baseUnit: '100m',
-            store: 'rakuten', rakutenCode: 'p-ark:10000001', popularity: 88,
-            affiliateUrl: wrapRaku('https://item.rakuten.co.jp/p-ark/10000001/'),
-            forecastData: [3980, 3980, 3980, 3980, 3980, 3980, 3980]
           }
         ]
       },
@@ -370,6 +370,7 @@ export const mockGenres: (Genre & { subtypes: (any & SubtypeMetadata)[] })[] = [
           }
         ]
       }
+
     ]
   },
   {

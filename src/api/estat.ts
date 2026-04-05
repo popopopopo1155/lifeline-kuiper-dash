@@ -4,9 +4,9 @@ import axios from 'axios';
 const ESTAT_BASE_URL = 'https://api.e-stat.go.jp/rest/3.0/app/json/getStatsData';
 const ESTAT_APP_ID = import.meta.env.VITE_ESTAT_APP_ID;
 
-// 統計表ID: 小売物価統計調査（動向編）- 全国平均価格
-// ※最新の情報を動的に取得するため、月次データのテーブルIDを固定、または最新を狙う
-const ESTAT_STATS_DATA_ID = '0003427144'; 
+// 統計表ID: 小売物価統計調査（動向編）- 主要品目の都市別小売価格（時系列データベース）
+// 🏮 [STABLE TARGET] 月次IDは変動しやすいため、より安定した時系列IDを採用
+const ESTAT_STATS_DATA_ID = '0003427146'; 
 
 // e-Stat 品目コードマッピング (小売物価統計調査)
 const ITEM_MAPPING: Record<string, string> = {

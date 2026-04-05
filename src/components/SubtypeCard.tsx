@@ -273,7 +273,7 @@ export const SubtypeCard: React.FC<SubtypeCardProps> = ({ subtype, group, unitTy
                         {p.store.toUpperCase()}
                       </span>
                       <span style={{ fontSize: '11px', color: 'var(--text-sub)', fontWeight: 'bold' }}>
-                        ¥{Math.round((p.price + p.shipping - p.points) / Math.max(0.1, getNormalizedVolume(p.name, unitType, p.volume, p.unit, p.lengthPerRoll)))}/{unitType}
+                        ¥{Math.round((p.price + p.shipping - p.points) / Math.max(0.1, getNormalizedVolume(p.name, unitType, p.volume, p.unit, p.lengthPerRoll, p.setsPerPack)))}/{unitType}
                         <span style={{ marginLeft: '6px', opacity: 0.7 }}>({p.volume}{p.unit})</span>
                       </span>
                     </div>

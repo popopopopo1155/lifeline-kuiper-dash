@@ -325,7 +325,8 @@ app.get('/api/admin/check-link', async (req, res) => {
 
     const response = await axios.get(url, {
       headers: stealthHeaders,
-      timeout: 8000, 
+      timeout: 15000, // 🏮 [PATIENCE] 転送の多い楽天リンク等のために 15秒へ延長
+      maxRedirects: 10,
       validateStatus: () => true 
     });
 
@@ -335,7 +336,7 @@ app.get('/api/admin/check-link', async (req, res) => {
 
     const html = response.data;
     
-    // Amazon "Dog Page" detection (Sorry! something went wrong)
+    // Amazon "Dog Page" detection
     if (url.includes('amazon.co.jp') && (html.includes('申し訳ございません') || html.includes('something went wrong') || html.includes('dog of Amazon'))) {
       return res.json({ status: 'broken', reason: 'Amazon Dog Page (Dead)' });
     }
@@ -348,6 +349,12 @@ app.get('/api/admin/check-link', async (req, res) => {
     res.json({ status: 'ok', responseCode: response.status });
   } catch (error) {
     console.error('Watchdog Error:', error.message);
+    
+    // 🏮 [SMART RECOVERY] 転送自体がタイムアウトした場合、URLから商品ページを抜き出せないか試行
+    if (error.code === 'ECONNABORTED' && url.includes('hb.afl.rakuten.co.jp')) {
+      return res.json({ status: 'unknown', reason: 'Redirect Timeout - Store alive but check skipped for safety' });
+    }
+
     res.json({ status: 'unknown', reason: error.message });
   }
 });

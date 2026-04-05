@@ -25,7 +25,7 @@ export const useLinkChecker = () => {
         updateLinkHealth(product.id, { status: 'unknown', reason: `Server Error: ${res.status}` });
       }
     } catch (error: any) {
-      updateLinkHealth(product.id, { status: 'broken', reason: error.message });
+      updateLinkHealth(product.id, { status: 'unknown', reason: `Check Failed: ${error.message}` });
     } finally {
       setCurrentScanningId(null);
     }

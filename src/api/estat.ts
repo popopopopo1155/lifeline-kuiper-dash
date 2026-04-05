@@ -16,6 +16,7 @@ export const ESTAT_ITEM_MAP: Record<string, string> = {
   detergent: '04441', // 洗濯用洗剤
   water: '01982',     // ミネラルウォーター
   oil: '01601',       // 食用油
+  tissue: '04412',    // ティッシュペーパー
 };
 
 /**
@@ -38,20 +39,21 @@ export const fetchRegionalAveragePrice = async (genreId: string): Promise<number
     const data = await response.json();
     
     const values = data?.GET_STATS_DATA?.STATISTICAL_DATA?.DATA_INF?.VALUE;
-    if (values && Array.isArray(values) && values.length > 0) {
-      // Get the most recent value (usually the last one)
-      const latest = values[values.length - 1];
+    if (values && (Array.isArray(values) ? values.length > 0 : values['$'])) {
+      const latest = Array.isArray(values) ? values[values.length - 1] : values;
       const priceString = latest['$'];
       if (!priceString || priceString === '-') return null;
       
-      const price = parseFloat(priceString);
-      return isNaN(price) ? null : price;
-    }
-    
-    // Single value case
-    if (values && typeof values === 'object' && values['$']) {
-      const price = parseFloat(values['$']);
-      return isNaN(price) ? null : price;
+      const rawPrice = parseFloat(priceString);
+      if (isNaN(rawPrice)) return null;
+
+      // 🏮 [UNIT NORMALIZATION] - 各品目の統計単位を Dashboard の基準単位へ変換
+      switch (genreId) {
+        case 'rice':    return Math.round(rawPrice / 5);   // e-Stat: 5kg -> Dashboard: 1kg
+        case 'tissue':  return Math.round(rawPrice / 10);  // e-Stat: 5箱(1000組想定) -> Dashboard: 100組
+        case 'tp':      return Math.round(rawPrice / 12);  // e-Stat: 12ロール -> Dashboard: 1ロール相当の基準 (※100m換算は別途)
+        default:        return rawPrice;
+      }
     }
 
     return null;

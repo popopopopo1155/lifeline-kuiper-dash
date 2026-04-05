@@ -3,8 +3,8 @@ import { mockGenres } from '../data/mockData';
 import type { Genre, Subtype, Product } from '../types';
 import { getNormalizedVolume } from '../api/dataUtils';
 import { useAdmin } from '../contexts/AdminContext';
-
 import { wrapAma, wrapRaku } from '../data/mockData';
+import { fetchRegionalAveragePrice } from '../api/estat';
 
 /**
  * 構成案に基づく高度なデータ取得フック (v5.0 手動ソート対応)
@@ -22,6 +22,32 @@ export const usePriceData = () => {
 
   const displayTokens = Math.max(0, tokensLeft);
   const SERVER_URL = ''; 
+
+  // 🏮 [OFFICIAL STATS SYNC] - 政府統計 API との動的同期
+  const fetchOfficialStats = useCallback(async () => {
+    for (const genre of data) {
+      const statsPrice = await fetchRegionalAveragePrice(genre.id);
+      if (statsPrice) {
+        setData(prevData => prevData.map(g => {
+          if (g.id === genre.id) {
+            return {
+              ...g,
+              subtypes: g.subtypes.map(s => ({
+                ...s,
+                regionalAverage: statsPrice,
+                isOfficial: true // 🏛️ 統計同期済みフラグ
+              }))
+            };
+          }
+          return g;
+        }));
+      }
+    }
+  }, [data]);
+
+  useEffect(() => {
+    fetchOfficialStats();
+  }, []); // 初回起動時に全域同期を執行
 
   // 手動オーバーライドとカスタムソートを適用したデータを返す
   const getAppliedData = useCallback((baseData: Genre[]) => {

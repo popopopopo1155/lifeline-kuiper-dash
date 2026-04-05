@@ -17,10 +17,12 @@ export const GenreCard: React.FC<GenreCardProps> = ({ genre, daysLeft, onClick, 
   let unitLabel = genre.unitType; // Fallback to genre's unitType
   let forecastData: number[] = [];
   let regionalAverage = 0;
+  let isOfficial = false;
 
-  // 最初に見つかったsubtypeのregionalAverageをデフォルトとして持っておく
+  // 最初に見つかったsubtypeのmetadataをデフォルトとして持っておく
   if (genre.subtypes.length > 0) {
     regionalAverage = genre.subtypes[0].regionalAverage;
+    isOfficial = genre.subtypes[0].isOfficial || false;
   }
 
     genre.subtypes.forEach((subtype: any) => {
@@ -43,6 +45,7 @@ export const GenreCard: React.FC<GenreCardProps> = ({ genre, daysLeft, onClick, 
         unitLabel = genre.unitType;
         forecastData = product.forecastData;
         regionalAverage = subtype.regionalAverage;
+        isOfficial = subtype.isOfficial || false;
       }
     });
   });
@@ -123,10 +126,26 @@ export const GenreCard: React.FC<GenreCardProps> = ({ genre, daysLeft, onClick, 
 
       {/* 2. Status & Large Price */}
       <div style={{ textAlign: 'center', marginBottom: '16px' }}>
-        <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '6px' }}>
+        <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '8px', marginBottom: '6px' }}>
           <div className={`status-chip status-${status}`} style={{ fontWeight: '800', fontSize: '10px', padding: '3px 10px' }}>
             {getStatusLabel(status)}
           </div>
+          {isOfficial && (
+            <div style={{ 
+              background: 'rgba(56, 189, 248, 0.1)', 
+              border: '1px solid var(--price-blue)',
+              color: 'var(--price-blue)',
+              borderRadius: '6px',
+              fontSize: '9px',
+              padding: '2px 6px',
+              fontWeight: '900',
+              display: 'flex',
+              alignItems: 'center',
+              gap: '4px'
+            }}>
+              🏛️ 統計同期
+            </div>
+          )}
         </div>
         <div style={{ color: 'var(--text-main)', fontSize: 'clamp(24px, 8vw, 42px)', fontWeight: '900', lineHeight: 1, letterSpacing: '-0.02em' }}>
           <span style={{ fontSize: 'clamp(12px, 4vw, 20px)', opacity: 0.4, marginRight: '2px' }}>¥</span>

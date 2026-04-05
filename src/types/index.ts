@@ -36,6 +36,7 @@ export interface Subtype {
   volatility?: number;
   scarcity?: number;
   lastUpdated?: number;
+  isOfficial?: boolean; // 🏛️ 統計同期済みフラグ
 }
 
 export type GenreGroup = 'stock' | 'daily';

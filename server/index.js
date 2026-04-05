@@ -348,15 +348,21 @@ app.get('/api/admin/check-link', async (req, res) => {
       return res.json({ status: 'broken', reason: '404 Not Found' });
     }
 
-    const html = response.data;
+    const html = response.data.toLowerCase(); // 🏮 大文字小文字を無視して確実に捕捉
     
     // Amazon "Dog Page" detection
-    if (url.includes('amazon.co.jp') && (html.includes('申し訳ございません') || html.includes('something went wrong') || html.includes('dog of Amazon'))) {
+    if (url.includes('amazon.co.jp') && (html.includes('申し訳ございません') || html.includes('something went wrong') || html.includes('dog of amazon'))) {
       return res.json({ status: 'broken', reason: 'Amazon Dog Page (Dead)' });
     }
 
     // Rakuten "Not Found" / "Under Construction" detection
-    if (url.includes('rakuten.co.jp') && (html.includes('ページが表示できません') || html.includes('一致する商品は見つかりませんでした') || html.includes('item_error'))) {
+    // 🏮 [MULTI-FINGERPRINT] 日本語だけでなく、不変のASCIIコード群で死を捉える
+    const rakutenDeathSigns = ['item_error', 'item_not_found', 'item_not_available', 'item-error', 'err300'];
+    if (url.includes('rakuten.co.jp') && (
+      html.includes('ページが表示できません') || 
+      html.includes('一致する商品は見つかりませんでした') || 
+      rakutenDeathSigns.some(sign => html.includes(sign.toLowerCase()))
+    )) {
       return res.json({ status: 'broken', reason: 'Rakuten Page Missing' });
     }
 

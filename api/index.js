@@ -228,17 +228,20 @@ app.get('/api/admin/check-link', async (req, res) => {
       return res.json({ status: 'broken', reason: '404 Not Found' });
     }
 
-    const html = response.data;
-    if (typeof html !== 'string') {
-      return res.json({ status: 'unknown', reason: 'Response is not HTML' });
-    }
-
+    const html = response.data.toLowerCase();
+    
     // 🏮 [DEATH DETECTION FINGERPRINTS]
-    if (url.includes('amazon.co.jp') && (html.includes('申し訳ございません') || html.includes('something went wrong') || html.includes('dog of Amazon'))) {
+    if (url.includes('amazon.co.jp') && (html.includes('申し訳ございません') || html.includes('something went wrong') || html.includes('dog of amazon'))) {
       return res.json({ status: 'broken', reason: 'Amazon Dog Page (Dead)' });
     }
 
-    if (url.includes('rakuten.co.jp') && (html.includes('ページが表示できません') || html.includes('一致する商品は見つかりませんでした') || html.includes('item_error'))) {
+    // 🏮 [MULTI-FINGERPRINT]
+    const rakutenDeathSigns = ['item_error', 'item_not_found', 'item_not_available', 'item-error', 'err300'];
+    if (url.includes('rakuten.co.jp') && (
+      html.includes('ページが表示できません') || 
+      html.includes('一致する商品は見つかりませんでした') || 
+      rakutenDeathSigns.some(sign => html.includes(sign.toLowerCase()))
+    )) {
       return res.json({ status: 'broken', reason: 'Rakuten Page Missing' });
     }
 

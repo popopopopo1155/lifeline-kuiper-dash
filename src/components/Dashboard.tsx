@@ -12,11 +12,14 @@ import { UniversalTrendChart } from './UniversalTrendChart';
 import { QuickNav } from './QuickNav';
 import RiskAlertBanner from './RiskAlertBanner';
 
+import { usePriceVictory } from '../hooks/usePriceVictory';
+
 export const Dashboard: React.FC = () => {
   const [selectedGenreId, setSelectedGenreId] = useState<string | null>(null);
   const [searchQuery, setSearchQuery] = useState('');
   const { data: genres, loading, newsRisks, numericalRisks } = usePriceData();
   const { getDaysLeft } = useInventory();
+  const { totalVictoryAmount, lastUpdated } = usePriceVictory();
 
   const filteredGenres = genres.filter(genre => {
     const searchLower = searchQuery.toLowerCase();
@@ -63,11 +66,42 @@ export const Dashboard: React.FC = () => {
 
       <div className="dashboard-grid" style={{ display: 'flex', gap: '24px', alignItems: 'flex-start', marginTop: '20px' }}>
         <main className="main-content" style={{ flex: 1, minWidth: 0 }}>
-          {/* リスクアラートバナーの設置 */}
-          <RiskAlertBanner newsRisks={newsRisks} numericalRisks={numericalRisks} />
+           {/* リスクアラートバナーの設置 */}
+           <RiskAlertBanner newsRisks={newsRisks} numericalRisks={numericalRisks} />
 
-          {!selectedGenreId ? (
-            <section id="products-section">
+           {/* 🏮 [VICTORY SUMMARY] Masterの勝利を刻む */}
+           {totalVictoryAmount > 0 && (
+             <div className="victory-summary-card glass-card animate-pulse-subtle" style={{
+               padding: '20px 24px',
+               marginBottom: '24px',
+               background: 'linear-gradient(135deg, rgba(0, 85, 170, 0.1), rgba(0, 170, 255, 0.05))',
+               border: '1px solid rgba(0, 85, 170, 0.2)',
+               borderRadius: '24px'
+             }}>
+               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                 <div>
+                   <h4 style={{ fontSize: '12px', color: 'var(--text-sub)', margin: '0 0 4px 0', textTransform: 'uppercase', letterSpacing: '0.1em' }}>
+                     Current Victory Amount (Savings vs National Avg)
+                   </h4>
+                   <div style={{ fontSize: '32px', fontWeight: 'bold', color: 'var(--text-main)', display: 'flex', alignItems: 'baseline', gap: '8px' }}>
+                     <span style={{ fontSize: '20px', opacity: 0.6 }}>¥</span>
+                     {totalVictoryAmount.toLocaleString()}
+                   </div>
+                 </div>
+                 <div style={{ textAlign: 'right' }}>
+                   <div style={{ fontSize: '11px', color: 'var(--text-sub)', opacity: 0.7 }}>
+                     Source: e-Stat (Statistics Bureau of Japan)
+                   </div>
+                   <div style={{ fontSize: '11px', color: 'var(--text-sub)', opacity: 0.7 }}>
+                     Last Updated: {lastUpdated ? new Date(lastUpdated).toLocaleDateString() : '---'}
+                   </div>
+                 </div>
+               </div>
+             </div>
+           )}
+
+           {!selectedGenreId ? (
+             <section id="products-section">
               <div className="sidebar-box glass-card" style={{ 
                 width: '100%',
                 boxSizing: 'border-box',

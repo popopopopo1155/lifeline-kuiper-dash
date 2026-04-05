@@ -8,6 +8,8 @@ import { getNormalizedVolume } from '../api/dataUtils';
 import { DailyBottomPriceControl } from './DailyBottomPriceControl';
 import { wrapAma, wrapRaku } from '../data/mockData';
 
+import { usePriceVictory } from '../hooks/usePriceVictory';
+
 interface SubtypeCardProps {
   subtype: Subtype;
   group: GenreGroup;
@@ -19,7 +21,12 @@ export const SubtypeCard: React.FC<SubtypeCardProps> = ({ subtype, group, unitTy
   const [editingProduct, setEditingProduct] = useState<Product | null>(null);
   const { isAdmin, saveOverride, saveOrder, linkHealth } = useAdmin();
   const { scanLinks, isScanning, progress } = useLinkChecker();
+  const { victoryDetails } = usePriceVictory();
 
+  // 🏮 このアイテムの勝利詳細を取得
+  const victory = victoryDetails.find(v => v.id === subtype.id);
+  const isVictorious = victory && victory.savingsPerUnit > 0;
+  
   const handleMove = (productId: string, direction: number) => {
     const currentOrder = subtype.products.map(p => p.id);
     const index = currentOrder.indexOf(productId);
@@ -139,6 +146,24 @@ export const SubtypeCard: React.FC<SubtypeCardProps> = ({ subtype, group, unitTy
             fontWeight: '900'
           }}>
             {minPrice < subtype.regionalAverage ? '📉 スーパーよりお得' : '🛑 スーパー推奨'}
+          </div>
+        )}
+
+        {/* 🏮 [NATIONWIDE VICTORY LABEL] */}
+        {isVictorious && (
+          <div style={{ 
+            marginTop: '6px', 
+            fontSize: '10.5px', 
+            color: 'var(--price-blue)',
+            fontWeight: '900',
+            opacity: 0.9,
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            gap: '4px'
+          }}>
+            <CheckCircle2 size={12} />
+            日本平均より ¥{Math.round(victory.savingsPerUnit * (unitType === 'kg' ? 1000 : 1)).toLocaleString()} / {unitType} 安い
           </div>
         )}
       </div>

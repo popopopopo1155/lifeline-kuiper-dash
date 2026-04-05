@@ -376,8 +376,11 @@ export const SubtypeCard: React.FC<SubtypeCardProps> = ({ subtype, group, unitTy
       {editingProduct && (
         <div style={{
           position: 'fixed', top: 0, left: 0, width: '100%', height: '100%',
-          background: 'rgba(0,0,0,0.5)', display: 'flex', justifyContent: 'center', alignItems: 'center',
-          zIndex: 1000, padding: '20px'
+          background: 'rgba(0,0,0,0.5)', display: 'flex', justifyContent: 'center', 
+          alignItems: 'flex-start', // 🏮 top padding to avoid being hidden by header
+          zIndex: 99999, // 🏮 absolute foreground
+          padding: '80px 20px 40px 20px', // 🏮 enough space for top/bottom
+          overflowY: 'auto' // 🏮 scrollable if modal is tall
         }}>
           <div style={{ background: 'white', borderRadius: '24px', padding: '24px', width: '100%', maxWidth: '400px' }}>
             <h3 style={{ fontSize: '18px', fontWeight: '900', marginBottom: '16px' }}>商品の修正・検証</h3>

@@ -286,38 +286,39 @@ export const mockGenres: (Genre & { subtypes: (any & SubtypeMetadata)[] })[] = [
             forecastData: [5480, 5480, 5480, 5480, 5480, 5480, 5480]
           },
           {
-            id: 'tp-s-daisy-50m-96',
-            name: '[96ロール/50mシングル] デイジーアロマ - ¥3,480 (100m¥73)',
-            price: 3480, shipping: 0, points: 34, volume: 96, unit: 'roll', baseUnit: '100m',
-            store: 'amazon', asin: 'B0F37XZTTT', popularity: 98,
-            affiliateUrl: wrapAma('https://www.amazon.co.jp/dp/B0F37XZTTT'),
-            forecastData: [3480, 3480, 3480, 3480, 3480, 3480, 3480]
-          },
-          {
-            id: 'tp-s-coreless-170m',
+            id: 'tp-s-coreless-170m-48',
             name: '[48ロール/170mシングル] 芯なし 超長巻き - ¥5,280 (100m¥64)',
-            price: 5280, shipping: 0, points: 52, volume: 48, unit: 'roll', baseUnit: '100m',
-            store: 'amazon', asin: 'B005T65Z6A', popularity: 95,
+            price: 5280, shipping: 0, points: 52, volume: 81.6, unit: 'roll', baseUnit: '100m',
+            store: 'amazon', asin: 'B005T65Z6A', popularity: 98,
             affiliateUrl: wrapAma('https://www.amazon.co.jp/dp/B005T65Z6A'),
             forecastData: [5280, 5280, 5280, 5280, 5280, 5280, 5280]
           },
           {
-            id: 'tp-s-scottie-3x-75m',
-            name: 'スコッティ 3倍巻き シングル 75m×12ロール - ¥1,080 (100m¥120)',
+            id: 'tp-s-coreless-130m-48',
+            name: '[48ロール/130mシングル] 芯なし 再生紙 - ¥4,580 (100m¥73)',
+            price: 4580, shipping: 0, points: 46, volume: 62.4, unit: 'roll', baseUnit: '100m',
+            store: 'amazon', asin: 'B005T65SGC', popularity: 95,
+            affiliateUrl: wrapAma('https://www.amazon.co.jp/dp/B005T65SGC'),
+            forecastData: [4580, 4580, 4580, 4580, 4580, 4580, 4580]
+          },
+          {
+            id: 'tp-s-scottie-2x-100m-12',
+            name: '[12ロール/100mシングル] スコッティ フラワーパック 2倍巻き - ¥1,080 (100m¥83)',
             price: 1080, shipping: 0, points: 11, volume: 12, unit: 'roll', baseUnit: '100m',
             store: 'amazon', asin: 'B0CLRVFYH4', popularity: 92,
             affiliateUrl: wrapAma('https://www.amazon.co.jp/dp/B0CLRVFYH4'),
             forecastData: [1080, 1080, 1080, 1080, 1080, 1080, 1080]
           },
           {
-            id: 'tp-s-coreless-130m',
-            name: '[48ロール/130mシングル] 芯なし 再生紙 - ¥4,580 (100m¥73)',
-            price: 4580, shipping: 0, points: 46, volume: 48, unit: 'roll', baseUnit: '100m',
-            store: 'amazon', asin: 'B005T65SGC', popularity: 90,
-            affiliateUrl: wrapAma('https://www.amazon.co.jp/dp/B005T65SGC'),
-            forecastData: [4580, 4580, 4580, 4580, 4580, 4580, 4580]
+            id: 'tp-s-nepi-2x-100m-12',
+            name: '[12ロール/100mシングル] ネピア ネピネピ 2倍巻き - ¥1,050 (100m¥87)',
+            price: 1050, shipping: 0, points: 10, volume: 12, unit: 'roll', baseUnit: '100m',
+            store: 'amazon', asin: 'B0797MG3S1', popularity: 90,
+            affiliateUrl: wrapAma('https://www.amazon.co.jp/dp/B0797MG3S1'),
+            forecastData: [1050, 1050, 1050, 1050, 1050, 1050, 1050]
           }
         ]
+
       },
       {
         id: 'tp-double',

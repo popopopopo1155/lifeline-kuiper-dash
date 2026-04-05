@@ -21,6 +21,7 @@ export interface Product {
   isVerified?: boolean;
   lastVerified?: string;
   forecastData: number[]; // Future 7 days price points
+  lengthPerRoll?: number; // Optional metadata for smart calculation (meters per roll)
 }
 
 export interface Subtype {

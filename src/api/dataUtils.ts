@@ -31,7 +31,7 @@ export const extractQuantity = (name: string): number => {
  * ジャンルに応じた「標準単位」に変換したボリュームを算出して返す
  * 例: 米(1kg単位), 水(1本単位), 洗剤(100g単位), TP(100m単位)
  */
-export const getNormalizedVolume = (name: string, unitType: string, pVolume?: number, pUnit?: string): number => {
+export const getNormalizedVolume = (name: string, unitType: string, pVolume?: number, pUnit?: string, lengthPerRoll?: number): number => {
   // 1. 基本ボリューム情報の取得
   const volInfo = (pVolume !== undefined && pUnit !== undefined) 
     ? { value: pVolume, unit: pUnit }
@@ -59,21 +59,26 @@ export const getNormalizedVolume = (name: string, unitType: string, pVolume?: nu
       
       // 単位が 'ロール' や 'r' の場合、1ロールあたりの長さを推測する
       if (unit === 'ロール' || unit === 'r' || unit === 'roll' || unit === '') {
-        // 名前から「50m」などを探す
-        const mMatch = name.match(/(\d+)\s*m/i);
-        let lengthPerRoll = mMatch ? parseInt(mMatch[1], 10) : 0;
-        
-        if (lengthPerRoll === 0) {
-          // キーワードから推測
-          if (name.includes('3倍') || name.includes('75m')) lengthPerRoll = 75;
-          else if (name.includes('2倍') || name.includes('50m')) lengthPerRoll = 50;
-          else if (name.includes('4倍') || name.includes('100m')) lengthPerRoll = 100;
-          else if (name.includes('ダブル')) lengthPerRoll = 25; // 一般的なダブル
-          else if (name.includes('シングル')) lengthPerRoll = 50; // 一般的なシングル
-          else lengthPerRoll = 25; // デフォルトは最短のダブルと仮定
+        // 1. 引数として明示的に「長さ」が渡されている場合は最優先
+        let lpr = (lengthPerRoll && lengthPerRoll > 0) ? lengthPerRoll : 0;
+
+        // 2. 渡されていない場合は、名前から「50m」などを探す
+        if (lpr === 0) {
+          const mMatch = name.match(/(\d+)\s*m/i);
+          lpr = mMatch ? parseInt(mMatch[1], 10) : 0;
         }
         
-        const totalMeters = totalValue * lengthPerRoll;
+        // 3. 解析も失敗した場合はキーワードから推測
+        if (lpr === 0) {
+          if (name.includes('3倍') || name.includes('75m')) lpr = 75;
+          else if (name.includes('2倍') || name.includes('50m')) lpr = 50;
+          else if (name.includes('4倍') || name.includes('100m')) lpr = 100;
+          else if (name.includes('ダブル')) lpr = 25; 
+          else if (name.includes('シングル')) lpr = 50;
+          else lpr = 25; 
+        }
+        
+        const totalMeters = totalValue * lpr;
         return totalMeters / 100; // 100m単位の数値を返す
       }
       return totalValue;

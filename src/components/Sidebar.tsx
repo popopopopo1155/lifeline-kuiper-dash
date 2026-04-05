@@ -1,44 +1,30 @@
 import React from 'react';
 import type { Genre } from '../types';
 
-import { getNormalizedVolume } from '../api/dataUtils';
-
 interface SidebarProps {
   genres: Genre[];
 }
 
 export const Sidebar: React.FC<SidebarProps> = ({ genres }) => {
-  // ネットショップ（Stock）の最新安値を取得
-  const getMinUnitPrice = (genreId: string) => {
-    const genre = genres.find(g => g.id === genreId);
-    if (!genre) return '---';
-    
-    let minPrice: number | null = null;
-    genre.subtypes.forEach(s => {
-      s.products.forEach(p => {
-        const normVol = getNormalizedVolume(p.name, p.baseUnit || '');
-        const unitPrice = (p.price + p.shipping - p.points) / (normVol || p.volume || 1);
-        if (minPrice === null || unitPrice < minPrice) {
-          minPrice = unitPrice;
-        }
-      });
-    });
-    
-    return minPrice ? `¥${Math.round(minPrice)}` : '---';
-  };
-
-  // 生鮮品（Daily）の地域平均を取得
-  const getRegionalAvg = (genreId: string) => {
+  // 🏮 [OFFICIAL MARKET SYNC] - 政府統計（e-Stat）由来の平均価格を取得
+  const getStatsAvg = (genreId: string) => {
     const genre = genres.find(g => g.id === genreId);
     if (!genre || genre.subtypes.length === 0) return '---';
-    return `¥${genre.subtypes[0].regionalAverage}`;
+    
+    const avg = genre.subtypes[0].regionalAverage;
+    const isOfficial = genre.subtypes[0].isOfficial;
+
+    return {
+      price: avg ? `¥${Math.round(avg)}` : '---',
+      isOfficial
+    };
   };
 
   const stockItems = [
     { id: 'rice', label: 'お米 (1kg)', unit: '1kg' },
     { id: 'tp', label: 'トイレットペーパー', unit: '100m' },
     { id: 'detergent', label: '洗濯洗剤', unit: '100g' },
-    { id: 'tissue', label: 'ティッシュ', unit: '1箱' },
+    { id: 'tissue', label: 'ティッシュ', unit: '100組' },
     { id: 'water', label: '水 (2L)', unit: '1本' },
     { id: 'oil', label: 'サラダ油', unit: '1000g' },
   ];
@@ -49,7 +35,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ genres }) => {
     { id: 'bread', label: '食パン (6枚)', unit: '1袋' },
   ];
 
-  const PriceRow = ({ label, price, unit }: any) => (
+  const PriceRow = ({ label, stats, unit }: any) => (
     <div 
       style={{ 
         display: 'flex', 
@@ -60,20 +46,23 @@ export const Sidebar: React.FC<SidebarProps> = ({ genres }) => {
       }}
     >
       <div style={{ display: 'flex', flexDirection: 'column', gap: '2px' }}>
-        <div style={{ fontSize: '13px', fontWeight: '900', color: 'var(--text-main)' }}>{label}</div>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
+          <div style={{ fontSize: '13px', fontWeight: '900', color: 'var(--text-main)' }}>{label}</div>
+          {stats.isOfficial && <span title="国家統計同期済み" style={{ fontSize: '10px', cursor: 'help' }}>🏛️</span>}
+        </div>
         <div style={{ fontSize: '10px', color: 'var(--text-sub)', fontWeight: '700' }}>基準：{unit}</div>
       </div>
       <div style={{ textAlign: 'right' }}>
         <span style={{ 
           fontSize: '13px', 
           fontWeight: '900', 
-          color: 'var(--text-success)',
-          background: 'var(--bg-success)',
-          padding: '4px 8px',
+          color: 'var(--text-info)',
+          background: 'rgba(56, 189, 248, 0.1)',
+          padding: '4px 10px',
           borderRadius: '8px',
-          border: '1px solid var(--signal-green)',
+          border: '1px solid var(--price-blue)',
         }}>
-          {price}以下
+          {stats.price}
         </span>
       </div>
     </div>
@@ -81,34 +70,34 @@ export const Sidebar: React.FC<SidebarProps> = ({ genres }) => {
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
-      {/* --- STOCK SECTION --- */}
+      {/* --- OFFICIAL STATS SECTION --- */}
       <div className="sidebar-box glass-card" style={{ borderRadius: '24px', overflow: 'hidden', background: 'var(--bg-card)' }}>
-        <div style={{ padding: '16px 20px', background: 'var(--bg-app)', borderBottom: '1px solid var(--border-main)', fontSize: '12px', fontWeight: '900', color: 'var(--text-main)', display: 'flex', alignItems: 'center', gap: '8px' }}>
-          📦 ストック底値基準（ネット最安）
+        <div style={{ padding: '16px 20px', background: 'var(--bg-app)', borderBottom: '1px solid var(--border-main)', fontSize: '11px', fontWeight: '900', color: 'var(--text-main)', display: 'flex', alignItems: 'center', gap: '8px' }}>
+          🏛️ 国家統計・市場平均単価
         </div>
         <div>
           {stockItems.map((item, i) => (
-            <PriceRow key={i} label={item.label} price={getMinUnitPrice(item.id)} unit={item.unit} />
+            <PriceRow key={i} label={item.label} stats={getStatsAvg(item.id)} unit={item.unit} />
           ))}
         </div>
       </div>
 
-      {/* --- DAILY SECTION --- */}
+      {/* --- DAILY STATS SECTION --- */}
       <div className="sidebar-box glass-card" style={{ borderRadius: '24px', overflow: 'hidden', background: 'var(--bg-card)' }}>
-        <div style={{ padding: '16px 20px', background: 'var(--bg-warning)', borderBottom: '1px solid var(--signal-red)', fontSize: '12px', fontWeight: '900', color: 'var(--text-warning)', display: 'flex', alignItems: 'center', gap: '8px' }}>
-          🥚 デイリー底値基準（スーパー推奨）
+        <div style={{ padding: '16px 20px', background: 'rgba(255, 247, 237, 0.5)', borderBottom: '1px solid #fed7aa', fontSize: '11px', fontWeight: '900', color: '#9a3412', display: 'flex', alignItems: 'center', gap: '8px' }}>
+          🥚 スーパー推奨（デイリー平均）
         </div>
         <div>
           {dailyItems.map((item, i) => (
-            <PriceRow key={i} label={item.label} price={getRegionalAvg(item.id)} unit={item.unit} />
+            <PriceRow key={i} label={item.label} stats={getStatsAvg(item.id)} unit={item.unit} />
           ))}
         </div>
       </div>
 
       <div className="sidebar-box glass-card" style={{ padding: '20px', borderLeft: '4px solid var(--price-blue)', borderRadius: '16px', background: 'var(--bg-card)' }}>
-        <p style={{ fontSize: '13px', fontWeight: '900', color: 'var(--price-blue)' }}>2026年式・賢い買い分け術</p>
+        <p style={{ fontSize: '13px', fontWeight: '900', color: 'var(--price-blue)' }}>🏛️ 知能化された市場指標</p>
         <p style={{ fontSize: '11px', color: 'var(--text-sub)', marginTop: '10px', lineHeight: '1.6', fontWeight: '500' }}>
-          重いものやかさばるものはネットの「実質単価」をチェック。生鮮食品は本サイトの「スーパー平均」を下回る時が買い時です。
+          サイドバーの数値は総務省・農水省の統計に基づく「日本の平均価格」です。メインカードの価格がこれを下回っていれば、Master は市場平均より賢く買い物できている証です。
         </p>
       </div>
     </div>

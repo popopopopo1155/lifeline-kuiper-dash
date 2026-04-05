@@ -308,6 +308,50 @@ app.get('/api/keepa', async (req, res) => {
   }
 });
 
+// --- ADMIN: LINK HEALTH WATCHDOG --- v6.80 🏮
+app.get('/api/admin/check-link', async (req, res) => {
+  const { url } = req.query;
+  if (!url) return res.status(400).json({ error: 'URL is required' });
+
+  try {
+    const stealthHeaders = {
+      'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0.0.0 Safari/537.36',
+      'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8',
+      'Accept-Language': 'ja,en-US;q=0.9,en;q=0.8',
+      'Cache-Control': 'no-cache',
+      'Pragma': 'no-cache',
+      'Referer': 'https://www.google.com/'
+    };
+
+    const response = await axios.get(url, {
+      headers: stealthHeaders,
+      timeout: 8000, 
+      validateStatus: () => true 
+    });
+
+    if (response.status === 404) {
+      return res.json({ status: 'broken', reason: '404 Not Found' });
+    }
+
+    const html = response.data;
+    
+    // Amazon "Dog Page" detection (Sorry! something went wrong)
+    if (url.includes('amazon.co.jp') && (html.includes('申し訳ございません') || html.includes('something went wrong') || html.includes('dog of Amazon'))) {
+      return res.json({ status: 'broken', reason: 'Amazon Dog Page (Dead)' });
+    }
+
+    // Rakuten "Not Found" / "Under Construction" detection
+    if (url.includes('rakuten.co.jp') && (html.includes('ページが表示できません') || html.includes('一致する商品は見つかりませんでした'))) {
+      return res.json({ status: 'broken', reason: 'Rakuten Page Missing' });
+    }
+
+    res.json({ status: 'ok', responseCode: response.status });
+  } catch (error) {
+    console.error('Watchdog Error:', error.message);
+    res.json({ status: 'unknown', reason: error.message });
+  }
+});
+
 app.post('/api/ai/advice', async (req, res) => {
   const { householdSize, items } = req.body;
   if (!process.env.GEMINI_API_KEY) return res.status(500).json({ error: 'AI key missing' });

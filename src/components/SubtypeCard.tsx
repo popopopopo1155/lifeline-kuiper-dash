@@ -2,7 +2,8 @@ import React, { useState } from 'react';
 import type { Subtype, GenreGroup, Product } from '../types';
 import { analyzePriceTrend } from '../api/priceAnalysis';
 import { useAdmin } from '../contexts/AdminContext';
-import { ArrowUp, ArrowDown } from 'lucide-react';
+import { useLinkChecker } from '../hooks/useLinkChecker';
+import { ArrowUp, ArrowDown, Activity, CheckCircle2, ShieldAlert } from 'lucide-react';
 import { getNormalizedVolume } from '../api/dataUtils';
 import { DailyBottomPriceControl } from './DailyBottomPriceControl';
 import { wrapAma, wrapRaku } from '../data/mockData';
@@ -16,7 +17,8 @@ interface SubtypeCardProps {
 export const SubtypeCard: React.FC<SubtypeCardProps> = ({ subtype, group, unitType }) => {
   const [isExpanded, setIsExpanded] = useState(false);
   const [editingProduct, setEditingProduct] = useState<Product | null>(null);
-  const { isAdmin, saveOverride, saveOrder } = useAdmin();
+  const { isAdmin, saveOverride, saveOrder, linkHealth } = useAdmin();
+  const { scanLinks, isScanning, progress } = useLinkChecker();
 
   const handleMove = (productId: string, direction: number) => {
     const currentOrder = subtype.products.map(p => p.id);
@@ -200,6 +202,44 @@ export const SubtypeCard: React.FC<SubtypeCardProps> = ({ subtype, group, unitTy
             {isExpanded ? '項目を閉じる ▲' : `最安値リストを表示 ➔`}
           </button>
 
+          {/* 🏮 Admin: Link Health Scan Control */}
+          {isAdmin && isExpanded && (
+            <div style={{ marginTop: '12px', padding: '12px', background: 'var(--bg-app)', borderRadius: '12px', border: '1px solid var(--border-main)' }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '8px' }}>
+                <span style={{ fontSize: '12px', fontWeight: '900', display: 'flex', alignItems: 'center', gap: '6px' }}>
+                  <Activity size={14} className={isScanning ? 'animate-pulse text-blue-500' : ''} />
+                  リンク健康診断 {isScanning && `(${progress.current}/${progress.total})`}
+                </span>
+                <button 
+                  onClick={() => scanLinks(subtype.products)}
+                  disabled={isScanning}
+                  style={{
+                    padding: '4px 12px',
+                    fontSize: '11px',
+                    fontWeight: '900',
+                    background: isScanning ? 'var(--border-main)' : 'var(--price-blue)',
+                    color: 'white',
+                    border: 'none',
+                    borderRadius: '8px',
+                    cursor: isScanning ? 'default' : 'pointer'
+                  }}
+                >
+                  {isScanning ? '隠密スキャン中...' : '一括健康診断を開始'}
+                </button>
+              </div>
+              {isScanning && (
+                <div style={{ height: '4px', background: 'var(--border-main)', borderRadius: '2px', overflow: 'hidden' }}>
+                  <div style={{ 
+                    height: '100%', 
+                    background: 'var(--price-blue)', 
+                    width: `${(progress.current / progress.total) * 100}%`,
+                    transition: 'width 0.3s'
+                  }} />
+                </div>
+              )}
+            </div>
+          )}
+
           {isExpanded && (
             <div style={{ marginTop: '16px', display: 'flex', flexDirection: 'column', gap: '8px' }}>
               {displayProducts.map((p, idx) => (
@@ -237,6 +277,22 @@ export const SubtypeCard: React.FC<SubtypeCardProps> = ({ subtype, group, unitTy
                         <span style={{ marginLeft: '6px', opacity: 0.7 }}>({p.volume}{p.unit})</span>
                       </span>
                     </div>
+
+                    {/* 🏮 Link Health Status Badge */}
+                    {isAdmin && linkHealth[p.id] && (
+                      <div style={{ 
+                        marginTop: '4px', 
+                        fontSize: '10px', 
+                        fontWeight: 'bold',
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: '4px',
+                        color: linkHealth[p.id].status === 'broken' ? 'var(--signal-red)' : (linkHealth[p.id].status === 'ok' ? 'var(--signal-green)' : 'var(--text-sub)')
+                      }}>
+                        {linkHealth[p.id].status === 'broken' ? <ShieldAlert size={12} /> : (linkHealth[p.id].status === 'ok' ? <CheckCircle2 size={12} /> : null)}
+                        {linkHealth[p.id].status === 'broken' ? `死を検知: ${linkHealth[p.id].reason}` : (linkHealth[p.id].status === 'ok' ? '健常' : '未診断')}
+                      </div>
+                    )}
                   </div>
                   <div style={{ textAlign: 'right', display: 'flex', alignItems: 'center', gap: '8px' }}>
                     

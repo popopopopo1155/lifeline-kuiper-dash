@@ -189,6 +189,72 @@ app.post('/api/ai/advice', async (req, res) => {
   } catch (error) { res.status(500).json({ error: 'AI Advice failed' }); }
 });
 
-app.get('/api/manual/items', (req, res) => res.json([]));
+app.get('/api/admin/check-link', async (req, res) => {
+  const { url } = req.query;
+  if (!url) return res.status(400).json({ error: 'URL is required' });
+
+  // 🏮 [STEALTH PROTOCOL] 
+  const isAmazon = url.includes('amazon.co.jp');
+  const isRakuten = url.includes('rakuten.co.jp');
+  
+  const headers = {
+    'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36',
+    'Accept-Language': 'ja,en-US;q=0.9,en;q=0.8',
+    'Referer': isAmazon ? 'https://www.amazon.co.jp/' : (isRakuten ? 'https://www.rakuten.co.jp/' : 'https://www.google.com/')
+  };
+
+  try {
+    const response = await axios.get(url, { 
+      headers, 
+      timeout: 10000,
+      maxRedirects: 5,
+      validateStatus: () => true // 🏮 404 等のエラーコード自体も中身を検証するためにキャッチする
+    });
+
+    const html = response.data;
+    if (typeof html !== 'string') {
+      return res.json({ status: 'unknown', reason: 'Response is not HTML' });
+    }
+
+    // 🏮 [DEATH DETECTION FINGERPRINTS] Masterからの証拠に基づく判定
+    let isBroken = false;
+    let reason = '';
+
+    if (isAmazon) {
+      if (html.includes('何かお探しですか？') || html.includes('有効なページではないか')) {
+        isBroken = true;
+        reason = 'Amazon: Page Not Found (Dog Page)';
+      } else if (response.status === 404) {
+        isBroken = true; // 完全なる404
+        reason = 'Amazon: 404 Not Found';
+      }
+    } else if (isRakuten) {
+      if (html.includes('ページが表示できません') || html.includes('ショップは改装中です')) {
+        isBroken = true;
+        reason = 'Rakuten: Page/Shop Not Accessible';
+      } else if (response.status === 404) {
+        isBroken = true;
+        reason = 'Rakuten: 404 Not Found';
+      }
+    } else {
+      // General check for common 404 patterns
+      if (response.status === 404) {
+        isBroken = true;
+        reason = 'General: 404 Not Found';
+      }
+    }
+
+    res.json({ 
+      status: isBroken ? 'broken' : 'ok', 
+      reason,
+      httpStatus: response.status,
+      lastChecked: Date.now()
+    });
+
+  } catch (error) {
+    console.error('Link Check Error:', error.message);
+    res.json({ status: 'broken', reason: `Network/Fetch Error: ${error.message}`, lastChecked: Date.now() });
+  }
+});
 
 export default app;

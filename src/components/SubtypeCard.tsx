@@ -404,7 +404,7 @@ export const SubtypeCard: React.FC<SubtypeCardProps> = ({ subtype, group, unitTy
                 </div>
                 <div>
                   <label style={{ fontSize: '12px', fontWeight: 'bold', color: '#64748b' }}>
-                    {unitType === '100m' ? 'ロール数' : `重量/容量 (${unitType})`}
+                    {unitType === '100m' ? 'ロール数' : (unitType === '100組' ? 'パック数' : `重量/容量 (${unitType})`)}
                   </label>
                   <input 
                     type="number" 
@@ -470,11 +470,22 @@ export const SubtypeCard: React.FC<SubtypeCardProps> = ({ subtype, group, unitTy
                       />
                     </div>
                   </div>
-                  <div style={{ marginTop: '12px', padding: '8px', background: 'white', borderRadius: '8px', border: '1px solid #e2e8f0' }}>
-                    <div style={{ fontSize: '10px', color: 'var(--text-sub)' }}>自動換算結果 (単位: 100組):</div>
-                    <div style={{ fontSize: '14px', fontWeight: '900', color: 'var(--price-blue)' }}>
-                      {editingProduct.volume} パック × {editingProduct.setsPerPack || 0} 組 ＝ {((editingProduct.setsPerPack || 0) * editingProduct.volume / 100).toFixed(1)} ユニット
+                  <div style={{ marginTop: '12px' }}>
+                    <label style={{ fontSize: '10px', fontWeight: 'bold', color: '#64748b' }}>パック数 (パック)</label>
+                    <input 
+                      type="number" 
+                      placeholder="例: 40"
+                      value={editingProduct.volume || ''}
+                      onChange={(e) => setEditingProduct({ ...editingProduct, volume: Number(e.target.value) })}
+                      style={{ width: '100%', padding: '8px', border: '1px solid var(--price-blue)', borderRadius: '6px', fontSize: '12px', marginTop: '4px' }}
+                    />
+                  </div>
+                  <div style={{ marginTop: '12px', padding: '12px', background: 'white', borderRadius: '8px', border: '2px solid var(--price-blue)', boxShadow: '0 4px 6px -1px rgba(37, 99, 235, 0.1)' }}>
+                    <div style={{ fontSize: '10px', color: 'var(--text-sub)', fontWeight: 'bold' }}>🏮 最終単価換算結果:</div>
+                    <div style={{ fontSize: '16px', fontWeight: '900', color: 'var(--price-blue)', marginTop: '4px' }}>
+                      {editingProduct.volume} パック × {editingProduct.setsPerPack || 0} 組 ＝ <span style={{ textDecoration: 'underline' }}>{((editingProduct.setsPerPack || 0) * editingProduct.volume / 100).toFixed(1)} ユニット</span>
                     </div>
+                    <div style={{ fontSize: '9px', color: '#64748b', marginTop: '4px' }}>※この数値に基づき「100組あたりの単価」を算出します</div>
                   </div>
                 </div>
               )}

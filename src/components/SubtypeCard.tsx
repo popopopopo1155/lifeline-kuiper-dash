@@ -446,9 +446,19 @@ export const SubtypeCard: React.FC<SubtypeCardProps> = ({ subtype, group, unitTy
               {unitType === '100組' && (
                 <div style={{ padding: '12px', background: 'var(--bg-app)', borderRadius: '12px', border: '1px dashed var(--price-blue)' }}>
                   <label style={{ fontSize: '12px', fontWeight: '900', color: 'var(--price-blue)', display: 'flex', alignItems: 'center', gap: '4px' }}>
-                    📏 スマート計算機 (100組単価換算用)
+                    📏 ティッシュ計算機 (2枚 ＝ 1組 換算対応)
                   </label>
                   <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px', marginTop: '8px' }}>
+                    <div>
+                      <label style={{ fontSize: '10px', fontWeight: 'bold', color: '#64748b' }}>1パックの枚数 (枚)</label>
+                      <input 
+                        type="number" 
+                        placeholder="300, 400等"
+                        value={(editingProduct.setsPerPack || 0) * 2 || ''}
+                        onChange={(e) => setEditingProduct({ ...editingProduct, setsPerPack: Number(e.target.value) / 2 })}
+                        style={{ width: '100%', padding: '8px', border: '1px solid #cbd5e1', borderRadius: '6px', fontSize: '12px' }}
+                      />
+                    </div>
                     <div>
                       <label style={{ fontSize: '10px', fontWeight: 'bold', color: '#64748b' }}>1パックの組数 (組)</label>
                       <input 
@@ -459,11 +469,11 @@ export const SubtypeCard: React.FC<SubtypeCardProps> = ({ subtype, group, unitTy
                         style={{ width: '100%', padding: '8px', border: '1px solid var(--price-blue)', borderRadius: '6px', fontSize: '12px' }}
                       />
                     </div>
-                    <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
-                      <div style={{ fontSize: '10px', color: 'var(--text-sub)' }}>自動換算結果:</div>
-                      <div style={{ fontSize: '13px', fontWeight: '900', color: 'var(--text-main)' }}>
-                        {((editingProduct.setsPerPack || 0) * editingProduct.volume / 100).toFixed(0)} x 100組
-                      </div>
+                  </div>
+                  <div style={{ marginTop: '12px', padding: '8px', background: 'white', borderRadius: '8px', border: '1px solid #e2e8f0' }}>
+                    <div style={{ fontSize: '10px', color: 'var(--text-sub)' }}>自動換算結果 (単位: 100組):</div>
+                    <div style={{ fontSize: '14px', fontWeight: '900', color: 'var(--price-blue)' }}>
+                      {editingProduct.volume} パック × {editingProduct.setsPerPack || 0} 組 ＝ {((editingProduct.setsPerPack || 0) * editingProduct.volume / 100).toFixed(1)} ユニット
                     </div>
                   </div>
                 </div>

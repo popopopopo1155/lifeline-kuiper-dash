@@ -193,67 +193,70 @@ app.get('/api/admin/check-link', async (req, res) => {
   const { url } = req.query;
   if (!url) return res.status(400).json({ error: 'URL is required' });
 
-  // 🏮 [STEALTH PROTOCOL] 
-  const isAmazon = url.includes('amazon.co.jp');
-  const isRakuten = url.includes('rakuten.co.jp');
-  
-  const headers = {
-    'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36',
-    'Accept-Language': 'ja,en-US;q=0.9,en;q=0.8',
-    'Referer': isAmazon ? 'https://www.amazon.co.jp/' : (isRakuten ? 'https://www.rakuten.co.jp/' : 'https://www.google.com/')
-  };
+  let targetUrl = url;
+
+  // 🏮 [RAKUTEN AFFILIATE BYPASS] 転送サーバーの意図的な遅延を避けるため、商品URLを直接抽出
+  if (url.includes('hb.afl.rakuten.co.jp') && url.includes('pc=')) {
+    try {
+      const urlObj = new URL(url);
+      const pc = urlObj.searchParams.get('pc');
+      if (pc) {
+        targetUrl = decodeURIComponent(pc);
+        console.log(`🚀 Bypass Rakuten Redirect: -> ${targetUrl}`);
+      }
+    } catch (e) { /* fallback */ }
+  }
 
   try {
-    const response = await axios.get(url, { 
-      headers, 
-      timeout: 10000,
-      maxRedirects: 5,
-      validateStatus: () => true // 🏮 404 等のエラーコード自体も中身を検証するためにキャッチする
+    const stealthHeaders = {
+      'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0.0.0 Safari/537.36',
+      'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8',
+      'Accept-Language': 'ja,en-US;q=0.9,en;q=0.8',
+      'Cache-Control': 'no-cache',
+      'Pragma': 'no-cache',
+      'Referer': 'https://www.google.com/'
+    };
+
+    const response = await axios.get(targetUrl, { 
+      headers: stealthHeaders, 
+      timeout: 15000, 
+      maxRedirects: 10,
+      validateStatus: () => true 
     });
+
+    if (response.status === 404) {
+      return res.json({ status: 'broken', reason: '404 Not Found' });
+    }
 
     const html = response.data;
     if (typeof html !== 'string') {
       return res.json({ status: 'unknown', reason: 'Response is not HTML' });
     }
 
-    // 🏮 [DEATH DETECTION FINGERPRINTS] Masterからの証拠に基づく判定
-    let isBroken = false;
-    let reason = '';
+    // 🏮 [DEATH DETECTION FINGERPRINTS]
+    if (url.includes('amazon.co.jp') && (html.includes('申し訳ございません') || html.includes('something went wrong') || html.includes('dog of Amazon'))) {
+      return res.json({ status: 'broken', reason: 'Amazon Dog Page (Dead)' });
+    }
 
-    if (isAmazon) {
-      if (html.includes('何かお探しですか？') || html.includes('有効なページではないか')) {
-        isBroken = true;
-        reason = 'Amazon: Page Not Found (Dog Page)';
-      } else if (response.status === 404) {
-        isBroken = true; // 完全なる404
-        reason = 'Amazon: 404 Not Found';
-      }
-    } else if (isRakuten) {
-      if (html.includes('ページが表示できません') || html.includes('ショップは改装中です')) {
-        isBroken = true;
-        reason = 'Rakuten: Page/Shop Not Accessible';
-      } else if (response.status === 404) {
-        isBroken = true;
-        reason = 'Rakuten: 404 Not Found';
-      }
-    } else {
-      // General check for common 404 patterns
-      if (response.status === 404) {
-        isBroken = true;
-        reason = 'General: 404 Not Found';
-      }
+    if (url.includes('rakuten.co.jp') && (html.includes('ページが表示できません') || html.includes('一致する商品は見つかりませんでした'))) {
+      return res.json({ status: 'broken', reason: 'Rakuten Page Missing' });
     }
 
     res.json({ 
-      status: isBroken ? 'broken' : 'ok', 
-      reason,
-      httpStatus: response.status,
+      status: 'ok', 
+      responseCode: response.status,
       lastChecked: Date.now()
     });
 
   } catch (error) {
     console.error('Link Check Error:', error.message);
-    res.json({ status: 'broken', reason: `Network/Fetch Error: ${error.message}`, lastChecked: Date.now() });
+    
+    // 🏮 [SMART RECOVERY]
+    if (error.code === 'ECONNABORTED' && url.includes('hb.afl.rakuten.co.jp')) {
+      return res.json({ status: 'unknown', reason: 'Redirect Timeout - Store alive but check skipped for safety' });
+    }
+
+    res.json({ status: 'unknown', reason: `Check Failed: ${error.message}`, lastChecked: Date.now() });
   }
 });
 

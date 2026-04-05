@@ -23,6 +23,7 @@ export interface Product {
   forecastData: number[]; // Future 7 days price points
   lengthPerRoll?: number; // Optional metadata for smart calculation (meters per roll)
   setsPerPack?: number;   // Optional metadata for smart calculation (sets per pack for tissues)
+  dosagePerWash?: number; // Optional metadata for smart calculation (use amount per wash for detergent)
 }
 
 export interface Subtype {

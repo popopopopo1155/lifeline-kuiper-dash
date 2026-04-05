@@ -31,7 +31,7 @@ export const extractQuantity = (name: string): number => {
  * ジャンルに応じた「標準単位」に変換したボリュームを算出して返す
  * 例: 米(1kg単位), 水(1本単位), 洗剤(100g単位), TP(100m単位)
  */
-export const getNormalizedVolume = (name: string, unitType: string, pVolume?: number, pUnit?: string, lengthPerRoll?: number, setsPerPack?: number): number => {
+export const getNormalizedVolume = (name: string, unitType: string, pVolume?: number, pUnit?: string, lengthPerRoll?: number, setsPerPack?: number, dosagePerWash?: number): number => {
   // 1. 基本ボリューム情報の取得
   const volInfo = (pVolume !== undefined && pUnit !== undefined) 
     ? { value: pVolume, unit: pUnit }
@@ -61,7 +61,7 @@ export const getNormalizedVolume = (name: string, unitType: string, pVolume?: nu
       if (unit === 'ロール' || unit === 'r' || unit === 'roll' || unit === '') {
         // 1. 引数として明示的に「長さ」が渡されている場合は最優先
         let lpr = (lengthPerRoll && lengthPerRoll > 0) ? lengthPerRoll : 0;
-        // ... (省略)
+        
         if (lpr === 0) {
           const mMatch = name.match(/(\d+)\s*m/i);
           lpr = mMatch ? parseInt(mMatch[1], 10) : 0;
@@ -93,6 +93,11 @@ export const getNormalizedVolume = (name: string, unitType: string, pVolume?: nu
       return totalValue / 100; 
     case '1wash':
     case '1回':
+      // 🏮 [SMART CALC] 洗剤用：総量 / 1回あたりの使用量
+      if (dosagePerWash && dosagePerWash > 0) {
+        if (unit === 'kg' || unit === 'l') return (totalValue * 1000) / dosagePerWash;
+        return totalValue / dosagePerWash;
+      }
       if (unit === 'g') return totalValue / 20; 
       if (unit === 'ml' || unit === 'mℓ') {
         const isCompact = /ZERO|濃厚|コンパクト|ナノックス|NANOX/i.test(name);

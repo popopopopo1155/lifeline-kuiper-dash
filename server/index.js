@@ -313,6 +313,20 @@ app.get('/api/admin/check-link', async (req, res) => {
   const { url } = req.query;
   if (!url) return res.status(400).json({ error: 'URL is required' });
 
+  let targetUrl = url;
+
+  // 🏮 [RAKUTEN AFFILIATE BYPASS] 転送サーバーの意図的な遅延を避けるため、商品URLを直接抽出
+  if (url.includes('hb.afl.rakuten.co.jp') && url.includes('pc=')) {
+    try {
+      const urlObj = new URL(url);
+      const pc = urlObj.searchParams.get('pc');
+      if (pc) {
+        targetUrl = decodeURIComponent(pc);
+        console.log(`🚀 Bypass Rakuten Redirect: -> ${targetUrl}`);
+      }
+    } catch (e) { /* fallback to original */ }
+  }
+
   try {
     const stealthHeaders = {
       'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0.0.0 Safari/537.36',
@@ -323,7 +337,7 @@ app.get('/api/admin/check-link', async (req, res) => {
       'Referer': 'https://www.google.com/'
     };
 
-    const response = await axios.get(url, {
+    const response = await axios.get(targetUrl, {
       headers: stealthHeaders,
       timeout: 15000, // 🏮 [PATIENCE] 転送の多い楽天リンク等のために 15秒へ延長
       maxRedirects: 10,

@@ -356,7 +356,7 @@ app.get('/api/admin/check-link', async (req, res) => {
     }
 
     // Rakuten "Not Found" / "Under Construction" detection
-    if (url.includes('rakuten.co.jp') && (html.includes('ページが表示できません') || html.includes('一致する商品は見つかりませんでした'))) {
+    if (url.includes('rakuten.co.jp') && (html.includes('ページが表示できません') || html.includes('一致する商品は見つかりませんでした') || html.includes('item_error'))) {
       return res.json({ status: 'broken', reason: 'Rakuten Page Missing' });
     }
 

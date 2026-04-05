@@ -278,44 +278,49 @@ export const mockGenres: (Genre & { subtypes: (any & SubtypeMetadata)[] })[] = [
         excludeKeywords: ['ダブル', 'W', '定期便', 'ふるさと納税'],
         products: [
           {
-            id: 'tp-s-noshiro-100m-96',
-            name: '[96ロール/100mシングル] 能代製紙 ホワイト - ¥5,480 (100m¥57)',
-            price: 5480, shipping: 0, points: 55, volume: 96, unit: 'roll', baseUnit: '100m',
-            store: 'rakuten', rakutenCode: 'noshiroseishi:4958968-017-s', popularity: 100,
-            affiliateUrl: wrapRaku('https://item.rakuten.co.jp/noshiroseishi/4958968-017-s/'),
-            forecastData: [5480, 5480, 5480, 5480, 5480, 5480, 5480]
+            id: 'tp-s-penguin-250m-32',
+            name: '[32ロール/250m単] ペンギン 芯なし超ロング 5倍巻き - ¥3,800 (100m¥47.5)',
+            price: 3800, shipping: 0, points: 38, volume: 32, unit: 'roll', baseUnit: '100m',
+            lengthPerRoll: 250,
+            store: 'amazon', asin: 'B0853FH8FN', popularity: 100,
+            affiliateUrl: wrapAma('https://www.amazon.co.jp/dp/B0853FH8FN'),
+            forecastData: [3800, 3800, 3800, 3800, 3800, 3800, 3800]
           },
           {
-            id: 'tp-s-coreless-170m-48',
-            name: '[48ロール/170mシングル] 芯なし 超長巻き - ¥5,280 (100m¥64)',
-            price: 5280, shipping: 0, points: 52, volume: 81.6, unit: 'roll', baseUnit: '100m',
-            store: 'amazon', asin: 'B005T65Z6A', popularity: 98,
+            id: 'tp-s-it-tko-150m-48',
+            name: '[48ロール/150m単] イットコ 芯なし 150m シングル - ¥4,500 (100m¥62.5)',
+            price: 4500, shipping: 0, points: 45, volume: 48, unit: 'roll', baseUnit: '100m',
+            lengthPerRoll: 150,
+            store: 'rakuten', rakutenCode: 'itoman:10110003', popularity: 98,
+            affiliateUrl: wrapRaku('https://item.rakuten.co.jp/itoman/10110003/'),
+            forecastData: [4500, 4500, 4500, 4500, 4500, 4500, 4500]
+          },
+          {
+            id: 'tp-s-core-use-170m-48',
+            name: '[48ロール/170m単] 芯なし コアユース シングル - ¥5,280 (100m¥64.7)',
+            price: 5280, shipping: 0, points: 52, volume: 48, unit: 'roll', baseUnit: '100m',
+            lengthPerRoll: 170,
+            store: 'amazon', asin: 'B005T65Z6A', popularity: 96,
             affiliateUrl: wrapAma('https://www.amazon.co.jp/dp/B005T65Z6A'),
             forecastData: [5280, 5280, 5280, 5280, 5280, 5280, 5280]
           },
           {
-            id: 'tp-s-coreless-130m-48',
-            name: '[48ロール/130mシングル] 芯なし 再生紙 - ¥4,580 (100m¥73)',
-            price: 4580, shipping: 0, points: 46, volume: 62.4, unit: 'roll', baseUnit: '100m',
-            store: 'amazon', asin: 'B005T65SGC', popularity: 95,
-            affiliateUrl: wrapAma('https://www.amazon.co.jp/dp/B005T65SGC'),
-            forecastData: [4580, 4580, 4580, 4580, 4580, 4580, 4580]
+            id: 'tp-s-eco-single-100m-60',
+            name: '[60ロール/100m単] エコ・シングル 再生紙 100m - ¥4,500 (100m¥75.0)',
+            price: 4500, shipping: 0, points: 45, volume: 60, unit: 'roll', baseUnit: '100m',
+            lengthPerRoll: 100,
+            store: 'rakuten', rakutenCode: 'noshiroseishi:10000004', popularity: 93,
+            affiliateUrl: wrapRaku('https://item.rakuten.co.jp/noshiroseishi/10000004/'),
+            forecastData: [4500, 4500, 4500, 4500, 4500, 4500, 4500]
           },
           {
-            id: 'tp-s-scottie-2x-100m-12',
-            name: '[12ロール/100mシングル] スコッティ フラワーパック 2倍巻き - ¥1,080 (100m¥83)',
-            price: 1080, shipping: 0, points: 11, volume: 12, unit: 'roll', baseUnit: '100m',
-            store: 'amazon', asin: 'B0CLRVFYH4', popularity: 92,
-            affiliateUrl: wrapAma('https://www.amazon.co.jp/dp/B0CLRVFYH4'),
-            forecastData: [1080, 1080, 1080, 1080, 1080, 1080, 1080]
-          },
-          {
-            id: 'tp-s-nepi-2x-100m-12',
-            name: '[12ロール/100mシングル] ネピア ネピネピ 2倍巻き - ¥1,050 (100m¥87)',
-            price: 1050, shipping: 0, points: 10, volume: 12, unit: 'roll', baseUnit: '100m',
-            store: 'amazon', asin: 'B0797MG3S1', popularity: 90,
-            affiliateUrl: wrapAma('https://www.amazon.co.jp/dp/B0797MG3S1'),
-            forecastData: [1050, 1050, 1050, 1050, 1050, 1050, 1050]
+            id: 'tp-s-hakubasha-100m-60',
+            name: '[60ロール/100m単] 白馬車ソフト シングル 100m - ¥4,830 (100m¥80.5)',
+            price: 4830, shipping: 0, points: 48, volume: 60, unit: 'roll', baseUnit: '100m',
+            lengthPerRoll: 100,
+            store: 'rakuten', rakutenCode: 'e-fujix:10000005', popularity: 90,
+            affiliateUrl: wrapRaku('https://item.rakuten.co.jp/e-fujix/10000005/'),
+            forecastData: [4830, 4830, 4830, 4830, 4830, 4830, 4830]
           }
         ]
 

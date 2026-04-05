@@ -278,49 +278,49 @@ export const mockGenres: (Genre & { subtypes: (any & SubtypeMetadata)[] })[] = [
         excludeKeywords: ['ダブル', 'W', '定期便', 'ふるさと納税'],
         products: [
           {
-            id: 'tp-s-penguin-250m-32',
-            name: '[32ロール/250m単] ペンギン 芯なし超ロング 5倍巻き - ¥3,800 (100m¥47.5)',
-            price: 3800, shipping: 0, points: 38, volume: 32, unit: 'roll', baseUnit: '100m',
-            lengthPerRoll: 250,
-            store: 'amazon', asin: 'B0853FH8FN', popularity: 100,
-            affiliateUrl: wrapAma('https://www.amazon.co.jp/dp/B0853FH8FN'),
-            forecastData: [3800, 3800, 3800, 3800, 3800, 3800, 3800]
+            id: 'tp-s-coreless-170m-48',
+            name: '[48ロール/170m単] 芯なし 超長巻き コアユース - ¥5,480 (100m¥67)',
+            price: 5480, shipping: 0, points: 55, volume: 48, unit: 'roll', baseUnit: '100m',
+            lengthPerRoll: 170,
+            store: 'amazon', asin: 'B005T65Z6A', popularity: 100,
+            affiliateUrl: wrapAma('https://www.amazon.co.jp/dp/B005T65Z6A'),
+            forecastData: [5480, 5480, 5480, 5480, 5480, 5480, 5480]
           },
           {
             id: 'tp-s-it-tko-150m-48',
-            name: '[48ロール/150m単] イットコ 芯なし 150m シングル - ¥4,500 (100m¥62.5)',
-            price: 4500, shipping: 0, points: 45, volume: 48, unit: 'roll', baseUnit: '100m',
+            name: '[48ロール/150m単] イットコ 芯なし シングル 150m - ¥4,580 (100m¥63)',
+            price: 4580, shipping: 0, points: 46, volume: 48, unit: 'roll', baseUnit: '100m',
             lengthPerRoll: 150,
             store: 'rakuten', rakutenCode: 'itoman:10110003', popularity: 98,
             affiliateUrl: wrapRaku('https://item.rakuten.co.jp/itoman/10110003/'),
-            forecastData: [4500, 4500, 4500, 4500, 4500, 4500, 4500]
-          },
-          {
-            id: 'tp-s-core-use-170m-48',
-            name: '[48ロール/170m単] 芯なし コアユース シングル - ¥5,280 (100m¥64.7)',
-            price: 5280, shipping: 0, points: 52, volume: 48, unit: 'roll', baseUnit: '100m',
-            lengthPerRoll: 170,
-            store: 'amazon', asin: 'B005T65Z6A', popularity: 96,
-            affiliateUrl: wrapAma('https://www.amazon.co.jp/dp/B005T65Z6A'),
-            forecastData: [5280, 5280, 5280, 5280, 5280, 5280, 5280]
+            forecastData: [4580, 4580, 4580, 4580, 4580, 4580, 4580]
           },
           {
             id: 'tp-s-eco-single-100m-60',
-            name: '[60ロール/100m単] エコ・シングル 再生紙 100m - ¥4,500 (100m¥75.0)',
-            price: 4500, shipping: 0, points: 45, volume: 60, unit: 'roll', baseUnit: '100m',
+            name: '[60ロール/100m単] エコ・シングル 再生紙 100m - ¥4,850 (100m¥80)',
+            price: 4850, shipping: 0, points: 48, volume: 60, unit: 'roll', baseUnit: '100m',
             lengthPerRoll: 100,
-            store: 'rakuten', rakutenCode: 'noshiroseishi:10000004', popularity: 93,
+            store: 'rakuten', rakutenCode: 'noshiroseishi:10000004', popularity: 95,
             affiliateUrl: wrapRaku('https://item.rakuten.co.jp/noshiroseishi/10000004/'),
-            forecastData: [4500, 4500, 4500, 4500, 4500, 4500, 4500]
+            forecastData: [4850, 4850, 4850, 4850, 4850, 4850, 4850]
           },
           {
             id: 'tp-s-hakubasha-100m-60',
-            name: '[60ロール/100m単] 白馬車ソフト シングル 100m - ¥4,830 (100m¥80.5)',
-            price: 4830, shipping: 0, points: 48, volume: 60, unit: 'roll', baseUnit: '100m',
+            name: '[60ロール/100m単] 白馬車ソフト シングル 100m - ¥4,980 (100m¥83)',
+            price: 4980, shipping: 0, points: 50, volume: 60, unit: 'roll', baseUnit: '100m',
             lengthPerRoll: 100,
-            store: 'rakuten', rakutenCode: 'e-fujix:10000005', popularity: 90,
+            store: 'rakuten', rakutenCode: 'e-fujix:10000005', popularity: 92,
             affiliateUrl: wrapRaku('https://item.rakuten.co.jp/e-fujix/10000005/'),
-            forecastData: [4830, 4830, 4830, 4830, 4830, 4830, 4830]
+            forecastData: [4980, 4980, 4980, 4980, 4980, 4980, 4980]
+          },
+          {
+            id: 'tp-s-scottie-3x-75m-12',
+            name: '[12ロール/75m単] スコッティ フラワーパック 3倍巻き - ¥1,180 (100m¥131)',
+            price: 1180, shipping: 0, points: 12, volume: 12, unit: 'roll', baseUnit: '100m',
+            lengthPerRoll: 75,
+            store: 'amazon', asin: 'B0CQLM5Q1J', popularity: 90,
+            affiliateUrl: wrapAma('https://www.amazon.co.jp/dp/B0CQLM5Q1J'),
+            forecastData: [1180, 1180, 1180, 1180, 1180, 1180, 1180]
           }
         ]
 

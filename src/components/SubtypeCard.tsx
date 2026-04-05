@@ -50,13 +50,13 @@ export const SubtypeCard: React.FC<SubtypeCardProps> = ({ subtype, group, unitTy
   const displayProducts = [...subtype.products].slice(0, 10);
   const bestProduct = displayProducts[0];
   
-  const bestNormalizedVol = bestProduct ? getNormalizedVolume(bestProduct.name, unitType, bestProduct.volume, bestProduct.unit, bestProduct.lengthPerRoll) : 1;
+  const bestNormalizedVol = bestProduct ? getNormalizedVolume(bestProduct.name, unitType, bestProduct.volume, bestProduct.unit, bestProduct.lengthPerRoll, bestProduct.setsPerPack) : 1;
   const minPrice = bestProduct 
     ? Math.round((bestProduct.price + bestProduct.shipping - bestProduct.points) / Math.max(0.1, bestNormalizedVol || 1)) 
     : 0;
   
   const allUnitPrices = subtype.products.map((p: Product) => {
-    const normVol = getNormalizedVolume(p.name, unitType, p.volume, p.unit, p.lengthPerRoll);
+    const normVol = getNormalizedVolume(p.name, unitType, p.volume, p.unit, p.lengthPerRoll, p.setsPerPack);
     return Math.round((p.price + p.shipping - p.points) / Math.max(0.1, normVol || 1));
   });
 
@@ -436,6 +436,33 @@ export const SubtypeCard: React.FC<SubtypeCardProps> = ({ subtype, group, unitTy
                       <div style={{ fontSize: '10px', color: 'var(--text-sub)' }}>自動換算結果:</div>
                       <div style={{ fontSize: '13px', fontWeight: '900', color: 'var(--text-main)' }}>
                         {((editingProduct.lengthPerRoll || 0) * editingProduct.volume / 100).toFixed(2)} x 100m
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              )}
+
+              {/* 🏮 Tissue Smart Calculator: Sets per pack */}
+              {unitType === '100組' && (
+                <div style={{ padding: '12px', background: 'var(--bg-app)', borderRadius: '12px', border: '1px dashed var(--price-blue)' }}>
+                  <label style={{ fontSize: '12px', fontWeight: '900', color: 'var(--price-blue)', display: 'flex', alignItems: 'center', gap: '4px' }}>
+                    📏 スマート計算機 (100組単価換算用)
+                  </label>
+                  <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px', marginTop: '8px' }}>
+                    <div>
+                      <label style={{ fontSize: '10px', fontWeight: 'bold', color: '#64748b' }}>1パックの組数 (組)</label>
+                      <input 
+                        type="number" 
+                        placeholder="150, 200等"
+                        value={editingProduct.setsPerPack || ''}
+                        onChange={(e) => setEditingProduct({ ...editingProduct, setsPerPack: Number(e.target.value) })}
+                        style={{ width: '100%', padding: '8px', border: '1px solid var(--price-blue)', borderRadius: '6px', fontSize: '12px' }}
+                      />
+                    </div>
+                    <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
+                      <div style={{ fontSize: '10px', color: 'var(--text-sub)' }}>自動換算結果:</div>
+                      <div style={{ fontSize: '13px', fontWeight: '900', color: 'var(--text-main)' }}>
+                        {((editingProduct.setsPerPack || 0) * editingProduct.volume / 100).toFixed(0)} x 100組
                       </div>
                     </div>
                   </div>

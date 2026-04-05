@@ -31,7 +31,7 @@ export const extractQuantity = (name: string): number => {
  * ジャンルに応じた「標準単位」に変換したボリュームを算出して返す
  * 例: 米(1kg単位), 水(1本単位), 洗剤(100g単位), TP(100m単位)
  */
-export const getNormalizedVolume = (name: string, unitType: string, pVolume?: number, pUnit?: string, lengthPerRoll?: number): number => {
+export const getNormalizedVolume = (name: string, unitType: string, pVolume?: number, pUnit?: string, lengthPerRoll?: number, setsPerPack?: number): number => {
   // 1. 基本ボリューム情報の取得
   const volInfo = (pVolume !== undefined && pUnit !== undefined) 
     ? { value: pVolume, unit: pUnit }
@@ -61,14 +61,11 @@ export const getNormalizedVolume = (name: string, unitType: string, pVolume?: nu
       if (unit === 'ロール' || unit === 'r' || unit === 'roll' || unit === '') {
         // 1. 引数として明示的に「長さ」が渡されている場合は最優先
         let lpr = (lengthPerRoll && lengthPerRoll > 0) ? lengthPerRoll : 0;
-
-        // 2. 渡されていない場合は、名前から「50m」などを探す
+        // ... (省略)
         if (lpr === 0) {
           const mMatch = name.match(/(\d+)\s*m/i);
           lpr = mMatch ? parseInt(mMatch[1], 10) : 0;
         }
-        
-        // 3. 解析も失敗した場合はキーワードから推測
         if (lpr === 0) {
           if (name.includes('3倍') || name.includes('75m')) lpr = 75;
           else if (name.includes('2倍') || name.includes('50m')) lpr = 50;
@@ -77,9 +74,8 @@ export const getNormalizedVolume = (name: string, unitType: string, pVolume?: nu
           else if (name.includes('シングル')) lpr = 50;
           else lpr = 25; 
         }
-        
         const totalMeters = totalValue * lpr;
-        return totalMeters / 100; // 100m単位の数値を返す
+        return totalMeters / 100;
       }
       return totalValue;
     case '1bottle':
@@ -89,6 +85,10 @@ export const getNormalizedVolume = (name: string, unitType: string, pVolume?: nu
       return totalValue; 
     case '100sheets':
     case '100組':
+      // 🏮 [SMART CALC] ティッシュ用：組数 × パック数 / 100
+      if (setsPerPack && setsPerPack > 0) {
+        return (totalValue * setsPerPack) / 100;
+      }
       if (unit === '枚') return totalValue / 200; 
       return totalValue / 100; 
     case '1wash':

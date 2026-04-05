@@ -22,6 +22,7 @@ export interface Product {
   lastVerified?: string;
   forecastData: number[]; // Future 7 days price points
   lengthPerRoll?: number; // Optional metadata for smart calculation (meters per roll)
+  setsPerPack?: number;   // Optional metadata for smart calculation (sets per pack for tissues)
 }
 
 export interface Subtype {

@@ -264,7 +264,7 @@ input[type=range].premium-slider::-webkit-slider-thumb {
 .main-content {
   flex: 1 !important;
   min-width: 0;
-  z-index: 10; /* サイドバーより前面へ（master指示により逆転） */
+  z-index: 10;
   position: relative;
 }
 

@@ -41,7 +41,7 @@ const Footer: React.FC = () => {
     <footer style={footerStyle}>
       <div style={{ maxWidth: '1200px', margin: '0 auto', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '20px' }}>
         
-        {/* Navigation - 余計な文字を排除し、静寂を確立 */}
+        {/* Navigation */}
         <nav style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center', alignItems: 'center', gap: '24px' }}>
           {[
             { label: '運営者情報', to: '/about' },
@@ -58,7 +58,7 @@ const Footer: React.FC = () => {
           ))}
         </nav>
 
-        {/* Correct Copyright - Masterの指定通りに刻印 */}
+        {/* Copyright */}
         <div style={copyrightStyle}>
           &copy; {currentYear} 生活必需品.com
         </div>

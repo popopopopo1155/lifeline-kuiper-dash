@@ -69,6 +69,30 @@ const JournalArticle: React.FC = () => {
           </p>
         </div>
       )
+    },
+    "detergent-market": {
+      id: "detergent-market",
+      title: "洗濯用洗剤の価格推移と節約のポイント：2026年最新分析",
+      date: "2026年4月6日",
+      author: "生活必需品.com 編集部",
+      content: (
+        <div className="space-y-8">
+          <p className="text-lg leading-relaxed font-medium">
+            洗濯用洗剤や柔軟剤などの日用品は、原材料費や物流コストの変動を最も受けやすい品目の一つです。直近の統計データから読み取れる傾向と、消費者が取るべき対策をまとめました。
+          </p>
+          <h2 className="text-2xl font-bold border-l-4 border-indigo-500 pl-4 py-1">1. 原材料費の影響と店頭価格</h2>
+          <p className="font-medium">
+            世界的な界面活性剤の原材料価格の上昇に伴い、洗剤類の平均単価は緩やかな上昇傾向にあります。しかし、小売店間での競争が激しい品目でもあるため、特売や大容量パックの活用による実質的な単価削減の余地が依然として存在します。
+          </p>
+          <h2 className="text-2xl font-bold border-l-4 border-indigo-500 pl-4 py-1">2. 「1回あたり」のコスト計算</h2>
+          <p className="font-medium">
+            当サイトの価格分析では、単純な販売価格だけでなく、内容量に基づいた「単位あたり価格」を重視しています。見かけの安さに惑わされず、統計的な安値圏を把握することで、年間の日用品費を15%以上削減できる可能性があります。
+          </p>
+          <blockquote className="border-l-4 border-indigo-500 pl-6 my-10 italic text-xl font-medium" style={{ color: 'var(--text-sub)' }}>
+            「表面的な価格に惑わされず、統計に基づいた合理的な選択が家計を救います。」
+          </blockquote>
+        </div>
+      )
     }
   };
 
@@ -76,9 +100,9 @@ const JournalArticle: React.FC = () => {
 
   if (!article) {
     return (
-      <div className="min-h-screen flex items-center justify-center" style={{ background: 'var(--bg-app)', color: 'var(--text-main)' }}>
+      <div className="min-h-screen flex items-center justify-center font-bold" style={{ background: 'var(--bg-app)', color: 'var(--text-main)' }}>
         <div className="text-center">
-          <h1 className="text-4xl font-bold mb-4">404</h1>
+          <h1 className="text-4xl mb-4">404</h1>
           <p style={{ color: 'var(--text-sub)' }}>該当する記事が見つかりません</p>
           <button onClick={() => navigate('/')} className="mt-8 text-indigo-600 dark:text-indigo-400 hover:underline">ホームへ戻る</button>
         </div>
@@ -87,25 +111,21 @@ const JournalArticle: React.FC = () => {
   }
 
   return (
-    <div className="min-h-screen p-6 selection:bg-indigo-500/30" style={{ background: 'var(--bg-app)', color: 'var(--text-main)' }}>
+    <div className="min-h-screen p-6" style={{ background: 'var(--bg-app)', color: 'var(--text-main)' }}>
       <article className="max-w-3xl mx-auto py-16">
         <header className="mb-16">
           <button 
             onClick={() => navigate('/')}
-            className="mb-12 text-indigo-600 dark:text-indigo-400 hover:underline transition-colors flex items-center gap-2 text-sm font-medium"
+            className="mb-12 text-indigo-600 dark:text-indigo-400 hover:underline transition-all flex items-center gap-2 text-sm font-medium"
           >
             <span>←</span> ホームへ戻る
           </button>
           <div className="space-y-4">
-            <div className="flex items-center gap-3 text-xs tracking-widest text-indigo-500 uppercase font-bold">
-              <span className="w-8 h-[1px] bg-indigo-500"></span>
-              Strategic Analysis
-            </div>
-            <h1 className="text-4xl md:text-5xl font-bold tracking-tight" style={{ color: 'var(--text-main)' }}>
+            <h1 className="text-4xl md:text-5xl font-bold tracking-tight">
               {article.title}
             </h1>
-            <div className="flex items-center gap-4 text-sm pt-4" style={{ color: 'var(--text-sub)' }}>
-              <span className="font-medium">{article.author}</span>
+            <div className="flex items-center gap-4 text-sm pt-4 font-bold" style={{ color: 'var(--text-sub)' }}>
+              <span>{article.author}</span>
               <span className="w-1 h-1 bg-gray-300 dark:bg-zinc-800 rounded-full"></span>
               <span>{article.date}</span>
             </div>
@@ -116,13 +136,13 @@ const JournalArticle: React.FC = () => {
           {article.content}
         </div>
 
-        <footer className="mt-20 pt-12 border-t" style={{ borderColor: 'var(--border-main)' }}>
-          <div className="p-8 rounded-3xl border" style={{ background: 'var(--bg-card)', borderColor: 'var(--border-main)' }}>
-            <h3 className="font-bold mb-4 flex items-center gap-2" style={{ color: 'var(--text-main)' }}>
+        <footer className="mt-20 pt-12 border-t">
+          <div className="p-8 rounded-xl border shadow-lg" style={{ background: 'var(--bg-card)', borderColor: 'var(--border-main)' }}>
+            <h3 className="font-bold mb-4 flex items-center gap-2">
               本記事について
             </h3>
-            <p className="text-sm leading-relaxed" style={{ color: 'var(--text-sub)' }}>
-              本記事は、生活必需品.com 編集部による独自の市場分析結果を掲載しています。分析内容は公的な統計データに基づき、定期的に更新されます。無断転載・複製は固く禁じます。
+            <p className="text-sm font-medium leading-relaxed" style={{ color: 'var(--text-sub)' }}>
+              本記事は、生活必需品.com 編集部による独自の市場分析結果を掲載しています。分析内容は公的な統計データに基づき、定期的に更新されます。
             </p>
           </div>
         </footer>

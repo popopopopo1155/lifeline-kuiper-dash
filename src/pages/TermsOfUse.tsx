@@ -16,14 +16,14 @@ const TermsOfUse: React.FC = () => {
 
         <header className="mb-12">
           <h1 className="text-3xl font-bold tracking-tight mb-4 text-white">利用規約</h1>
-          <p className="text-zinc-400 text-sm italic">MasterとMarket-Slayerとの「知能の盟約」</p>
+          <p className="text-zinc-500 text-sm font-bold tracking-widest uppercase">生活必需品.com 利用規約</p>
         </header>
 
         <section className="space-y-12 leading-relaxed text-zinc-300">
           <div className="space-y-4">
             <h2 className="text-xl font-semibold text-white border-l-2 border-indigo-500 pl-4 py-1">適用範囲（Scope）</h2>
             <p>
-              本規約は、Market-Slayer（以下「当サイト」）が提供する全ての 🏮 **「経済インテリジェンス（情報提供サービス）」** の利用において、Master（利用者様）と当サイトとの間に適用される 🏮 **「盟約」** です。
+              本規約は、生活必需品.com（以下「当サイト」）が提供する全ての 🏮 **「情報提供サービス」** の利用において、利用者様と当サイトとの間に適用される 🏮 **「規約」** です。
             </p>
           </div>
 
@@ -33,14 +33,14 @@ const TermsOfUse: React.FC = () => {
               私たちは、 e-Stat 等の 🏮 **「国家統計データ」** および最新の 🏮 **「市場アルゴリズム」** を駆使して情報を提供しますが、その 🏮 **「完全性」** を物理的に保証するものではありません。
             </p>
             <p>
-              提示される 🏮 **「底値の聖域」** は、 Master が 🏮 **「意思決定」** を下すための強力な 🏮 **「盾」** ですが、 最終的な購入の執行判断は、 Master の 🏮 **「自由意志（Free Will）」** に委ねられます。
+              提示される 🏮 **「最安値基準」** は、 利用者様が 🏮 **「意思決定」** を下すための強力な 🏮 **「指標」** ですが、 最終的な購入の執行判断は、 利用者様の 🏮 **「自由意志」** に委ねられます。
             </p>
           </div>
 
           <div className="space-y-4">
             <h2 className="text-xl font-semibold text-white border-l-2 border-indigo-500 pl-4 py-1">知的財産と継承権</h2>
             <p>
-              当サイトが提示する 🏮 **「知能の継承（INTELLIGENCE INHERITANCE）」** に基づく独自のロジック、 デザイン、 および 🏮 **「空間（Aesthetics）」** は、 当サイトおよび Master の 🏮 **「共同資産」** です。 無断での 🏮 **「複製・搾取」** は固く禁じます。
+              当サイトが提示する独自のロジック、 デザイン、 および 🏮 **「空間（Aesthetics）」** は、 当サイトの資産です。 無断での 🏮 **「複製・転載」** は固く禁じます。
             </p>
           </div>
 

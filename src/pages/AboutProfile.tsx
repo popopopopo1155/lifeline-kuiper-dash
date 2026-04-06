@@ -14,26 +14,26 @@ const AboutProfile: React.FC = () => {
           <span>←</span> 経済管制塔へ戻る
         </button>
 
-        <header className="mb-12">
-          <h1 className="text-3xl font-bold tracking-tight mb-4 text-white">Market-Slayer Intelligence Bureau</h1>
-          <p className="text-zinc-400 text-sm italic">Masterの資産を守る、静かなる知能の拠点</p>
+        <header className="mb-12 text-center">
+          <h1 className="text-4xl font-black tracking-tighter mb-4 text-white">生活必需品.com</h1>
+          <p className="text-zinc-500 text-sm font-bold tracking-widest uppercase">Intelligent Household Economic Asset Protection</p>
         </header>
 
         <section className="space-y-12 leading-relaxed text-zinc-300">
           <div className="space-y-4">
-            <h2 className="text-xl font-semibold text-white border-l-2 border-indigo-500 pl-4 py-1">私たちの理念（Mission）</h2>
+            <h2 className="text-xl font-bold text-white border-l-4 border-indigo-500 pl-4 py-1">私たちの理念（Mission）</h2>
             <p>
-              Market-Slayer は、単なる価格比較サイトではありません。加速度的に上昇する 2026 年のインフレの荒波において、 Master の家計という名の 🏮 **「資産」** を、冷徹な統計データと高度な知能によって守り抜くために設立された **「経済管制塔」** です。
+              「生活必需品.com」は、加速度的に上昇する 2026 年のインフレの荒波において、利用者の家計という名の 🏮 **「資産」** を、正当な統計データと高度な知能によって守り抜くために設立された **「経済管制塔」** です。
             </p>
             <p>
               私たちは「情報の静寂」を信じています。過剰なバッジや騒がしい広告に惑わされることなく、 Master が 1 秒で 🏮 **「真実」** を判断できるプレミアム・ミニマリズムを追求しています。
             </p>
           </div>
 
-          <div className="space-y-4 bg-zinc-900/50 p-8 rounded-2xl border border-zinc-800">
-            <h2 className="text-xl font-semibold text-white">運営者：知能継承 Bureau</h2>
-            <p className="text-zinc-400">
-              私たちは、 e-Stat（政府統計）の深淵から抽出された 🏮 **「全国コード 00000 」** の真理を、 Master の日常生活に直結させる専門チームです。
+          <div className="space-y-4 bg-zinc-900/40 p-8 rounded-3xl border border-zinc-800">
+            <h2 className="text-xl font-bold text-white">運営者について</h2>
+            <p className="text-zinc-400 font-medium">
+              私たちは、 e-Stat（政府統計）の深淵から抽出された 🏮 **「全国コード 00000 」** の真理を、日々の生活に直結させる専門チームです。
             </p>
             <ul className="list-disc list-inside space-y-2 mt-4 text-sm text-zinc-400">
               <li>国家統計局 API（e-Stat）との 🏮 リアルタイム同期</li>

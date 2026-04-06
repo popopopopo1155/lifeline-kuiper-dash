@@ -23,14 +23,14 @@ const PrivacyPolicy: React.FC = () => {
           <div className="space-y-4">
             <h2 className="text-xl font-semibold text-white border-l-2 border-indigo-500 pl-4 py-1">情報の収集と利用について</h2>
             <p>
-              Market-Slayer（以下「当サイト」）は、Master（利用者様）の経済的な資産を守る管制塔として、情報の透明性を最優先事項としています。当サイトでは、サービスの向上および広告配信のためにクッキー（Cookie）を使用することがありますが、これによって個人を特定可能な情報（氏名、生年月日、住所等）が当サイトに提供されることはありません。
+              生活必需品.com（以下「当サイト」）は、利用者様の経済的な資産を守る管制塔として、情報の透明性を最優先事項としています。当サイトでは、サービスの向上および広告配信のためにクッキー（Cookie）を使用することがありますが、これによって個人を特定可能な情報（氏名、生年月日、住所等）が当サイトに提供されることはありません。
             </p>
           </div>
 
           <div className="space-y-4">
             <h2 className="text-xl font-semibold text-white border-l-2 border-indigo-500 pl-4 py-1">広告配信(Google AdSense)について</h2>
             <p>
-              当サイトでは、Googleによる広告サービス「Google アドセンス」を利用しています。Googleなどの第三者配信事業者は、Cookieを使用して、Masterが当サイトや他のウェブサイトに過去にアクセスした際の情報に基づき、適切な広告を配信します。
+              当サイトでは、Googleによる広告サービス「Google アドセンス」を利用しています。Googleなどの第三者配信事業者は、Cookieを使用して、利用者様が当サイトや他のウェブサイトに過去にアクセスした際の情報に基づき、適切な広告を配信します。
             </p>
             <p>
               Google広告の設定（<a href="https://adssettings.google.com/authenticated" target="_blank" rel="noopener noreferrer" className="text-indigo-400 hover:underline">こちら</a>）により、パーソナライズ広告を無効にすることが可能です。

@@ -97,7 +97,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ genres }) => {
       <div className="sidebar-box glass-card" style={{ padding: '20px', borderLeft: '4px solid var(--price-blue)', borderRadius: '16px', background: 'var(--bg-card)' }}>
         <p style={{ fontSize: '13px', fontWeight: '900', color: 'var(--price-blue)' }}>🏛️ 知能化された市場指標</p>
         <p style={{ fontSize: '11px', color: 'var(--text-sub)', marginTop: '10px', lineHeight: '1.6', fontWeight: '500' }}>
-          サイドバーの数値は総務省・農水省の統計に基づく「日本の平均価格」です。メインカードの価格がこれを下回っていれば、Master は市場平均より賢く買い物できている証です。
+          サイドバーの数値は総務省・農水省の統計に基づく「日本の平均価格」です。メインカードの価格がこれを下回っていれば、市場平均より賢く買い物できている証です。
         </p>
       </div>
     </div>

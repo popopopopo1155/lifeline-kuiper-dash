@@ -89,8 +89,8 @@ export const Dashboard: React.FC = () => {
                   </div>
                 </div>
                 <p style={{ fontSize: '13px', lineHeight: '1.7', color: 'var(--text-sub)', fontWeight: 'bold' }}>
-                  本管制塔は、e-Stat政府統計およびリアルタイムな地政学ニュースを Gemini が統合解析し、
-                  物価変動の予兆を Master に提示します。市場平均との乖離を 24時間 監視し、
+                  本管制塔は、e-Stat政府統計およびリアルタイムな地政学ニュースを統合解析し、
+                  物価変動の予兆を利用者様に提示します。市場平均との乖離を 24時間 監視し、
                   「今買うべきか、待つべきか」という最良の経済判断を 🏮 最小単位で支援します。
                 </p>
               </div>

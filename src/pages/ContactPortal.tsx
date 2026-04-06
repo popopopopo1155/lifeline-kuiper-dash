@@ -16,25 +16,25 @@ const ContactPortal: React.FC = () => {
 
         <header className="mb-12">
           <h1 className="text-3xl font-bold tracking-tight mb-4 text-white">お問い合わせ</h1>
-          <p className="text-zinc-400 text-sm italic">Market-Slayerに関するご意見、ご要望、技術的なお問い合わせ</p>
+          <p className="text-zinc-400 text-sm font-bold tracking-widest uppercase">生活必需品.com へのお問い合わせ</p>
         </header>
 
         <section className="space-y-12 leading-relaxed text-zinc-300">
           <div className="space-y-4">
             <p>
-              Market-Slayer の 🏮 **「知能（Intelligence）」** に関するフィードバックや、 🏮 **「聖域（Criteria）」** の設定に関するご提案を歓迎します。Master の資産を脅かす価格変動の 🏮 **「予兆」** にお気づきの場合も、こちらから 🏮 **「通報（Report）」** してください。
+              生活必需品.com の分析に関するフィードバックや、 🏮 **「基準値（Criteria）」** の設定に関するご提案を歓迎します。物価変動の 🏮 **「予兆」** にお気づきの場合も、こちらから 🏮 **「ご報告」** してください。
             </p>
           </div>
 
           <form className="space-y-6 bg-zinc-900/30 p-10 rounded-3xl border border-zinc-800 backdrop-blur-md">
             <div>
-              <label htmlFor="name" className="block text-sm font-medium text-zinc-400 mb-2">お名前（Master）</label>
+              <label htmlFor="name" className="block text-sm font-medium text-zinc-400 mb-2">お名前</label>
               <input type="text" id="name" className="w-full bg-[#0a0a0b] border border-zinc-800 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-indigo-500 transition-colors" placeholder=" popopopopo1155" />
             </div>
             
             <div>
               <label htmlFor="email" className="block text-sm font-medium text-zinc-400 mb-2">メールアドレス</label>
-              <input type="email" id="email" className="w-full bg-[#0a0a0b] border border-zinc-800 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-indigo-500 transition-colors" placeholder=" master@example.com" />
+              <input type="email" id="email" className="w-full bg-[#0a0a0b] border border-zinc-800 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-indigo-500 transition-colors" placeholder="user@example.com" />
             </div>
 
             <div>

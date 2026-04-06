@@ -32,7 +32,7 @@ export const QuickNav: React.FC = () => {
             onClick={() => scrollTo(item.id)}
           >
             {item.id === 'inventory-section' ? (
-              <span className="flex flex-col md:flex-row items-center md:gap-1">
+              <span className="inventory-nav-wrapper">
                 <span className="whitespace-nowrap">📦 在庫管理</span>
                 <span className="whitespace-nowrap">ツール</span>
               </span>

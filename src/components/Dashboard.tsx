@@ -72,7 +72,7 @@ export const Dashboard: React.FC = () => {
                 width: '100%',
                 boxSizing: 'border-box',
                 borderRadius: '24px',
-                padding: '24px',
+                padding: '16px 24px 24px 24px',
                 marginBottom: '20px'
               }}>
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '15px', marginBottom: '16px' }}>

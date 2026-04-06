@@ -340,6 +340,19 @@ input[type=range].premium-slider::-webkit-slider-thumb {
   }
 }
 
+.inventory-nav-wrapper {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+}
+
+@media (min-width: 481px) {
+  .inventory-nav-wrapper {
+    flex-direction: row !important;
+    gap: 4px !important;
+  }
+}
+
 .quick-nav-item:hover {
   background: var(--bg-app) !important;
   border-color: var(--price-blue) !important;

@@ -35,7 +35,7 @@ export const usePriceData = () => {
               subtypes: g.subtypes.map(s => ({
                 ...s,
                 regionalAverage: statsPrice,
-                isOfficial: true // 🏛️ 統計同期済みフラグ
+                isOfficial: true // 🏛️ 統計同期済み
               }))
             };
           }
@@ -205,6 +205,10 @@ export const usePriceData = () => {
           const shipping = p.shipping || 0;
           const points = p.points || 0;
           const unitPrice = (price + shipping - points) / volume;
+
+          // 🏮 [MANUAL GUARD] 手動設定されたジャンル(rice等)は、極端な安値データを排除する
+          const isManualGenre = genre.id === 'rice';
+          if (isManualGenre && unitPrice < (subtype.regionalAverage || 500) * 0.7) return null;
 
           if (unitPrice > (subtype.regionalAverage || 500) * 3.0) return null;
 

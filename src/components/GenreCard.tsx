@@ -58,7 +58,7 @@ export const GenreCard: React.FC<GenreCardProps> = ({ genre, daysLeft, onClick, 
     allPrices,
     allPrices.length
   );
-  const status = minUnitPrice < regionalAverage * 0.95 ? 'buy' : (minUnitPrice > regionalAverage * 1.05 ? 'wait' : 'regular');
+  const status = minUnitPrice < regionalAverage * 0.97 ? 'buy' : (minUnitPrice > regionalAverage * 1.03 ? 'wait' : 'regular');
 
   const getStatusLabel = (s: string) => {
     switch(s) {

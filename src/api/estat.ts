@@ -11,7 +11,8 @@ export const fetchRegionalAveragePrice = async (genreId: string): Promise<number
     // e-Stat JSON structure traversal
     const values = data?.GET_STATS_DATA?.STATISTICAL_DATA?.DATA_INF?.VALUE;
     if (values && (Array.isArray(values) ? values.length > 0 : values['$'])) {
-      const latest = Array.isArray(values) ? values[values.length - 1] : values;
+      // 🏮 [PRECISION INDEX] 配列の先頭が最新(2026/02)であることを確認済み
+      const latest = Array.isArray(values) ? values[0] : values;
       const priceString = latest['$'];
       if (!priceString || priceString === '-') return null;
       

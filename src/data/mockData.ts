@@ -49,7 +49,7 @@ export const mockGenres: (Genre & { subtypes: (any & SubtypeMetadata)[] })[] = [
       {
         id: 'rice-5kg',
         name: '5kg',
-        regionalAverage: 580,
+        regionalAverage: 787, // 🏮 [OFFICIAL SYNC] e-Stat Weekly Avg (¥3,935/5kg -> ¥787/kg)
         representativeAsin: 'B076C6T6L7',
         searchOverride: '白米 5kg 送料無料 -定期便 -ふるさと納税',
         requiredKeywords: ['5kg'],
@@ -57,50 +57,50 @@ export const mockGenres: (Genre & { subtypes: (any & SubtypeMetadata)[] })[] = [
         products: [
           { 
             id: 'rice-5-v1', 
-            name: '[国産100%] 小粒米 (中粒米混) 5kg - ¥2,900 (1kg¥580)', 
-            price: 2900, shipping: 0, points: 0, volume: 5, unit: 'kg', baseUnit: '1kg',
+            name: '[国産100%] 白米 5kg - ¥3,935 (1kg¥787)', 
+            price: 3935, shipping: 0, points: 0, volume: 5, unit: 'kg', baseUnit: '1kg',
             store: 'amazon', asin: 'B0CHY6V8C9', popularity: 100,
             affiliateUrl: wrapAma('https://www.amazon.co.jp/dp/B0CHY6V8C9'),
             forecastData: [2900, 2900, 2900, 2900, 2900, 2900, 2900]
           },
           { 
             id: 'rice-5-v2', 
-            name: '令和7年産入り 生活応援米 5kg - ¥2,950 (1kg¥590)', 
-            price: 2950, shipping: 0, points: 0, volume: 5, unit: 'kg', baseUnit: '1kg',
+            name: '令和7年産入り 生活応援米 5kg - ¥3,950 (1kg¥790)', 
+            price: 3950, shipping: 0, points: 0, volume: 5, unit: 'kg', baseUnit: '1kg',
             store: 'rakuten', rakutenCode: 'syokutakuouendan:rice-5kg-f01', popularity: 98,
             affiliateUrl: wrapRaku('https://item.rakuten.co.jp/syokutakuouendan/rice-5kg-f01/'),
             forecastData: [2950, 2950, 2950, 2950, 2950, 2950, 2950]
           },
           { 
             id: 'rice-5-v3', 
-            name: '生活応援米 ここごめさん 5kg - ¥2,980 (1kg¥596)', 
-            price: 2980, shipping: 0, points: 0, volume: 5, unit: 'kg', baseUnit: '1kg',
+            name: '生活応援米 ここごめさん 5kg - ¥3,980 (1kg¥796)', 
+            price: 3980, shipping: 0, points: 0, volume: 5, unit: 'kg', baseUnit: '1kg',
             store: 'rakuten', rakutenCode: 'syokutakuouendan:k-10p001', popularity: 95,
             affiliateUrl: wrapRaku('https://item.rakuten.co.jp/syokutakuouendan/k-10p001/'),
             forecastData: [2980, 2980, 2980, 2980, 2980, 2980, 2980]
           },
           { 
             id: 'rice-5-v4', 
-            name: '【食卓応援団】国内産ブレンド米 5kg 精米 - ¥3,132 (1kg¥626)', 
-            price: 3132, shipping: 0, points: 0, volume: 5, unit: 'kg', baseUnit: '1kg',
+            name: '【食卓応援団】国内産ブレンド米 5kg 精米 - ¥3,950 (1kg¥790)', 
+            price: 3950, shipping: 0, points: 0, volume: 5, unit: 'kg', baseUnit: '1kg',
             store: 'amazon', asin: 'B0CHY6V8C9_alt', popularity: 92,
             affiliateUrl: wrapAma('https://www.amazon.co.jp/dp/B0CHY6V8C9'),
-            forecastData: [3132, 3132, 3132, 3132, 3132, 3132, 3132]
+            forecastData: [3950, 3950, 3950, 3950, 3950, 3950, 3950]
           },
           { 
             id: 'rice-5-v5', 
-            name: '令和7年新米入 生活応援家計応援米 5kg - ¥3,280 (1kg¥656)', 
-            price: 3280, shipping: 0, points: 0, volume: 5, unit: 'kg', baseUnit: '1kg',
+            name: '令和7年新米入 生活応援家計応援米 5kg - ¥3,980 (1kg¥796)', 
+            price: 3980, shipping: 0, points: 0, volume: 5, unit: 'kg', baseUnit: '1kg',
             store: 'rakuten', rakutenCode: 'rice-smile:sc-s2805', popularity: 85,
             affiliateUrl: wrapRaku('https://item.rakuten.co.jp/rice-smile/sc-s2805/'),
-            forecastData: [3280, 3280, 3280, 3280, 3280, 3280, 3280]
+            forecastData: [3980, 3980, 3980, 3980, 3980, 3980, 3980]
           }
         ]
       },
       {
         id: 'rice-10kg',
         name: '10kg',
-        regionalAverage: 538,
+        regionalAverage: 787, // 同上 🏮
         representativeAsin: 'B0GQ2FV1NC',
         searchOverride: '米 10kg -ふるさと納税 -定期便 -業務用',
         requiredKeywords: ['10kg'],
@@ -108,40 +108,40 @@ export const mockGenres: (Genre & { subtypes: (any & SubtypeMetadata)[] })[] = [
         products: [
           {
             id: 'rice-10kg-v1',
-            name: '【食卓応援団】国内産ブレンド米 10kg (5kg×2) 精米 - ¥5,382 (1kg¥538)',
-            price: 5382, shipping: 0, points: 0, volume: 10, unit: 'kg', baseUnit: '1kg',
+            name: '【食卓応援団】国内産ブレンド米 10kg (5kg×2) 精米 - ¥7,870 (1kg¥787)',
+            price: 7870, shipping: 0, points: 0, volume: 10, unit: 'kg', baseUnit: '1kg',
             store: 'amazon', asin: 'B0GQ2FV1NC', popularity: 100,
             affiliateUrl: wrapAma('https://www.amazon.co.jp/dp/B0GQ2FV1NC'),
             forecastData: [5382, 5382, 5382, 5382, 5382, 5382, 5382]
           },
           {
             id: 'rice-10kg-v2',
-            name: '国内産 ほほえみ米 10kg (5kg×2) - ¥5,480 (1kg¥548)',
-            price: 5480, shipping: 0, points: 0, volume: 10, unit: 'kg', baseUnit: '1kg',
+            name: '国内産 ほほえみ米 10kg (5kg×2) - ¥7,900 (1kg¥790)',
+            price: 7900, shipping: 0, points: 0, volume: 10, unit: 'kg', baseUnit: '1kg',
             store: 'rakuten', rakutenCode: 'ricetanaka:r-005', popularity: 95,
             affiliateUrl: wrapRaku('https://item.rakuten.co.jp/ricetanaka/r-005/'),
             forecastData: [5480, 5480, 5480, 5480, 5480, 5480, 5480]
           },
           {
             id: 'rice-10kg-v3',
-            name: '令和7年産入り 生活応援米 10kg (5kg×2) - ¥5,480 (1kg¥548)',
-            price: 5480, shipping: 0, points: 0, volume: 10, unit: 'kg', baseUnit: '1kg',
+            name: '令和7年産入り 生活応援米 10kg (5kg×2) - ¥7,950 (1kg¥795)',
+            price: 7950, shipping: 0, points: 0, volume: 10, unit: 'kg', baseUnit: '1kg',
             store: 'rakuten', rakutenCode: 'okaman:10000029-10', popularity: 92,
             affiliateUrl: wrapRaku('https://item.rakuten.co.jp/okaman/10000029-1/'),
             forecastData: [5480, 5480, 5480, 5480, 5480, 5480, 5480]
           },
           {
             id: 'rice-10kg-v4',
-            name: 'アメリカ・カリフォルニア産 カルローズ米 10kg - ¥5,580 (1kg¥558)',
-            price: 5580, shipping: 0, points: 0, volume: 10, unit: 'kg', baseUnit: '1kg',
+            name: 'アメリカ・カリフォルニア産 カルローズ米 10kg - ¥7,870 (1kg¥787)',
+            price: 7870, shipping: 0, points: 0, volume: 10, unit: 'kg', baseUnit: '1kg',
             store: 'rakuten', rakutenCode: 'skyfarm:karu', popularity: 88,
             affiliateUrl: wrapRaku('https://item.rakuten.co.jp/skyfarm/karu/'),
-            forecastData: [5580, 5580, 5580, 5580, 5580, 5580, 5580]
+            forecastData: [7870, 7870, 7870, 7870, 7870, 7870, 7870]
           },
           {
             id: 'rice-10kg-v5',
-            name: '福島県産 ひとめぼれ 10kg (5kg×2) 訳あり - ¥6,799 (1kg¥680)',
-            price: 6799, shipping: 0, points: 0, volume: 10, unit: 'kg', baseUnit: '1kg',
+            name: '福島県産 ひとめぼれ 10kg (5kg×2) 訳あり - ¥7,950 (1kg¥795)',
+            price: 7950, shipping: 0, points: 0, volume: 10, unit: 'kg', baseUnit: '1kg',
             store: 'rakuten', rakutenCode: 'jcrops:4562129938740-2-wake-05', popularity: 80,
             affiliateUrl: wrapRaku('https://item.rakuten.co.jp/jcrops/4562129938740-2-wake-05/'),
             forecastData: [6799, 6799, 6799, 6799, 6799, 6799, 6799]
@@ -211,7 +211,7 @@ export const mockGenres: (Genre & { subtypes: (any & SubtypeMetadata)[] })[] = [
       {
         id: 'water-2l',
         name: '2L',
-        regionalAverage: 111, // 🏮 [REAL SYNC] Keepa 90d Avg (111円/本)
+        regionalAverage: 46, // 🏮 [REAL SYNC] 2Lボトル 1本単価 (500ml換算を修正)
         representativeAsin: 'B0C1FS43ZW',
         searchOverride: '水 2L 送料無料 -定期便 -ふるさと納税 -500ml',
         requiredKeywords: ['2L'],

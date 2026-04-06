@@ -11,6 +11,7 @@ import { AIAdvisor } from './AIAdvisor';
 import { UniversalTrendChart } from './UniversalTrendChart';
 import { QuickNav } from './QuickNav';
 import RiskAlertBanner from './RiskAlertBanner';
+import { Link } from 'react-router-dom';
 
 export const Dashboard: React.FC = () => {
   const [selectedGenreId, setSelectedGenreId] = useState<string | null>(null);
@@ -151,27 +152,30 @@ export const Dashboard: React.FC = () => {
 
         <aside className="sidebar">
           <div id="ai-section" style={{ marginBottom: '24px' }}><AIAdvisor /></div>
+          
+          <div className="sidebar-box glass-card" style={{ padding: '20px', marginBottom: '24px', borderRadius: '20px' }}>
+            <h3 style={{ fontSize: '12px', fontWeight: 'bold', color: 'var(--text-sub)', marginBottom: '12px', letterSpacing: '0.05em', textTransform: 'uppercase' }}>
+              🏮 最近の戦略分析
+            </h3>
+            <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: '10px' }}>
+              <li>
+                <Link to="/journal/rice-truth" className="text-link" style={{ fontSize: '13px', color: 'var(--text-main)', textDecoration: 'none', display: 'block', padding: '8px 0', borderBottom: '1px solid var(--border-main)' }}>
+                  お米の真実：¥787/kg という絶対座標の解剖学
+                </Link>
+              </li>
+              <li>
+                <Link to="/journal/inflation-shield" className="text-link" style={{ fontSize: '13px', color: 'var(--text-main)', textDecoration: 'none', display: 'block', padding: '8px 0' }}>
+                  2026年インフレの嵐：資産を『盾』に変える知能
+                </Link>
+              </li>
+            </ul>
+          </div>
+
           <div id="inventory-section" style={{ marginBottom: '24px' }}><InventoryControl /></div>
           <Sidebar genres={genres} />
         </aside>
       </div>
 
-      <footer className="site-footer" style={{ marginTop: '60px', padding: '40px 20px', borderTop: '1px solid var(--border-main)', textAlign: 'center' }}>
-        <div className="sidebar-box glass-card" style={{ 
-          overflow: 'hidden', 
-          borderRadius: '24px',
-        }}>
-          <div style={{ padding: '20px', background: 'var(--bg-app)', borderBottom: '1px solid var(--border-main)' }}>
-            <p style={{ fontSize: '12px', color: 'var(--text-sub)', maxWidth: '600px', margin: '0 auto', lineHeight: '1.6', fontWeight: 'bold' }}>
-              本サイトはAmazon.co.jpおよび楽天の各アフィリエイトプログラムに参加しており、紹介商品から収益を得る場合があります。
-              2026年最新の市場データに基づき、あなたに最適な購入タイミングを中立的な立場から診断しています。
-            </p>
-            <div style={{ marginTop: '20px', fontSize: '11px', color: 'var(--signal-gray)' }}>
-              © 2026 生活必需品.com - Intelligent Supply Chain Insight
-            </div>
-          </div>
-        </div>
-      </footer>
       
       <style>{`
         @keyframes loading-bar {

@@ -5,22 +5,25 @@ const Footer: React.FC = () => {
   const currentYear = new Date().getFullYear();
 
   return (
-    <footer className="w-full border-t border-zinc-900 bg-[#0a0a0b] py-12 px-6 mt-20">
-      <div className="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-8 text-sm">
-        <div className="flex flex-col gap-2 items-center md:items-start">
-          <span className="text-white font-bold tracking-tighter text-lg">Market-Slayer</span>
-          <p className="text-zinc-500 font-medium">Household Economic Intelligence Bureau</p>
+    <footer className="w-full border-t border-zinc-900 bg-[#0a0a0b] py-16 px-6 mt-20">
+      <div className="max-w-7xl mx-auto flex flex-col items-center gap-8">
+        <div className="flex flex-col gap-2 items-center text-center">
+          <span className="text-white font-bold tracking-tighter text-xl opacity-90 uppercase">Market-Slayer</span>
+          <p className="text-zinc-600 font-medium tracking-wide text-xs uppercase">Household Economic Intelligence Bureau</p>
         </div>
 
-        <nav className="flex flex-wrap justify-center gap-x-8 gap-y-4 font-medium">
-          <Link to="/about" className="text-zinc-400 hover:text-white transition-colors">運営者情報</Link>
-          <Link to="/privacy" className="text-zinc-400 hover:text-white transition-colors">プライバシーポリシー</Link>
-          <Link to="/terms" className="text-zinc-400 hover:text-white transition-colors">利用規約</Link>
-          <Link to="/contact" className="text-zinc-400 hover:text-white transition-colors">お問い合わせ</Link>
+        <nav className="flex flex-wrap justify-center items-center gap-x-6 gap-y-4 text-[13px] font-medium">
+          <Link to="/about" className="text-zinc-500 hover:text-indigo-400 transition-all duration-300 no-underline">運営者情報</Link>
+          <span className="text-zinc-800">・</span>
+          <Link to="/privacy" className="text-zinc-500 hover:text-indigo-400 transition-all duration-300 no-underline">プライバシーポリシー</Link>
+          <span className="text-zinc-800">・</span>
+          <Link to="/terms" className="text-zinc-500 hover:text-indigo-400 transition-all duration-300 no-underline">利用規約</Link>
+          <span className="text-zinc-800">・</span>
+          <Link to="/contact" className="text-zinc-500 hover:text-indigo-400 transition-all duration-300 no-underline">お問い合わせ</Link>
         </nav>
 
-        <div className="text-zinc-500 text-xs tracking-widest uppercase">
-          &copy; {currentYear} popopopopo1155 & Antigravity
+        <div className="text-zinc-700 text-[10px] tracking-[0.2em] uppercase font-bold mt-4">
+          &copy; {currentYear} POPPOPOPO1155 & ANTIGRAVITY
         </div>
       </div>
       

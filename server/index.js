@@ -26,6 +26,19 @@ const CATEGORY_NEWS_MAP = {
   COMMON: { keywords: ['物価', '高騰', '地政学', '原油', '電気'], sensitivity: 1.0 }
 };
 
+// 🏮 [OFFICIAL STATS SOURCES] - e-Stat Mapping for Proxy
+const ESTAT_ITEM_MAP = {
+  rice:      { id: '0003421913', code: '01001' },
+  bread:     { id: '0003421913', code: '01021' },
+  egg:       { id: '0003421913', code: '01341' },
+  milk:      { id: '0003421913', code: '01303' },
+  tp:        { id: '0003412351', code: '04413' },
+  detergent: { id: '0003412351', code: '04441' },
+  water:     { id: '0003412351', code: '01982' },
+  oil:       { id: '0003421913', code: '01601' },
+  tissue:    { id: '0003412351', code: '04412' },
+};
+
 dotenv.config();
 
 const app = express();
@@ -305,6 +318,30 @@ app.get('/api/keepa', async (req, res) => {
   } catch (err) {
     console.error('Keepa API error:', err.message);
     res.status(500).json({ error: 'Keepa API failed' });
+  }
+});
+
+// 🏮 [OFFICIAL STATS PROXY] - e-Stat (政府統計) プロキシ
+app.get('/api/estat', async (req, res) => {
+  const { genreId } = req.query;
+  const appId = process.env.VITE_ESTAT_APP_ID || process.env.ESTAT_APP_ID;
+  const config = ESTAT_ITEM_MAP[genreId];
+
+  if (!appId || !config) {
+    return res.status(400).json({ error: 'Config missing or invalid genreId' });
+  }
+
+  const ESTAT_BASE_URL = 'https://api.e-stat.go.jp/rest/3.0/app/json/getStatsData';
+  const TOKYO_AREA_CODE = '13100';
+
+  try {
+    const url = `${ESTAT_BASE_URL}?appId=${appId}&statsDataId=${config.id}&cdCat02=${config.code}&cdArea=${TOKYO_AREA_CODE}`;
+    const response = await axios.get(url, { timeout: 10000 });
+    res.json(response.data);
+    console.log(`🏛️ State Stats Synced (Server Proxy): ${genreId}`);
+  } catch (err) {
+    console.error('e-Stat Proxy error:', err.message);
+    res.status(500).json({ error: 'e-Stat API failed' });
   }
 });
 

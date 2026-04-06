@@ -1,43 +1,11 @@
-/**
- * e-Stat (政府統計) APIを用いた小売物価調査データの取得サービス
- * 「生活必需品」の地域別平均価格をシミュレーション/取得します。
- */
-
-const ESTAT_BASE_URL = 'https://api.e-stat.go.jp/rest/3.0/app/json/getStatsData';
-// 🏮 [OFFICIAL STATS SOURCES]
-// Weekly: 0003421913 (Foods)
-// Monthly: 0003412351 (Retail Price Survey - TOKYO)
-export const ESTAT_ITEM_MAP: Record<string, { id: string, code: string }> = {
-  rice:      { id: '0003421913', code: '01001' }, // うるち米
-  bread:     { id: '0003421913', code: '01021' }, // 食パン
-  egg:       { id: '0003421913', code: '01341' }, // 鶏卵
-  milk:      { id: '0003421913', code: '01303' }, // 牛乳(紙パック入り)
-  tp:        { id: '0003412351', code: '04413' }, // トイレットペーパー
-  detergent: { id: '0003412351', code: '04441' }, // 洗濯用洗剤
-  water:     { id: '0003412351', code: '01982' }, // ミネラルウォーター
-  oil:       { id: '0003421913', code: '01601' }, // 食用油 (Weekly)
-  tissue:    { id: '0003412351', code: '04412' }, // ティッシュペーパー
-};
-
-/**
- * Fetches the latest regional average price from e-Stat.
- * @param genreId Internal genre ID (e.g., 'rice')
- * @returns Average price (number) or null if failed
- */
+// 🏮 [SECURE PROXY LINK]
+// クライアントサイドでのキー露出を避けるため、自社サーバーのプロキシ経由で取得します。
 export const fetchRegionalAveragePrice = async (genreId: string): Promise<number | null> => {
-  const appId = import.meta.env.VITE_ESTAT_APP_ID;
-  const config = ESTAT_ITEM_MAP[genreId];
-
-  if (!appId || !config) {
-    console.warn(`e-Stat integration skipped for ${genreId}: No appId or mapping.`);
-    return null;
-  }
-
-  const TOKYO_AREA_CODE = '13100';
-
   try {
-    const url = `${ESTAT_BASE_URL}?appId=${appId}&statsDataId=${config.id}&cdCat02=${config.code}&cdArea=${TOKYO_AREA_CODE}`;
-    const response = await fetch(url);
+    // 開発環境と本番環境の両方に対応（同一ドメイン想定）
+    const response = await fetch(`/api/estat?genreId=${genreId}`);
+    if (!response.ok) throw new Error(`Proxy error: ${response.status}`);
+    
     const data = await response.json();
     
     // e-Stat JSON structure traversal
@@ -51,6 +19,7 @@ export const fetchRegionalAveragePrice = async (genreId: string): Promise<number
       if (isNaN(rawPrice)) return null;
 
       // 🏮 [UNIT NORMALIZATION] - 各品目の統計単位を Dashboard の基準単位へ変換
+      // サーバー側では生データを返し、変換ロジックはフロントエンドで保持（柔軟性のため）
       switch (genreId) {
         case 'rice':    return Math.round(rawPrice / 5);   // e-Stat: 5kg -> Dashboard: 1kg
         case 'tissue':  return Math.round(rawPrice / 10);  // e-Stat: 5箱(1000組想定) -> Dashboard: 100組
@@ -61,7 +30,7 @@ export const fetchRegionalAveragePrice = async (genreId: string): Promise<number
 
     return null;
   } catch (error) {
-    console.error(`e-Stat fetch failed for ${genreId}:`, error);
+    console.error(`e-Stat fetch failed via Proxy [${genreId}]:`, error);
     return null;
   }
 };

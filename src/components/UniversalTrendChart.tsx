@@ -27,21 +27,20 @@ export const UniversalTrendChart: React.FC<UniversalTrendChartProps> = ({ genres
   const width = 1000;
   const height = 300;
   
-  // 90日間の実績ポイント
+  // 90日間の実績ポイント (全体の 90/97 を占める)
+  const totalDays = data.length + 7; // 90 + 7 = 97
   const points = data.map((price: number, i: number) => ({
-    x: (i / (data.length + 7 - 1)) * width * 0.9, // 7日分空ける
+    x: (i / (totalDays - 1)) * width,
     y: height - ((price - minPrice) / range) * height
   }));
 
   const pathD = `M ${points.map((p: any) => `${p.x},${p.y}`).join(' L ')}`;
 
   // 7日間の予測ポイント生成
-  const lastPoint = points[points.length - 1];
   const lastPrice = data[data.length - 1];
   
   // リスクに基づく予測勾配の決定
   const getForecastSlope = () => {
-    // 関連ニュースの検索
     const relevantNews = newsRisks.filter(n => {
       const title = n.title.toLowerCase();
       return title.includes(currentGenre.name.toLowerCase()) || (n.kw && title.includes(n.kw.toLowerCase()));
@@ -56,7 +55,7 @@ export const UniversalTrendChart: React.FC<UniversalTrendChartProps> = ({ genres
 
   const slope = getForecastSlope();
   const forecastPoints = Array.from({ length: 8 }).map((_, i) => {
-    const x = lastPoint.x + (i / 7) * (width * 0.1);
+    const x = ((data.length - 1 + i) / (totalDays - 1)) * width;
     const price = lastPrice + (slope * i);
     const y = height - ((price - minPrice) / range) * height;
     return { x, y };

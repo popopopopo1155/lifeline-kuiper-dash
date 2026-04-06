@@ -59,7 +59,7 @@ const Header: React.FC<HeaderProps> = ({ onBack, showBack }) => {
                 </span>
               )}
             </h1>
-            <p className="text-[10px] text-gray-500 font-bold uppercase tracking-[0.2em] dark:text-gray-400">「買い時」がわかる。暮らしが変わる。</p>
+            <p className="text-[10px] text-gray-500 font-bold uppercase tracking-[0.1em] dark:text-gray-400">e-Stat国家統計と地政学ニュースをAIが統合解析。Masterの家計資産を死守する経済管制塔。</p>
           </div>
         </div>
 

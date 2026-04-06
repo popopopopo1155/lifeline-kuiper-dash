@@ -55,6 +55,9 @@ const RiskAlertBanner: React.FC<RiskAlertBannerProps> = ({ newsRisks, numericalR
 
       {/* 2. ニュース・データエリア：各行を確実に横一列に固定 */}
       <div className="space-y-3" style={{ paddingLeft: '4px' }}>
+        <h4 style={{ fontSize: '12px', fontWeight: '900', color: 'var(--text-main)', opacity: 0.8, marginBottom: '10px', display: 'flex', alignItems: 'center', gap: '6px' }}>
+          <Newspaper size={14} /> 最新マーケットニュース
+        </h4>
         {combinedRisks.slice(0, 6).map((risk: any, i: number) => {
           // 🏮 [MOBILE INTELLIGENCE] スマホ時のみタイトルを短縮して画面を保護
           const isMobile = typeof window !== 'undefined' && window.innerWidth < 768;

@@ -16,10 +16,10 @@ export const QuickNav: React.FC = () => {
   };
 
   const navItems = [
-    { id: 'products-section', label: '🛒 一覧', icon: 'list' },
+    { id: 'products-section', label: '🛒 商品一覧', icon: 'list' },
     { id: 'trend-section', label: '📈 トレンド', icon: 'trend' },
-    { id: 'ai-section', label: '🤖 AI', icon: 'ai' },
-    { id: 'inventory-section', label: '📦 在庫', icon: 'stock' }
+    { id: 'ai-section', label: '🤖 AI 診断', icon: 'ai' },
+    { id: 'inventory-section', label: '📦 在庫管理ツール', icon: 'stock', wrapAt: 4 }
   ];
 
   return (
@@ -31,7 +31,14 @@ export const QuickNav: React.FC = () => {
             className="quick-nav-item"
             onClick={() => scrollTo(item.id)}
           >
-            {item.label}
+            {item.id === 'inventory-section' ? (
+              <span className="flex flex-col items-center">
+                <span className="whitespace-nowrap">📦 在庫管理</span>
+                <span className="whitespace-nowrap">ツール</span>
+              </span>
+            ) : (
+              item.label
+            )}
           </button>
         ))}
       </div>

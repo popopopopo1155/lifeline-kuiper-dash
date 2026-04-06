@@ -73,19 +73,25 @@ export const Dashboard: React.FC = () => {
                 boxSizing: 'border-box',
                 borderRadius: '24px',
                 padding: '24px',
-                marginBottom: '20px',
-                display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '15px' 
+                marginBottom: '20px'
               }}>
-                <h2 className="section-title" style={{ margin: 0 }}>生活必需品インテリジェンス</h2>
-                <div style={{ position: 'relative', flex: '1', maxWidth: '400px' }}>
-                  <input 
-                    type="text" 
-                    placeholder="商品名や種類を検索..." 
-                    onChange={(e) => setSearchQuery(e.target.value)}
-                    style={{ width: '100%', padding: '12px 16px 12px 40px', borderRadius: '12px', border: '1px solid var(--border-main)', background: 'var(--bg-card)', color: 'var(--text-main)', fontSize: '14px' }}
-                  />
-                  <span style={{ position: 'absolute', left: '12px', top: '50%', transform: 'translateY(-50%)', opacity: 0.4 }}>🔍</span>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '15px', marginBottom: '16px' }}>
+                  <h2 className="section-title" style={{ margin: 0 }}>生活必需品インテリジェンス</h2>
+                  <div style={{ position: 'relative', flex: '1', maxWidth: '400px' }}>
+                    <input 
+                      type="text" 
+                      placeholder="商品名や種類を検索..." 
+                      onChange={(e) => setSearchQuery(e.target.value)}
+                      style={{ width: '100%', padding: '12px 16px 12px 40px', borderRadius: '12px', border: '1px solid var(--border-main)', background: 'var(--bg-card)', color: 'var(--text-main)', fontSize: '14px' }}
+                    />
+                    <span style={{ position: 'absolute', left: '12px', top: '50%', transform: 'translateY(-50%)', opacity: 0.4 }}>🔍</span>
+                  </div>
                 </div>
+                <p style={{ fontSize: '13px', lineHeight: '1.7', color: 'var(--text-sub)', fontWeight: 'bold' }}>
+                  本管制塔は、e-Stat政府統計およびリアルタイムな地政学ニュースを Gemini が統合解析し、
+                  物価変動の予兆を Master に提示します。市場平均との乖離を 24時間 監視し、
+                  「今買うべきか、待つべきか」という最良の経済判断を 🏮 最小単位で支援します。
+                </p>
               </div>
 
               <h3 style={{ fontSize: '14px', color: 'var(--text-sub)', marginBottom: '15px', display: 'flex', alignItems: 'center', gap: '8px' }}>

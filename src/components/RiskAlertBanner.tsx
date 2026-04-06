@@ -1,5 +1,5 @@
 import React from 'react';
-import { AlertTriangle, Info, ShieldAlert, Newspaper, TrendingUp, CheckCircle2 } from 'lucide-react';
+import { Newspaper, TrendingUp, CheckCircle2 } from 'lucide-react';
 
 interface RiskAlertBannerProps {
   newsRisks: any;
@@ -28,36 +28,33 @@ const RiskAlertBanner: React.FC<RiskAlertBannerProps> = ({ newsRisks, numericalR
 
   const textColor = 'text-[var(--text-main)]'; 
 
-  const Icon = highestLevel === 'CRITICAL' ? ShieldAlert :
-               highestLevel === 'HIGH' ? AlertTriangle : Info;
-
   return (
     <div 
       className="mb-8 p-5 rounded-lg transition-colors"
       style={{ ...boxStyles, boxShadow: '4px 4px 0px rgba(0,0,0,0.05)' }}
     >
-      {/* 1. ヘッダー：アイコンとタイトルを一列に固定 */}
+      {/* 1. ヘッダー：最新マーケットニュースを最上位に格上げ */}
       <div 
         style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '18px' }}
       >
-        <Icon 
+        <Newspaper 
           style={{ flexShrink: 0 }}
           className="w-6 h-6 text-[var(--text-main)]" 
         />
         <h3 
           className={`text-lg font-black ${textColor}`}
-          style={{ margin: 0, padding: 0, lineHeight: '1' }}
+          style={{ margin: 0, padding: 0, lineHeight: '1.2', display: 'flex', alignItems: 'baseline', gap: '8px' }}
         >
-          {highestLevel === 'CRITICAL' ? '物価急騰リスク検知' : 
-           highestLevel === 'HIGH' ? '物価上昇の可能性' : '市場動向の変化'}
+          <span>最新マーケットニュース</span>
+          <span style={{ fontSize: '13px', opacity: 0.7, fontWeight: '700' }}>
+            ({highestLevel === 'CRITICAL' ? '物価急騰リスク検知' : 
+              highestLevel === 'HIGH' ? '物価上昇の可能性' : '市場動向の変化'})
+          </span>
         </h3>
       </div>
 
       {/* 2. ニュース・データエリア：各行を確実に横一列に固定 */}
       <div className="space-y-3" style={{ paddingLeft: '4px' }}>
-        <h4 style={{ fontSize: '12px', fontWeight: '900', color: 'var(--text-main)', opacity: 0.8, marginBottom: '10px', display: 'flex', alignItems: 'center', gap: '6px' }}>
-          <Newspaper size={14} /> 最新マーケットニュース
-        </h4>
         {combinedRisks.slice(0, 6).map((risk: any, i: number) => {
           // 🏮 [MOBILE INTELLIGENCE] スマホ時のみタイトルを短縮して画面を保護
           const isMobile = typeof window !== 'undefined' && window.innerWidth < 768;
@@ -108,7 +105,7 @@ const RiskAlertBanner: React.FC<RiskAlertBannerProps> = ({ newsRisks, numericalR
           );
         })}
 
-        <p className="mt-5 text-[11px] text-[var(--text-sub)] font-bold border-t border-[var(--border-main)] pt-4">
+        <p className="mt-5 text-[9px] text-[var(--text-sub)] font-bold border-t border-[var(--border-main)] pt-4 opacity-60">
           ※ 報道と実勢価格の乖離を 14日間 監視し、不確かな情報は自動排除されます
         </p>
       </div>

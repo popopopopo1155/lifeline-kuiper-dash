@@ -13,64 +13,59 @@ const JournalArticle: React.FC = () => {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
 
-  // 🏮 「文章がAIぽくならないようにね」というMasterの命を受け、
-  // 執筆される極めて人間的な、専門性の高い知能の蓄積。
   const articles: Record<string, Article> = {
     "rice-truth": {
       id: "rice-truth",
-      title: "お米の真実：¥787/kg という絶対座標の解剖学",
+      title: "米価の動向分析：日本国内における適正価格の推移と要因",
       date: "2026年4月6日",
       author: "生活必需品.com 編集部",
       content: (
         <div className="space-y-8">
-          <p className="text-lg leading-relaxed text-zinc-300">
-            2026年、日本の食卓はかつてない静かなる「侵食」を受けています。スーパーの棚に並ぶ「5kg 3,500円」という数字。多くの人々はそれを「仕方のないインフレ」として受け入れていますが、当サイトの分析は違います。
+          <p className="text-lg leading-relaxed" style={{ color: 'var(--text-sub)' }}>
+            2026年、日本の食卓において主要な穀物である米の価格変動が注目されています。店頭価格の推移に対し、消費者はどのような視点でデータを見るべきか、統計的側面から分析します。
           </p>
           
-          <h2 className="text-2xl font-bold text-white mt-12 mb-4">1. 統計の嘘と「聖域」の発見</h2>
+          <h2 className="text-2xl font-bold mt-12 mb-4" style={{ color: 'var(--text-main)' }}>1. 小売物価統計に基づく価格分析</h2>
           <p>
-            多くの家計管理ツールが陥る罠。それは「平均価格」という名の幻想です。e-Stat（政府統計）が示す小売物価統計調査を深読みすれば、東京都区部の銘柄米と、地方の標準米の間には、物理的に説明のつかない「情報の乖離」が存在することがわかります。
+            政府統計（e-Stat）の小売物価統計調査を詳細に分析すると、地域間での価格差や銘柄による変動幅に一定の傾向が見られます。単なる物価上昇として捉えるのではなく、供給網や物流コストの影響を客観的に把握することが重要です。
           </p>
           <p>
-            私たちが導き出した 🏮 **「¥787/kg」** という数字。これは単なる安売り情報の集積ではありません。全国平均（地域コード 00000）の標準米における「本来あるべき適正価格のボトム」を、物流コストと 2026 年の米ドルの為替影響を逆算して割り出した、 利用者様のための 🏮 **「絶対座標」** です。
-          </p>
-
-          <h2 className="text-2xl font-bold text-white mt-12 mb-4">2. なぜ「全国統計」なのか</h2>
-          <p>
-            なぜ東京の価格（13100）ではなく、全国（00000）を基準とするのか。それは、インフレ局面における「情報の避難所」を確保するためです。都市部の価格は不動産バブルと人件費の影響を過剰に受けており、純粋な「物の価値」を反映していません。全国統計こそが、 利用者様の家計を 🏮 **「インフレ」** から守るための、最も堅牢な情報基盤なのです。
+            当サイトが提示している基準値は、全国的な平均統計情報をベースに、現時点での市場コストを加味した「適正な購入価格の目安」を示しています。これは、消費者が極端な高値での購入を避けるための合理的な判断指標となります。
           </p>
 
-          <blockquote className="border-l-4 border-indigo-500 pl-6 my-10 italic text-zinc-400 text-xl">
-            「数字に支配されるな。数字を、 利用者様の支配下に置け。」
+          <h2 className="text-2xl font-bold mt-12 mb-4" style={{ color: 'var(--text-main)' }}>2. 基準値に関する統計的アプローチ</h2>
+          <p>
+            特定の地域ではなく全国平均（地域コード 00000等）を基準とする理由は、局地的な需給バランスやコスト変動に左右されない「物の本質的な価値」を把握するためです。都市部の価格は不動産コスト等の影響が大きく、食品単体の価値を正確に反映しない場合があります。
+          </p>
+
+          <blockquote className="border-l-4 border-indigo-500 pl-6 my-10 italic text-xl" style={{ color: 'var(--text-sub)' }}>
+            「信頼できるデータに基づき、冷静な購買判断を行うことが家計管理の基盤となります。」
           </blockquote>
 
-          <h2 className="text-2xl font-bold text-white mt-12 mb-4">3. 戦略的分析の活用</h2>
+          <h2 className="text-2xl font-bold mt-12 mb-4" style={{ color: 'var(--text-main)' }}>3. 実生活への活用</h2>
           <p>
-            これからの 14 日間、 Dashboard 上の「物価上昇の可能性」の監視を緩めないでください。 🏮・最新マーケットニュースが「供給不足」を煽り始めた時こそ、私たちの 🏮 **「全国基準統計」** の真価が発揮されます。報道と実勢価格の乖離を自動排除するアルゴリズムが、 利用者様に 🏮 **「真理」** だけを届けます。
-          </p>
-          <p className="pt-8 text-zinc-500 text-sm">
-            ※本記事は、AdSense審査官への「専門性」の証明であり、同時に利用者様への貢献の記録です。
+            インフレ局面においては、報道による心理的な影響を受けやすい傾向があります。当サイトの価格推移データを参照し、実势価格との乖離を確認することで、計画的かつ賢い買い物に繋げることが可能です。
           </p>
         </div>
       )
     },
     "inflation-shield": {
       id: "inflation-shield",
-      title: "2026年インフレの嵐：資産を『盾』に変えるインテリジェンス",
+      title: "インフレ局面における家計管理：データの視覚化による効率化",
       date: "2026年4月6日",
       author: "生活必需品.com 編集部",
       content: (
         <div className="space-y-8">
-          <p className="text-lg leading-relaxed text-zinc-300">
-            財布の中の1万円札が、昨日と同じ価値を持っていると信じることは、もはや一種の「博打」に近い行為かもしれません。
+          <p className="text-lg leading-relaxed" style={{ color: 'var(--text-sub)' }}>
+            物価上昇が日常的な課題となる中、消費者が効率的に家計を守るための情報活用術について解説します。
           </p>
-          <h2 className="text-2xl font-bold text-white mt-12 mb-4">1. 購買力の減衰を視覚化する</h2>
+          <h2 className="text-2xl font-bold mt-12 mb-4" style={{ color: 'var(--text-main)' }}>1. 効率的な在庫管理の重要性</h2>
           <p>
-            生活必需品.com が 🏮 **「在庫管理」** を 1 列表示に拘った理由。それは、余計な視覚的ノイズを削ぎ落とし、利用者が「持っている物の本当の価値」を瞬時に把握するためです。トイレットペーパー1ロール、洗剤1パック。これらは今、通貨よりも 🏮 **「確実な資産」** となりつつあります。
+            当サイトの提供する在庫管理機能は、生活必需品の保有状況を正確に把握するために設計されています。必要以上の備蓄を避けつつ、底値情報を活用して適切なタイミングで補充を行うことが、持続可能な家計管理の要となります。
           </p>
-          <h2 className="text-2xl font-bold text-white mt-12 mb-4">2. データ解析の役割</h2>
+          <h2 className="text-2xl font-bold mt-12 mb-4" style={{ color: 'var(--text-main)' }}>2. 情報解析によるサポート</h2>
           <p>
-            当サイトは 🏮 **「市場の歪みを見つける解析エンジン」** として機能しています。 480px 以下のモバイル画面でも、 🏮 **「 QuickNav 」** が 1 文字も崩れないように設計されたのは、有事の際に一刻も早く 利用者様へ 🏮 **「情報」** を届けるため。この 🏮 **「静寂なる管制塔」** こそが、 利用者様の資産を守る最強の盾となります。
+            生活必需品.com は、膨大な統計データから皆様の生活に直結する要素を抽出し、解析を行っています。視認性を重視したデザインにより、店頭でも素早く情報を確認でき、確かなデータに基づいた意思決定を支援します。
           </p>
         </div>
       )
@@ -81,53 +76,53 @@ const JournalArticle: React.FC = () => {
 
   if (!article) {
     return (
-      <div className="min-h-screen bg-[#0a0a0b] text-white flex items-center justify-center">
+      <div className="min-h-screen flex items-center justify-center" style={{ background: 'var(--bg-app)', color: 'var(--text-main)' }}>
         <div className="text-center">
           <h1 className="text-4xl font-bold mb-4">404</h1>
-          <p className="text-zinc-500">知能の断片が見つかりません</p>
-          <button onClick={() => navigate('/')} className="mt-8 text-indigo-400 hover:underline">戻る</button>
+          <p style={{ color: 'var(--text-sub)' }}>該当する記事が見つかりません</p>
+          <button onClick={() => navigate('/')} className="mt-8 text-indigo-600 dark:text-indigo-400 hover:underline">ホームへ戻る</button>
         </div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-[#0a0a0b] text-[#e4e4e7] p-6 font-ui selection:bg-indigo-500/30">
+    <div className="min-h-screen p-6 selection:bg-indigo-500/30" style={{ background: 'var(--bg-app)', color: 'var(--text-main)' }}>
       <article className="max-w-3xl mx-auto py-16">
         <header className="mb-16">
           <button 
             onClick={() => navigate('/')}
-            className="mb-12 text-indigo-400 hover:text-indigo-300 transition-colors flex items-center gap-2 text-sm font-medium"
+            className="mb-12 text-indigo-600 dark:text-indigo-400 hover:underline transition-colors flex items-center gap-2 text-sm font-medium"
           >
-            <span>←</span> 経済管制塔へ戻る
+            <span>←</span> ホームへ戻る
           </button>
           <div className="space-y-4">
             <div className="flex items-center gap-3 text-xs tracking-widest text-indigo-500 uppercase font-bold">
               <span className="w-8 h-[1px] bg-indigo-500"></span>
-              Strategic Intelligence
+              Strategic Analysis
             </div>
-            <h1 className="text-4xl md:text-5xl font-black tracking-tighter leading-tight text-white italic">
+            <h1 className="text-4xl md:text-5xl font-bold tracking-tight" style={{ color: 'var(--text-main)' }}>
               {article.title}
             </h1>
-            <div className="flex items-center gap-4 text-sm text-zinc-500 pt-4">
-              <span className="font-medium text-zinc-300">{article.author}</span>
-              <span className="w-1 h-1 bg-zinc-800 rounded-full"></span>
+            <div className="flex items-center gap-4 text-sm pt-4" style={{ color: 'var(--text-sub)' }}>
+              <span className="font-medium">{article.author}</span>
+              <span className="w-1 h-1 bg-gray-300 dark:bg-zinc-800 rounded-full"></span>
               <span>{article.date}</span>
             </div>
           </div>
         </header>
 
-        <div className="prose prose-invert prose-indigo max-w-none">
+        <div className="prose dark:prose-invert max-w-none">
           {article.content}
         </div>
 
-        <footer className="mt-20 pt-12 border-t border-zinc-900">
-          <div className="bg-zinc-900/20 p-8 rounded-3xl border border-zinc-800/50">
-            <h3 className="text-white font-bold mb-4 flex items-center gap-2">
-              🏮 記事の取り扱いについて
+        <footer className="mt-20 pt-12 border-t" style={{ borderColor: 'var(--border-main)' }}>
+          <div className="p-8 rounded-3xl border" style={{ background: 'var(--bg-card)', borderColor: 'var(--border-main)' }}>
+            <h3 className="font-bold mb-4 flex items-center gap-2" style={{ color: 'var(--text-main)' }}>
+              本記事について
             </h3>
-            <p className="text-sm text-zinc-400 leading-relaxed">
-              この記事は、生活必需品.comによる「市場分析」の一部です。 市場の動向に基づき、内容は動的に精査・更新されます。 無断転載は、当サイトの著作権を侵害する行為として厳禁します。
+            <p className="text-sm leading-relaxed" style={{ color: 'var(--text-sub)' }}>
+              本記事は、生活必需品.com 編集部による独自の市場分析結果を掲載しています。分析内容は公的な統計データに基づき、定期的に更新されます。無断転載・複製は固く禁じます。
             </p>
           </div>
         </footer>

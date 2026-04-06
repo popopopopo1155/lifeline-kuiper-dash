@@ -89,9 +89,9 @@ export const Dashboard: React.FC = () => {
                   </div>
                 </div>
                 <p style={{ fontSize: '13px', lineHeight: '1.7', color: 'var(--text-sub)', fontWeight: 'bold' }}>
-                  本管制塔は、e-Stat政府統計およびリアルタイムな地政学ニュースを統合解析し、
-                  物価変動の予兆を利用者様に提示します。市場平均との乖離を 24時間 監視し、
-                  「今買うべきか、待つべきか」という最良の経済判断を 🏮 最小単位で支援します。
+                  生活必需品.comは、e-Stat政府統計およびリアルタイムなニュースを分析し、
+                  物価変動の目安を提示します。市場平均との推移を継続的に確認し、
+                  日々の購買判断を支援します。
                 </p>
               </div>
 
@@ -155,17 +155,17 @@ export const Dashboard: React.FC = () => {
           
           <div className="sidebar-box glass-card" style={{ padding: '20px', marginBottom: '24px', borderRadius: '20px' }}>
             <h3 style={{ fontSize: '12px', fontWeight: 'bold', color: 'var(--text-sub)', marginBottom: '12px', letterSpacing: '0.05em', textTransform: 'uppercase' }}>
-              🏮 最近の戦略分析
+              最近の分析レポート
             </h3>
             <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: '10px' }}>
               <li>
                 <Link to="/journal/rice-truth" className="text-link" style={{ fontSize: '13px', color: 'var(--text-main)', textDecoration: 'none', display: 'block', padding: '8px 0', borderBottom: '1px solid var(--border-main)' }}>
-                  お米の真実：¥787/kg という絶対座標の解剖学
+                  米価の動向分析：統計データから見る適正価格の推移
                 </Link>
               </li>
               <li>
                 <Link to="/journal/inflation-shield" className="text-link" style={{ fontSize: '13px', color: 'var(--text-main)', textDecoration: 'none', display: 'block', padding: '8px 0' }}>
-                  2026年インフレの嵐：資産を『盾』に変える知能
+                  インフレ局面における家計管理：データの視覚化による効率化
                 </Link>
               </li>
             </ul>

@@ -59,7 +59,7 @@ export const analyzePriceTrend = (
   // SCARCITY / SUPPLY SHOCK LOGIC (Boosted by Keepa)
   const scarcityIndex = keepaScarcity || (storeCount > 0 && storeCount < 5 ? 0.7 : 0.3);
 
-  // 🏮 [INTELLECTUAL CALIBRATION v9.1] - 統計平均付近での煽りを厳禁
+  // [INTELLECTUAL CALIBRATION v9.1] - 統計平均付近での煽りを防止
   const isBenchmarkMatch = Math.abs(statsDelta) <= 0.03; // ±3% は「完全なる適正」
 
   if (isBenchmarkMatch) {

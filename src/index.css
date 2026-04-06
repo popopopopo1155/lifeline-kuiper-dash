@@ -269,7 +269,7 @@ input[type=range].premium-slider::-webkit-slider-thumb {
 
 @media (max-width: 768px) {
   .heatmap-grid {
-    grid-template-columns: repeat(2, 1fr) !important; /* 1列から2列へ昇華 🏮 */
+    grid-template-columns: repeat(2, 1fr) !important; /* 1列から2列へ変更 */
     gap: 12px !important;
   }
   

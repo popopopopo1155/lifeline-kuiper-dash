@@ -1,4 +1,4 @@
-// 🏮 [SECURE PROXY LINK]
+// [SECURE PROXY LINK]
 // クライアントサイドでのキー露出を避けるため、自社サーバーのプロキシ経由で取得します。
 export const fetchRegionalAveragePrice = async (genreId: string): Promise<number | null> => {
   try {
@@ -11,7 +11,7 @@ export const fetchRegionalAveragePrice = async (genreId: string): Promise<number
     // e-Stat JSON structure traversal
     const values = data?.GET_STATS_DATA?.STATISTICAL_DATA?.DATA_INF?.VALUE;
     if (values && (Array.isArray(values) ? values.length > 0 : values['$'])) {
-      // 🏮 [PRECISION INDEX] 配列の先頭が最新(2026/02)であることを確認済み
+      // [PRECISION INDEX] 配列の先頭が最新であることを確認済み
       const latest = Array.isArray(values) ? values[0] : values;
       const priceString = latest['$'];
       if (!priceString || priceString === '-') return null;
@@ -19,7 +19,7 @@ export const fetchRegionalAveragePrice = async (genreId: string): Promise<number
       const rawPrice = parseFloat(priceString);
       if (isNaN(rawPrice)) return null;
 
-      // 🏮 [UNIT NORMALIZATION] - 各品目の統計単位を Dashboard の基準単位へ変換
+      // [UNIT NORMALIZATION] - 各品目の統計単位を互換性のある形式へ変換
       // サーバー側では生データを返し、変換ロジックはフロントエンドで保持（柔軟性のため）
       switch (genreId) {
         case 'rice':    return Math.round(rawPrice / 5);   // e-Stat: 5kg -> Dashboard: 1kg

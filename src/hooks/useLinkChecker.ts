@@ -42,7 +42,7 @@ export const useLinkChecker = () => {
       
       await checkSingleLink(product);
 
-      // 🏮 [STEALTH DELAY] 2〜4秒のランダムな休憩を挟み、ボット検知を回避する
+      // [STEALTH DELAY] 2〜4秒のランダムな休憩を挟み、ボット検知を回避する
       if (i < products.length - 1) {
         const delay = 2000 + Math.random() * 2000;
         await new Promise(resolve => setTimeout(resolve, delay));

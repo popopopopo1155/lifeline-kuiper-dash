@@ -49,7 +49,7 @@ export const mockGenres: (Genre & { subtypes: (any & SubtypeMetadata)[] })[] = [
       {
         id: 'rice-5kg',
         name: '5kg',
-        regionalAverage: 787, // 🏮 [OFFICIAL SYNC] e-Stat Weekly Avg (¥3,935/5kg -> ¥787/kg)
+        regionalAverage: 787, // [OFFICIAL SYNC] e-Stat Weekly Avg (¥3,935/5kg -> ¥787/kg)
         representativeAsin: 'B076C6T6L7',
         searchOverride: '白米 5kg 送料無料 -定期便 -ふるさと納税',
         requiredKeywords: ['5kg'],
@@ -100,7 +100,7 @@ export const mockGenres: (Genre & { subtypes: (any & SubtypeMetadata)[] })[] = [
       {
         id: 'rice-10kg',
         name: '10kg',
-        regionalAverage: 787, // 同上 🏮
+        regionalAverage: 461, // [OFFICIAL SYNC] 5枚パック等の平均値調整
         representativeAsin: 'B0GQ2FV1NC',
         searchOverride: '米 10kg -ふるさと納税 -定期便 -業務用',
         requiredKeywords: ['10kg'],
@@ -160,7 +160,7 @@ export const mockGenres: (Genre & { subtypes: (any & SubtypeMetadata)[] })[] = [
       {
         id: 'water-500ml',
         name: '500ml',
-        regionalAverage: 46, // 🏮 [REAL SYNC] Keepa 90d Avg (46円/本)
+        regionalAverage: 46, // [REAL SYNC] 90d Avg (46円/本)
         representativeAsin: 'B094N6FW9M',
         searchOverride: '水 500ml 送料無料 -定期便 -ふるさと納税 -2L',
         requiredKeywords: ['500ml'],
@@ -211,7 +211,7 @@ export const mockGenres: (Genre & { subtypes: (any & SubtypeMetadata)[] })[] = [
       {
         id: 'water-2l',
         name: '2L',
-        regionalAverage: 46, // 🏮 [REAL SYNC] 2Lボトル 1本単価 (500ml換算を修正)
+        regionalAverage: 46, // [REAL SYNC] 2Lボトル 1本単価 (500ml換算を修正)
         representativeAsin: 'B0C1FS43ZW',
         searchOverride: '水 2L 送料無料 -定期便 -ふるさと納税 -500ml',
         requiredKeywords: ['2L'],

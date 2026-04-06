@@ -312,7 +312,7 @@ export const SubtypeCard: React.FC<SubtypeCardProps> = ({ subtype, group, unitTy
                 </div>
               </div>
 
-              {/* 🏮 TP Smart Calculator: Length per roll */}
+              {/* TP Smart Calculator: Length per roll */}
               {unitType === '100m' && (
                 <div style={{ padding: '12px', background: 'var(--bg-app)', borderRadius: '12px', border: '1px dashed var(--price-blue)' }}>
                   <label style={{ fontSize: '12px', fontWeight: '900', color: 'var(--price-blue)', display: 'flex', alignItems: 'center', gap: '4px' }}>📏 スマート計算機 (100m単価換算用)</label>
@@ -332,7 +332,7 @@ export const SubtypeCard: React.FC<SubtypeCardProps> = ({ subtype, group, unitTy
                 </div>
               )}
 
-              {/* 🏮 Tissue Smart Calculator: Sets per pack */}
+              {/* Tissue Smart Calculator: Sets per pack */}
               {unitType === '100組' && (
                 <div style={{ padding: '12px', background: 'var(--bg-app)', borderRadius: '12px', border: '1px dashed var(--price-blue)' }}>
                   <label style={{ fontSize: '12px', fontWeight: '900', color: 'var(--price-blue)', display: 'flex', alignItems: 'center', gap: '4px' }}>📏 ティッシュ計算機 (2枚 ＝ 1組 換算対応)</label>
@@ -360,7 +360,7 @@ export const SubtypeCard: React.FC<SubtypeCardProps> = ({ subtype, group, unitTy
                     />
                   </div>
                   <div style={{ marginTop: '12px', padding: '12px', background: 'white', borderRadius: '8px', border: '2px solid var(--price-blue)', boxShadow: '0 4px 6px -1px rgba(37, 99, 235, 0.1)' }}>
-                    <div style={{ fontSize: '10px', color: 'var(--text-sub)', fontWeight: 'bold' }}>🏮 最終単価換算結果:</div>
+                    <div style={{ fontSize: '10px', color: 'var(--text-sub)', fontWeight: 'bold' }}>最終単価換算結果:</div>
                     <div style={{ fontSize: '16px', fontWeight: '900', color: 'var(--price-blue)', marginTop: '4px' }}>
                       {editingProduct.volume} パック × {editingProduct.setsPerPack || 0} 組 ＝ <span style={{ textDecoration: 'underline' }}>{((editingProduct.setsPerPack || 0) * editingProduct.volume / 100).toFixed(1)} ユニット</span>
                     </div>
@@ -369,7 +369,7 @@ export const SubtypeCard: React.FC<SubtypeCardProps> = ({ subtype, group, unitTy
                 </div>
               )}
 
-              {/* 🏮 Detergent Smart Calculator: Dosage per wash */}
+              {/* Detergent Smart Calculator: Dosage per wash */}
               {(unitType === '1回' || unitType === '1wash') && (
                 <div style={{ padding: '12px', background: 'var(--bg-app)', borderRadius: '12px', border: '1px dashed var(--price-blue)' }}>
                   <label style={{ fontSize: '12px', fontWeight: '900', color: 'var(--price-blue)', display: 'flex', alignItems: 'center', gap: '4px' }}>📏 洗剤計算機 (1回あたりの単価換算用)</label>
@@ -381,7 +381,7 @@ export const SubtypeCard: React.FC<SubtypeCardProps> = ({ subtype, group, unitTy
                     />
                   </div>
                   <div style={{ marginTop: '12px', padding: '12px', background: 'white', borderRadius: '8px', border: '2px solid var(--price-blue)', boxShadow: '0 4px 6px -1px rgba(37, 99, 235, 0.1)' }}>
-                    <div style={{ fontSize: '10px', color: 'var(--text-sub)', fontWeight: 'bold' }}>🏮 最終単価換算結果:</div>
+                    <div style={{ fontSize: '10px', color: 'var(--text-sub)', fontWeight: 'bold' }}>最終単価換算結果:</div>
                     <div style={{ fontSize: '16px', fontWeight: '900', color: 'var(--price-blue)', marginTop: '4px' }}>
                       {editingProduct.volume}{editingProduct.unit} / {editingProduct.dosagePerWash || '?'} ＝ <span style={{ textDecoration: 'underline' }}>{
                         (() => {

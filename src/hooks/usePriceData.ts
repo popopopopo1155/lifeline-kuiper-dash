@@ -23,7 +23,7 @@ export const usePriceData = () => {
   const displayTokens = Math.max(0, tokensLeft);
   const SERVER_URL = ''; 
 
-  // 🏮 [OFFICIAL STATS SYNC] - 政府統計 API との動的同期
+  // [OFFICIAL STATS SYNC] - 政府統計 API との動的同期
   const fetchOfficialStats = useCallback(async () => {
     for (const genre of data) {
       const statsPrice = await fetchRegionalAveragePrice(genre.id);
@@ -206,7 +206,7 @@ export const usePriceData = () => {
           const points = p.points || 0;
           const unitPrice = (price + shipping - points) / volume;
 
-          // 🏮 [MANUAL GUARD] 手動設定されたジャンル(rice等)は、極端な安値データを排除する
+          // [MANUAL GUARD] 手動設定されたジャンル(rice等)は、極端な変動データを排除する
           const isManualGenre = genre.id === 'rice';
           if (isManualGenre && unitPrice < (subtype.regionalAverage || 500) * 0.7) return null;
 

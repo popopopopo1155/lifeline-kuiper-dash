@@ -6,7 +6,7 @@ interface SidebarProps {
 }
 
 export const Sidebar: React.FC<SidebarProps> = ({ genres }) => {
-  // 🏮 [OFFICIAL MARKET SYNC] - 政府統計（e-Stat）由来の平均価格を取得
+  // [OFFICIAL MARKET SYNC] - 政府統計（e-Stat）由来の平均価格を取得
   const getStatsAvg = (genreId: string) => {
     const genre = genres.find(g => g.id === genreId);
     if (!genre || genre.subtypes.length === 0) return '---';

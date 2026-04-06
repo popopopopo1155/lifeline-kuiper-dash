@@ -64,7 +64,7 @@ const RiskAlertBanner: React.FC<RiskAlertBannerProps> = ({ newsRisks, numericalR
       {/* 2. ニュース・データエリア：絵文字を排し、ドット「・」で情報の純度を格上げ */}
       <div className="space-y-3" style={{ paddingLeft: '4px' }}>
         {combinedRisks.slice(0, 6).map((risk: any, i: number) => {
-          // 🏮 [MOBILE INTELLIGENCE] スマホ時のみタイトルを短縮して画面を保護
+          // [MOBILE INTELLIGENCE] スマホ時のみタイトルを短縮して表示調整
           const isMobile = typeof window !== 'undefined' && window.innerWidth < 768;
           let displayTitle = risk.title;
           if (isMobile && risk.type === 'news' && displayTitle.length > 20) {

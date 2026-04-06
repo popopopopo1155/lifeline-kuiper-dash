@@ -85,7 +85,7 @@ export const getNormalizedVolume = (name: string, unitType: string, pVolume?: nu
       return totalValue; 
     case '100sheets':
     case '100組':
-      // 🏮 [SMART CALC] ティッシュ用：組数 × パック数 / 100
+      // [SMART CALC] ティッシュ用：組数 × パック数 / 100
       if (setsPerPack && setsPerPack > 0) {
         return (totalValue * setsPerPack) / 100;
       }
@@ -93,7 +93,7 @@ export const getNormalizedVolume = (name: string, unitType: string, pVolume?: nu
       return totalValue / 100; 
     case '1wash':
     case '1回':
-      // 🏮 [SMART CALC] 洗剤用：総量 / 1回あたりの使用量
+      // [SMART CALC] 洗剤用：総量 / 1回あたりの使用量
       if (dosagePerWash && dosagePerWash > 0) {
         if (unit === 'kg' || unit === 'l') return (totalValue * 1000) / dosagePerWash;
         return totalValue / dosagePerWash;

@@ -27,7 +27,7 @@ export const GenreCard: React.FC<GenreCardProps> = ({ genre, daysLeft, onClick, 
 
     genre.subtypes.forEach((subtype: any) => {
       subtype.products.forEach((product: any) => {
-        // 🏮 [FIX] SubtypeCardと同じ精度の計算ロジックに統一（全メタデータを渡す）
+        // [FIX] SubtypeCardと同じ精度の計算ロジックに統一（全メタデータを渡す）
         const normVol = getNormalizedVolume(
           product.name, 
           genre.unitType, 

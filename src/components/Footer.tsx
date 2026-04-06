@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 const Footer: React.FC = () => {
   const currentYear = new Date().getFullYear();
 
-  // 🏮 Masterの審美眼に合わせ、透明感と静寂を重視したスタイル
+  // 審美性を維持しつつも標準的なサイトとしてのスタイルを定義
   const footerStyle: React.CSSProperties = {
     width: '100%',
     borderTop: '1px solid var(--border-main)',

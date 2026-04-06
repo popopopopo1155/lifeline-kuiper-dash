@@ -30,8 +30,8 @@ const RiskAlertBanner: React.FC<RiskAlertBannerProps> = ({ newsRisks, numericalR
 
   return (
     <div 
-      className="mb-6 p-5 rounded-lg transition-colors"
-      style={{ ...boxStyles, boxShadow: '4px 4px 0px rgba(0,0,0,0.05)' }}
+      className="p-5 rounded-lg transition-colors"
+      style={{ ...boxStyles, boxShadow: '4px 4px 0px rgba(0,0,0,0.05)', marginBottom: '40px' }}
     >
       {/* 1. ヘッダー：最新マーケットニュースを最上位に格上げ & 警告の強調 */}
       <div 

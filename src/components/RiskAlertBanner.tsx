@@ -55,43 +55,55 @@ const RiskAlertBanner: React.FC<RiskAlertBannerProps> = ({ newsRisks, numericalR
 
       {/* 2. ニュース・データエリア：各行を確実に横一列に固定 */}
       <div className="space-y-3" style={{ paddingLeft: '4px' }}>
-        {combinedRisks.slice(0, 6).map((risk: any, i: number) => (
-          <div 
-            key={i} 
-            style={{ display: 'flex', alignItems: 'center', gap: '12px' }}
-          >
-            {/* 絵文字アイコン */}
-            {risk.type === 'data' ? (
-              <TrendingUp style={{ flexShrink: 0 }} className="w-5 h-5 text-[var(--text-main)]" />
-            ) : (
-              <Newspaper style={{ flexShrink: 0 }} className="w-5 h-5 text-[var(--text-main)]" />
-            )}
-            
-            {/* テキストとリンク (絶対に折返さない) */}
-            <div style={{ display: 'flex', alignItems: 'center', gap: '8px', overflow: 'hidden' }}>
-              {risk.type === 'news' ? (
-                <a 
-                  href={risk.link} 
-                  target="_blank" 
-                  rel="noopener noreferrer" 
-                  className="transition-colors underline underline-offset-4 whitespace-nowrap overflow-hidden text-ellipsis font-bold"
-                  style={{ color: 'var(--news-link)', textDecorationColor: 'var(--news-link)' }}
-                >
-                  {risk.title}
-                </a>
-              ) : (
-                <span className="font-black whitespace-nowrap overflow-hidden text-ellipsis text-[var(--text-main)]">
-                  {risk.title}
-                </span>
-              )}
+        {combinedRisks.slice(0, 6).map((risk: any, i: number) => {
+          // 🏮 [MOBILE INTELLIGENCE] スマホ時のみタイトルを短縮して画面を保護
+          const isMobile = typeof window !== 'undefined' && window.innerWidth < 768;
+          let displayTitle = risk.title;
+          if (isMobile && risk.type === 'news' && displayTitle.length > 20) {
+            displayTitle = displayTitle.substring(0, 20) + '...';
+          }
 
-              {/* Verified Badge */}
-              {risk.type === 'news' && hasNumerical && numericalRisks.some(n => risk.title.includes(n.title.split(':')[1]?.trim().split('(')[0] || '')) && (
-                <CheckCircle2 style={{ flexShrink: 0 }} className="w-4 h-4 text-[var(--text-main)]" />
+          return (
+            <div 
+              key={i} 
+              style={{ display: 'flex', alignItems: 'center', gap: '12px', minWidth: 0 }}
+            >
+              {/* 絵文字アイコン */}
+              {risk.type === 'data' ? (
+                <TrendingUp style={{ flexShrink: 0 }} className="w-5 h-5 text-[var(--text-main)]" />
+              ) : (
+                <Newspaper style={{ flexShrink: 0 }} className="w-5 h-5 text-[var(--text-main)]" />
               )}
+              
+              {/* テキストとリンク (絶対に折返さない & スマホで圧縮) */}
+              <div style={{ display: 'flex', alignItems: 'center', gap: '8px', overflow: 'hidden', flex: 1, minWidth: 0 }}>
+                {risk.type === 'news' ? (
+                  <a 
+                    href={risk.link} 
+                    target="_blank" 
+                    rel="noopener noreferrer" 
+                    className="transition-colors underline underline-offset-4 whitespace-nowrap overflow-hidden text-ellipsis font-bold"
+                    style={{ color: 'var(--news-link)', textDecorationColor: 'var(--news-link)', fontSize: isMobile ? '12px' : '14px' }}
+                  >
+                    {isMobile ? `📰 ${displayTitle}` : risk.title}
+                  </a>
+                ) : (
+                  <span 
+                    className="font-black whitespace-nowrap overflow-hidden text-ellipsis text-[var(--text-main)]"
+                    style={{ fontSize: isMobile ? '12px' : '14px' }}
+                  >
+                    {displayTitle}
+                  </span>
+                )}
+  
+                {/* Verified Badge (スマホでは非表示にして省スペース化) */}
+                {!isMobile && risk.type === 'news' && hasNumerical && numericalRisks.some(n => risk.title.includes(n.title.split(':')[1]?.trim().split('(')[0] || '')) && (
+                  <CheckCircle2 style={{ flexShrink: 0 }} className="w-4 h-4 text-[var(--text-main)]" />
+                )}
+              </div>
             </div>
-          </div>
-        ))}
+          );
+        })}
 
         <p className="mt-5 text-[11px] text-[var(--text-sub)] font-bold border-t border-[var(--border-main)] pt-4">
           ※ 報道と実勢価格の乖離を 14日間 監視し、不確かな情報は自動排除されます

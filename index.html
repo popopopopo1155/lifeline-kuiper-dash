@@ -14,12 +14,12 @@
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="version" content="9.6.9.7-release" />
     
-    <!-- Primary Meta Tags -->
+    <!-- SEO Meta Tags -->
     <title>生活必需品.com | 物価推移・底値比較ダッシュボード</title>
-    <meta name="title" content="生活必需品.com | 物価推移・底値比較ダッシュボード" />
     <meta name="description" content="政府統計（e-Stat）の公的データに基づき、お米、紙類、洗剤など生活必需品の適正価格を可視化。日々の買い物で損をしないための、信頼できる価格推移分析プラットフォームです。" />
+    <meta name="keywords" content="生活必需品,底値,物価推移,お米の値段,トイレットペーパー,家計防衛,e-Stat" />
+    <meta name="version" content="9.6.9.7-release" />
 
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website" />
@@ -36,7 +36,13 @@
     <meta property="twitter:image" content="/og-image.png" />
   </head>
   <body>
-    <div id="root"></div>
+    <!-- React 起動前の SEO 用フォールバック -->
+    <div id="root">
+      <div style="display: none;">
+        <h1>生活必需品.com | 物価推移・底値比較ダッシュボード</h1>
+        <p>政府統計公的データに基づく、お米・紙類・洗剤など生活必需品の底値分析プラットフォーム。</p>
+      </div>
+    </div>
     <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>

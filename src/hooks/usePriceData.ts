@@ -4,7 +4,7 @@ import type { Genre, Subtype, Product } from '../types';
 import { getNormalizedVolume } from '../api/dataUtils';
 import { useAdmin } from '../contexts/AdminContext';
 import { wrapAma, wrapRaku } from '../data/mockData';
-import { fetchRegionalAveragePrice } from '../api/estat';
+import { fetchRegionalPriceData } from '../api/estat';
 
 /**
  * 構成案に基づく高度なデータ取得フック (v5.0 手動ソート対応)
@@ -65,18 +65,19 @@ export const usePriceData = () => {
     } catch (err) { console.warn('Snapshot sync failed.', err); }
   }, []);
 
-  // [OFFICIAL STATS SYNC] - 政府統計 API との動的同期
+  // [OFFICIAL STATS SYNC] - 政府統計 API との動的同期（最新価格 + 履歴）
   const fetchOfficialStats = useCallback(async () => {
     for (const genre of data) {
-      const statsPrice = await fetchRegionalAveragePrice(genre.id);
-      if (statsPrice) {
+      const statsData = await fetchRegionalPriceData(genre.id);
+      if (statsData) {
         setData(prevData => prevData.map(g => {
           if (g.id === genre.id) {
             return {
               ...g,
+              historyData: statsData.history.length > 0 ? statsData.history : g.historyData,
               subtypes: g.subtypes.map(s => ({
                 ...s,
-                regionalAverage: statsPrice,
+                regionalAverage: statsData.latest,
                 isOfficial: true // 🏛️ 統計同期済み
               }))
             };

@@ -120,9 +120,16 @@ export const UniversalTrendChart: React.FC<UniversalTrendChartProps> = ({ genres
     }}>
       <div className="chart-header">
         <div>
-          <h2 className="chart-title">価格トレンド解析センター <span style={{ fontSize: '12px', background: 'var(--bg-info)', color: 'var(--text-info)', padding: '2px 8px', borderRadius: '4px', verticalAlign: 'middle', marginLeft: '8px' }}>PERFECT INTELLIGENCE v6.70</span></h2>
+          <h2 className="chart-title">
+            価格トレンド解析センター 
+            {currentGenre.isOfficial ? (
+              <span style={{ fontSize: '12px', background: '#dcfce7', color: '#166534', padding: '2px 8px', borderRadius: '4px', verticalAlign: 'middle', marginLeft: '8px', fontWeight: '900', border: '1px solid #166534' }}>🏛️ 公式統計（e-Stat）同期中</span>
+            ) : (
+              <span style={{ fontSize: '12px', background: 'var(--bg-info)', color: 'var(--text-info)', padding: '2px 8px', borderRadius: '4px', verticalAlign: 'middle', marginLeft: '8px' }}>PERFECT INTELLIGENCE v6.70</span>
+            )}
+          </h2>
           <p className="chart-subtitle" style={{ color: 'var(--text-sub)' }}>
-            AIが市場リスクと連動して「7日間予測」を描画します
+            {currentGenre.isOfficial ? '総務省小売物価統計調査を統合した「真実の推移」' : 'AIが市場リスクと連動して「7日間予測」を描画します'}
           </p>
         </div>
       </div>
@@ -134,8 +141,10 @@ export const UniversalTrendChart: React.FC<UniversalTrendChartProps> = ({ genres
             key={genre.id}
             onClick={() => setSelectedId(genre.id)}
             className={`chart-tab ${selectedId === genre.id ? 'active' : ''}`}
+            style={genre.isOfficial ? { position: 'relative' } : {}}
           >
             {genre.name}
+            {genre.isOfficial && <span style={{ position: 'absolute', top: '-4px', right: '-4px', width: '8px', height: '8px', background: '#166534', borderRadius: '50%', border: '1.5px solid white' }}></span>}
           </button>
         ))}
       </div>
@@ -144,7 +153,7 @@ export const UniversalTrendChart: React.FC<UniversalTrendChartProps> = ({ genres
         <div style={{ position: 'relative', minHeight: '260px' }}>
           <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '15px' }}>
             <div style={{ fontSize: '13px', fontWeight: '900', color: 'var(--text-main)' }}>
-              {currentGenre.name} の推移と予測 (90 + 7日間)
+              {currentGenre.name} の{currentGenre.isOfficial ? '実測統計' : '市場'}推移と予測 ({currentGenre.isOfficial ? '月次' : '90日'} + 7日)
             </div>
           </div>
 

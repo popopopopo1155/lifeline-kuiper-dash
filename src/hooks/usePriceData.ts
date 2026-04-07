@@ -74,6 +74,7 @@ export const usePriceData = () => {
           if (g.id === genre.id) {
             return {
               ...g,
+              isOfficial: true, // 🏛️ カテゴリー全体の統計同期フラグ
               historyData: statsData.history.length > 0 ? statsData.history : g.historyData,
               subtypes: g.subtypes.map(s => ({
                 ...s,

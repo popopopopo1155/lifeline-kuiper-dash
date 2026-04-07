@@ -48,4 +48,5 @@ export interface Genre {
   unitType: string;
   subtypes: Subtype[];
   historyData: number[];
+  isOfficial?: boolean; // 🏛️ カテゴリー全体の統計同期フラグ
 }

@@ -67,19 +67,20 @@ export const usePriceData = () => {
 
   // [OFFICIAL STATS SYNC] - 政府統計 API との動的同期（最新価格 + 履歴）
   const fetchOfficialStats = useCallback(async () => {
-    for (const genre of data) {
+    // 🏮 [STABLE SYNC] data ステートではなく mockGenres を基準に同期を走らせ、ループの安定性を確保
+    for (const genre of mockGenres) {
       const statsData = await fetchRegionalPriceData(genre.id);
       if (statsData) {
         setData(prevData => prevData.map(g => {
           if (g.id === genre.id) {
             return {
               ...g,
-              isOfficial: true, // 🏛️ カテゴリー全体の統計同期フラグ
+              isOfficial: true,
               historyData: statsData.history.length > 0 ? statsData.history : g.historyData,
-              subtypes: g.subtypes.map(s => ({
+              subtypes: g.subtypes.map((s, idx) => ({
                 ...s,
                 regionalAverage: statsData.latest,
-                isOfficial: true // 🏛️ 統計同期済み
+                isOfficial: true
               }))
             };
           }
@@ -87,12 +88,12 @@ export const usePriceData = () => {
         }));
       }
     }
-  }, [data]);
+  }, []); // 🏮 [NO DEPS] data への依存を排除し、再起的な実行を防止
 
   useEffect(() => {
     fetchSnapshot(); // 最初に収穫データを同期
     fetchOfficialStats();
-  }, []); // 初回起動時に全域同期を執行
+  }, [fetchSnapshot, fetchOfficialStats]); // 初回および関数更新時に全域同期を執行
 
   // 手動オーバーライドとカスタムソートを適用したデータを返す
   const getAppliedData = useCallback((baseData: Genre[]) => {

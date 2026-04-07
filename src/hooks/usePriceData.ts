@@ -24,89 +24,74 @@ export const usePriceData = () => {
   const displayTokens = Math.max(0, tokensLeft);
   const SERVER_URL = ''; 
 
-  // --- 🏮 [HARVEST SYNC] - スナップショットから本物の Amazon データを同期する ---
-  const fetchSnapshot = useCallback(async () => {
+  // --- 🏮 [INTEGRATED SYNC LOOP] - すべてのデータを一貫性を持って同期する ---
+  const performUnifiedSync = useCallback(async () => {
+    setLoading(true);
     try {
-      const res = await fetch(`${SERVER_URL}/api/snapshot`);
-      if (res.ok) {
-        const snapshot = await res.json();
-        if (snapshot._meta?.lastUpdate) {
-          setLastHarvested(snapshot._meta.lastUpdate);
-        }
-        setData(prevData => prevData.map(genre => {
-          // 🏮 [OFFICIAL PROTECTION] 公式データが既にセットされている場合は、上ランキングを優先
-          if (genre.isOfficial) return genre;
+      // 1. Snapshot (Amazon) の取得
+      const snapshotRes = await fetch(`${SERVER_URL}/api/snapshot`);
+      const snapshot = snapshotRes.ok ? await snapshotRes.json() : {};
+      if (snapshot._meta?.lastUpdate) setLastHarvested(snapshot._meta.lastUpdate);
 
-          const updatedSubtypes = genre.subtypes.map(s => ({
-            ...s,
-            products: s.products.map(p => {
-              if (p.asin && snapshot[p.asin]) {
-                const snap = snapshot[p.asin];
-                return {
-                  ...p,
-                  price: snap.currentPrice || p.price,
-                  forecastData: snap.history.length > 0 ? snap.history.slice(-7) : p.forecastData,
-                  historyData: snap.history || []
-                };
-              }
-              return p;
-            })
-          }));
+      // 2. e-Stat (Official) の並列取得
+      const officialPromises = mockGenres.map(g => fetchRegionalPriceData(g.id));
+      const officialResults = await Promise.all(officialPromises);
 
-          // カテゴリー全体の履歴も Snapshot から再構成
-          const representativeAsins = genre.subtypes.flatMap(s => s.products.filter(p => !!p.asin).map(p => p.asin));
-          const firstAsin = representativeAsins[0];
-          if (firstAsin && snapshot[firstAsin]) {
-             return {
-               ...genre,
-               subtypes: updatedSubtypes,
-               historyData: snapshot[firstAsin].history || genre.historyData
-             };
-          }
+      setData(prevData => prevData.map((genre, idx) => {
+        const statsData = officialResults[idx];
+        let updatedGenre = { ...genre };
 
-          return { ...genre, subtypes: updatedSubtypes };
-        }));
-        console.log(`🌾 Harvest Synchronized: ${Object.keys(snapshot).length} items loaded.`);
-      }
-    } catch (err) { console.warn('Snapshot sync failed.', err); }
-  }, []);
-
-  // [OFFICIAL STATS SYNC] - 政府統計 API との動的同期（最新価格 + 履歴）
-  const fetchOfficialStats = useCallback(async () => {
-    console.log("🏛️ Starting e-Stat Sync...");
-    for (const genre of mockGenres) {
-      try {
-        const statsData = await fetchRegionalPriceData(genre.id);
+        // [OFFICIAL LAYER] - 政府統計があれば最優先で適用
         if (statsData) {
-          console.log(`✅ e-Stat Success [${genre.id}]:`, statsData.latest);
-          setData(prevData => prevData.map(g => {
-            if (g.id === genre.id) {
+          updatedGenre = {
+            ...updatedGenre,
+            isOfficial: true,
+            historyData: statsData.history.length > 0 ? statsData.history : updatedGenre.historyData,
+            subtypes: updatedGenre.subtypes.map(s => ({
+              ...s,
+              regionalAverage: statsData.latest,
+              isOfficial: true
+            }))
+          };
+        }
+
+        // [SNAPSHOT LAYER] - Amazon 履歴を適用（公式データがない部分を補完、あるいは製品価格を更新）
+        const updatedSubtypes = updatedGenre.subtypes.map(s => ({
+          ...s,
+          products: s.products.map(p => {
+            if (p.asin && snapshot[p.asin]) {
+              const snap = snapshot[p.asin];
               return {
-                ...g,
-                isOfficial: true,
-                historyData: statsData.history.length > 0 ? statsData.history : g.historyData,
-                subtypes: g.subtypes.map(s => ({
-                  ...s,
-                  regionalAverage: statsData.latest,
-                  isOfficial: true
-                }))
+                ...p,
+                price: snap.currentPrice || p.price,
+                forecastData: snap.history.length > 0 ? snap.history.slice(-7) : p.forecastData,
+                historyData: snap.history || []
               };
             }
-            return g;
-          }));
-        } else {
-          console.warn(`⚠️ e-Stat Null [${genre.id}]`);
+            return p;
+          })
+        }));
+
+        // カテゴリー全体の履歴も snapshot から（公式データがない場合のみ）
+        const representativeAsins = updatedSubtypes.flatMap(s => s.products.filter(p => !!p.asin).map(p => p.asin));
+        const firstAsin = representativeAsins[0];
+        if (!updatedGenre.isOfficial && firstAsin && snapshot[firstAsin]) {
+          updatedGenre.historyData = snapshot[firstAsin].history || updatedGenre.historyData;
         }
-      } catch (e) {
-        console.error(`❌ e-Stat Error [${genre.id}]:`, e);
-      }
+
+        return { ...updatedGenre, subtypes: updatedSubtypes };
+      }));
+      
+    } catch (err) {
+      console.error('Unified Sync Failed:', err);
+    } finally {
+      setLoading(false);
     }
-  }, []); 
+  }, []);
 
   useEffect(() => {
-    fetchSnapshot(); // 最初に収穫データを同期
-    fetchOfficialStats();
-  }, [fetchSnapshot, fetchOfficialStats]); // 初回および関数更新時に全域同期を執行
+    performUnifiedSync();
+  }, [performUnifiedSync]);
 
   // 手動オーバーライドとカスタムソートを適用したデータを返す
   const getAppliedData = useCallback((baseData: Genre[]) => {

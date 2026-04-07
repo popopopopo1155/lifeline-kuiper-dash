@@ -30,6 +30,9 @@ export const usePriceData = () => {
       if (res.ok) {
         const snapshot = await res.json();
         setData(prevData => prevData.map(genre => {
+          // 🏮 [OFFICIAL PROTECTION] 公式データが既にセットされている場合は、上ランキングを優先
+          if (genre.isOfficial) return genre;
+
           const updatedSubtypes = genre.subtypes.map(s => ({
             ...s,
             products: s.products.map(p => {
@@ -46,8 +49,7 @@ export const usePriceData = () => {
             })
           }));
 
-          // 🏮 [CATEGORY TREND SYNC] - 代表的な商品の履歴からカテゴリー全体のトレンドを再構成
-          // メインチャートである historyData を、収穫された最新 30 ポイントで上書き
+          // カテゴリー全体の履歴も Snapshot から再構成
           const representativeAsins = genre.subtypes.flatMap(s => s.products.filter(p => !!p.asin).map(p => p.asin));
           const firstAsin = representativeAsins[0];
           if (firstAsin && snapshot[firstAsin]) {

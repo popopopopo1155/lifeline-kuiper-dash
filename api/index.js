@@ -54,13 +54,18 @@ app.get('/api/estat', async (req, res) => {
 
 app.get('/api/snapshot', async (req, res) => {
   try {
-    const data = await fs.readFile(path.join(process.cwd(), 'server', 'amazon_snapshot.json'), 'utf8');
+    // __dirname を使用して、サーバーレス環境でもファイルを確実に捕捉する
+    const snapshotPath = path.join(__dirname, 'amazon_snapshot.json');
+    const data = await fs.readFile(snapshotPath, 'utf8');
     const metaSnapshot = {
       ...JSON.parse(data),
       _meta: { lastUpdate: new Date().toISOString() }
     };
     res.json(metaSnapshot);
-  } catch (e) { res.status(404).json({ error: 'NF' }); }
+  } catch (e) { 
+    console.error("❌ Snapshot Read Error:", e.message);
+    res.status(404).json({ error: 'Snapshot data not found in api bundle' }); 
+  }
 });
 
 app.get('/api/ai/advice', async (req, res) => {

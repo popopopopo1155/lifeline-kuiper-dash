@@ -40,7 +40,10 @@ app.get('/api/estat', async (req, res) => {
     const response = await axios.get(url, { timeout: 10000 });
     
     if (response.data?.RESULT?.STATUS !== "0") {
-      return res.status(502).json({ error: 'e-Stat response error' });
+      const errorMsg = response.data?.RESULT?.ERROR_MSG || 'Unknown e-Stat error';
+      const statusCode = response.data?.RESULT?.STATUS || 'Unknown Status';
+      console.error(`❌ e-Stat API Reject [${statusCode}]: ${errorMsg}`);
+      return res.status(502).json({ error: errorMsg, status: statusCode });
     }
     
     res.json(response.data);

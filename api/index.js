@@ -12,6 +12,19 @@ app.use(helmet({ contentSecurityPolicy: false }));
 app.use(cors());
 app.use(express.json());
 
+// 🏮 [OFFICIAL STATS SOURCES] - e-Stat Mapping for Vercel Proxy
+const ESTAT_ITEM_MAP = {
+  rice:      { id: '0003421913', code: '01002' },
+  bread:     { id: '0003421913', code: '01021' },
+  egg:       { id: '0003421913', code: '01341' },
+  milk:      { id: '0003421913', code: '01303' },
+  tp:        { id: '0003412351', code: '04413' },
+  detergent: { id: '0003412351', code: '04441' },
+  water:     { id: '0003412351', code: '01982' },
+  oil:       { id: '0003421913', code: '01601' },
+  tissue:    { id: '0003412351', code: '04412' },
+};
+
 // --- CACHE ---
 let cachedRisks = null;
 let lastUpdate = 0;
@@ -176,6 +189,29 @@ app.get('/api/keepa', async (req, res) => {
     const message = error.response ? `Keepa API Error: ${error.response.status} ${JSON.stringify(error.response.data)}` : error.message;
     console.error('Keepa Proxy Error:', message);
     res.json({ products: [], error: message, affiliateUrl });
+  }
+});
+
+app.get('/api/estat', async (req, res) => {
+  const { genreId } = req.query;
+  const appId = process.env.VITE_ESTAT_APP_ID || process.env.ESTAT_APP_ID;
+  const config = ESTAT_ITEM_MAP[genreId];
+
+  if (!appId || !config) {
+    return res.status(400).json({ error: 'Config missing or invalid genreId' });
+  }
+
+  const ESTAT_BASE_URL = 'https://api.e-stat.go.jp/rest/3.0/app/json/getStatsData';
+  const NATIONAL_AREA_CODE = '00000';
+
+  try {
+    const url = `${ESTAT_BASE_URL}?appId=${appId}&statsDataId=${config.id}&cdCat02=${config.code}&cdArea=${NATIONAL_AREA_CODE}`;
+    const response = await axios.get(url, { timeout: 10000 });
+    res.json(response.data);
+    console.log(`🏛️ State Stats Synced (Vercel Proxy): ${genreId}`);
+  } catch (err) {
+    console.error('e-Stat Proxy error:', err.message);
+    res.status(500).json({ error: 'e-Stat API failed' });
   }
 });
 

@@ -39,19 +39,15 @@ app.get('/api/estat', async (req, res) => {
     const url = `https://api.e-stat.go.jp/rest/3.0/app/json/getStatsData?appId=${appId}&statsDataId=${config.id}&cdCat01=${config.code}&cdArea=13101&cntGet=20`;
     const response = await axios.get(url, { timeout: 10000 });
     
-    // [🏮 DEBUG MODE] - 生のレスポンスを包み隠さず返却して原因を特定する
+    // 政府統計局特有のレスポンス構造（GET_STATS_DATA.RESULT）を検証
     if (response.data?.GET_STATS_DATA?.RESULT?.STATUS !== "0") {
-      return res.status(502).json({ 
-        error: 'e-Stat specialized reject', 
-        rawResult: response.data?.RESULT,
-        appIdPrefix: appId.substring(0, 5) + '...',
-        targetUrl: url.replace(appId, 'REDACTED')
-      });
+      const errorMsg = response.data?.GET_STATS_DATA?.RESULT?.ERROR_MSG || 'e-Stat reject';
+      return res.status(502).json({ error: errorMsg });
     }
     
     res.json(response.data);
   } catch (err) {
-    res.status(500).json({ error: `Critical Proxy Failure: ${err.message}` });
+    res.status(500).json({ error: 'Internal Server Error (api/estat)' });
   }
 });
 
@@ -65,8 +61,9 @@ app.get('/api/snapshot', async (req, res) => {
       _meta: { lastUpdate: new Date().toISOString() }
     });
   } catch (e) {
-    res.status(500).json({ error: `Snapshot error: ${e.message}` });
+    res.status(500).json({ error: 'Internal Server Error (api/snapshot)' });
   }
 });
 
+// Vercel の関数用ハンドラー
 export default app;

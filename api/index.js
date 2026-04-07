@@ -32,7 +32,7 @@ app.get('/api/estat', async (req, res) => {
   const config = ESTAT_ITEM_MAP[genreId];
   if (!appId || !config) return res.status(400).json({ error: 'Invalid' });
   try {
-    const url = `https://api.e-stat.go.jp/rest/3.0/app/json/getStatsData?appId=${appId}&statsDataId=${config.id}&cdCat01=${config.code}&cdArea=13101`;
+    const url = `https://api.e-stat.go.jp/rest/3.0/app/json/getStatsData?appId=${appId}&statsDataId=${config.id}&cdCat01=${config.code}&cdArea=13101&cntGet=20`;
     const response = await axios.get(url, { timeout: 10000 });
     res.json(response.data);
   } catch (err) { res.status(500).json({ error: 'e-Stat down' }); }

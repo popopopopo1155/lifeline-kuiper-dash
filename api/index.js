@@ -40,7 +40,7 @@ app.get('/api/estat', async (req, res) => {
     const response = await axios.get(url, { timeout: 10000 });
     
     // 政府統計局特有のレスポンス構造（GET_STATS_DATA.RESULT）を検証
-    if (response.data?.GET_STATS_DATA?.RESULT?.STATUS !== "0") {
+    if (response.data?.GET_STATS_DATA?.RESULT?.STATUS != "0") {
       const errorMsg = response.data?.GET_STATS_DATA?.RESULT?.ERROR_MSG || 'e-Stat reject';
       return res.status(502).json({ error: errorMsg });
     }

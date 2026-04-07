@@ -23,6 +23,48 @@ export const usePriceData = () => {
   const displayTokens = Math.max(0, tokensLeft);
   const SERVER_URL = ''; 
 
+  // --- 🏮 [HARVEST SYNC] - スナップショットから本物の Amazon データを同期する ---
+  const fetchSnapshot = useCallback(async () => {
+    try {
+      const res = await fetch(`${SERVER_URL}/api/snapshot`);
+      if (res.ok) {
+        const snapshot = await res.json();
+        setData(prevData => prevData.map(genre => {
+          const updatedSubtypes = genre.subtypes.map(s => ({
+            ...s,
+            products: s.products.map(p => {
+              if (p.asin && snapshot[p.asin]) {
+                const snap = snapshot[p.asin];
+                return {
+                  ...p,
+                  price: snap.currentPrice || p.price,
+                  forecastData: snap.history.length > 0 ? snap.history.slice(-7) : p.forecastData,
+                  historyData: snap.history || []
+                };
+              }
+              return p;
+            })
+          }));
+
+          // 🏮 [CATEGORY TREND SYNC] - 代表的な商品の履歴からカテゴリー全体のトレンドを再構成
+          // メインチャートである historyData を、収穫された最新 30 ポイントで上書き
+          const representativeAsins = genre.subtypes.flatMap(s => s.products.filter(p => !!p.asin).map(p => p.asin));
+          const firstAsin = representativeAsins[0];
+          if (firstAsin && snapshot[firstAsin]) {
+             return {
+               ...genre,
+               subtypes: updatedSubtypes,
+               historyData: snapshot[firstAsin].history || genre.historyData
+             };
+          }
+
+          return { ...genre, subtypes: updatedSubtypes };
+        }));
+        console.log(`🌾 Harvest Synchronized: ${Object.keys(snapshot).length} items loaded.`);
+      }
+    } catch (err) { console.warn('Snapshot sync failed.', err); }
+  }, []);
+
   // [OFFICIAL STATS SYNC] - 政府統計 API との動的同期
   const fetchOfficialStats = useCallback(async () => {
     for (const genre of data) {
@@ -46,6 +88,7 @@ export const usePriceData = () => {
   }, [data]);
 
   useEffect(() => {
+    fetchSnapshot(); // 最初に収穫データを同期
     fetchOfficialStats();
   }, []); // 初回起動時に全域同期を執行
 

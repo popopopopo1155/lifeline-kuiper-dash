@@ -117,10 +117,47 @@ app.post('/api/manual/register', async (req, res) => {
   }
 });
 
+app.get('/api/snapshot', async (req, res) => {
+  const SNAPSHOT_PATH = path.join(process.cwd(), 'server', 'amazon_snapshot.json');
+  try {
+    const data = await fs.readFile(SNAPSHOT_PATH, 'utf8');
+    res.json(JSON.parse(data));
+  } catch (e) {
+    res.status(404).json({ error: 'Snapshot not found' });
+  }
+});
+
 app.get('/api/keepa', async (req, res) => {
   const { asin, search } = req.query;
   const apiKey = process.env.KEEPA_API_KEY;
   const amazonTag = process.env.AMAZON_AFFILIATE_TAG || '';
+  const SNAPSHOT_PATH = path.join(process.cwd(), 'server', 'amazon_snapshot.json');
+
+  // 🏮 [SNAPSHOT PREFERENCE] - すでに収穫済みのデータがあれば API を叩かずに返す
+  if (asin) {
+    try {
+      const snapshotRaw = await fs.readFile(SNAPSHOT_PATH, 'utf8');
+      const snapshot = JSON.parse(snapshotRaw);
+      if (snapshot[asin]) {
+        console.log(`📦 Snapshot Hit: ${asin}`);
+        const p = snapshot[asin];
+        const baseUrl = `https://www.amazon.co.jp/gp/product/${asin}`;
+        return res.json({
+          products: [{
+            asin: asin,
+            title: p.title,
+            currentPrice: p.currentPrice,
+            avg90: p.avg90,
+            csv: { [1]: p.history, [18]: p.history }, // グラフ描画互換モード
+            affiliateUrl: amazonTag ? `${baseUrl}/?tag=${amazonTag}` : baseUrl,
+          }],
+          tokensLeft: 'SNAPSHOT_MODE',
+          amazonTag
+        });
+      }
+    } catch (e) { /* ignore error and fallback to API */ }
+  }
+
   if (!apiKey) return res.status(500).json({ error: 'Keepa key missing' });
 
   try {

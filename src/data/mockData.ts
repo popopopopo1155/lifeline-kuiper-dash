@@ -100,7 +100,7 @@ export const mockGenres: (Genre & { subtypes: (any & SubtypeMetadata)[] })[] = [
       {
         id: 'rice-10kg',
         name: '10kg',
-        regionalAverage: 461, // [OFFICIAL SYNC] 5枚パック等の平均値調整
+        regionalAverage: 750, // [REAL SYNC] 令和六年〜七年市場実態を反映 (¥7,500/10kg基準)
         representativeAsin: 'B0GQ2FV1NC',
         searchOverride: '米 10kg -ふるさと納税 -定期便 -業務用',
         requiredKeywords: ['10kg'],

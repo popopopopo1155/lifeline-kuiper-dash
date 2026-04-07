@@ -184,14 +184,15 @@ export const usePriceData = () => {
         setData((prevData) => {
           // IMPORTANT: Use prevData to avoid stale closures
           const audited = auditNewsRisks(rawRisks, prevData);
-          setNewsRisks(audited);
+          if (audited) setNewsRisks(audited);
 
-          return prevData.map((genre: Genre) => {
+          return (prevData || []).map((genre: Genre) => {
+            if (!genre || !genre.id) return genre;
             let multiplier = 1.0;
             const categoryId = genre.id.toUpperCase();
             let serverCategoryKey = (categoryId === 'MILK') ? 'DAIRY' : categoryId;
             if (genre.id === 'bread') serverCategoryKey = 'BREAD';
-            let modifier = audited.categoryModifiers[serverCategoryKey];
+            let modifier = audited?.categoryModifiers?.[serverCategoryKey];
             
             if (modifier) {
                multiplier = modifier.multiplier;

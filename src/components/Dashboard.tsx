@@ -12,11 +12,12 @@ import { UniversalTrendChart } from './UniversalTrendChart';
 import { QuickNav } from './QuickNav';
 import RiskAlertBanner from './RiskAlertBanner';
 import { Link } from 'react-router-dom';
+import Footer from './Footer';
 
 export const Dashboard: React.FC = () => {
   const [selectedGenreId, setSelectedGenreId] = useState<string | null>(null);
   const [searchQuery, setSearchQuery] = useState('');
-  const { data: genres, loading, newsRisks, numericalRisks } = usePriceData();
+  const { data: genres, loading, newsRisks, numericalRisks, lastHarvested } = usePriceData();
   const { getDaysLeft } = useInventory();
 
   const filteredGenres = genres.filter(genre => {
@@ -176,6 +177,8 @@ export const Dashboard: React.FC = () => {
           <Sidebar genres={genres} />
         </aside>
       </div>
+
+      <Footer lastHarvested={lastHarvested} />
 
       
       <style>{`

@@ -44,7 +44,12 @@ app.get('/api/estat', async (req, res) => {
 app.get('/api/snapshot', async (req, res) => {
   try {
     const data = await fs.readFile(path.join(process.cwd(), 'server', 'amazon_snapshot.json'), 'utf8');
-    res.json(JSON.parse(data));
+    // スナップショットにメタデータを付加して返却
+    const metaSnapshot = {
+      ...JSON.parse(data),
+      _meta: { lastUpdate: new Date().toISOString() }
+    };
+    res.json(metaSnapshot);
   } catch (e) { res.status(404).json({ error: 'NF' }); }
 });
 

@@ -1,8 +1,19 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-const Footer: React.FC = () => {
+interface FooterProps {
+  lastHarvested?: string | null;
+}
+
+const Footer: React.FC<FooterProps> = ({ lastHarvested }) => {
   const currentYear = new Date().getFullYear();
+  
+  const formattedDate = lastHarvested ? new Date(lastHarvested).toLocaleString('ja-JP', {
+    month: 'short',
+    day: 'numeric',
+    hour: '2-digit',
+    minute: '2-digit'
+  }) : null;
 
   // 審美性を維持しつつも標準的なサイトとしてのスタイルを定義
   const footerStyle: React.CSSProperties = {
@@ -60,6 +71,7 @@ const Footer: React.FC = () => {
 
         {/* Copyright */}
         <div style={copyrightStyle}>
+          {formattedDate && <div style={{ marginBottom: '8px', opacity: 0.7, fontSize: '10px' }}>最終データ同期: {formattedDate}</div>}
           &copy; {currentYear} 生活必需品.com
         </div>
       </div>

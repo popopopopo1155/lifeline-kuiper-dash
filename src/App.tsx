@@ -24,7 +24,6 @@ function App() {
               <Route path="/journal/:id" element={<JournalArticle />} />
             </Routes>
           </main>
-          <Footer />
         </div>
       </AdminProvider>
     </ThemeProvider>

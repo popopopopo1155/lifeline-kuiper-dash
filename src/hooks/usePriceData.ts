@@ -17,6 +17,7 @@ export const usePriceData = () => {
   const [numericalRisks, setNumericalRisks] = useState<any[]>([]); 
   const [isPaused, setIsPaused] = useState(false);
   const [lastTargetId, setLastTargetId] = useState<string | null>(null);
+  const [lastHarvested, setLastHarvested] = useState<string | null>(null);
 
   const { overrides, customOrders } = useAdmin();
 
@@ -29,6 +30,9 @@ export const usePriceData = () => {
       const res = await fetch(`${SERVER_URL}/api/snapshot`);
       if (res.ok) {
         const snapshot = await res.json();
+        if (snapshot._meta?.lastUpdate) {
+          setLastHarvested(snapshot._meta.lastUpdate);
+        }
         setData(prevData => prevData.map(genre => {
           // 🏮 [OFFICIAL PROTECTION] 公式データが既にセットされている場合は、上ランキングを優先
           if (genre.isOfficial) return genre;
@@ -344,5 +348,5 @@ export const usePriceData = () => {
     } catch (err) { console.error('Refresh Error:', err); } finally { setLoading(false); }
   };
 
-  return { data: augmentedData, loading, tokensLeft: displayTokens, newsRisks, numericalRisks, isPaused, lastTargetId, refreshData };
+  return { data: augmentedData, loading, tokensLeft: displayTokens, newsRisks, numericalRisks, isPaused, lastTargetId, lastHarvested, refreshData };
 };

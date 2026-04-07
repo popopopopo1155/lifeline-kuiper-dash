@@ -13,15 +13,16 @@ app.use(cors());
 app.use(express.json());
 
 // [OFFICIAL STATS SOURCES] - e-Stat Mapping for Vercel Proxy
+// Primary: 0003421913 (Principal Cities), Area: 13101 (Tokyo) as benchmark
 const ESTAT_ITEM_MAP = {
-  rice:      { id: '0003421914', code: '01002' },
-  bread:     { id: '0003421914', code: '01021' },
-  egg:       { id: '0003421914', code: '01341' },
-  milk:      { id: '0003421914', code: '01303' },
+  rice:      { id: '0003421913', code: '01002' },
+  bread:     { id: '0003421913', code: '01021' },
+  egg:       { id: '0003421913', code: '01341' },
+  milk:      { id: '0003421913', code: '01303' },
   tp:        { id: '0003412351', code: '04413' },
   detergent: { id: '0003412351', code: '04441' },
   water:     { id: '0003412351', code: '01982' },
-  oil:       { id: '0003421914', code: '01601' },
+  oil:       { id: '0003421913', code: '01601' },
   tissue:    { id: '0003412351', code: '04412' },
 };
 
@@ -32,10 +33,7 @@ const CACHE_STALE = 1000 * 60 * 30; // 30 mins
 
 async function getRisks() {
   const now = Date.now();
-  if (cachedRisks && (now - lastUpdate < CACHE_STALE)) {
-    return cachedRisks;
-  }
-
+  if (cachedRisks && (now - lastUpdate < CACHE_STALE)) return cachedRisks;
   const NEWS_DICTIONARY = {
     POSITIVE: { keywords: ['低下', '安定', '増産', '豊作', '解消'] },
     NEGATIVE: {
@@ -43,7 +41,6 @@ async function getRisks() {
       HIGH: { keywords: ['上昇', '値上げ', '懸念', '品薄'], weight: 1.25 }
     }
   };
-
   const CATEGORY_NEWS_MAP = {
     rice: { keywords: ['米', 'コメ', '稲'], sensitivity: 1.0 },
     water: { keywords: ['水', '飲料', '断水'], sensitivity: 0.8 },
@@ -52,7 +49,6 @@ async function getRisks() {
     oil: { keywords: ['油', '食用油', '大豆'], sensitivity: 0.9 },
     COMMON: { keywords: ['物流', '運賃', '増税', '円安'] }
   };
-
   try {
     const rssUrl = 'https://news.google.com/rss/search?q=%E7%89%A9%E4%BE%A1+%E5%80%A4%E4%B8%8A%E3%81%92+%E5%93%81%E8%96%84&hl=ja&gl=JP&ceid=JP:ja';
     const response = await axios.get(rssUrl, { timeout: 10000 });
@@ -60,29 +56,21 @@ async function getRisks() {
     const items = result.rss.channel[0].item || [];
     const detectedRisks = [];
     const seenTitles = new Set();
-    const TWO_WEEKS_MS = 1000 * 60 * 60 * 24 * 14;
-
     items.forEach(item => {
       const title = item.title[0];
-      const link = item.link[0];
-      const pubDate = new Date(item.pubDate[0]).getTime();
-      if (now - pubDate > TWO_WEEKS_MS) return;
       if (NEWS_DICTIONARY.POSITIVE.keywords.some(k => title.includes(k))) return;
       const cleanTitle = title.split(' - ')[0];
       if (seenTitles.has(cleanTitle)) return;
       Object.keys(NEWS_DICTIONARY.NEGATIVE).forEach(level => {
         const { keywords } = NEWS_DICTIONARY.NEGATIVE[level];
         keywords.forEach(kw => {
-          if (title.includes(kw)) {
-            if (!seenTitles.has(cleanTitle)) {
-              detectedRisks.push({ title, link, level });
-              seenTitles.add(cleanTitle);
-            }
+          if (title.includes(kw) && !seenTitles.has(cleanTitle)) {
+            detectedRisks.push({ title, link: item.link[0], level });
+            seenTitles.add(cleanTitle);
           }
         });
       });
     });
-
     const modifiers = {};
     Object.keys(CATEGORY_NEWS_MAP).forEach(catId => {
       if (catId === 'COMMON') return;
@@ -96,107 +84,26 @@ async function getRisks() {
         const impact = 1 + (NEWS_DICTIONARY.NEGATIVE[news.level].weight - 1) * mapping.sensitivity;
         if (impact > maxWeight) maxWeight = impact;
       });
-      modifiers[catId] = {
-        multiplier: maxWeight,
-        riskLevel: maxWeight > 1.3 ? 'CRITICAL' : (maxWeight > 1.1 ? 'HIGH' : 'NORMAL'),
-        relevantNews: relatedNews.slice(0, 3)
-      };
+      modifiers[catId] = { multiplier: maxWeight, riskLevel: maxWeight > 1.3 ? 'CRITICAL' : (maxWeight > 1.1 ? 'HIGH' : 'NORMAL'), relevantNews: relatedNews.slice(0, 3) };
     });
-
-    cachedRisks = {
-      lastUpdated: new Date().toISOString(),
-      activeRisks: detectedRisks.slice(0, 5),
-      categoryModifiers: modifiers
-    };
+    cachedRisks = { lastUpdated: new Date().toISOString(), activeRisks: detectedRisks.slice(0, 5), categoryModifiers: modifiers };
     lastUpdate = now;
     return cachedRisks;
-  } catch (error) {
-    console.error('Analysis failed:', error.message);
-    return cachedRisks || { lastUpdated: new Date().toISOString(), activeRisks: [], categoryModifiers: {} };
-  }
+  } catch (error) { return cachedRisks || { activeRisks: [], categoryModifiers: {} }; }
 }
 
-app.get('/api/news/risks', async (req, res) => {
-  const risks = await getRisks();
-  res.json(risks);
-});
-
-app.get('/api/rakuten', async (req, res) => {
-  const { keyword } = req.query;
-  const appId = process.env.RAKUTEN_APP_ID;
-  const accessKey = process.env.RAKUTEN_ACCESS_KEY;
-  const affiliateId = process.env.RAKUTEN_AFFILIATE_ID;
-  try {
-    const url = 'https://openapi.rakuten.co.jp/ichibams/api/IchibaItem/Search/20220601';
-    const params = { applicationId: appId, accessKey, affiliateId, keyword, format: 'json', hits: 100 };
-    const response = await axios.get(url, { 
-      params, 
-      headers: { 'Referer': 'https://www.hitsujuhin.com/', 'Origin': 'https://www.hitsujuhin.com/' },
-      timeout: 10000
-    });
-    let rawItems = response.data.items || response.data.Items || [];
-    let items = rawItems.map(i => {
-      if (i.item) return { Item: i.item };
-      if (i.Item) return i;
-      return { Item: i };
-    });
-    if (keyword && keyword.includes('米')) {
-      items = items.filter(i => {
-        const price = Number(i.Item.itemPrice || i.Item.price);
-        if (keyword.includes('10kg')) return price >= 5400; 
-        if (keyword.includes('5kg')) return price >= 2940; 
-        return true;
-      });
-    }
-    res.json({ Items: items });
-  } catch (error) { 
-    console.error('Rakuten failed:', error.message);
-    res.status(500).json({ error: 'Rakuten failed' }); 
-  }
-});
-
-app.get('/api/keepa', async (req, res) => {
-  const { asin } = req.query;
-  const key = process.env.KEEPA_API_KEY;
-  const tag = process.env.AMAZON_AFFILIATE_TAG;
-  const baseUrl = `https://www.amazon.co.jp/gp/product/${asin}`;
-  const affiliateUrl = tag ? `${baseUrl}/?tag=${tag}` : baseUrl;
-  if (!key) return res.json({ products: [], error: 'Key missing', affiliateUrl });
-  try {
-    const response = await axios.get('https://api.keepa.com/product', { 
-      params: { key, domain: 5, asin, stats: 1 },
-      timeout: 15000 
-    });
-    res.json({ ...response.data, affiliateUrl });
-  } catch (error) {
-    res.json({ products: [], error: error.message, affiliateUrl });
-  }
-});
-
+app.get('/api/news/risks', async (req, res) => res.json(await getRisks()));
 app.get('/api/estat', async (req, res) => {
   const { genreId } = req.query;
   const appId = process.env.VITE_ESTAT_APP_ID || process.env.ESTAT_APP_ID;
   const config = ESTAT_ITEM_MAP[genreId];
-  if (!appId || !config) return res.status(400).json({ error: 'Invalid genreId' });
-  const ESTAT_BASE_URL = 'https://api.e-stat.go.jp/rest/3.0/app/json/getStatsData';
-  const NATIONAL_AREA_CODE = '00000';
+  if (!appId || !config) return res.status(400).json({ error: 'Invalid config' });
+  const AREA = '13101'; // Benchmark: Tokyo
   try {
-    const url = `${ESTAT_BASE_URL}?appId=${appId}&statsDataId=${config.id}&cdCat01=${config.code}&cdArea=${NATIONAL_AREA_CODE}`;
+    const url = `https://api.e-stat.go.jp/rest/3.0/app/json/getStatsData?appId=${appId}&statsDataId=${config.id}&cdCat01=${config.code}&cdArea=${AREA}`;
     const response = await axios.get(url, { timeout: 10000 });
     res.json(response.data);
-  } catch (err) {
-    res.status(500).json({ error: 'e-Stat failed' });
-  }
-});
-
-app.post('/api/ai/advice', async (req, res) => {
-  const { householdSize, items } = req.body;
-  const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
-  try {
-    const prompt = `世帯数: ${householdSize}人。在庫: ${JSON.stringify(items)}。アドバイスを最短2つ（各18文字以内）。`;
-    const result = await model.generateContent(prompt);
-    res.json({ advice: (await result.response).text() });
-  } catch (error) { res.status(500).json({ error: 'AI Advice failed' }); }
+  } catch (err) { res.status(500).json({ error: 'e-Stat failed' }); }
 });
 
 export default app;

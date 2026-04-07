@@ -40,7 +40,7 @@ app.get('/api/estat', async (req, res) => {
     const response = await axios.get(url, { timeout: 10000 });
     
     // [🏮 DEBUG MODE] - 生のレスポンスを包み隠さず返却して原因を特定する
-    if (response.data?.RESULT?.STATUS !== "0") {
+    if (response.data?.GET_STATS_DATA?.RESULT?.STATUS !== "0") {
       return res.status(502).json({ 
         error: 'e-Stat specialized reject', 
         rawResult: response.data?.RESULT,

@@ -117,7 +117,7 @@ export const SubtypeCard: React.FC<SubtypeCardProps> = ({ subtype, group, unitTy
         position: 'relative'
       }}>
         <div style={{ fontSize: '12px', color: 'var(--text-sub)', fontWeight: 'bold', marginBottom: '4px' }}>
-          {isDaily ? '近隣スーパー目安価格' : '現在市場・最安実質単価'}
+          {isDaily ? '全国平均価格（統計目安）' : '現在市場・最安実質単価'}
         </div>
         <div style={{ fontSize: '32px', color: 'var(--text-main)', fontWeight: '900', letterSpacing: '-0.02em', position: 'relative', display: 'inline-block' }}>
           ¥{isDaily ? subtype.regionalAverage : minPrice}

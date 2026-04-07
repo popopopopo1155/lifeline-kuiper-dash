@@ -15,16 +15,20 @@ app.use(helmet({ contentSecurityPolicy: false }));
 app.use(cors());
 app.use(express.json());
 
+// [🏮 黄金の定義] 月次統計表 ID への物理的な切り替え
+const MONTHLY_RETAIL_TABLE = '0003421911'; // 主要都市編（月次）
+const OTHER_RETAIL_TABLE = '0003412351';   // 構造編（月次）
+
 const ESTAT_ITEM_MAP = {
-  rice:      { id: '0003421913', code: '01002' },
-  bread:     { id: '0003421913', code: '01021' },
-  egg:       { id: '0003421913', code: '01341' },
-  milk:      { id: '0003421913', code: '01303' },
-  tp:        { id: '0003412351', code: '04413' },
-  detergent: { id: '0003412351', code: '04441' },
-  water:     { id: '0003412351', code: '01982' },
-  oil:       { id: '0003421913', code: '01601' },
-  tissue:    { id: '0003412351', code: '04412' },
+  rice:      { id: MONTHLY_RETAIL_TABLE, code: '01002' },
+  bread:     { id: MONTHLY_RETAIL_TABLE, code: '01021' },
+  egg:       { id: MONTHLY_RETAIL_TABLE, code: '01341' },
+  milk:      { id: MONTHLY_RETAIL_TABLE, code: '01303' },
+  tp:        { id: OTHER_RETAIL_TABLE,   code: '04413' },
+  detergent: { id: OTHER_RETAIL_TABLE,   code: '04441' },
+  water:     { id: OTHER_RETAIL_TABLE,   code: '01982' },
+  oil:       { id: MONTHLY_RETAIL_TABLE, code: '01601' },
+  tissue:    { id: OTHER_RETAIL_TABLE,   code: '04412' },
 };
 
 app.get('/api/estat', async (req, res) => {
@@ -39,7 +43,7 @@ app.get('/api/estat', async (req, res) => {
     const url = `https://api.e-stat.go.jp/rest/3.0/app/json/getStatsData?appId=${appId}&statsDataId=${config.id}&cdCat01=${config.code}&cdArea=13101&cntGet=20`;
     const response = await axios.get(url, { timeout: 10000 });
     
-    // 政府統計局特有のレスポンス構造（GET_STATS_DATA.RESULT）を検証
+    // 型の違い（"0" vs 0）を吸収するため != を使用
     if (response.data?.GET_STATS_DATA?.RESULT?.STATUS != "0") {
       const errorMsg = response.data?.GET_STATS_DATA?.RESULT?.ERROR_MSG || 'e-Stat reject';
       return res.status(502).json({ error: errorMsg });
@@ -65,5 +69,4 @@ app.get('/api/snapshot', async (req, res) => {
   }
 });
 
-// Vercel の関数用ハンドラー
 export default app;

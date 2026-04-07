@@ -11,7 +11,9 @@ export const fetchRegionalPriceData = async (genreId: string): Promise<PriceData
     const response = await fetch(`/api/estat?genreId=${genreId}`);
     if (!response.ok) throw new Error(`Proxy error: ${response.status}`);
     
-    const data = await response.json();
+    const text = await response.text();
+    console.log(`📡 Raw e-Stat JSON [${genreId}]:`, text.substring(0, 100));
+    const data = JSON.parse(text);
     
     // [NESTED PATH AUDIT] - 階層構造の揺れを吸収しながら VALUE を抽出
     const statisticalData = data?.GET_STATS_DATA?.STATISTICAL_DATA;

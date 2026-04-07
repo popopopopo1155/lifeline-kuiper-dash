@@ -39,16 +39,19 @@ app.get('/api/estat', async (req, res) => {
     const url = `https://api.e-stat.go.jp/rest/3.0/app/json/getStatsData?appId=${appId}&statsDataId=${config.id}&cdCat01=${config.code}&cdArea=13101&cntGet=20`;
     const response = await axios.get(url, { timeout: 10000 });
     
+    // [🏮 DEBUG MODE] - 生のレスポンスを包み隠さず返却して原因を特定する
     if (response.data?.RESULT?.STATUS !== "0") {
-      const errorMsg = response.data?.RESULT?.ERROR_MSG || 'Unknown e-Stat error';
-      const statusCode = response.data?.RESULT?.STATUS || 'Unknown Status';
-      console.error(`❌ e-Stat API Reject [${statusCode}]: ${errorMsg}`);
-      return res.status(502).json({ error: errorMsg, status: statusCode });
+      return res.status(502).json({ 
+        error: 'e-Stat specialized reject', 
+        rawResult: response.data?.RESULT,
+        appIdPrefix: appId.substring(0, 5) + '...',
+        targetUrl: url.replace(appId, 'REDACTED')
+      });
     }
     
     res.json(response.data);
   } catch (err) {
-    res.status(500).json({ error: 'Internal Server Error (api/estat)' });
+    res.status(500).json({ error: `Critical Proxy Failure: ${err.message}` });
   }
 });
 
@@ -62,13 +65,8 @@ app.get('/api/snapshot', async (req, res) => {
       _meta: { lastUpdate: new Date().toISOString() }
     });
   } catch (e) {
-    res.status(500).json({ error: `Snapshot error: ${e.message}`, path: path.resolve(__dirname, 'amazon_snapshot.json') });
+    res.status(500).json({ error: `Snapshot error: ${e.message}` });
   }
-});
-
-// Vercel の Express ヘルパーが期待する形式への対応
-app.get('/api/(.*)', (req, res) => {
-  res.status(404).json({ error: 'Not Found' });
 });
 
 export default app;

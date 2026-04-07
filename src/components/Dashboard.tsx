@@ -135,6 +135,7 @@ export const Dashboard: React.FC = () => {
               <PriceTrendChart 
                 genreName={selectedGenre?.name || ''} 
                 data={selectedGenre?.historyData || []} 
+                isOfficial={selectedGenre?.isOfficial}
               />
             </section>
           )}

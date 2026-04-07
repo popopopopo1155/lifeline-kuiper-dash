@@ -3,9 +3,10 @@ import React from 'react';
 interface PriceTrendChartProps {
   genreName: string;
   data: number[];
+  isOfficial?: boolean;
 }
 
-export const PriceTrendChart: React.FC<PriceTrendChartProps> = ({ genreName, data }) => {
+export const PriceTrendChart: React.FC<PriceTrendChartProps> = ({ genreName, data, isOfficial }) => {
   // 簡易的なSVGチャートの実装
   const maxPrice = Math.max(...data) * 1.1;
   const minPrice = Math.min(...data) * 0.9;
@@ -24,7 +25,12 @@ export const PriceTrendChart: React.FC<PriceTrendChartProps> = ({ genreName, dat
     <div className="price-card" style={{ marginTop: '30px', padding: '20px', background: 'var(--bg-card)', border: '1px solid var(--border-main)', borderRadius: '24px' }}>
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
         <h3 style={{ margin: 0, fontSize: '18px', color: 'var(--text-main)' }}>
-          {genreName} の市場価格推移 <span style={{ fontSize: '12px', color: 'var(--text-sub)', fontWeight: 'normal' }}>(過去90日・主要モール平均)</span>
+          {genreName} の推移と予測 
+          {isOfficial ? (
+            <span style={{ fontSize: '12px', background: '#dcfce7', color: '#166534', padding: '2px 8px', borderRadius: '4px', verticalAlign: 'middle', marginLeft: '8px', fontWeight: '900', border: '1px solid #166534' }}>🏛️ 公式統計（e-Stat）同期中</span>
+          ) : (
+            <span style={{ fontSize: '12px', color: 'var(--text-sub)', fontWeight: 'normal' }}> (過去90日・主要モール平均)</span>
+          )}
         </h3>
         <div style={{ display: 'flex', gap: '15px' }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: '5px', fontSize: '12px' }}>

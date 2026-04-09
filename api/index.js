@@ -5,6 +5,7 @@ import axios from 'axios';
 import path from 'path';
 import { promises as fs } from 'fs';
 import { fileURLToPath } from 'url';
+import { GoogleGenerativeAI } from '@google/generative-ai';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -64,6 +65,55 @@ app.get('/api/snapshot', async (req, res) => {
     res.json(JSON.parse(data));
   } catch (e) {
     res.status(500).json({ error: 'Snapshot error' });
+  }
+});
+
+// AIアドバイザーのエンドポイント (Gemini 3.1 Flash Lite)
+app.post('/api/ai/advice', async (req, res) => {
+  try {
+    const { householdSize, items } = req.body;
+    const apiKey = process.env.GEMINI_API_KEY;
+
+    if (!apiKey) {
+      console.error('GEMINI_API_KEY is missing');
+      return res.status(500).json({ error: 'AI設定が不足しています' });
+    }
+
+    const genAI = new GoogleGenerativeAI(apiKey);
+    // ユーザー指定のモデル `gemini-3.1-flash-lite-preview` を使用
+    const model = genAI.getGenerativeModel({ model: 'gemini-3.1-flash-lite-preview' });
+
+    const prompt = `あなたは「あなただけの生活通信」という生活防衛ダッシュボードのAIアドバイザーです。
+以下のユーザー状況に基づき、親しみやすく的確なアドバイスを3〜4行で提示してください。
+
+【ユーザー状況】
+世帯人数: ${householdSize}人
+現在の備蓄状況:
+${items ? items.map(i => `- ${i.name}: 残り約${i.daysLeft}日分 (${i.amount})`).join('\n') : 'データなし'}
+
+【指示】
+1. 在庫が少ないもの（14日分以下）がある場合は最優先で補充を促してください。
+2. すべて十分にある場合は、買いすぎへの注意や安心感を与えてください。
+3. 以下のJSONフォーマットで完全に有効なJSON文字列のみを出力してください（Markdownのバッククォート等は絶対に含まないこと）。
+
+{
+  "advice": "アドバイスのテキスト。改行も適宜使用してください。",
+  "risks": {
+    "activeRisks": [
+      { "title": "最新の物価高騰リスクに関する一般的なニュースタイトル（ダミー可）", "link": "#" }
+    ]
+  }
+}`;
+
+    const result = await model.generateContent(prompt);
+    let text = result.response.text();
+    text = text.replace(/```json/gi, '').replace(/```/g, '').trim();
+    
+    const data = JSON.parse(text);
+    res.json(data);
+  } catch (error) {
+    console.error('Gemini API Error:', error);
+    res.status(500).json({ error: 'AIアドバイザーへの接続に失敗しました。' });
   }
 });
 

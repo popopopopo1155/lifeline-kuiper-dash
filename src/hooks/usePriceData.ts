@@ -42,16 +42,25 @@ export const usePriceData = () => {
         let updatedGenre = { ...genre };
 
         // [OFFICIAL LAYER] - 政府統計があれば最優先で適用
+        // ※ 規格・品種が異なるサブタイプへの誤適用を防ぐ:
+        //   tp-double    : e-Stat 04413 はシングル規格の相場 → ダブルに流用不可
+        //   oil-olive    : e-Stat 01601 はサラダ油の相場 → オリーブ油に流用不可
+        //   oil-sesame   : 同上 → ごま油に流用不可
+        const ESTAT_SKIP_SUBTYPES = new Set(['tp-double', 'oil-olive', 'oil-sesame']);
+
         if (statsData) {
           updatedGenre = {
             ...updatedGenre,
             isOfficial: true,
             historyData: statsData.history.length > 0 ? statsData.history : updatedGenre.historyData,
-            subtypes: updatedGenre.subtypes.map(s => ({
-              ...s,
-              regionalAverage: statsData.latest,
-              isOfficial: true
-            }))
+            subtypes: updatedGenre.subtypes.map(s => {
+              if (ESTAT_SKIP_SUBTYPES.has(s.id)) return s; // 規格違いは上書きしない
+              return {
+                ...s,
+                regionalAverage: statsData.latest,
+                isOfficial: true
+              };
+            })
           };
         }
 
@@ -61,11 +70,20 @@ export const usePriceData = () => {
           products: s.products.map(p => {
             if (p.asin && snapshot[p.asin]) {
               const snap = snapshot[p.asin];
+              // [KEEPA UNIT FIX] Keepaの価格は1/100円単位（例: 60 = 600円, 394 = 3940円）
+              // currentPrice が 0 < x < 500 の場合はモックデータが正しい可能性が高い
+              const rawPrice = snap.currentPrice;
+              const correctedPrice = (rawPrice && rawPrice > 0)
+                ? (rawPrice < 500 ? rawPrice * 100 : rawPrice) // 500未満はKeepa単位と判断して×100
+                : p.price;
+              const rawHistory: number[] = snap.history || [];
+              // history も同様に修正（500未満を×100変換）
+              const correctedHistory = rawHistory.map((v: number) => v > 0 && v < 500 ? v * 100 : v);
               return {
                 ...p,
-                price: snap.currentPrice || p.price,
-                forecastData: snap.history.length > 0 ? snap.history.slice(-7) : p.forecastData,
-                historyData: snap.history || []
+                price: correctedPrice,
+                forecastData: correctedHistory.length > 0 ? correctedHistory.slice(-7) : p.forecastData,
+                historyData: correctedHistory
               };
             }
             return p;

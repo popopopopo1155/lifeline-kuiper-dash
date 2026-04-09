@@ -39,10 +39,14 @@ export const fetchRegionalPriceData = async (genreId: string): Promise<PriceData
 
       if (history.length === 0) return null;
 
-      const normalize = (val: number) => {
+      const normalize = (val: number): number => {
+        // 米: e-Stat 01002 は 5kg 袋単位の価格 → ÷5 で 1kg 単価へ変換
         if (genreId === 'rice') return Math.round(val / 5);
-        if (genreId === 'tissue') return Math.round(val / 10);
-        if (genreId === 'tp') return Math.round(val / 12);
+        // ティッシュ: e-Stat 04412 はボックス1個の価格(=約300組相当) → ÷300*100 で 100組単価へ
+        if (genreId === 'tissue') return Math.round(val / 3);
+        // TP: 統計は「シングル規格」上から評価が難しいため regionalAverage は mockData 値維持
+        // （usePriceData.ts の SKIP_SUBTYPES で tp-double を除外済み）
+        if (genreId === 'tp') return Math.round(val); // 参考値のみ（シングルの100m換算）
         return Math.round(val);
       };
 

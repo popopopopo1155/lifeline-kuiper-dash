@@ -9,10 +9,13 @@ export interface PriceDataResponse {
 export const fetchRegionalPriceData = async (genreId: string): Promise<PriceDataResponse | null> => {
   try {
     const response = await fetch(`/api/estat?genreId=${genreId}`);
-    if (!response.ok) throw new Error(`Proxy error: ${response.status}`);
+    // 502/500 など API エラーは null を返してサイレントにフォールバック（クラッシュしない）
+    if (!response.ok) {
+      console.warn(`e-Stat proxy returned ${response.status} for [${genreId}] - falling back to mock data`);
+      return null;
+    }
     
     const text = await response.text();
-    console.log(`📡 Raw e-Stat JSON [${genreId}]:`, text.substring(0, 100));
     const data = JSON.parse(text);
     
     // [NESTED PATH AUDIT] - 階層構造の揺れを吸収しながら VALUE を抽出
